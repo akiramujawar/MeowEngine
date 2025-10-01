@@ -8,7 +8,7 @@
 
 namespace MeowEngine {
 
-    OpenGLCollidePipeline::OpenGLCollidePipeline(const GLuint &inShaderProgramID)
+    OpenGLColliderPipeline::OpenGLColliderPipeline(const GLuint &inShaderProgramID)
     : ShaderProgramID(inShaderProgramID) {
         // xyz
         float vertices[] = {
@@ -59,9 +59,9 @@ namespace MeowEngine {
         glBindVertexArray(0);
     }
 
-    OpenGLCollidePipeline::~OpenGLCollidePipeline() noexcept {}
+    OpenGLColliderPipeline::~OpenGLColliderPipeline() noexcept {}
 
-    void OpenGLCollidePipeline::Render(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) {
+    void OpenGLColliderPipeline::Render(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) {
         // Since physics runs on separate thread,
         // we access only the transform data from render buffer
         // & using its property component data we draw the collider

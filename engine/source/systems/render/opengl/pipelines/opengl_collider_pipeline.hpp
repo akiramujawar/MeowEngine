@@ -13,9 +13,9 @@
 
 namespace MeowEngine {
 
-    struct OpenGLCollidePipeline : public MeowEngine::pipeline::OpenGLPipelineBase {
-        OpenGLCollidePipeline(const GLuint& inShaderProgramID);
-        ~OpenGLCollidePipeline() override;
+    struct OpenGLColliderPipeline : public MeowEngine::pipeline::OpenGLPipelineBase {
+        OpenGLColliderPipeline(const GLuint& inShaderProgramID);
+        ~OpenGLColliderPipeline() override;
 
     public:
         void Render(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry);

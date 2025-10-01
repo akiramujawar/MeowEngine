@@ -117,7 +117,7 @@ namespace {
             case ShaderPipelineType::Sky:
                 return new OpenGLGridPipeline(shaderProgramID);
             case ShaderPipelineType::PHYSICS_COLLIDER:
-                return new MeowEngine::OpenGLCollidePipeline(shaderProgramID);
+                return new MeowEngine::OpenGLColliderPipeline(shaderProgramID);
             default:
                 return {};
         }
@@ -202,7 +202,7 @@ template OpenGLMeshPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLMeshPip
 template OpenGLLinePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLLinePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLGridPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLGridPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLSkyBoxPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLSkyBoxPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
-template MeowEngine::OpenGLCollidePipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::OpenGLCollidePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
+template MeowEngine::OpenGLColliderPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::OpenGLColliderPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 
 
 const MeowEngine::OpenGLMesh& OpenGLAssetManager::GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const {
