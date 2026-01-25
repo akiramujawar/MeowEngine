@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_PERSPECTIVE_CAMERA_HPP
 #define MEOWENGINE_PERSPECTIVE_CAMERA_HPP
 
-#include "../wrappers/glm_wrapper.hpp"
+#include "glm_wrapper.hpp"
 #include "internal_ptr.hpp"
 
 namespace MeowEngine {

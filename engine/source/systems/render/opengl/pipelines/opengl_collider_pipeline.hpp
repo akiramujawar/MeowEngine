@@ -5,6 +5,8 @@
 #ifndef MEOWENGINE_OPENGL_COLLIDER_PIPELINE_HPP
 #define MEOWENGINE_OPENGL_COLLIDER_PIPELINE_HPP
 
+#include <opengl_box_collider.hpp>
+#include <opengl_sphere_collider.hpp>
 #include "graphics_wrapper.hpp"
 
 #include "opengl_pipeline_base.hpp"
@@ -22,11 +24,13 @@ namespace MeowEngine {
 
     private:
         const GLuint ShaderProgramID;
+        OpenGLBoxCollider BoxCollider;
+        OpenGLSphereCollider SphereCollider;
 
-        unsigned int VAO;
-        unsigned int VBO;
-        unsigned int EBO;
-        unsigned int instanceVBO;
+        unsigned int VAO; // vertex array object (the sequence of VB0)
+        unsigned int VBO; // vertex buffer object (positions / normals / uvs / colours)
+        unsigned int EBO; // element buffer object (index list for drawing triangles)
+        unsigned int instanceVBO; // optimization to draw same type mesh -- instance rendering
     };
 
 } // MeowEngine
