@@ -241,7 +241,7 @@ struct SceneMultiThread::Internal {
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     sphereTest,
                     entity::ColliderType::SPHERE,
-                    new SphereColliderData(1.0f)
+                    new SphereColliderData(0.5f)
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     sphereTest

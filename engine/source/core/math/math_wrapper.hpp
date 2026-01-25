@@ -7,5 +7,7 @@
 
 #include "vector3.hpp"
 #include "quaternion.hpp"
+#include "math.h"
+//#include "math_constants.hpp"
 
 #endif //MEOWENGINE_MATH_WRAPPER_HPP

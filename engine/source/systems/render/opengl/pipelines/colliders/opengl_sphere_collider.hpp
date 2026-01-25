@@ -22,6 +22,8 @@ namespace MeowEngine {
         void Draw(const std::vector<glm::mat4>& colliders);
 
     private:
+        int indicesCount;
+
         unsigned int VAO; // vertex array object (the sequence of VB0)
         unsigned int VBO; // vertex buffer object (positions / normals / uvs / colours)
         unsigned int EBO; // element buffer object (index list for drawing triangles)
