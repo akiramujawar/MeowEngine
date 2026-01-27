@@ -104,6 +104,8 @@ namespace MeowEngine::math {
             };
         }
 
+        static Vector3 CrossNormalised() {}
+
         /**
          * Magnitude is length of vector ||vec|| = square root (x*x + y*y + z*z);
          * @return

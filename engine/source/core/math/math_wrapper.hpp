@@ -5,9 +5,10 @@
 #ifndef MEOWENGINE_MATH_WRAPPER_HPP
 #define MEOWENGINE_MATH_WRAPPER_HPP
 
+#include "math_constants.hpp"
+#include "a_math.hpp"
 #include "vector3.hpp"
 #include "quaternion.hpp"
-#include "math.h"
-//#include "math_constants.hpp"
+
 
 #endif //MEOWENGINE_MATH_WRAPPER_HPP

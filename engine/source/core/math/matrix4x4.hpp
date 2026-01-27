@@ -8,6 +8,18 @@
 namespace MeowEngine::math {
     struct Matrix4x4 {
         static void Reflect();
+
+        float A;
+        float B;
+        float C;
+        float D;
+
+        void Product();
+        void Inverse();
+        void Determinant();
+        void Orthogonal();
+        void Transpose();
+        static void Identity();
     };
 }
 
