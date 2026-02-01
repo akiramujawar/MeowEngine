@@ -22,6 +22,18 @@ namespace MeowEngine::math {
         static float Sqrt(float pValue) {
             return sqrt(pValue);
         }
+
+        static float Cos(float pValue) {
+            return cos(pValue);
+        }
+        static float Sin(float pValue) {
+            return sin(pValue);
+        }
+        static float Tan(float pValue) {}
+
+        static float ATan2(float pY, float pX) {
+            return atan2(1,2);
+        }
     };
 
 }

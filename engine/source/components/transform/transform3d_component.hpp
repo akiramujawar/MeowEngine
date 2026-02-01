@@ -23,8 +23,12 @@ namespace MeowEngine::entity {
         void Update(const float& deltaTime) override;
         void RotateBy(const float& degrees);
 
+        math::Vector3 GetForward();
+
         MeowEngine::math::Vector3 Position;
-        glm::vec3 Scale;
+        MeowEngine::math::Vector3 Scale;
+        MeowEngine::math::Quaternion RotationTest;
+        MeowEngine::math::Vector3 RotationTest2;
 
         // find proper way to handle rotations
         glm::vec3 RotationAxis;
@@ -33,6 +37,15 @@ namespace MeowEngine::entity {
 
         glm::mat4 IdentityMatrix;
         glm::mat4 TransformMatrix;
+
+        static math::Vector3 GetFront() {}
+        static math::Vector3 GetRight() {}
+        static math::Vector3 GetUp() {}
+
+        static math::Matrix4x4 CreateViewMatrix() {
+            // 3x3 rotation matrix
+            // 4x4 matrix with added rotation and position
+        }
     };
 }
 
