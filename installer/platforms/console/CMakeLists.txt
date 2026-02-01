@@ -7,6 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fexceptions")
 #set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVK_PROTOTYPES")
 set(THIRD_PARTY_DIR "../../../libs/third-party")
 set(MAIN_SOURCE_DIR "../../../engine/source")
+set(ASSETS "../../../engine/assets")
 set(INSTALLER_DIR "../../console")
 set(LIBRARY_DIR "../../../../libs")
 
@@ -74,6 +75,7 @@ add_executable(
      ${CPP_HEADERS}
      ${CPP_SOURCES}
      ${M_SOURCES}
+     ${MAIN_SOURCE_DIR}/main.mm
 )
 
 # Link profiler with console executable
@@ -94,7 +96,8 @@ target_link_libraries(MeowEngine PUBLIC OpenCL::OpenCL TracyClient ${CMAKE_DL_LI
 
 target_link_libraries(MeowEngine PUBLIC
    ${SDL2_LIBRARIES}
-   ${OPENGL_LIBRARIES} "-framework Cocoa"
+   ${OPENGL_LIBRARIES}
+   "-framework Cocoa"
 )
 
 # BUG: some weird issue here. PHYSX_LIB is somehow already set to a physic common lib path.
