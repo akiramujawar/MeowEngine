@@ -9,6 +9,8 @@
 #include "a_math.hpp"
 #include "vector3.hpp"
 #include "quaternion.hpp"
+#include "matrix3x3.hpp"
+#include "matrix4x4.hpp"
 
 
 #endif //MEOWENGINE_MATH_WRAPPER_HPP

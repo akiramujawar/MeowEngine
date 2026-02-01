@@ -9,6 +9,10 @@ namespace MeowEngine::math {
 
     struct Matrix3x3 {
         static void Reflect();
+
+        float X1, X2, X3;
+        float Y1, Y2, Y3;
+        float Z1, Z2, Z3;
     };
 }
 
