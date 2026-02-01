@@ -10,6 +10,7 @@
 #include "log.hpp"
 #include "opengl_line_pipeline.hpp"
 
+#include "camera_component.hpp"
 #include "mesh_render_component.hpp"
 #include "line_render_component.hpp"
 #include "transform2d_component.hpp"
@@ -122,8 +123,8 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                 entity,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                glm::vec3{5, 0, 0},
-                glm::vec3{1.0, 1.0f, 1.0f},
+                math::Vector3{5, 0, 0},
+                math::Vector3{1.0, 1.0f, 1.0f},
                 glm::vec3{0.0f, 1.0f, 0.0f},
                 12.0f
         );
@@ -136,68 +137,14 @@ struct SceneMultiThread::Internal {
                 }
         );
 
-        const auto cubeEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity, "cube");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-                cubeEntity,
-                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                glm::vec3{0.0f, 20.0f, 2},
-                glm::vec3{0.5f, 0.5f,0.5f},
-                glm::vec3{0.0f, 1.0f, 0.0f},
-                0
-        );
-        RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
-                cubeEntity,
-                assets::ShaderPipelineType::Default,
-                new MeowEngine::StaticMeshInstance{
-                        assets::StaticMeshType::Cube,
-                        assets::TextureType::Pattern
-                }
-        );
-        RegistryBuffer.AddComponent<entity::ColliderComponent>(
-            cubeEntity,
-            entity::ColliderType::BOX,
-            new entity::BoxColliderData()
-        );
-        RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
-            cubeEntity
-        );
-
-        const auto cubeEntity1 = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity1, "cube1");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-                cubeEntity1,
-                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                glm::vec3{0.0f, 0.0f, 2},
-                glm::vec3{0.5f, 0.5f,0.5f},
-                glm::vec3{0.0f, 1.0f, 0.0f},
-                0
-        );
-        RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
-                cubeEntity1,
-                assets::ShaderPipelineType::Default,
-                new MeowEngine::StaticMeshInstance{
-                        assets::StaticMeshType::Cube,
-                        assets::TextureType::Pattern
-                }
-        );
-        RegistryBuffer.AddComponent<entity::ColliderComponent>(
-                cubeEntity1,
-                entity::ColliderType::BOX,
-                new entity::BoxColliderData()
-        );
-        RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
-                cubeEntity1
-        );
-
-        for(int i = 0 ; i < 1000; i++){
+        for(int i = 0 ; i < 1; i++){
             const auto cubeTest = RegistryBuffer.AddEntity();
             RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeTest, "cube");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{0.0f, 20.0f + i, 2},
-                    glm::vec3{0.5f, 0.5f,0.5f},
+                    math::Vector3{0.0f, 20.0f + i, 2},
+                    math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -219,14 +166,14 @@ struct SceneMultiThread::Internal {
             );
         }
 
-        for(int i = 0 ; i < 1000; i++){
+        for(int i = 0 ; i < 1; i++){
             const auto sphereTest = RegistryBuffer.AddEntity();
             RegistryBuffer.AddComponent<entity::LifeObjectComponent>(sphereTest, "sphere");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     sphereTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{0.0f, 20.0f + i, 2},
-                    glm::vec3{0.5f, 0.5f,0.5f},
+                    math::Vector3{0.0f, 20.0f + i, 2},
+                    math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -253,13 +200,28 @@ struct SceneMultiThread::Internal {
         // setup object
         // later query for all rigidbody, get the physx, get the collider and construct for physics
 
+        const auto cameraEntity = RegistryBuffer.AddEntity();
+        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cameraEntity, "Camera");
+        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            cameraEntity,
+            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+            math::Vector3{0, 0, 0},
+            math::Vector3{1.0, 1.0f, 1.0f},
+            glm::vec3{0.0f, 1.0f, 0.0f},
+            0.0f
+        );
+        RegistryBuffer.AddComponent<entity::CameraComponent>(
+            cameraEntity
+        );
+
+
         const auto gridEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(gridEntity, "grid");
+        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(gridEntity, "Grid");
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                 gridEntity,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                glm::vec3{0, 0, 0},
-                glm::vec3{1.0, 1.0f, 1.0f},
+                math::Vector3{0, 0, 0},
+                math::Vector3{1.0, 1.0f, 1.0f},
                 glm::vec3{0.0f, 1.0f, 0.0f},
                 0.0f
         );
@@ -273,8 +235,8 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                 skyEntity,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                glm::vec3{0, 0, 0},
-                glm::vec3{1.0, 1.0f, 1.0f},
+                math::Vector3{0, 0, 0},
+                math::Vector3{1.0, 1.0f, 1.0f},
                 glm::vec3{0.0f, 1.0f, 0.0f},
                 0.0f
         );
@@ -305,8 +267,8 @@ struct SceneMultiThread::Internal {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{0.0f, 20.0f, 2},
-                    glm::vec3{0.5f, 0.5f,0.5f},
+                    math::Vector3{0.0f, 20.0f, 2},
+                    math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );

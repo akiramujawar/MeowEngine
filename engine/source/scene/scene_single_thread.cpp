@@ -93,8 +93,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     entity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{5, 0, 0},
-                    glm::vec3{1.0, 1.0f, 1.0f},
+                    math::Vector3{5, 0, 0},
+                    math::Vector3{1.0, 1.0f, 1.0f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     12.0f
             );
@@ -112,8 +112,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{0.0f, 20.0f, 2},
-                    glm::vec3{0.5f, 0.5f,0.5f},
+                    math::Vector3{0.0f, 20.0f, 2},
+                    math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -139,8 +139,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity1,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{0.0f, 0.0f, 2},
-                    glm::vec3{0.5f, 0.5f,0.5f},
+                    math::Vector3{0.0f, 0.0f, 2},
+                    math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -167,8 +167,8 @@ namespace MeowEngine {
                 RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                         cubeTest,
                         Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                        glm::vec3{0.0f, 20.0f + i, 2},
-                        glm::vec3{0.5f, 0.5f,0.5f},
+                        math::Vector3{0.0f, 20.0f + i, 2},
+                        math::Vector3{0.5f, 0.5f,0.5f},
                         glm::vec3{0.0f, 1.0f, 0.0f},
                         0
                 );
@@ -198,8 +198,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     gridEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{0, 0, 0},
-                    glm::vec3{1.0, 1.0f, 1.0f},
+                    math::Vector3{0, 0, 0},
+                    math::Vector3{1.0, 1.0f, 1.0f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0.0f
             );
@@ -213,8 +213,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     skyEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    glm::vec3{0, 0, 0},
-                    glm::vec3{1.0, 1.0f, 1.0f},
+                    math::Vector3{0, 0, 0},
+                    math::Vector3{1.0, 1.0f, 1.0f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0.0f
             );
@@ -247,8 +247,8 @@ namespace MeowEngine {
                 RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                         cubeEntity,
                         Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                        glm::vec3{0.0f, 20.0f, 2},
-                        glm::vec3{0.5f, 0.5f,0.5f},
+                        math::Vector3{0.0f, 20.0f, 2},
+                        math::Vector3{0.5f, 0.5f,0.5f},
                         glm::vec3{0.0f, 1.0f, 0.0f},
                         0
                 );
