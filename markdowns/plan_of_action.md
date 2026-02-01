@@ -2,11 +2,12 @@
 [...previous plan of actions](previous_plan_of_actions.md)
 
 ## Meow Engine v0.5
-- [ ] Creating library for performing basic mathematical operations
+- [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
 - [ ] Adding navigation to github / go back for web builds
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
 - [ ] Selecting objects
 - [ ] Position, Scale, Rotation handles for selected objects
+- [ ] Extending Property Reflections to support dynamic method calls - this will for euler to quat
 - [ ] File Manager (Reading from file paths and avoiding enums)
 - [ ] Creating support for multi-scene compilation
 - [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
