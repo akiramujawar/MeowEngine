@@ -14,8 +14,9 @@ namespace MeowEngine::entity {
         static void Reflect();
 
         Transform3DComponent(const glm::mat4& inProjectionMatrix);
-        Transform3DComponent(const glm::mat4& inProjectionMatrix, glm::vec3 position, glm::vec3 scale, glm::vec4 rotation);
-        Transform3DComponent(const glm::mat4& inProjectionMatrix, glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis, float rotationDegrees);
+        Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3, MeowEngine::math::Vector3, MeowEngine::math::Quaternion rotation);
+        Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3, MeowEngine::math::Vector3, MeowEngine::math::Vector3 eulerRotation);
+        Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3, MeowEngine::math::Vector3, glm::vec3 rotationAxis, float rotationDegrees);
 
         void CalculateTransformMatrix(const glm::mat4& inProjectionMatrix);
 

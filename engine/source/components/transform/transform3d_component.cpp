@@ -20,8 +20,7 @@ void MeowEngine::entity::Transform3DComponent::Reflect() {
 
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)
     : Position({0,0,0})
-//    , PositionTest({1,1,1})
-    , Scale (glm::vec3(1,1,1))
+    , Scale ({1,1,1})
     , Rotation (glm::vec4(0,0,0,0))
     , RotationAxis(glm::vec3(0,1,0))
     , RotationDegrees(0)
@@ -30,10 +29,10 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)
     CalculateTransformMatrix(inProjectionMatrix);
 }
 
-Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, glm::vec3 position, glm::vec3 scale, glm::vec4 rotation)
-    : Position({position.x, position.y, position.z})
+Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, MeowEngine::math::Quaternion rotation)
+    : Position(position)
     , Scale(scale)
-    , Rotation(rotation)
+    , RotationTest(rotation)
     , RotationAxis(glm::vec3(0,1,0))
     , RotationDegrees(0)
     , IdentityMatrix(glm::mat4(1.0f))
@@ -41,9 +40,20 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, 
     CalculateTransformMatrix(inProjectionMatrix);
 }
 
-Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, glm::vec3 position, glm::vec3 scale, glm::vec3 rotationAxis,
+Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, MeowEngine::math::Vector3 eulerRotation)
+        : Position(position)
+        , Scale(scale)
+        , RotationTest(eulerRotation)
+        , RotationAxis(glm::vec3(0,1,0))
+        , RotationDegrees(0)
+        , IdentityMatrix(glm::mat4(1.0f))
+        , TransformMatrix(IdentityMatrix) {
+    CalculateTransformMatrix(inProjectionMatrix);
+}
+
+Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, glm::vec3 rotationAxis,
                                            float rotationDegrees)
-    : Position({position.x, position.y, position.z})
+    : Position(position)
     , Scale(scale)
     , Rotation(glm::vec4(0,0,0,0))
     , RotationAxis(rotationAxis)
