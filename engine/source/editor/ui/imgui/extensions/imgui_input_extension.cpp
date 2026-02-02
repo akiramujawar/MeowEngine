@@ -85,6 +85,50 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimi
     return change;
 }
 
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowArray(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
+    return nullptr;
+}
+
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPointer(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
+    return nullptr;
+}
+
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
+    MeowEngine::ReflectionPropertyChange* change = nullptr;
+
+    void* value = inProperty.Get(inObject);
+    int enumIntValue = *static_cast<int*>(value);
+    auto uniqueId = reinterpret_cast<uintptr_t>(value);
+
+    // this ensures a unique id for each type of input item displayed,
+    // helps us to capture changes (tracked internally by imgui)
+    std::string nameId = MeowEngine::PString::Format("##%s", inProperty.Name.c_str(), std::to_string(uniqueId).c_str());
+
+    // show name of item
+    ImGui::AlignTextToFramePadding();
+    ImGui::Text("%s", inProperty.Name.c_str());
+    ImGui::SameLine();
+    ImGui::SetCursorPosX(200);
+
+    // get names from our entt reflection registry
+    std::vector<std::string> enumNames = MeowEngine::Reflection.GetEnumValues(inProperty.TypeName);
+
+    // show our enum popup
+    ImGui::Combo(
+        nameId.c_str(),
+        &enumIntValue,
+        [](void* data, int index, const char** item){
+            auto& names = *static_cast<std::vector<std::string>*>(data);
+            *item = names[index].c_str();
+            return true;
+        },
+        &enumNames,
+        enumNames.size()
+    );
+
+    return change;
+}
+
 MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClassOrStruct(const MeowEngine::ReflectionProperty& inProperty, void* inObject) {
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
