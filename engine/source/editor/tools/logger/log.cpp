@@ -11,18 +11,27 @@
 #include "log.hpp"
 #include "iostream"
 
-
-void MeowEngine::Log(const std::string &tag, const std::string &message) {
-    #ifndef NDEBUG
-        #ifdef __ANDROID__
-            __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
-        #else
-            std::cout << tag << ": " << message << std::endl;
-        #endif
-    #endif
+void MeowEngine::Log(const std::string& tag, const std::string& message) {
+#ifndef NDEBUG
+#ifdef __ANDROID__
+    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
+#else
+    std::cout << tag << ": " << message << std::endl;
+#endif
+#endif
 }
 
-void MeowEngine::Log(const std::string &tag, const int &message) {
+void MeowEngine::Log(const std::string& tag, const char* message) {
+#ifndef NDEBUG
+#ifdef __ANDROID__
+    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
+#else
+    std::cout << tag << ": " << message << std::endl;
+#endif
+#endif
+}
+
+void MeowEngine::Log(const std::string& tag, const int& message) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
 //    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -32,7 +41,7 @@ void MeowEngine::Log(const std::string &tag, const int &message) {
 #endif
 }
 
-void MeowEngine::Log(const std::string &tag, const float &message) {
+void MeowEngine::Log(const std::string& tag, const float& message) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
     //    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -42,7 +51,7 @@ void MeowEngine::Log(const std::string &tag, const float &message) {
 #endif
 }
 
-void MeowEngine::Log(const std::string &tag, const bool &message) {
+void MeowEngine::Log(const std::string& tag, const bool& message) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
     //    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -58,7 +67,7 @@ void MeowEngine::Log(const std::string &tag, const bool &message) {
 #endif
 }
 
-void MeowEngine::Log(const std::string &tag, const std::string &message, const std::exception &error) {
+void MeowEngine::Log(const std::string& tag, const std::string& message, const std::exception& error) {
     #ifndef NDEBUG
         std::string output = message + " Exception message was: " + std::string{error.what()};
     MeowEngine::Log(tag, output);
