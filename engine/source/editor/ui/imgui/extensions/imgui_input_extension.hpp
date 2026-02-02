@@ -15,8 +15,13 @@ namespace MeowEngine {
     class ImGuiInputExtension {
     public:
         static MeowEngine::ReflectionPropertyChange* ShowProperty(const std::string& inClassName, void* inObject);
+
         static MeowEngine::ReflectionPropertyChange* ShowPrimitive(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
+        static MeowEngine::ReflectionPropertyChange* ShowArray(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
+        static MeowEngine::ReflectionPropertyChange* ShowPointer(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
+        static MeowEngine::ReflectionPropertyChange* ShowEnum(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
         static MeowEngine::ReflectionPropertyChange* ShowClassOrStruct(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
+
 
         static void ShowTabExample();
         static void ShowPushItemWidthExample();

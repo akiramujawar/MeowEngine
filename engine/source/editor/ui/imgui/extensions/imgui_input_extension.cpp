@@ -15,28 +15,32 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrope
 
     // Display Component Properties
     for (const auto &property: properties) {
+        ImGui::Indent();
+
         switch (property.Type) {
             case MeowEngine::NOT_DEFINED:
                 break;
             case MeowEngine::PRIMITIVE: {
-                ImGui::Indent();
                 MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowPrimitive(property, inObject));
-                ImGui::Unindent();
                 break;
             }
             case MeowEngine::ARRAY:
+                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowArray(property, inObject));
                 break;
             case MeowEngine::POINTER:
+                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowPointer(property, inObject));
                 break;
             case MeowEngine::ENUM:
+                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowEnum(property, inObject));
                 break;
             case MeowEngine::CLASS_OR_STRUCT: {
-                ImGui::Indent();
                 MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowClassOrStruct(property, inObject));
-                ImGui::Unindent();
                 break;
             }
         }
+
+        ImGui::Unindent();
+
     }
 
     return change;
