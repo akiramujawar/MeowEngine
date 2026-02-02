@@ -55,6 +55,19 @@ verify_frameworks_folder_exists() {
   popd || exit
 }
 
+fetch_third_party_lib_magic_enum() {
+  verify_third_party_folder_exists
+
+  # shellcheck disable=SC2164
+  pushd libs/third-party
+      if [ ! -d "magic-enum" ] ; then
+        echo "Fetching Tiny OBJ Loader"
+        git clone https://github.com/Neargye/magic_enum.git magic-enum
+      fi
+    # shellcheck disable=SC2164
+    popd
+}
+
 fetch_third_party_concurrent_queue_library() {
   verify_third_party_folder_exists
 
