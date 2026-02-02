@@ -8,9 +8,15 @@
 
 using MeowEngine::entity::MeshRenderComponent;
 
+void MeowEngine::entity::ChildClass::Reflect() {
+    REGISTER_PROPERTY(ChildClass, MeshType, int);
+    REGISTER_PROPERTY(ChildClass, Size, float);
+}
+
 void MeowEngine::entity::DummyClass::Reflect() {
     REGISTER_PROPERTY(DummyClass, MeshType, int);
     REGISTER_PROPERTY(DummyClass, Size, float);
+    REGISTER_PROPERTY(DummyClass, Child, ChildClass);
 }
 
 void MeowEngine::entity::MeshRenderComponent::Reflect() {

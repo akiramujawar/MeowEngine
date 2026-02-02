@@ -9,13 +9,24 @@
 #include "static_mesh_instance.hpp"
 
 namespace MeowEngine::entity {
-    class DummyClass {
+    class ChildClass {
     public:
         static void Reflect();
 
         int MeshType;
         float Size;
     };
+
+    class DummyClass {
+    public:
+        static void Reflect();
+
+        int MeshType;
+        float Size;
+        ChildClass Child;
+    };
+
+
 
     class MeshRenderComponent : public MeowEngine::entity::RenderComponentBase {
 
