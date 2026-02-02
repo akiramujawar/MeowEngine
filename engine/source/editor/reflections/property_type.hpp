@@ -28,6 +28,12 @@ namespace MeowEngine {
         else if constexpr (std::is_array_v<Type>) {
             return PropertyType::ARRAY;
         }
+//        else if constexpr (std::is_pointer_v<Type>) {
+//            return PropertyType::POINTER;
+//        }
+        else if constexpr (std::is_enum_v<Type>) {
+            return PropertyType::ENUM;
+        }
         else if constexpr (std::is_class_v<Type>) {
             return PropertyType::CLASS_OR_STRUCT;
         }

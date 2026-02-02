@@ -12,6 +12,9 @@
 #include "reflection_property_change.hpp"
 #include "string"
 #include "log.hpp"
+
+#include "magic_enum.hpp"
+
 using namespace std;
 
 namespace MeowEngine {
@@ -27,14 +30,30 @@ namespace MeowEngine {
 
         bool HasComponent(entt::id_type inId);
         bool HasProperty(std::string inPropertyName);
+        bool HasEnum(std::string inPropertyName);
+
         std::string GetComponentName(entt::id_type inId);
         std::vector<ReflectionProperty> GetProperties(std::string inClassName);
+        std::vector<std::string> GetEnumValues(std:: string pEnumName);
 
         template<typename Type>
         void Reflect();
 
+        // Register types (these are extended by macros in wrapper class)
         void RegisterComponent(entt::id_type inId,  std::string inName);
+
         void RegisterProperty(std::string inClassName, ReflectionProperty inProperty);
+
+        template<typename Type>
+        void RegisterEnum(const std::string& inEnumName) {
+            // gets all the enums in array<string_view, num>
+            auto names = magic_enum::enum_names<Type>();
+
+            // push each name into our registry of enums
+            for(auto & i : names){
+                Enums[inEnumName].push_back(i.data());
+            }
+        }
 
         void ApplyPropertyChange(MeowEngine::ReflectionPropertyChange& inPropertyChange, entt::registry& inRegistry);
 
@@ -51,6 +70,7 @@ namespace MeowEngine {
     private:
         std::unordered_map<entt::id_type, std::string> Components;
         std::unordered_map<std::string, std::vector<ReflectionProperty>> Properties;
+        std::unordered_map<std::string, std::vector<std::string>> Enums;
     };
 
     template<typename Type>

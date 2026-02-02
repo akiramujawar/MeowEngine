@@ -14,12 +14,20 @@ bool MeowEngine::EnttReflection::HasProperty(std::string inPropertyName) {
     return Properties.find(inPropertyName) != Properties.end();
 }
 
+bool MeowEngine::EnttReflection::HasEnum(std::string inPropertyName) {
+    return Enums.find(inPropertyName) != Enums.end();
+}
+
 std::string MeowEngine::EnttReflection::GetComponentName(entt::id_type inId) {
     return Components[inId];
 }
 
 std::vector<MeowEngine::ReflectionProperty> MeowEngine::EnttReflection::GetProperties(std::string inClassName) {
     return Properties[inClassName];
+}
+
+std::vector<std::string> MeowEngine::EnttReflection::GetEnumValues(std::string pEnumName) {
+    return Enums[pEnumName];
 }
 
 void MeowEngine::EnttReflection::RegisterComponent(entt::id_type inId, std::string inName) {
