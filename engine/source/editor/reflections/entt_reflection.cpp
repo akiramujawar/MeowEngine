@@ -49,20 +49,38 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
     entt::basic_registry<>::common_type *componentStorage = inRegistry.storage(inPropertyChange.ComponentType);
     std::string componentName = GetComponentName(inPropertyChange.ComponentType);
 
-    void *classObject = componentStorage->value(changedEntity);
+    void* data = componentStorage->value(changedEntity);
 
     // if component has direct changes
     if(inPropertyChange.ClassProperties.empty()) {
-        ApplyPropertyChangeData(componentName, inPropertyChange, classObject);
+        UpdatePropertyChangeData(componentName, inPropertyChange, data);
     }
-    // if classes / struct within component has changes
+    // if classes / struct / pointers within component has changes
     else {
         for(int i = inPropertyChange.ClassProperties.size() - 1; i >= 0; i--) {
+            // we navigate from top to bottom;
+            // i.e. component to variables within, to reach the final object we need to apply the modifications on
             MeowEngine::ReflectionProperty property = inPropertyChange.ClassProperties[i];
-            classObject = property.Get(classObject);
+            data = property.Get(data);
 
+            // TODO: check back on this, i am worried this might lead to copy entire class/structure
+            // leading to erasure of pointers, thus memory leaks
             if(i == 0) {
-                ApplyPropertyChangeData(property.TypeName, inPropertyChange, classObject);
+                if(property.Type == MeowEngine::PropertyType::POINTER) {
+                    // dereference for pointers to point towards correct address
+                    auto objectPointer = static_cast<MeowEngine::entity::MObject **>(data);
+                    MeowEngine::entity::MObject* objectData = *objectPointer;
+
+                    // since the stored typename is a pointer,
+                    // we retrieve original class name through internal custom method
+                    std::string className = objectData->GetClassName();
+
+                    UpdatePropertyChangeData(className, inPropertyChange, objectData);
+                }
+                // send objects as they are within component storage
+                else {
+                    UpdatePropertyChangeData(property.TypeName, inPropertyChange, data);
+                }
             }
         }
     }

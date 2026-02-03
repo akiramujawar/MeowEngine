@@ -57,7 +57,14 @@ namespace MeowEngine {
 
         void ApplyPropertyChange(MeowEngine::ReflectionPropertyChange& inPropertyChange, entt::registry& inRegistry);
 
-        void ApplyPropertyChangeData(std::string& inClassName, MeowEngine::ReflectionPropertyChange& inPropertyChange, void* inClassObject) {
+        /**
+         * Retrieves the all the properties within object from data using reflection storage
+         * and applies the change only to the specific item on which the change is required
+         * @param inClassName
+         * @param inPropertyChange
+         * @param inClassObject
+         */
+        void UpdatePropertyChangeData(std::string& inClassName, MeowEngine::ReflectionPropertyChange& inPropertyChange, void* inClassObject) {
             std::vector<MeowEngine::ReflectionProperty> properties = GetProperties(inClassName);
 
             for(const MeowEngine::ReflectionProperty &property : properties) {
