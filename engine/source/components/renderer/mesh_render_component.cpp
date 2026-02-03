@@ -8,15 +8,30 @@
 
 using MeowEngine::entity::MeshRenderComponent;
 
+void MeowEngine::entity::SubChildClass::Reflect() {
+    REGISTER_PROPERTY(SubChildClass, MeshType, int);
+    REGISTER_PROPERTY(SubChildClass, Size, float);
+    REGISTER_PROPERTY(SubChildClass, Text, PString);
+}
+
 void MeowEngine::entity::ChildClass::Reflect() {
-    REGISTER_PROPERTY(ChildClass, MeshType, int);
-    REGISTER_PROPERTY(ChildClass, Size, float);
+    REGISTER_PROPERTY(ChildClass, ChildMeshType, int);
+    REGISTER_PROPERTY(ChildClass, ChildSize, float);
+    REGISTER_PROPERTY(ChildClass, ChildText, PString);
+    REGISTER_PROPERTY(ChildClass, ChildSubPointer, SubChildClass*);
+
+    MeowEngine::Reflection.Reflect<SubChildClass>();
 }
 
 void MeowEngine::entity::DummyClass::Reflect() {
-    REGISTER_PROPERTY(DummyClass, MeshType, int);
-    REGISTER_PROPERTY(DummyClass, Size, float);
-    REGISTER_PROPERTY(DummyClass, Child, ChildClass);
+//    MeowEngine::Reflection.Reflect<ChildClass>();
+//    MeowEngine::Reflection.Reflect<DummyClass>();
+
+    REGISTER_PROPERTY(DummyClass, RootMeshType, int);
+    REGISTER_PROPERTY(DummyClass, RootSize, float);
+    REGISTER_PROPERTY(DummyClass, RootText, PString);
+    REGISTER_PROPERTY(DummyClass, RootChild, ChildClass);
+    REGISTER_PROPERTY(DummyClass, RootChildPointer, ChildClass*);
 }
 
 void MeowEngine::entity::MeshRenderComponent::Reflect() {
@@ -28,4 +43,7 @@ void MeowEngine::entity::MeshRenderComponent::Reflect() {
 MeshRenderComponent::MeshRenderComponent(MeowEngine::assets::ShaderPipelineType shader, MeowEngine::StaticMeshInstance *meshInstance)
     : MeshInstance(meshInstance), Data() {
     Shader = shader;
+    Data.RootChildPointer = new ChildClass();
+    Data.RootChildPointer->ChildSubPointer = new SubChildClass();
+    Data.RootChild.ChildSubPointer = new SubChildClass();
 }

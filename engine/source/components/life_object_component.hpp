@@ -6,11 +6,15 @@
 #define MEOWENGINE_LIFE_OBJECT_COMPONENT_HPP
 
 #include "pstring.hpp"
+#include "m_object.hpp"
 
 namespace MeowEngine::entity {
-    struct LifeObjectComponent {
+    struct LifeObjectComponent : MObject {
     public:
         static void Reflect();
+        std::string GetClassName() override {
+            return "LifeObjectComponent";
+        }
 
         LifeObjectComponent(std::string name);
 
