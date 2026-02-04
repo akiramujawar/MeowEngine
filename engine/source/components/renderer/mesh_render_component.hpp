@@ -8,64 +8,7 @@
 #include "render_component_base.hpp"
 #include "static_mesh_instance.hpp"
 
-#include "m_object.hpp"
-#include "pstring.hpp"
-
 namespace MeowEngine::entity {
-    class BasicClass {
-    public:
-        static void Reflect();
-
-        int TestValue;
-    };
-    class SubChildClass : MObject {
-    public:
-        static void Reflect();
-
-        std::string GetClassName() override {
-            return "SubChildClass";
-        };
-
-        int MeshType;
-        float Size;
-        PString Text; // unable to modify this
-    };
-
-    class ChildClass : MObject {
-    public:
-        static void Reflect();
-
-        std::string GetClassName() override {
-            return "ChildClass";
-        };
-
-        int ChildMeshType;
-        float ChildSize;
-        PString ChildText;
-
-        SubChildClass* ChildSubPointer;
-    };
-
-    class DummyClass : MObject {
-    public:
-        static void Reflect();
-
-        std::string GetClassName() override {
-            return "DummyClass";
-        };
-
-        int RootMeshType;
-        float RootSize;
-        PString RootText;
-
-        ChildClass RootChild;
-        ChildClass* RootChildPointer;
-        BasicClass* BasicClassNull;
-        BasicClass* BasicClassNonNull;
-    };
-
-
-
     class MeshRenderComponent : public MeowEngine::entity::RenderComponentBase {
 
     public:
@@ -81,8 +24,6 @@ namespace MeowEngine::entity {
         const MeowEngine::StaticMeshInstance& GetMeshInstance() const {
             return *MeshInstance;
         }
-
-        DummyClass Data;
 
     private:
         MeowEngine::StaticMeshInstance* MeshInstance;

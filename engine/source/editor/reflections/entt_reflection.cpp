@@ -4,6 +4,7 @@
 
 #include "entt_reflection.hpp"
 
+#include "m_object.hpp"
 #include "log.hpp"
 
 bool MeowEngine::EnttReflection::HasComponent(entt::id_type inId) {
@@ -57,31 +58,46 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
     }
     // if classes / struct / pointers within component has changes
     else {
-        for(int i = inPropertyChange.ClassProperties.size() - 1; i >= 0; i--) {
-            // we navigate from top to bottom;
-            // i.e. component to variables within, to reach the final object we need to apply the modifications on
+        // retrieve the final object of changed property,
+        // essentially navigates from root node to final node (like a tree)
+        for(int i = (int)inPropertyChange.ClassProperties.size() - 1 ; i > 0 ; i--) {
             MeowEngine::ReflectionProperty property = inPropertyChange.ClassProperties[i];
+            // get object data from property
             data = property.Get(data);
 
-            // TODO: check back on this, i am worried this might lead to copy entire class/structure
-            // leading to erasure of pointers, thus memory leaks
-            if(i == 0) {
-                if(property.Type == MeowEngine::PropertyType::POINTER) {
-                    // dereference for pointers to point towards correct address
-                    auto objectPointer = static_cast<MeowEngine::entity::MObject **>(data);
-                    MeowEngine::entity::MObject* objectData = *objectPointer;
-
-                    // since the stored typename is a pointer,
-                    // we retrieve original class name through internal custom method
-                    std::string className = objectData->GetClassName();
-
-                    UpdatePropertyChangeData(className, inPropertyChange, objectData);
-                }
-                // send objects as they are within component storage
-                else {
-                    UpdatePropertyChangeData(property.TypeName, inPropertyChange, data);
-                }
+            // if its pointer we dereference from pointer to object
+            if(property.Type == MeowEngine::PropertyType::POINTER) {
+                entity::MObject *dataObject = *static_cast<entity::MObject **>(data); // object
+                data = dataObject;
             }
         }
+
+        // not to confuse. change property is a holder in which a property is updated
+        MeowEngine::ReflectionProperty changedProperty = inPropertyChange.ClassProperties[0];
+        data = changedProperty.Get(data);
+
+        if(changedProperty.Type == MeowEngine::PropertyType::POINTER) {
+            // dereference for pointers to point towards correct address
+            auto objectPointer = static_cast<MeowEngine::entity::MObject **>(data);
+            MeowEngine::entity::MObject* objectData = *objectPointer;
+
+            // this isn't required as no changes will be submitted as null objects / non-MObjects won't be displayed
+            // but as fail case, to debug better while building engine we put try catch
+            try {
+                // since the stored typename is a pointer,
+                // we retrieve original class name through internal custom method
+                std::string className = objectData->GetClassName();
+
+                UpdatePropertyChangeData(className, inPropertyChange, objectData);
+            }
+            catch (...) {
+                throw;
+            }
+        }
+        // send objects as they are within component storage
+        else {
+            UpdatePropertyChangeData(changedProperty.TypeName, inPropertyChange, data);
+        }
+
     }
 }
