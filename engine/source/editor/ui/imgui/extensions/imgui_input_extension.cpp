@@ -63,6 +63,8 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimi
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
         ImGui::SetCursorPosX(200);
+        float availableSpace = ImGui::GetContentRegionAvail().x;
+        ImGui::SetNextItemWidth(availableSpace);
 
         if(ImGui::InputScalar(uniqueName.c_str(), ImGuiDataType_U32, &changeHolder, nullptr, nullptr, nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new int(changeHolder), [](void* inPointer){ delete static_cast<int*>(inPointer); });
@@ -78,7 +80,11 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimi
         ImGui::AlignTextToFramePadding();
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
+
         ImGui::SetCursorPosX(200);
+        float availableSpace = ImGui::GetContentRegionAvail().x;
+        ImGui::SetNextItemWidth(availableSpace);
+
 
         if(ImGui::InputScalar(uniqueName.c_str(), ImGuiDataType_Float, &changeHolder, nullptr, nullptr, nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new float(changeHolder), [](void* inPointer){ delete static_cast<float*>(inPointer); });
@@ -98,6 +104,8 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowArray
     ImGui::Text("%s", inProperty.Name.c_str());
     ImGui::SameLine();
     ImGui::SetCursorPosX(200);
+    float availableSpace = ImGui::GetContentRegionAvail().x;
+    ImGui::SetNextItemWidth(availableSpace);
 
     return change;
 }
@@ -113,20 +121,21 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPoint
     // data* -> **pointer -> *object
     entity::MObject* valueObject = *static_cast<entity::MObject**>(value);
 
-    // show name of item
-    ImGui::AlignTextToFramePadding();
-    ImGui::Text("%s", inProperty.Name.c_str());
-    ImGui::SameLine();
-    ImGui::SetCursorPosX(200);
+    ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
 
     // show a tree and node and pass dereference of the data which is dataObject for populating further
-    if(ImGui::TreeNode(inProperty.Name.c_str())) {
+    auto displayLabel = MeowEngine::PString::Format("%s%s", inProperty.Name.c_str(), "*");
+    if(ImGui::TreeNode(displayLabel.c_str())) {
+        ImGui::Unindent(20);
+
         MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(valueObject->GetClassName(), valueObject));
 
+        // track the changes so re-apply on different threads from entt comp towards the class objects
         if (change != nullptr) {
             change->ClassProperties.push_back(inProperty);
         }
 
+        ImGui::Indent(20);
         ImGui::TreePop();
     }
 
@@ -150,6 +159,8 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(
     ImGui::Text("%s", inProperty.Name.c_str());
     ImGui::SameLine();
     ImGui::SetCursorPosX(200);
+    float availableSpace = ImGui::GetContentRegionAvail().x;
+    ImGui::SetNextItemWidth(availableSpace);
 
     // get names from our entt reflection registry
     std::vector<std::string> enumNames = MeowEngine::Reflection.GetEnumValues(inProperty.TypeName);
@@ -186,6 +197,8 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
         ImGui::SetCursorPosX(200);
+        float availableSpace = ImGui::GetContentRegionAvail().x;
+        ImGui::SetNextItemWidth(availableSpace);
 
         if(ImGui::InputText(uniqueName.c_str(), changeHolder.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new MeowEngine::PString(changeHolder), [](void* inPointer){ delete static_cast<MeowEngine::PString*>(inPointer); });
@@ -204,6 +217,8 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
         ImGui::SetCursorPosX(200);
+        float availableSpace = ImGui::GetContentRegionAvail().x;
+        ImGui::SetNextItemWidth(availableSpace);
 
         if(ImGui::InputFloat3(uniqueName.c_str(), &changeHolder[0], nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new MeowEngine::math::Vector3(changeHolder), [](void* inPointer){ delete static_cast<MeowEngine::math::Vector3*>(inPointer); });
@@ -212,14 +227,18 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
     // if we are unaware of manual type expand and show items inside the class / struct recursively
     else {
         ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
 
         if(ImGui::TreeNode(inProperty.Name.c_str())) {
+            ImGui::Unindent(20);
+
             MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(inProperty.TypeName, inProperty.Get(inObject)));
 
             if(change != nullptr) {
                 change->ClassProperties.push_back(inProperty);
             }
 
+            ImGui::Indent(20);
             ImGui::TreePop();
         }
     }
