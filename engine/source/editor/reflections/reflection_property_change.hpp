@@ -13,6 +13,12 @@ namespace MeowEngine {
     private:
         ReflectionPropertyChange() {}
     public:
+        /**
+         *
+         * @param inPropertyChangeName
+         * @param inChangeData
+         * @param inDataDeleter after utilising for changes, this callback destroys the temporary holder of values
+         */
         ReflectionPropertyChange(const std::string& inPropertyChangeName, void* inChangeData, std::function<void(void*)> inDataDeleter);
         ~ReflectionPropertyChange();
 

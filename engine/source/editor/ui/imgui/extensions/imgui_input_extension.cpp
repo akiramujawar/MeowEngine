@@ -131,7 +131,8 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPoint
 
             MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(valueObject->GetClassName(), valueObject));
 
-            // track the changes so re-apply on different threads from entt comp towards the class objects
+            // track the class hierarchy changes so re-apply on different threads in same manner
+            // i.e. entt comp -> class objects -> ... -> changed property
             if (change != nullptr) {
                 change->ClassProperties.push_back(inProperty);
             }
@@ -169,7 +170,7 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(
     auto dataObject = static_cast<entity::MObject*>(inObject);
 
     void* value = inProperty.Get(inObject);
-    int enumIntValue = *static_cast<int*>(value);
+    int changeHolder = *static_cast<int*>(value);
 
     // this ensures a unique id for each type of input item displayed,
     // helps us to capture changes (tracked internally by imgui)
@@ -187,9 +188,9 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(
     std::vector<std::string> enumNames = MeowEngine::Reflection.GetEnumValues(inProperty.TypeName);
 
     // show our enum popup
-    ImGui::Combo(
+    if( ImGui::Combo(
         nameId.c_str(),
-        &enumIntValue,
+        &changeHolder,
         [](void* data, int index, const char** item){
             auto& names = *static_cast<std::vector<std::string>*>(data);
             *item = names[index].c_str();
@@ -197,7 +198,13 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(
         },
         &enumNames,
         enumNames.size()
-    );
+    )) {
+        change = new MeowEngine::ReflectionPropertyChange(
+            inProperty.Name,
+            new int(changeHolder),
+            [](void *inPointer) { delete static_cast<int *>(inPointer); }
+        );
+    }
 
     return change;
 }
@@ -222,7 +229,11 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
         ImGui::SetNextItemWidth(availableSpace);
 
         if(ImGui::InputText(uniqueName.c_str(), changeHolder.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
-            change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new MeowEngine::PString(changeHolder), [](void* inPointer){ delete static_cast<MeowEngine::PString*>(inPointer); });
+            change = new MeowEngine::ReflectionPropertyChange(
+                inProperty.Name,
+                new MeowEngine::PString(changeHolder),
+                [](void* inPointer){ delete static_cast<MeowEngine::PString*>(inPointer); }
+            );
         }
     }
     else if(inProperty.TypeId == typeid(MeowEngine::math::Vector3)) {
@@ -255,6 +266,8 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
 
             MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(inProperty.TypeName, inProperty.Get(inObject)));
 
+            // track the class hierarchy changes so re-apply on different threads in same manner
+            // i.e. entt comp -> class objects -> ... -> changed property
             if(change != nullptr) {
                 change->ClassProperties.push_back(inProperty);
             }
