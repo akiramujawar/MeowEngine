@@ -89,6 +89,9 @@ namespace MeowEngine {
 //            return PropertyType::ARRAY;
         }
         else if constexpr (std::is_class_v<Type>) {
+            // TODO: since we reflect after every reflect property / component, it creates a dup.
+            // need to resolve this by either making sure its not reflected multiple times or
+            // putting a check here to only init once.
             Type::Reflect();
         }
         else {

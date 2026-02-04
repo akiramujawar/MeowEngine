@@ -38,5 +38,36 @@ namespace MeowEngine {
         \
         REFLECT(Type);
 
+    #define REGISTER_POINTER(Class, Property, Type, IsMObject)\
+        MeowEngine::Reflection.RegisterProperty(\
+            #Class,\
+            {\
+                #Property,                          \
+                GetPropertyType<Type>(),                                    \
+                GetPropertyTypeId<Type>(),          \
+                #Type,                                    \
+                [](void* obj, const void* value) { ((Class*)obj)->Property = *(Type*)value; },\
+                [](void* obj) -> void* { return &(((Class*)obj)->Property);},\
+                IsMObject \
+            }\
+        );\
+        \
+        REFLECT(Type);
+
+    #define REGISTER_ENUM(Class, Property, Type)\
+        MeowEngine::Reflection.RegisterProperty(\
+            #Class,\
+            {\
+                #Property,                          \
+                GetPropertyType<Type>(),                                    \
+                GetPropertyTypeId<Type>(),          \
+                #Type,                                    \
+                [](void* obj, const void* value) { ((Class*)obj)->Property = *(Type*)value; },\
+                [](void* obj) -> void* { return &(((Class*)obj)->Property);}\
+            }\
+        );\
+        \
+        REFLECT(Type);
+
 }
 #endif //MEOWENGINE_ENTT_REFLECTION_WRAPPER_HPP

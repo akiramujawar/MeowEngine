@@ -121,22 +121,43 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPoint
     // data* -> **pointer -> *object
     entity::MObject* valueObject = *static_cast<entity::MObject**>(value);
 
-    ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
-
-    // show a tree and node and pass dereference of the data which is dataObject for populating further
     auto displayLabel = MeowEngine::PString::Format("%s%s", inProperty.Name.c_str(), "*");
-    if(ImGui::TreeNode(displayLabel.c_str())) {
-        ImGui::Unindent(20);
 
-        MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(valueObject->GetClassName(), valueObject));
+    if(inProperty.IsMObject) {
+        // show a tree and node and pass dereference of the data which is dataObject for populating further
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+        if (ImGui::TreeNode(displayLabel.c_str())) {
+            ImGui::Unindent(20);
 
-        // track the changes so re-apply on different threads from entt comp towards the class objects
-        if (change != nullptr) {
-            change->ClassProperties.push_back(inProperty);
+            MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(valueObject->GetClassName(), valueObject));
+
+            // track the changes so re-apply on different threads from entt comp towards the class objects
+            if (change != nullptr) {
+                change->ClassProperties.push_back(inProperty);
+            }
+
+            ImGui::Indent(20);
+            ImGui::TreePop();
         }
+    }
+    else {
+        // name of the variable
+        ImGui::AlignTextToFramePadding();
+        ImGui::Text("%s", displayLabel.c_str());
 
-        ImGui::Indent(20);
-        ImGui::TreePop();
+        // on same line create space for text
+        ImGui::SameLine();
+        ImGui::SetCursorPosX(200);
+        float availableSpace = ImGui::GetContentRegionAvail().x;
+        ImGui::SetNextItemWidth(availableSpace);
+
+        // mention the type of class pointer & weather it is null
+        ImGui::Text("%s", inProperty.TypeName.c_str());
+
+        if(valueObject == nullptr) {
+            ImGui::SameLine();
+            ImGui::Text("(nullptr)");
+        }
     }
 
     return change;
@@ -226,7 +247,7 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
     }
     // if we are unaware of manual type expand and show items inside the class / struct recursively
     else {
-        ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+//        ImGui::SetNextItemOpen(true, ImGuiCond_Once); // force opens the tree node
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
 
         if(ImGui::TreeNode(inProperty.Name.c_str())) {

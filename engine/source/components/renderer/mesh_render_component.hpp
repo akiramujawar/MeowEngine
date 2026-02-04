@@ -12,6 +12,12 @@
 #include "pstring.hpp"
 
 namespace MeowEngine::entity {
+    class BasicClass {
+    public:
+        static void Reflect();
+
+        int TestValue;
+    };
     class SubChildClass : MObject {
     public:
         static void Reflect();
@@ -54,6 +60,8 @@ namespace MeowEngine::entity {
 
         ChildClass RootChild;
         ChildClass* RootChildPointer;
+        BasicClass* BasicClassNull;
+        BasicClass* BasicClassNonNull;
     };
 
 

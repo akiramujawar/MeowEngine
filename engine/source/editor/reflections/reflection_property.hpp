@@ -19,6 +19,7 @@ namespace MeowEngine {
         std::string TypeName; // name of class
         std::function<void(void *, const void *)> Set;
         std::function<void *(void *)> Get;
+        bool IsMObject;
     };
 }
 
