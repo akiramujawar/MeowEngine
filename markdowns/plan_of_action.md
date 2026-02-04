@@ -3,6 +3,7 @@
 
 ## Meow Engine v0.5
 - [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
+- [ ] Populating enums, pointers classes & a callback action on edits from EditPanel
 - [ ] Adding navigation to github / go back for web builds
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
 - [ ] Selecting objects
@@ -18,6 +19,7 @@
 ## Meow Engine v0.6
 - [x] Compilation of physx for web
 - [x] Single thread app builds for web
+- [ ] Populating arrays / lists etc... in EditPanel
 - [ ] Updating bash files for supporting physx on mac
 - [ ] Support for window
 - [ ] Research on making dev/debug builds for in-depth testing
