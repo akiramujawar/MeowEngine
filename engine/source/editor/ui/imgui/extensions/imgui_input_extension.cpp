@@ -49,35 +49,38 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrope
 MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimitive(const MeowEngine::ReflectionProperty& inProperty, void* inObject) {
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
+    // NOTE: The parent class has to be derived from MObject
+    auto dataObject = static_cast<entity::MObject*>(inObject);
+
     if(inProperty.TypeId == typeid(int)) {
         void* value = inProperty.Get(inObject);
         int changeHolder = *static_cast<int*>(value);
-        auto uniqueId = reinterpret_cast<uintptr_t>(value);
 
-        std::string labelName = MeowEngine::PString::Format("##%s", inProperty.Name.c_str(), std::to_string(uniqueId).c_str());
+        std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(), dataObject->GetClassName().c_str());
 
+        // show name of item
         ImGui::AlignTextToFramePadding();
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
         ImGui::SetCursorPosX(200);
 
-        if(ImGui::InputScalar(labelName.c_str(), ImGuiDataType_U32, &changeHolder, nullptr, nullptr, nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
+        if(ImGui::InputScalar(uniqueName.c_str(), ImGuiDataType_U32, &changeHolder, nullptr, nullptr, nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new int(changeHolder), [](void* inPointer){ delete static_cast<int*>(inPointer); });
         }
     }
     else if(inProperty.TypeId == typeid(float)) {
         void* value = inProperty.Get(inObject);
         float changeHolder = *static_cast<float*>(value);
-        auto uniqueId = reinterpret_cast<uintptr_t>(value);
 
-        std::string labelName = MeowEngine::PString::Format("##%s", inProperty.Name.c_str(), std::to_string(uniqueId).c_str());
+        std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(), dataObject->GetClassName().c_str());
 
+        // show name of item
         ImGui::AlignTextToFramePadding();
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
         ImGui::SetCursorPosX(200);
 
-        if(ImGui::InputScalar(labelName.c_str(), ImGuiDataType_Float, &changeHolder, nullptr, nullptr, nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
+        if(ImGui::InputScalar(uniqueName.c_str(), ImGuiDataType_Float, &changeHolder, nullptr, nullptr, nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new float(changeHolder), [](void* inPointer){ delete static_cast<float*>(inPointer); });
         }
     }
@@ -86,23 +89,61 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimi
 }
 
 MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowArray(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
-    return nullptr;
+    MeowEngine::ReflectionPropertyChange* change = nullptr;
+
+    void* data = inProperty.Get(inObject);
+
+    // show name of item
+    ImGui::AlignTextToFramePadding();
+    ImGui::Text("%s", inProperty.Name.c_str());
+    ImGui::SameLine();
+    ImGui::SetCursorPosX(200);
+
+    return change;
 }
 
 MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPointer(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
-    return nullptr;
+    // TODO: We consider pointer classes, but what about pointer primitives like int, float, double etc...
+    // TODO: Similarly, do we look into unique/ shared/ weak pointer as well?
+    MeowEngine::ReflectionPropertyChange* change = nullptr;
+
+    void* value = inProperty.Get(inObject);
+
+    // inObject here is already a pointer itself hence in next line dereference it
+    // data* -> **pointer -> *object
+    entity::MObject* valueObject = *static_cast<entity::MObject**>(value);
+
+    // show name of item
+    ImGui::AlignTextToFramePadding();
+    ImGui::Text("%s", inProperty.Name.c_str());
+    ImGui::SameLine();
+    ImGui::SetCursorPosX(200);
+
+    // show a tree and node and pass dereference of the data which is dataObject for populating further
+    if(ImGui::TreeNode(inProperty.Name.c_str())) {
+        MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(valueObject->GetClassName(), valueObject));
+
+        if (change != nullptr) {
+            change->ClassProperties.push_back(inProperty);
+        }
+
+        ImGui::TreePop();
+    }
+
+    return change;
 }
 
 MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
+    auto dataObject = static_cast<entity::MObject*>(inObject);
+
     void* value = inProperty.Get(inObject);
     int enumIntValue = *static_cast<int*>(value);
-    auto uniqueId = reinterpret_cast<uintptr_t>(value);
 
     // this ensures a unique id for each type of input item displayed,
     // helps us to capture changes (tracked internally by imgui)
-    std::string nameId = MeowEngine::PString::Format("##%s", inProperty.Name.c_str(), std::to_string(uniqueId).c_str());
+    std::string nameId = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(), dataObject->GetClassName().c_str());
 
     // show name of item
     ImGui::AlignTextToFramePadding();
@@ -133,37 +174,42 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
     if(inProperty.TypeId == typeid(MeowEngine::PString)) {
+        auto dataObject = static_cast<entity::MObject*>(inObject);
+
         void* value = inProperty.Get(inObject);
         MeowEngine::PString changeHolder = *static_cast<MeowEngine::PString*>(value);
-        auto uniqueId = reinterpret_cast<uintptr_t>(value);
 
-        std::string labelName = MeowEngine::PString::Format("##%s", inProperty.Name.c_str(), std::to_string(uniqueId).c_str());
+        std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(), dataObject->GetClassName().c_str());
 
+        // show name of item
         ImGui::AlignTextToFramePadding();
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
         ImGui::SetCursorPosX(200);
 
-        if(ImGui::InputText(labelName.c_str(), changeHolder.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
+        if(ImGui::InputText(uniqueName.c_str(), changeHolder.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new MeowEngine::PString(changeHolder), [](void* inPointer){ delete static_cast<MeowEngine::PString*>(inPointer); });
         }
     }
     else if(inProperty.TypeId == typeid(MeowEngine::math::Vector3)) {
+        auto dataObject = static_cast<entity::MObject*>(inObject);
+
         void* value = inProperty.Get(inObject);
         MeowEngine::math::Vector3 changeHolder = *static_cast<MeowEngine::math::Vector3*>(value);
-        auto uniqueId = reinterpret_cast<uintptr_t>(value);
 
-        std::string labelName = MeowEngine::PString::Format("##%s", inProperty.Name.c_str(), std::to_string(uniqueId).c_str());
+        std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(), dataObject->GetClassName().c_str());
 
+        // show name of item
         ImGui::AlignTextToFramePadding();
         ImGui::Text("%s", inProperty.Name.c_str());
         ImGui::SameLine();
         ImGui::SetCursorPosX(200);
 
-        if(ImGui::InputFloat3(labelName.c_str(), &changeHolder[0], nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
+        if(ImGui::InputFloat3(uniqueName.c_str(), &changeHolder[0], nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new MeowEngine::math::Vector3(changeHolder), [](void* inPointer){ delete static_cast<MeowEngine::math::Vector3*>(inPointer); });
         }
     }
+    // if we are unaware of manual type expand and show items inside the class / struct recursively
     else {
         ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 
