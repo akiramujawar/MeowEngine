@@ -3,13 +3,20 @@
 //
 
 #include "collider_component.hpp"
+#include "entt_reflection_wrapper.hpp"
 #include <log.hpp>
 
 using namespace MeowEngine::entity;
 
 namespace MeowEngine {
     void entity::ColliderComponent::Reflect() {
-//    REGISTER_PROPERTY(RigidbodyComponent, Position, MeowEngine::math::Vector3);
+        // TODO: Create a auto reflection system. This will also solve dup reflections
+        MeowEngine::Reflection.Reflect<BoxColliderData>();
+        MeowEngine::Reflection.Reflect<SphereColliderData>();
+
+        REGISTER_PROPERTY(ColliderComponent, Type, entity::ColliderType);
+        REGISTER_POINTER(ColliderComponent, Data, entity::ColliderData*, true);
+        REGISTER_POINTER(ColliderComponent, Body, physx::PxActor*, false);
 
         MeowEngine::Log("Reflected", "ColliderComponent");
     }

@@ -5,8 +5,10 @@
 #ifndef MEOWENGINE_VECTOR3_HPP
 #define MEOWENGINE_VECTOR3_HPP
 
+#include "m_object.hpp"
+
 namespace MeowEngine::math {
-    struct Vector3 {
+    struct Vector3 : entity::MObject {
         static void Reflect();
 
         Vector3()
@@ -131,6 +133,12 @@ namespace MeowEngine::math {
          * @return
          */
         Vector3 PerpendicularToProjection(const Vector3& in) const;
+
+        // Methods from MObject
+    public:
+        std::string GetClassName() override {
+            return "Vector3";
+        }
     };
 }
 

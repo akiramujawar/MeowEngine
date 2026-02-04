@@ -3,11 +3,18 @@
 //
 
 #include "box_collider_data.hpp"
-
+#include "entt_reflection_wrapper.hpp"
 
 using namespace MeowEngine::entity;
 
+void BoxColliderData::Reflect() {
+    REGISTER_PROPERTY(BoxColliderData, Size, MeowEngine::math::Vector3);
+
+    MeowEngine::Log("Reflected", "BoxColliderData");
+}
+
 BoxColliderData::BoxColliderData() {
+    Size = MeowEngine::math::Vector3(0.5f, 0.5f, 0.5f);
     Geometry = physx::PxBoxGeometry(physx::PxVec3(0.5f, 0.5f, 0.5f));
 }
 

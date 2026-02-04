@@ -11,6 +11,8 @@
 namespace MeowEngine::entity {
     class BoxColliderData : public entity::ColliderData {
     public:
+        static void Reflect();
+
         // using explicit prevents any implicit conversion / copy-init
         // BoxColliderData data = 0; // error
         // BoxColliderData data(); // success
@@ -24,6 +26,12 @@ namespace MeowEngine::entity {
 
     private:
         physx::PxBoxGeometry Geometry;
+
+    // Methods from MObject
+    public:
+        std::string GetClassName() override {
+            return "BoxColliderData";
+        }
     };
 }
 

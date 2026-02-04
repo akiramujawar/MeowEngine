@@ -9,10 +9,11 @@
 #include "matrix4x4.hpp"
 #include "matrix3x3.hpp"
 #include "a_math.hpp"
+#include "m_object.hpp"
 
 namespace MeowEngine::math {
 
-    struct Quaternion {
+    struct Quaternion : entity::MObject {
         static void Reflect();
 
         Quaternion()
@@ -184,6 +185,12 @@ namespace MeowEngine::math {
 
         void Lerp();
         void Slerp();
+
+    // Methods from MObject
+    public:
+        std::string GetClassName() override {
+            return "Quaternion";
+        }
     };
 
 } // MeowEngine

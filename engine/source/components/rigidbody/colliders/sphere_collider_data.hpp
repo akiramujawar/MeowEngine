@@ -11,6 +11,8 @@ namespace MeowEngine {
 
     class SphereColliderData : public entity::ColliderData {
     public:
+        static void Reflect();
+
         // using explicit prevents any implicit conerstion / copy-init
         // SphereColliderData data = 0 // error
         // SphereColliderData data(); // success
@@ -22,9 +24,15 @@ namespace MeowEngine {
         physx::PxGeometry& GetGeometry() override;
 
         float Radius;
-    private:
 
+    private:
         physx::PxSphereGeometry Geometry;
+
+        // Methods from MObject
+    public:
+        std::string GetClassName() override {
+            return "SphereColliderData";
+        }
     };
 
 } // MeowEngine

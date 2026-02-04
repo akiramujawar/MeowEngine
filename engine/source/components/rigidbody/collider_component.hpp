@@ -6,7 +6,7 @@
 #define MEOWENGINE_COLLIDER_COMPONENT_HPP
 
 #include <component_base.hpp>
-#include <transform3d_component.hpp>
+//#include <transform3d_component.hpp>
 #include <collider_type.hpp>
 
 #include <box_collider_data.hpp>
@@ -39,7 +39,15 @@ namespace MeowEngine::entity {
     private:
         entity::ColliderType Type;
         entity::ColliderData* Data;
+
+        // TODO: This is null on render thread. Why was this not null randomly while debugging?
         physx::PxActor* Body;
+
+    // Methods from MObject
+    public:
+        std::string GetClassName() override {
+            return "ColliderComponent";
+        }
     };
 }
 
