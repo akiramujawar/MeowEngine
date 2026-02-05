@@ -23,16 +23,38 @@ namespace MeowEngine {
         \
         REFLECT(Component);
 
-    #define REGISTER_PROPERTY(Class, Property, Type)\
+
+
+    // objectPointer -
+    #define REGISTER_PROPERTY(Class, Property, Type) \
         MeowEngine::Reflection.RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                                    \
-                [](void* obj, const void* value) { ((Class*)obj)->Property = *(Type*)value; },\
-                [](void* obj) -> void* { return &(((Class*)obj)->Property);}\
+                #Type,                                        \
+                true,                                              \
+                [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
+                [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property); }, \
+                [](void* objectPointer) -> void {} \
+            }\
+        );\
+        \
+        REFLECT(Type);
+
+    #define REGISTER_PROPERTY_CALLBACK(Class, Property, Type, Callback)\
+        MeowEngine::Reflection.RegisterProperty(\
+            #Class,\
+            {\
+                #Property,                          \
+                GetPropertyType<Type>(),                                    \
+                GetPropertyTypeId<Type>(),          \
+                #Type,                                        \
+                true,                                              \
+                [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
+                [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);}, \
+                [](void* objectPointer) -> void { ((Class*)objectPointer)->Callback(); } \
             }\
         );\
         \
@@ -45,10 +67,28 @@ namespace MeowEngine {
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                                    \
-                [](void* obj, const void* value) { ((Class*)obj)->Property = *(Type*)value; },\
-                [](void* obj) -> void* { return &(((Class*)obj)->Property);},\
-                IsMObject \
+                #Type,                                        \
+                IsMObject, \
+                [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
+                [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},                 \
+                [](void* objectPointer) -> void {} \
+            }\
+        );\
+        \
+        REFLECT(Type);
+
+    #define REGISTER_POINTER_CALLBACK(Class, Property, Type, IsMObject, Callback)\
+        MeowEngine::Reflection.RegisterProperty(\
+            #Class,\
+            {\
+                #Property,                          \
+                GetPropertyType<Type>(),                                    \
+                GetPropertyTypeId<Type>(),          \
+                #Type,                                        \
+                IsMObject, \
+                [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
+                [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},                 \
+                [](void* objectPointer) -> void { ((Class*)objectPointer)->Callback(); } \
             }\
         );\
         \
@@ -61,9 +101,28 @@ namespace MeowEngine {
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                                    \
-                [](void* obj, const void* value) { ((Class*)obj)->Property = *(Type*)value; },\
-                [](void* obj) -> void* { return &(((Class*)obj)->Property);}\
+                #Type,                          \
+                true, \
+                [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
+                [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},\
+                [](void* objectPointer) -> void {} \
+            }\
+        );\
+        \
+        REFLECT(Type);
+
+    #define REGISTER_ENUM_CALLBACK(Class, Property, Type, Callback)\
+        MeowEngine::Reflection.RegisterProperty(\
+            #Class,\
+            {\
+                #Property,                          \
+                GetPropertyType<Type>(),                                    \
+                GetPropertyTypeId<Type>(),          \
+                #Type,                          \
+                true, \
+                [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
+                [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},\
+                [](void* objectPointer) -> void { ((Class*)objectPointer)->Callback(); } \
             }\
         );\
         \

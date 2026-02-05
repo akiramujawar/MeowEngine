@@ -5,19 +5,15 @@
 #include "reflection_test_component.hpp"
 #include "entt_reflection_wrapper.hpp"
 
-void MeowEngine::entity::ReflectionTestComponent::Reflect() {
-    REGISTER_PROPERTY(ReflectionTestComponent, Data, DummyClass);
-    REGISTER_ENUM(ReflectionTestComponent, Type, entity::ColliderType);
-}
-
 MeowEngine::entity::ReflectionTestComponent::ReflectionTestComponent()
-: Data()
-, Type (entity::ColliderType::SPHERE){
-    Data.RootChildPointer = new ChildClass();
-    Data.RootChildPointer->ChildSubPointer = new SubChildClass();
-    Data.RootChild.ChildSubPointer = new SubChildClass();
-
-    Data.BasicClassNonNull = new BasicClass();
+: Int(10)
+, IntCallback(12)
+, Object()
+, ObjectCallback()
+, Enum(entity::ColliderType::SPHERE)
+, EnumCallback(entity::ColliderType::SPHERE) {
+    Pointer = new DummyClass();
+    PointerCallback = new DummyClass();
 }
 
 void MeowEngine::entity::BasicClass::Reflect() {
@@ -52,4 +48,18 @@ void MeowEngine::entity::DummyClass::Reflect() {
 
     REGISTER_POINTER(DummyClass, BasicClassNull, BasicClass*, false);
     REGISTER_POINTER(DummyClass, BasicClassNonNull, BasicClass*, false);
+}
+
+void MeowEngine::entity::ReflectionTestComponent::Reflect() {
+    REGISTER_PROPERTY(ReflectionTestComponent, Int, int); // primitive
+    REGISTER_PROPERTY_CALLBACK(ReflectionTestComponent, IntCallback, int, OnIntReflect); // primitive callback
+
+    REGISTER_PROPERTY(ReflectionTestComponent, Object, DummyClass); // class object
+    REGISTER_PROPERTY_CALLBACK(ReflectionTestComponent, ObjectCallback, DummyClass, OnObjectReflect); // class object callback
+
+    REGISTER_POINTER(ReflectionTestComponent, Pointer, DummyClass*, true); // pointer object
+    REGISTER_POINTER_CALLBACK(ReflectionTestComponent, PointerCallback, DummyClass*, true, OnPointerReflect); // pointer object callback
+
+    REGISTER_ENUM(ReflectionTestComponent, Enum, entity::ColliderType); // enum
+    REGISTER_ENUM_CALLBACK(ReflectionTestComponent, EnumCallback, entity::ColliderType, OnEnumReflect); // enum callback
 }

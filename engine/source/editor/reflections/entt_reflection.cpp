@@ -50,17 +50,21 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
     entt::basic_registry<>::common_type *componentStorage = inRegistry.storage(inPropertyChange.ComponentType);
     std::string componentName = GetComponentName(inPropertyChange.ComponentType);
 
+    void* componentObject = componentStorage->value(changedEntity);
     void* data = componentStorage->value(changedEntity);
 
     // if component has direct changes
     if(inPropertyChange.ClassProperties.empty()) {
-        UpdatePropertyChangeData(componentName, inPropertyChange, data);
+        UpdatePropertyChangeData(componentName, inPropertyChange.PropertyName, componentObject, componentName, inPropertyChange, data);
     }
     // if classes / struct / pointers within component has changes
     else {
+        int classPropertyCount = (int)inPropertyChange.ClassProperties.size() - 1;
+        std::string propertyAffectedName = inPropertyChange.ClassProperties[classPropertyCount].Name;
+
         // retrieve the final object of changed property,
         // essentially navigates from root node to final node (like a tree)
-        for(int i = (int)inPropertyChange.ClassProperties.size() - 1 ; i > 0 ; i--) {
+        for(int i = classPropertyCount ; i > 0 ; i--) {
             MeowEngine::ReflectionProperty property = inPropertyChange.ClassProperties[i];
             // get object data from property
             data = property.Get(data);
@@ -88,7 +92,7 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
                 // we retrieve original class name through internal custom method
                 std::string className = objectData->GetClassName();
 
-                UpdatePropertyChangeData(className, inPropertyChange, objectData);
+                UpdatePropertyChangeData(componentName, propertyAffectedName, componentObject, className, inPropertyChange, objectData);
             }
             catch (...) {
                 throw;
@@ -96,8 +100,28 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
         }
         // send objects as they are within component storage
         else {
-            UpdatePropertyChangeData(changedProperty.TypeName, inPropertyChange, data);
+            UpdatePropertyChangeData(componentName, propertyAffectedName, componentObject, changedProperty.TypeName, inPropertyChange, data);
         }
 
+    }
+}
+
+void MeowEngine::EnttReflection::UpdatePropertyChangeData(std::string& pComponentName, std::string& pPropertyAffectedName, void* pComponentData, std::string& pChangedName, MeowEngine::ReflectionPropertyChange& inPropertyChange, void* inChangedData) {
+    // Call the callback registered at component level for the specific property
+    std::vector<MeowEngine::ReflectionProperty> propertiesFromComponent = GetProperties(pComponentName);
+    for(const MeowEngine::ReflectionProperty &property : propertiesFromComponent) {
+        if(property.Name == pPropertyAffectedName) {
+            property.Callback(pComponentData);
+            break;
+        }
+    }
+
+    // Update the value which is affected
+    std::vector<MeowEngine::ReflectionProperty> propertiesFromChanged = GetProperties(pChangedName);
+    for(const MeowEngine::ReflectionProperty &property : propertiesFromChanged) {
+        if(property.Name == inPropertyChange.PropertyName) {
+            property.Set(inChangedData, inPropertyChange.Data);
+            break;
+        }
     }
 }

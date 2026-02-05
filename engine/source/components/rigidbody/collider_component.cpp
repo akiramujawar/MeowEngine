@@ -10,7 +10,7 @@ using namespace MeowEngine::entity;
 
 namespace MeowEngine {
     void entity::ColliderComponent::Reflect() {
-        // TODO: Create a auto reflection system. This will also solve dup reflections
+        // TODO: Create a auto-reflection system. This will also solve dup reflections
         MeowEngine::Reflection.Reflect<BoxColliderData>();
         MeowEngine::Reflection.Reflect<SphereColliderData>();
 

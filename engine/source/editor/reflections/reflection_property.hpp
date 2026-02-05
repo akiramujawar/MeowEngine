@@ -17,9 +17,11 @@ namespace MeowEngine {
         MeowEngine::PropertyType Type; // type of class
         const type_info& TypeId; // type id of class
         std::string TypeName; // name of class
-        std::function<void(void *, const void *)> Set;
-        std::function<void *(void *)> Get;
-        bool IsMObject;
+        bool IsMObject; // is the property derived from MObject
+
+        std::function<void (void*, const void*)> Set;
+        std::function<void* (void*)> Get;
+        std::function<void (void*)> Callback;
     };
 }
 

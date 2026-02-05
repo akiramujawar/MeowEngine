@@ -60,19 +60,21 @@ namespace MeowEngine {
         /**
          * Retrieves the all the properties within object from data using reflection storage
          * and applies the change only to the specific item on which the change is required
-         * @param inClassName
-         * @param inPropertyChange
-         * @param inClassObject
+         * @param pComponentName
+         * @param pPropertyAffectedName The root property name from component which is modified. This helps to find & call the callback registered within components
+         * @param pComponentData
+         * @param pChangedName
+         * @param inPropertyChange The container in which the property is affected. Can be component or child classes/structs
+         * @param inChangedData
          */
-        void UpdatePropertyChangeData(std::string& inClassName, MeowEngine::ReflectionPropertyChange& inPropertyChange, void* inClassObject) {
-            std::vector<MeowEngine::ReflectionProperty> properties = GetProperties(inClassName);
-
-            for(const MeowEngine::ReflectionProperty &property : properties) {
-                if(property.Name == inPropertyChange.PropertyName) {
-                    property.Set(inClassObject, inPropertyChange.Data);
-                }
-            }
-        }
+        void UpdatePropertyChangeData(
+            std::string& pComponentName,
+            std::string& pPropertyAffectedName,
+            void* pComponentData,
+            std::string& pChangedName,
+            MeowEngine::ReflectionPropertyChange& inPropertyChange,
+            void* inChangedData
+        );
 
     private:
         std::unordered_map<entt::id_type, std::string> Components;

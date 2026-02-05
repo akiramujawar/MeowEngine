@@ -7,6 +7,7 @@
 
 #include <pstring.hpp>
 #include <collider_type.hpp>
+#include <log.hpp>
 #include "component_base.hpp"
 
 namespace MeowEngine::entity {
@@ -48,6 +49,14 @@ namespace MeowEngine::entity {
     public:
         static void Reflect();
 
+        DummyClass() {
+            RootChildPointer = new ChildClass();
+            RootChildPointer->ChildSubPointer = new SubChildClass();
+            RootChild.ChildSubPointer = new SubChildClass();
+
+            BasicClassNonNull = new BasicClass();
+        }
+
         std::string GetClassName() override {
             return "DummyClass";
         };
@@ -72,8 +81,41 @@ namespace MeowEngine::entity {
             return "ReflectionTestComponent";
         };
 
-        entity::ColliderType Type;
-        DummyClass Data;
+        int Int;
+        int IntCallback;
+
+        DummyClass Object;
+        DummyClass ObjectCallback;
+
+        DummyClass* Pointer;
+        DummyClass* PointerCallback;
+
+        entity::ColliderType Enum;
+        entity::ColliderType EnumCallback;
+
+
+        // NOTE: add test for pointer callback & enum callback
+        // Quaternion display
+        // Automated reflection for classes
+        // Editable / non-editable reflection
+
+
+
+        void OnIntReflect() {
+            MeowEngine::Log("OnIntReflect", "IntCallback Updated");
+        }
+
+        void OnObjectReflect() {
+            MeowEngine::Log("OnObjectReflect", "ObjectCallback Updated");
+        }
+
+        void OnPointerReflect() {
+            MeowEngine::Log("OnPointerReflect", "PointerCallback Updated");
+        }
+
+        void OnEnumReflect() {
+            MeowEngine::Log("OnEnumReflect", "EnumCallback Updated");
+        }
     };
 }
 
