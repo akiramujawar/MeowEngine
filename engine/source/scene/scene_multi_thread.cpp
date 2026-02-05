@@ -20,12 +20,13 @@
 #include "transform3d_component.hpp"
 #include "box_collider_data.hpp"
 #include "collider_component.hpp"
+#include "reflection_test_component.hpp"
 
 #include "sky_box_component.hpp"
 
 #include "rigidbody_component.hpp"
 #include "entt_triple_buffer.hpp"
-#include "entt_reflection_wrapper.hpp"
+#include "reflection_macro_wrapper.hpp"
 
 #include "physx_physics_system.hpp"
 
@@ -89,6 +90,8 @@ struct SceneMultiThread::Internal {
                                            assets::TextureType::Pattern
                                    });
 
+        // used for reflections to display different components in ImGUI edit panel
+        // stores the component in a entt storage buffer with entt unique identifier
         REGISTER_ENTT_COMPONENT(LifeObjectComponent);
 
         REGISTER_ENTT_COMPONENT(Transform2DComponent);
@@ -102,6 +105,15 @@ struct SceneMultiThread::Internal {
         REGISTER_ENTT_COMPONENT(MeshRenderComponent);
         REGISTER_ENTT_COMPONENT(SkyBoxComponent);
 
+        REGISTER_ENTT_COMPONENT(ReflectionTestComponent);
+
+        // TODO: implement the following macro
+        // REGISTER_ENUM()
+        MeowEngine::Reflection.RegisterEnum<ColliderType>("entity::ColliderType");
+
+        // register components in entt buffer.
+        // this helps to dynamically manage add/remove components at runtime
+        // considering & respects all threads.
         RegistryBuffer.RegisterComponent<LifeObjectComponent>();
         RegistryBuffer.RegisterComponent<Transform2DComponent>();
         RegistryBuffer.RegisterComponent<Transform3DComponent>();
@@ -135,6 +147,9 @@ struct SceneMultiThread::Internal {
                         assets::StaticMeshType::Torus,
                         assets::TextureType::Pattern
                 }
+        );
+        RegistryBuffer.AddComponent<entity::ReflectionTestComponent>(
+            entity
         );
 
         for(int i = 0 ; i < 1; i++){

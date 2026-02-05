@@ -4,7 +4,7 @@
 
 #include "mesh_render_component.hpp"
 #include <log.hpp>
-#include "entt_reflection_wrapper.hpp"
+#include "reflection_macro_wrapper.hpp"
 
 using MeowEngine::entity::MeshRenderComponent;
 

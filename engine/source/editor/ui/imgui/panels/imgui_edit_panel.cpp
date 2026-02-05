@@ -6,7 +6,7 @@
 #include "imgui_wrapper.hpp"
 #include "log.hpp"
 
-#include "entt_reflection_wrapper.hpp"
+#include "reflection_macro_wrapper.hpp"
 #include "imgui_input_extension.hpp"
 
 MeowEngine::graphics::ui::ImGuiEditPanel::ImGuiEditPanel() {

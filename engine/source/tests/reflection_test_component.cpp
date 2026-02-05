@@ -3,7 +3,7 @@
 //
 
 #include "reflection_test_component.hpp"
-#include "entt_reflection_wrapper.hpp"
+#include "reflection_macro_wrapper.hpp"
 
 MeowEngine::entity::ReflectionTestComponent::ReflectionTestComponent()
 : Int(10)

@@ -3,7 +3,7 @@
 //
 
 #include "collider_component.hpp"
-#include "entt_reflection_wrapper.hpp"
+#include "reflection_macro_wrapper.hpp"
 #include <log.hpp>
 
 using namespace MeowEngine::entity;

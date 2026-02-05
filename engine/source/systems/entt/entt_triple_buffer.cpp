@@ -3,7 +3,7 @@
 //
 
 #include "entt_triple_buffer.hpp"
-#include "entt_reflection_wrapper.hpp"
+#include "reflection_macro_wrapper.hpp"
 
 MeowEngine::EnttTripleBuffer::EnttTripleBuffer()
  : Staging() {}

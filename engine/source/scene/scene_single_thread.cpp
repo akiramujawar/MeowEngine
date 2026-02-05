@@ -21,7 +21,7 @@
 #include "sky_box_component.hpp"
 
 #include "rigidbody_component.hpp"
-#include "entt_reflection_wrapper.hpp"
+#include "reflection_macro_wrapper.hpp"
 #include "entt_single_buffer.hpp"
 
 namespace {
