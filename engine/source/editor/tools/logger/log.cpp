@@ -11,6 +11,22 @@
 #include "log.hpp"
 #include "iostream"
 
+void MeowEngine::Log(const std::string& tag, std::initializer_list<std::string_view> messages) {
+#ifndef NDEBUG
+#ifdef __ANDROID__
+//    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
+#else
+    std::cout << tag;
+
+    for(const auto& message : messages) {
+        std::cout << ',' << message;
+    }
+
+    std::cout<<std::endl;
+#endif
+#endif
+}
+
 void MeowEngine::Log(const std::string& tag, const std::string& message) {
 #ifndef NDEBUG
 #ifdef __ANDROID__

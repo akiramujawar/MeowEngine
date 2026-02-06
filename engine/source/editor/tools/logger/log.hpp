@@ -16,6 +16,8 @@ namespace MeowEngine {
     // Logger to track for performance (merging with tracy profiler)
     // In-game logger to debug logs specific to game code
 
+    void Log(const std::string& tag, std::initializer_list<std::string_view> messages);
+
     void Log(const std::string& tag, const std::string& message);
     void Log(const std::string& tag, const char* message);
     void Log(const std::string& tag, const int& message);
