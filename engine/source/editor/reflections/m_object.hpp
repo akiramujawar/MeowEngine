@@ -6,6 +6,7 @@
 #define MEOWENGINE_M_OBJECT_HPP
 
 #include "string"
+#include "reflection_macro_wrapper.hpp"
 
 namespace MeowEngine::entity {
     /**

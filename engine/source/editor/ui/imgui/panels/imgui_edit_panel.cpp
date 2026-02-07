@@ -30,7 +30,7 @@ void MeowEngine::graphics::ui::ImGuiEditPanel::Draw(entt::registry& registry, st
             for(pair<unsigned int, entt::basic_sparse_set<>&> component : registry.storage()){
                 if(component.second.contains(lifeObject)) {
                     entt::id_type type = component.first;
-                    const std::string componentName = MeowEngine::Reflection.GetComponentName(type);
+                    const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
                     void* componentObject = component.second.value(lifeObject);
 
                     // Display Component Name

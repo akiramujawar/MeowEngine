@@ -3,5 +3,3 @@
 //
 
 #include "reflection_macro_wrapper.hpp"
-
-MeowEngine::EnttReflection MeowEngine::Reflection;

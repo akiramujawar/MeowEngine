@@ -22,10 +22,10 @@ namespace MeowEngine {
 
     public:
         EnttReflection() {
-            MeowEngine::Log("Reflection", "Constructed");
+            MeowEngine::Log("EnttReflection", "Constructed");
         }
         ~EnttReflection() {
-            MeowEngine::Log("Reflection", "Destructed");
+            MeowEngine::Log("EnttReflection", "Destructed");
         }
 
         bool HasComponent(entt::id_type inId);
@@ -36,11 +36,15 @@ namespace MeowEngine {
         std::vector<ReflectionProperty> GetProperties(std::string inClassName);
         std::vector<std::string> GetEnumValues(std:: string pEnumName);
 
-        template<typename Type>
-        void Reflect();
-
         // Register types (these are extended by macros in wrapper class)
-        void RegisterComponent(entt::id_type inId,  std::string inName);
+        template<typename Type>
+        void RegisterComponent(std::string inName) {
+            MeowEngine::Log("RegisterComponent", inName);
+            entt::id_type componentId = entt::type_hash<Type>().value();
+            if(!HasComponent(componentId)) {
+                Components[componentId] = inName;
+            }
+        }
 
         void RegisterProperty(std::string inClassName, ReflectionProperty inProperty);
 
@@ -82,24 +86,6 @@ namespace MeowEngine {
         std::unordered_map<std::string, std::vector<std::string>> Enums;
     };
 
-    template<typename Type>
-    void EnttReflection::Reflect() {
-        if constexpr (std::is_fundamental_v<Type>) {
-//            return PropertyType::PRIMITIVE;
-        }
-        else if constexpr (std::is_array_v<Type>) {
-//            return PropertyType::ARRAY;
-        }
-        else if constexpr (std::is_class_v<Type>) {
-            // TODO: since we reflect after every reflect property / component, it creates a dup.
-            // need to resolve this by either making sure its not reflected multiple times or
-            // putting a check here to only init once.
-            Type::Reflect();
-        }
-        else {
-//            return PropertyType::NOT_DEFINED;
-        }
-    }
 }
 
 

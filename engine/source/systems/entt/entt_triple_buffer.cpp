@@ -109,8 +109,8 @@ void MeowEngine::EnttTripleBuffer::ApplyPropertyChange() {
     while(!UiInputPropertyChangesQueue.empty()) {
         std::shared_ptr<MeowEngine::ReflectionPropertyChange> change = UiInputPropertyChangesQueue.front();
 
-        MeowEngine::Reflection.ApplyPropertyChange(*change, DoubleBuffer.GetCurrent());
-        MeowEngine::Reflection.ApplyPropertyChange(*change, DoubleBuffer.GetFinal());
+        MeowEngine::GetReflection().ApplyPropertyChange(*change, DoubleBuffer.GetCurrent());
+        MeowEngine::GetReflection().ApplyPropertyChange(*change, DoubleBuffer.GetFinal());
 
         PhysicsUiInputPropertyChangesQueue.enqueue(change);
         UiInputPropertyChangesQueue.pop();
@@ -125,7 +125,7 @@ void MeowEngine::EnttTripleBuffer::ApplyPropertyChangeOnStaging() {
     std::shared_ptr<MeowEngine::ReflectionPropertyChange> change;
     while(PhysicsUiInputPropertyChangesQueue.try_dequeue(change)) {
         if(view.contains(static_cast<entt::entity>(change->EntityId))) {
-            MeowEngine::Reflection.ApplyPropertyChange(*change, Staging);
+            MeowEngine::GetReflection().ApplyPropertyChange(*change, Staging);
             auto [transform, rigidbody] = view.get<entity::Transform3DComponent, entity::RigidbodyComponent>(static_cast<entt::entity>(change->EntityId));
             rigidbody.OverrideTransform(transform);
         }

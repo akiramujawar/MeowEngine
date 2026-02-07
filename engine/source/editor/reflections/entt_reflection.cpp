@@ -6,6 +6,7 @@
 
 #include "m_object.hpp"
 #include "log.hpp"
+#include "pstring.hpp"
 
 bool MeowEngine::EnttReflection::HasComponent(entt::id_type inId) {
     return Components.find(inId) != Components.end();
@@ -31,14 +32,9 @@ std::vector<std::string> MeowEngine::EnttReflection::GetEnumValues(std::string p
     return Enums[pEnumName];
 }
 
-void MeowEngine::EnttReflection::RegisterComponent(entt::id_type inId, std::string inName) {
-    if(!HasComponent(inId)) {
-//        Components.insert_or_assign(inId, inName);
-        Components[inId] = inName;
-    }
-}
-
 void MeowEngine::EnttReflection::RegisterProperty(std::string inClassName, ReflectionProperty inProperty) {
+    MeowEngine::PString name = MeowEngine::PString::Format(inProperty.Name.c_str(), inClassName.c_str());
+    MeowEngine::Log("RegisterProperty", {inClassName, inProperty.Name});
 //    if(!HasProperty(inClassName)) {
         Properties[inClassName].push_back(inProperty);
 //    }

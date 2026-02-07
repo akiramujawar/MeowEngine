@@ -8,6 +8,9 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
+#import <log.hpp>
+
+
 int main(int, char* []) {
 
 #ifdef __APPLE__
@@ -27,6 +30,7 @@ int main(int, char* []) {
     }
 #endif
 
+    MeowEngine::Log("Main", "Starting Engine");
     MeowEngine::Engine().Run();
 
     return 0;

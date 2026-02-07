@@ -10,7 +10,7 @@
 #include "vector3.hpp"
 
 MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowProperty(const std::string& inClassName, void* inObject) {
-    std::vector<MeowEngine::ReflectionProperty> properties = MeowEngine::Reflection.GetProperties(inClassName);
+    std::vector<MeowEngine::ReflectionProperty> properties = MeowEngine::GetReflection().GetProperties(inClassName);
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
     // Display Component Properties
@@ -185,7 +185,7 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(
     ImGui::SetNextItemWidth(availableSpace);
 
     // get names from our entt reflection registry
-    std::vector<std::string> enumNames = MeowEngine::Reflection.GetEnumValues(inProperty.TypeName);
+    std::vector<std::string> enumNames = MeowEngine::GetReflection().GetEnumValues(inProperty.TypeName);
 
     // show our enum popup
     if( ImGui::Combo(

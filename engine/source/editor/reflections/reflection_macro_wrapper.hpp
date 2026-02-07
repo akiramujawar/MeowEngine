@@ -9,25 +9,39 @@
 #include "entt_reflection.hpp"
 
 namespace MeowEngine {
-    extern MeowEngine::EnttReflection Reflection;
+    // static will make sure that there's only one instance of Reflection in engine lifetime
+    // inline will allow multiple identical function definitions as this macro is used has header in many files
+    // canonical C++ pattern
+    // these are called at runtime initialisation before main method
+    // be aware, that, that will prevent from us debugging any code on these calls
+    inline MeowEngine::EnttReflection& GetReflection() {
+        static MeowEngine::EnttReflection ReflectionTest {};
 
-    // SPINAE principle :- substitution failure is not a error
-    #define REFLECT(Type) MeowEngine::Reflection.Reflect<Type>()
+        return ReflectionTest;
+    }
 
-    #define REGISTER_ENTT_COMPONENT(Component) \
+    // Essentially results in calling a static Reflect method while initialisation
+    // of engine
+    #define REFLECT(Type) \
         \
-        MeowEngine::Reflection.RegisterComponent(\
-            entt::type_hash<Component>().value(), \
+        struct Type##Reflecter {            \
+            Type##Reflecter() {             \
+                Type::Reflect();            \
+            }                               \
+        };                                  \
+        \
+        inline static Type##Reflecter _reflecter{};
+
+
+    #define REGISTER_COMPONENT(Component) \
+                                          \
+        MeowEngine::GetReflection().RegisterComponent<Component>(\
             #Component\
-        );\
-        \
-        REFLECT(Component);
-
-
+        );
 
     // objectPointer -
     #define REGISTER_PROPERTY(Class, Property, Type) \
-        MeowEngine::Reflection.RegisterProperty(\
+        MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
@@ -39,12 +53,10 @@ namespace MeowEngine {
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property); }, \
                 [](void* objectPointer) -> void {} \
             }\
-        );\
-        \
-        REFLECT(Type);
+        );
 
     #define REGISTER_PROPERTY_CALLBACK(Class, Property, Type, Callback)\
-        MeowEngine::Reflection.RegisterProperty(\
+        MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
@@ -56,12 +68,10 @@ namespace MeowEngine {
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);}, \
                 [](void* objectPointer) -> void { ((Class*)objectPointer)->Callback(); } \
             }\
-        );\
-        \
-        REFLECT(Type);
+        );
 
     #define REGISTER_POINTER(Class, Property, Type, IsMObject)\
-        MeowEngine::Reflection.RegisterProperty(\
+        MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
@@ -73,12 +83,10 @@ namespace MeowEngine {
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},                 \
                 [](void* objectPointer) -> void {} \
             }\
-        );\
-        \
-        REFLECT(Type);
+        );
 
     #define REGISTER_POINTER_CALLBACK(Class, Property, Type, IsMObject, Callback)\
-        MeowEngine::Reflection.RegisterProperty(\
+        MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
@@ -90,12 +98,10 @@ namespace MeowEngine {
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},                 \
                 [](void* objectPointer) -> void { ((Class*)objectPointer)->Callback(); } \
             }\
-        );\
-        \
-        REFLECT(Type);
+        );
 
     #define REGISTER_ENUM(Class, Property, Type)\
-        MeowEngine::Reflection.RegisterProperty(\
+        MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
@@ -107,12 +113,10 @@ namespace MeowEngine {
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},\
                 [](void* objectPointer) -> void {} \
             }\
-        );\
-        \
-        REFLECT(Type);
+        );
 
     #define REGISTER_ENUM_CALLBACK(Class, Property, Type, Callback)\
-        MeowEngine::Reflection.RegisterProperty(\
+        MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
@@ -124,9 +128,7 @@ namespace MeowEngine {
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},\
                 [](void* objectPointer) -> void { ((Class*)objectPointer)->Callback(); } \
             }\
-        );\
-        \
-        REFLECT(Type);
+        );
 
 }
 #endif //MEOWENGINE_REFLECTION_MACRO_WRAPPER_HPP
