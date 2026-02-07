@@ -6,12 +6,15 @@
 #define MEOWENGINE_PSTRING_HPP
 
 #include "string"
+#include "m_object.hpp"
 
 namespace MeowEngine {
-    class PString : public std::string {
+    class PString : public std::string, entity::MObject {
 
     public:
-        static void Reflect();
+        std::string GetClassName() {
+            return "PString";
+        }
 
         PString();
         PString(std::string inString);

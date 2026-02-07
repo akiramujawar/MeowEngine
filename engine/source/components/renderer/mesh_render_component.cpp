@@ -9,7 +9,7 @@
 using MeowEngine::entity::MeshRenderComponent;
 
 void MeowEngine::entity::MeshRenderComponent::Reflect() {
-    MeowEngine::Log("Reflected", "MeshRenderComponent");
+    REGISTER_COMPONENT(MeshRenderComponent)
 }
 
 MeshRenderComponent::MeshRenderComponent(MeowEngine::assets::ShaderPipelineType shader, MeowEngine::StaticMeshInstance *meshInstance)

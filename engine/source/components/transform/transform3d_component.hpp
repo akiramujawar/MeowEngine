@@ -11,6 +11,7 @@
 namespace MeowEngine::entity {
     class Transform3DComponent : public MeowEngine::entity::TransformComponentBase {
     public:
+        REFLECT(Transform3DComponent)
         static void Reflect();
 
         Transform3DComponent(const glm::mat4& inProjectionMatrix);

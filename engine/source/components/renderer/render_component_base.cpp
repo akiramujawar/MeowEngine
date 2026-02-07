@@ -8,9 +8,8 @@
 using MeowEngine::entity::RenderComponentBase;
 
 void MeowEngine::entity::RenderComponentBase::Reflect() {
+    REGISTER_COMPONENT(RenderComponentBase)
 //    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3);
-
-    MeowEngine::Log("Reflected", "RenderComponentBase");
 }
 
 RenderComponentBase::RenderComponentBase()

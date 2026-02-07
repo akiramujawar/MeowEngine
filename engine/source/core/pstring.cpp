@@ -5,9 +5,6 @@
 #include "pstring.hpp"
 #include "log.hpp"
 
-void MeowEngine::PString::Reflect() {
-    MeowEngine::Log("Reflected", "PString");
-}
 
 MeowEngine::PString::PString() {
 

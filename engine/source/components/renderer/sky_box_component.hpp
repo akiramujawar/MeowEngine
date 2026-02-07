@@ -14,6 +14,7 @@ namespace MeowEngine::entity {
     class SkyBoxComponent : public MeowEngine::entity::RenderComponentBase {
 
     public:
+        REFLECT(SkyBoxComponent)
         static void Reflect();
 
         explicit SkyBoxComponent();

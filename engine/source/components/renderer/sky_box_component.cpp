@@ -8,7 +8,7 @@
 using MeowEngine::entity::SkyBoxComponent;
 
 void MeowEngine::entity::SkyBoxComponent::Reflect() {
-    MeowEngine::Log("Reflected", "SkyBoxComponent");
+    REGISTER_COMPONENT(SkyBoxComponent)
 }
 
 SkyBoxComponent::SkyBoxComponent()

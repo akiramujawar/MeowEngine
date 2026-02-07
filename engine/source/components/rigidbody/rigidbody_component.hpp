@@ -14,7 +14,9 @@ using namespace MeowEngine::entity;
 namespace MeowEngine::entity {
     class RigidbodyComponent : public MeowEngine::entity::ComponentBase {
     public:
+        REFLECT(RigidbodyComponent)
         static void Reflect();
+
         explicit RigidbodyComponent();
         virtual ~RigidbodyComponent() = default;
 

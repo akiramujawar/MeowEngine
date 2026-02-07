@@ -10,6 +10,8 @@
 using MeowEngine::entity::Transform3DComponent;
 
 void MeowEngine::entity::Transform3DComponent::Reflect() {
+    REGISTER_COMPONENT(Transform3DComponent)
+
     REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3);
 //    REGISTER_PROPERTY(Transform3DComponent, Scale, glm::vec3);
 

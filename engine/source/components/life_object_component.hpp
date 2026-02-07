@@ -11,7 +11,9 @@
 namespace MeowEngine::entity {
     struct LifeObjectComponent : MObject {
     public:
+        REFLECT(LifeObjectComponent)
         static void Reflect();
+
         std::string GetClassName() override {
             return "LifeObjectComponent";
         }

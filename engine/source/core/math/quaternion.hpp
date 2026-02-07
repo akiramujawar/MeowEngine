@@ -14,6 +14,7 @@
 namespace MeowEngine::math {
 
     struct Quaternion : entity::MObject {
+        REFLECT(Quaternion)
         static void Reflect();
 
         Quaternion()
