@@ -33,11 +33,10 @@ std::vector<std::string> MeowEngine::EnttReflection::GetEnumValues(std::string p
 }
 
 void MeowEngine::EnttReflection::RegisterProperty(std::string inClassName, ReflectionProperty inProperty) {
-    MeowEngine::PString name = MeowEngine::PString::Format(inProperty.Name.c_str(), inClassName.c_str());
-    MeowEngine::Log("RegisterProperty", {inClassName, inProperty.Name});
-//    if(!HasProperty(inClassName)) {
-        Properties[inClassName].push_back(inProperty);
-//    }
+    // TODO: throw a warning if a property already exists
+    // MeowEngine::Log("RegisterProperty", {inClassName, inProperty.Name}, MeowEngine::LogType::WARNING);
+
+    Properties[inClassName].push_back(inProperty);
 }
 
 void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPropertyChange& inPropertyChange, entt::registry& inRegistry) {

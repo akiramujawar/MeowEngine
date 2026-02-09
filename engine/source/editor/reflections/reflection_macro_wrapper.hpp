@@ -9,29 +9,79 @@
 #include "entt_reflection.hpp"
 
 namespace MeowEngine {
+    /**
+     * Converts the parameter into a string
+     * GET_STRING(name) defined below, combines the input and sends the value
+     * so instead of get "Type" we get "whatever the value is"
+     */
+    #define GET_STRING_IMPLEMENTATION(Type) #Type
+
+    /**
+     * Converts the parameter into a string
+     */
+    #define GET_STRING(Type) GET_STRING_IMPLEMENTATION(Type)
+
     // static will make sure that there's only one instance of Reflection in engine lifetime
     // inline will allow multiple identical function definitions as this macro is used has header in many files
     // canonical C++ pattern
     // these are called at runtime initialisation before main method
     // be aware, that, that will prevent from us debugging any code on these calls
     inline MeowEngine::EnttReflection& GetReflection() {
-        static MeowEngine::EnttReflection ReflectionTest {};
+        static MeowEngine::EnttReflection Reflection {};
 
-        return ReflectionTest;
+        return Reflection;
     }
 
     // Essentially results in calling a static Reflect method while initialisation
     // of engine
-    #define REFLECT(Type) \
+    #define REFLECT_MObject(Type) \
         \
-        struct Type##Reflecter {            \
-            Type##Reflecter() {             \
+        struct Type##Reflector {            \
+            Type##Reflector() {             \
                 Type::Reflect();            \
             }                               \
         };                                  \
         \
-        inline static Type##Reflecter _reflecter{};
+        inline static Type##Reflector _reflector{};
 
+
+    /**
+     * Reflects component for showing up in UI & tracking property changes
+     * Registers as component in reflection system
+     * Creates a callback for caching component within EnttTripleBuffer register which, later is executed on scene load
+     * (caching is required in order to create a sequenced
+     * component id for each component on buffers (main, render & physics))
+     */
+    #define REFLECT_COMPONENT(Type) \
+        \
+        struct Type##Reflector {            \
+            Type##Reflector(void(*pCallback)(void *)) {     \
+                REGISTER_COMPONENT(Type);                \
+                Type::Reflect();    \
+                MeowEngine::GetReflection().AddInitialiseComponentCallback(pCallback); \
+            }                               \
+        };                                  \
+        \
+        inline static Type##Reflector _reflector{           \
+         &MeowEngine::EnttReflection::RegisterComponentOnEnttBuffer<Type> \
+        };
+
+    /**
+     * ideally we can also forward declare enum and use it before giving definitions to enums
+     * in current case above method could work as templates are initialised at later stages
+     * but could break if we create modules like dll files. need more research on this topic for
+     * safety reasons,
+     * we will have to place the this call after enums are declared.
+     */
+    #define REFLECT_ENUM(Namespace, Type) \
+        namespace __ENUMS {                       \
+            struct Type##Reflector { \
+                Type##Reflector() { \
+                    MeowEngine::GetReflection().RegisterEnum<Namespace::Type>(GET_STRING(Namespace::Type)); \
+                } \
+            }; \
+            inline __ENUMS::Type##Reflector __reflector##Type{};                                                     \
+        }
 
     #define REGISTER_COMPONENT(Component) \
                                           \

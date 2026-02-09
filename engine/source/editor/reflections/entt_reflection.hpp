@@ -13,6 +13,8 @@
 #include "string"
 #include "log.hpp"
 
+#include "entt_triple_buffer.hpp"
+
 #include "magic_enum.hpp"
 
 using namespace std;
@@ -46,10 +48,16 @@ namespace MeowEngine {
             }
         }
 
+        /**
+         * Registers properties which are to be displayed
+         * @param inClassName
+         * @param inProperty
+         */
         void RegisterProperty(std::string inClassName, ReflectionProperty inProperty);
 
         template<typename Type>
         void RegisterEnum(const std::string& inEnumName) {
+            MeowEngine::Log("RegisterEnum", inEnumName);
             // gets all the enums in array<string_view, num>
             auto names = magic_enum::enum_names<Type>();
 
@@ -57,6 +65,41 @@ namespace MeowEngine {
             for(auto & i : names){
                 Enums[inEnumName].push_back(i.data());
             }
+        }
+
+        /**
+         * Pointer Method which holds a component template type to be passed to entt buffer
+         * for registration
+         * The callback is registered in runtime initialisation
+         * & executed on engine start (after entt buffer is created)
+         * @param pCallback
+         */
+        void AddInitialiseComponentCallback(void(*pCallback)(void*)) {
+            ComponentBufferRegistryCallbacks.push_back(pCallback);
+        }
+
+        /**
+         * Currently it only initialises components for entt buffer, but as this is called on scene start,
+         * we can additionally use this process other things related to components
+         */
+        void InitialiseComponents(MeowEngine::EnttTripleBuffer& pBuffer) {
+            for(auto callback : ComponentBufferRegistryCallbacks) {
+                callback(&pBuffer);
+            }
+        }
+
+        /**
+         * This is cached in runtime initialisation and the used to register
+         * all the components with entt system in a buffer
+         *
+         * NOTE: this method isn't necessarily required to be a part of entt reflection class
+         * @tparam Type
+         * @param pEnttBuffer
+         */
+        template<typename Type>
+        static void RegisterComponentOnEnttBuffer(void* pEnttBuffer) {
+            auto buffer = static_cast<MeowEngine::EnttTripleBuffer*>(pEnttBuffer);
+            buffer->RegisterComponent<Type>();
         }
 
         void ApplyPropertyChange(MeowEngine::ReflectionPropertyChange& inPropertyChange, entt::registry& inRegistry);
@@ -82,8 +125,18 @@ namespace MeowEngine {
 
     private:
         std::unordered_map<entt::id_type, std::string> Components;
+
+        /**
+         * class name, reflected property list
+         */
         std::unordered_map<std::string, std::vector<ReflectionProperty>> Properties;
+
+        /**
+         * class name, reflected enum list containing list of enum string names
+         */
         std::unordered_map<std::string, std::vector<std::string>> Enums;
+
+        std::vector<void(*)(void*)> ComponentBufferRegistryCallbacks;
     };
 
 }
