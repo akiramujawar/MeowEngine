@@ -14,7 +14,7 @@ using namespace MeowEngine::entity;
 namespace MeowEngine::entity {
     class RigidbodyComponent : public MeowEngine::entity::ComponentBase {
     public:
-        REFLECT(RigidbodyComponent)
+        REFLECT_COMPONENT(RigidbodyComponent)
         static void Reflect();
 
         explicit RigidbodyComponent();
@@ -40,8 +40,9 @@ namespace MeowEngine::entity {
 
     private:
         physx::PxRigidDynamic* DynamicBody;
-        MeowEngine::math::Vector3 Delta;
-        MeowEngine::math::Vector3 CachedDelta;
+
+        MeowEngine::math::Vector3 PositionDelta;
+        MeowEngine::math::Vector3 PositionCachedDelta;
     };
 }
 

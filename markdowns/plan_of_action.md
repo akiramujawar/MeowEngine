@@ -3,13 +3,14 @@
 
 ## Meow Engine v0.5
 - [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
-- [ ] Populating enums, pointers classes & a callback action on edits from EditPanel
+- [x] Populating enums, pointers classes in edit panel
+- [x] Automated component registration in triple buffer
 - [ ] Adding navigation to github / go back for web builds
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
 - [ ] Selecting objects
 - [ ] Position, Scale, Rotation handles for selected objects
-- [ ] Extending Property Reflections to support dynamic method calls - this will for euler to quat
-- [ ] File Manager (Reading from file paths and avoiding enums)
+- [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
+- [ ] File Manager (Reading from file paths and avoiding enums usage for models and shaders)
 - [ ] Creating support for multi-scene compilation
 - [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
 - [ ] Implement Tracy throughout engine especially for tracking memory allocations

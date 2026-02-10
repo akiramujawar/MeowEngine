@@ -12,9 +12,10 @@
 #include "sphere_collider_data.hpp"
 
 namespace MeowEngine::entity {
-    class ColliderComponent : public entity::ComponentBase {
+    class ColliderComponent : public MeowEngine::entity::ComponentBase {
 
     public:
+        REFLECT_COMPONENT(ColliderComponent)
         static void Reflect();
 
         ColliderComponent(entity::ColliderType inType, entity::ColliderData* inData);
@@ -41,12 +42,6 @@ namespace MeowEngine::entity {
 
         // TODO: This is null on render thread. Why was this not null randomly while debugging?
         physx::PxActor* Body;
-
-    // Methods from MObject
-    public:
-        std::string GetClassName() override {
-            return "ColliderComponent";
-        }
     };
 }
 

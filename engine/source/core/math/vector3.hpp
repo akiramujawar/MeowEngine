@@ -9,6 +9,7 @@
 
 namespace MeowEngine::math {
     struct Vector3 : entity::MObject {
+        REFLECT_MObject(Vector3)
         static void Reflect();
 
         Vector3()
@@ -133,12 +134,6 @@ namespace MeowEngine::math {
          * @return
          */
         Vector3 PerpendicularToProjection(const Vector3& in) const;
-
-        // Methods from MObject
-    public:
-        std::string GetClassName() override {
-            return "Vector3";
-        }
     };
 }
 

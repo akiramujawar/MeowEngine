@@ -9,8 +9,6 @@
 namespace MeowEngine {
     void SphereColliderData::Reflect() {
         REGISTER_PROPERTY(SphereColliderData, Radius, float);
-
-        MeowEngine::Log("Reflected", "SphereColliderData");
     }
 
     SphereColliderData::SphereColliderData() {

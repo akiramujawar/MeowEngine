@@ -9,6 +9,7 @@
 
 #include "assets.hpp"
 #include <string>
+#include "reflection_macro_wrapper.hpp"
 
 namespace MeowEngine::assets {
     enum class ShaderPipelineType {
@@ -18,6 +19,7 @@ namespace MeowEngine::assets {
         Sky,
         PHYSICS_COLLIDER
     };
+    REFLECT_ENUM(MeowEngine::assets, ShaderPipelineType)
 
     enum class StaticMeshType {
         Plane,
@@ -27,11 +29,13 @@ namespace MeowEngine::assets {
         Cone,
         Torus
     };
+    REFLECT_ENUM(MeowEngine::assets, StaticMeshType)
 
     enum class TextureType {
         Default,
         Pattern
     };
+    REFLECT_ENUM(MeowEngine::assets, TextureType)
 
     std::string ResolveShaderPipelinePath(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
     std::string ResolveStaticMeshPath(const MeowEngine::assets::StaticMeshType& staticMesh);

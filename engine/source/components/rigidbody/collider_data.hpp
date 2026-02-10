@@ -17,13 +17,10 @@ namespace MeowEngine::entity {
      */
     class ColliderData : MObject {
     public:
-        virtual physx::PxGeometry& GetGeometry() = 0;
+        REFLECT_MObject(ColliderData)
+        static void Reflect() {}
 
-    // Methods from MObject
-    public:
-        std::string GetClassName() override {
-            return "ColliderData";
-        }
+        virtual physx::PxGeometry& GetGeometry() = 0;
     };
 }
 

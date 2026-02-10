@@ -16,10 +16,6 @@ MeowEngine::entity::ReflectionTestComponent::ReflectionTestComponent()
     PointerCallback = new DummyClass();
 }
 
-void MeowEngine::entity::BasicClass::Reflect() {
-    REGISTER_PROPERTY(BasicClass, TestValue, int);
-}
-
 void MeowEngine::entity::SubChildClass::Reflect() {
     REGISTER_PROPERTY(SubChildClass, MeshType, int);
     REGISTER_PROPERTY(SubChildClass, Size, float);
@@ -32,7 +28,7 @@ void MeowEngine::entity::ChildClass::Reflect() {
     REGISTER_PROPERTY(ChildClass, ChildText, PString);
     REGISTER_POINTER(ChildClass, ChildSubPointer, SubChildClass*, true);
 
-    MeowEngine::Reflection.Reflect<SubChildClass>();
+//    MeowEngine::Reflection.Reflect<SubChildClass>();
 }
 
 void MeowEngine::entity::DummyClass::Reflect() {
@@ -60,6 +56,6 @@ void MeowEngine::entity::ReflectionTestComponent::Reflect() {
     REGISTER_POINTER(ReflectionTestComponent, Pointer, DummyClass*, true); // pointer object
     REGISTER_POINTER_CALLBACK(ReflectionTestComponent, PointerCallback, DummyClass*, true, OnPointerReflect); // pointer object callback
 
-    REGISTER_ENUM(ReflectionTestComponent, Enum, entity::ColliderType); // enum
-    REGISTER_ENUM_CALLBACK(ReflectionTestComponent, EnumCallback, entity::ColliderType, OnEnumReflect); // enum callback
+    REGISTER_ENUM(ReflectionTestComponent, Enum, MeowEngine::entity::ColliderType); // enum
+    REGISTER_ENUM_CALLBACK(ReflectionTestComponent, EnumCallback, MeowEngine::entity::ColliderType, OnEnumReflect); // enum callback
 }

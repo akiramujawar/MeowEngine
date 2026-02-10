@@ -3,3 +3,11 @@
 //
 
 #include "camera_component.hpp"
+
+void MeowEngine::entity::CameraComponent::Reflect() {
+
+}
+
+MeowEngine::entity::CameraComponent::CameraComponent() {
+
+}

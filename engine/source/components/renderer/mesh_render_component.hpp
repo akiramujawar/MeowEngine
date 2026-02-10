@@ -12,7 +12,7 @@ namespace MeowEngine::entity {
     class MeshRenderComponent : public MeowEngine::entity::RenderComponentBase {
 
     public:
-        REFLECT(MeshRenderComponent)
+        REFLECT_COMPONENT(MeshRenderComponent)
         static void Reflect();
 
         explicit MeshRenderComponent(MeowEngine::assets::ShaderPipelineType shader, MeowEngine::StaticMeshInstance* meshInstance);

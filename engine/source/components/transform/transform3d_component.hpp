@@ -11,7 +11,7 @@
 namespace MeowEngine::entity {
     class Transform3DComponent : public MeowEngine::entity::TransformComponentBase {
     public:
-        REFLECT(Transform3DComponent)
+        REFLECT_COMPONENT(Transform3DComponent)
         static void Reflect();
 
         Transform3DComponent(const glm::mat4& inProjectionMatrix);
@@ -29,6 +29,7 @@ namespace MeowEngine::entity {
         MeowEngine::math::Vector3 Position;
         MeowEngine::math::Vector3 Scale;
         MeowEngine::math::Quaternion RotationTest;
+        MeowEngine::math::Quaternion RotationTest3;
         MeowEngine::math::Vector3 RotationTest2;
 
         // find proper way to handle rotations

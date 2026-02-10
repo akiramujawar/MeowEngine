@@ -10,21 +10,14 @@
 using MeowEngine::entity::Transform3DComponent;
 
 void MeowEngine::entity::Transform3DComponent::Reflect() {
-    REGISTER_COMPONENT(Transform3DComponent)
-
     REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3);
-//    REGISTER_PROPERTY(Transform3DComponent, Scale, glm::vec3);
-
     REGISTER_PROPERTY(Transform3DComponent, Scale, MeowEngine::math::Vector3);
     REGISTER_PROPERTY(Transform3DComponent, RotationTest, MeowEngine::math::Quaternion);
+    REGISTER_PROPERTY(Transform3DComponent, RotationTest3, MeowEngine::math::Quaternion);
     REGISTER_PROPERTY(Transform3DComponent, RotationTest2, MeowEngine::math::Vector3);
 
-    // when i make a change to property it has to reflect and then also call a particular method / call method and apply those changes to a similar property
-    // need a way to hide a property? maybe not that important
-
+    // TODO: need a way to disable a property
     REGISTER_PROPERTY(Transform3DComponent, RotationDegrees, float);
-
-    MeowEngine::Log("Reflected", "Transform3DComponent");
 }
 
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)
@@ -110,7 +103,7 @@ void Transform3DComponent::Update(const float& deltaTime) {
     // NOTE: Testing. Need to achieve through macro + reflection
     RotationTest = math::Quaternion(RotationTest2.X * M_PI / 180, RotationTest2.Y* M_PI / 180, RotationTest2.Z* M_PI / 180);
 //    float random = (float)std::rand() / RAND_MAX;
-//    Position.Y += 1.2f * deltaTime;
+    Position.Y += 1.2f * deltaTime;
 
 //    RotateBy(1.0f * 0.2f);
 }

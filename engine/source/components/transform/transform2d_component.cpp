@@ -6,7 +6,5 @@
 #include <log.hpp>
 
 void MeowEngine::entity::Transform2DComponent::Reflect() {
-//    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3);
-
-    MeowEngine::Log("Reflected", "Transform2DComponent");
+//    REGISTER_PROPERTY(Transform2DComponent, Position, MeowEngine::math::Vector3);
 }

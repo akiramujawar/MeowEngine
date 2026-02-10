@@ -33,13 +33,13 @@ namespace MeowEngine {
             glm::mat4 transformMatrix = glm::translate(transform.IdentityMatrix, glm::vec3(transform.Position.X, transform.Position.Y, transform.Position.Z))
                                         * glm::rotate(transform.IdentityMatrix, glm::radians(transform.RotationDegrees), transform.RotationAxis);
             switch (collider.GetType()) {
-                case entity::BOX: {
+                case entity::ColliderType::BOX: {
                     auto &data = collider.GetData<entity::BoxColliderData>();
                     transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(data.Size.X, data.Size.Y, data.Size.Z));
                     boxColliders.push_back(transform.TransformMatrix);
                     break;
                 }
-                case entity::SPHERE: {
+                case entity::ColliderType::SPHERE: {
                     auto &data = collider.GetData<SphereColliderData>();
                     transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(data.Radius, data.Radius, data.Radius));
                     sphereColliders.push_back(transform.TransformMatrix);

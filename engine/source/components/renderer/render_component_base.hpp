@@ -14,7 +14,7 @@ namespace MeowEngine::entity {
     class RenderComponentBase : public MeowEngine::entity::ComponentBase {
 
     public:
-        REFLECT(RenderComponentBase)
+        REFLECT_COMPONENT(RenderComponentBase)
         static void Reflect();
 
         RenderComponentBase();

@@ -42,8 +42,10 @@ namespace MeowEngine {
             }                               \
         };                                  \
         \
-        inline static Type##Reflector _reflector{};
-
+        inline static Type##Reflector _reflector{}; \
+        std::string GetClassName() override { \
+            return #Type; \
+        }
 
     /**
      * Reflects component for showing up in UI & tracking property changes
@@ -64,7 +66,12 @@ namespace MeowEngine {
         \
         inline static Type##Reflector _reflector{           \
          &MeowEngine::EnttReflection::RegisterComponentOnEnttBuffer<Type> \
-        };
+        };                          \
+        std::string GetClassName() override { \
+            return #Type; \
+        }
+
+
 
     /**
      * ideally we can also forward declare enum and use it before giving definitions to enums

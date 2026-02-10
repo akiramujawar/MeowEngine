@@ -4,12 +4,11 @@
 
 #include "mesh_render_component.hpp"
 #include <log.hpp>
-#include "reflection_macro_wrapper.hpp"
 
 using MeowEngine::entity::MeshRenderComponent;
 
 void MeowEngine::entity::MeshRenderComponent::Reflect() {
-    REGISTER_COMPONENT(MeshRenderComponent)
+    REGISTER_POINTER(MeshRenderComponent, MeshInstance, MeowEngine::StaticMeshInstance*, false)
 }
 
 MeshRenderComponent::MeshRenderComponent(MeowEngine::assets::ShaderPipelineType shader, MeowEngine::StaticMeshInstance *meshInstance)

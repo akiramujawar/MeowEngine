@@ -6,12 +6,15 @@
 #define MEOWENGINE_COLLIDER_TYPE_HPP
 
 namespace MeowEngine::entity {
-    enum ColliderType {
+
+//    REFLECT_ENUM(MeowEngine::entity, ColliderType);
+    enum class ColliderType {
         BOX,
         SPHERE,
         CAPSULE,
         MESH
-    };
+    }; REFLECT_ENUM(MeowEngine::entity, ColliderType);
+
 }
 
 

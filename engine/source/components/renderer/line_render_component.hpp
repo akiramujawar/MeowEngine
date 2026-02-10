@@ -11,6 +11,7 @@
 namespace MeowEngine::entity {
     class LineRenderComponent : public MeowEngine::entity::RenderComponentBase {
     public:
+        REFLECT_COMPONENT(LineRenderComponent)
         static void Reflect();
 
         explicit LineRenderComponent(MeowEngine::assets::ShaderPipelineType shader, glm::vec3 start, glm::vec3 end);

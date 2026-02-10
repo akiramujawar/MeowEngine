@@ -13,17 +13,13 @@
 namespace MeowEngine::entity {
     class BasicClass {
     public:
-        static void Reflect();
-
         int TestValue;
     };
+
     class SubChildClass : MObject {
     public:
+        REFLECT_MObject(SubChildClass)
         static void Reflect();
-
-        std::string GetClassName() override {
-            return "SubChildClass";
-        };
 
         int MeshType;
         float Size;
@@ -32,11 +28,8 @@ namespace MeowEngine::entity {
 
     class ChildClass : MObject {
     public:
+        REFLECT_MObject(ChildClass)
         static void Reflect();
-
-        std::string GetClassName() override {
-            return "ChildClass";
-        };
 
         int ChildMeshType;
         float ChildSize;
@@ -47,6 +40,7 @@ namespace MeowEngine::entity {
 
     class DummyClass : MObject {
     public:
+        REFLECT_MObject(DummyClass)
         static void Reflect();
 
         DummyClass() {
@@ -56,10 +50,6 @@ namespace MeowEngine::entity {
 
             BasicClassNonNull = new BasicClass();
         }
-
-        std::string GetClassName() override {
-            return "DummyClass";
-        };
 
         int RootMeshType;
         float RootSize;
@@ -73,13 +63,10 @@ namespace MeowEngine::entity {
 
     class ReflectionTestComponent : public MeowEngine::entity::ComponentBase {
     public:
+        REFLECT_COMPONENT(ReflectionTestComponent)
         static void Reflect();
 
         ReflectionTestComponent();
-
-        std::string GetClassName() override {
-            return "ReflectionTestComponent";
-        };
 
         int Int;
         int IntCallback;
@@ -98,8 +85,6 @@ namespace MeowEngine::entity {
         // Quaternion display
         // Automated reflection for classes
         // Editable / non-editable reflection
-
-
 
         void OnIntReflect() {
             MeowEngine::Log("OnIntReflect", "IntCallback Updated");

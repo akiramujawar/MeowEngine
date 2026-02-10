@@ -8,7 +8,7 @@
 using MeowEngine::entity::SkyBoxComponent;
 
 void MeowEngine::entity::SkyBoxComponent::Reflect() {
-    REGISTER_COMPONENT(SkyBoxComponent)
+    REGISTER_ENUM(SkyBoxComponent, Shader, MeowEngine::assets::ShaderPipelineType)
 }
 
 SkyBoxComponent::SkyBoxComponent()

@@ -8,9 +8,7 @@
 using MeowEngine::entity::LineRenderComponent;
 
 void MeowEngine::entity::LineRenderComponent::Reflect() {
-//    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3);
 
-    MeowEngine::Log("Reflected", "LineRenderComponent");
 }
 
 LineRenderComponent::LineRenderComponent(MeowEngine::assets::ShaderPipelineType shader, glm::vec3 start, glm::vec3 end) {

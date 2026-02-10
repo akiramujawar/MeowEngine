@@ -14,7 +14,7 @@
 namespace MeowEngine::math {
 
     struct Quaternion : entity::MObject {
-        REFLECT(Quaternion)
+        REFLECT_MObject(Quaternion)
         static void Reflect();
 
         Quaternion()
@@ -186,12 +186,6 @@ namespace MeowEngine::math {
 
         void Lerp();
         void Slerp();
-
-    // Methods from MObject
-    public:
-        std::string GetClassName() override {
-            return "Quaternion";
-        }
     };
 
 } // MeowEngine

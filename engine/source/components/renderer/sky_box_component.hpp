@@ -5,8 +5,6 @@
 #ifndef MEOWENGINE_SKY_BOX_COMPONENT_BASE_HPP
 #define MEOWENGINE_SKY_BOX_COMPONENT_BASE_HPP
 
-//#include "render_component_base.hpp"
-
 #include "render_component_base.hpp"
 
 namespace MeowEngine::entity {
@@ -14,7 +12,7 @@ namespace MeowEngine::entity {
     class SkyBoxComponent : public MeowEngine::entity::RenderComponentBase {
 
     public:
-        REFLECT(SkyBoxComponent)
+        REFLECT_COMPONENT(SkyBoxComponent)
         static void Reflect();
 
         explicit SkyBoxComponent();

@@ -12,9 +12,8 @@ namespace MeowEngine {
     class PString : public std::string, entity::MObject {
 
     public:
-        std::string GetClassName() {
-            return "PString";
-        }
+        REFLECT_MObject(PString)
+        static void Reflect() {}
 
         PString();
         PString(std::string inString);

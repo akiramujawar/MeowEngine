@@ -10,15 +10,9 @@ using namespace MeowEngine::entity;
 
 namespace MeowEngine {
     void entity::ColliderComponent::Reflect() {
-        // TODO: Create a auto-reflection system. This will also solve dup reflections
-        MeowEngine::Reflection.Reflect<BoxColliderData>();
-        MeowEngine::Reflection.Reflect<SphereColliderData>();
-
-        REGISTER_PROPERTY(ColliderComponent, Type, entity::ColliderType);
+        REGISTER_ENUM(ColliderComponent, Type, MeowEngine::entity::ColliderType);
         REGISTER_POINTER(ColliderComponent, Data, entity::ColliderData*, true);
         REGISTER_POINTER(ColliderComponent, Body, physx::PxActor*, false);
-
-        MeowEngine::Log("Reflected", "ColliderComponent");
     }
 
     ColliderComponent::ColliderComponent(entity::ColliderType inType, entity::ColliderData *inData) {

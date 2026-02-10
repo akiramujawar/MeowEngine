@@ -64,7 +64,7 @@ bool MeowEngine::EnttTripleBuffer::ApplyAddRemoveOnStaging(MeowEngine::simulator
     entt::entity entityToRemove;
     while(EntityToRemoveOnStagingQueue.try_dequeue(entityToRemove)) {
         isEntityOrComponentChanged = true;
-        
+
         // only destroy if rigidbody exists
         inPhysics->RemoveRigidbody(Staging, entityToRemove);
 
