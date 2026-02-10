@@ -5,6 +5,12 @@
 #include <log.hpp>
 #include "physx_physics_system.hpp"
 
+#include <transform3d_component.hpp>
+#include <rigidbody_component.hpp>
+#include <collider_component.hpp>
+
+using namespace MeowEngine::entity;
+
 MeowEngine::simulator::PhysXPhysicsSystem::PhysXPhysicsSystem() {
     gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
     gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, physx::PxTolerancesScale(), true, nullptr);
@@ -60,24 +66,43 @@ void MeowEngine::simulator::PhysXPhysicsSystem::Update(float inFixedDeltaTime) {
   //  }
 }
 
-void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entity::Transform3DComponent &transform,
-                                                             entity::ColliderComponent &collider,
-                                                             entity::RigidbodyComponent &rigidbody) {
+void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity ) {
+    // From all transform rigidbody, collider, get the new entity and add rigidbody to it.
+    // quiet complex in runtime as we do a query check
+    // also we currently only add rigidbody when we have all 3
+    // that prevents us from adding extra colliders essentially leading to create a duplicate rigidbody with following logic
+    if(pPhysicsRegistry.all_of<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(pEntity)) {
+        auto [transform, collider, rigidbody] =  pPhysicsRegistry.get<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(pEntity);
 
-    physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
-    physx::PxReal density = 1.0f;
-    physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
-// transform has rotation and position data
-    physx::PxRigidDynamic* actor = physx::PxCreateDynamic(*gPhysics, physicsTransform, geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f), density);
+        physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
+        physx::PxReal density = 1.0f;
+        physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
+        // transform has rotation and position data
+        physx::PxRigidDynamic* actor = physx::PxCreateDynamic(*gPhysics, physicsTransform, geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f), density);
 
-    rigidbody.SetPhysicsBody(actor);
-    collider.SetPhysicsBody(actor);
+        rigidbody.SetPhysicsBody(actor);
+        collider.SetPhysicsBody(actor);
 
-    gScene->addActor(*actor);
-
-
+        gScene->addActor(*actor);
+    }
 }
 
-void MeowEngine::simulator::PhysXPhysicsSystem::RemoveRigidbody(entity::RigidbodyComponent& inRigidbody) {
-    gScene->removeActor(*inRigidbody.GetPhysicsBody());
+void MeowEngine::simulator::PhysXPhysicsSystem::RemoveRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
+    if(pPhysicsRegistry.all_of<entity::RigidbodyComponent>(pEntity)) {
+        auto rigidbody = pPhysicsRegistry.get<entity::RigidbodyComponent>(pEntity);
+        gScene->removeActor(*rigidbody.GetPhysicsBody());
+    }
+}
+
+void MeowEngine::simulator::PhysXPhysicsSystem::SyncTransform(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
+    if(pPhysicsRegistry.all_of<entity::Transform3DComponent, entity::RigidbodyComponent>(pEntity)) {
+        auto [transform, rigidbody] = pPhysicsRegistry.get<entity::Transform3DComponent, entity::RigidbodyComponent>(pEntity);
+        rigidbody.OverrideTransform(transform);
+    }
+}
+
+bool MeowEngine::simulator::PhysXPhysicsSystem::IsRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
+    auto view = pPhysicsRegistry.view<entity::Transform3DComponent, entity::RigidbodyComponent>();
+
+    return view.contains(pEntity);
 }

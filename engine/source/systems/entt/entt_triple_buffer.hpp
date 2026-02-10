@@ -10,9 +10,6 @@
 #include "functional"
 #include "concurrentqueue.h"
 
-#include <transform3d_component.hpp>
-#include <rigidbody_component.hpp>
-#include <collider_component.hpp>
 #include "reflection_property_change.hpp"
 #include "physics_system.hpp"
 
@@ -94,7 +91,7 @@ namespace MeowEngine {
         /**
          * Any queued property value changes are applied to staging(physics) buffers.
          */
-        void ApplyPropertyChangeOnStaging();
+        void ApplyPropertyChangeOnStaging(MeowEngine::simulator::PhysicsSystem* pPhysics);
 
     protected:
         /**
@@ -119,7 +116,14 @@ namespace MeowEngine {
         template<typename ComponentType, typename... Args>
         void AddComponentOnStaging(const entt::entity& inEntity, Args &&...inArgs);
 
+        /**
+         * Used for main thread & render thread
+         */
         MeowEngine::DoubleBuffer<entt::registry> DoubleBuffer;
+
+        /**
+         * Used for physics thread only
+         */
         entt::registry Staging;
 
     private:
@@ -191,10 +195,8 @@ namespace MeowEngine {
 
                 Staging.emplace<ComponentType>(inEntity, std::forward<decltype(inUnpacked)>(inUnpacked)...);
             }, inArgTuple);
-            if(Staging.all_of<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(inEntity)) {
-                auto [transform, collider, rigidbody] =  Staging.get<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(inEntity);
-                inPhysics->AddRigidbody(transform, collider, rigidbody);
-            }
+
+            inPhysics->AddRigidbody(Staging, inEntity);
         });
     }
 
@@ -205,10 +207,8 @@ namespace MeowEngine {
 
                 Staging.emplace<ComponentType>(inEntity, std::forward<decltype(inUnpacked)>(inUnpacked)...);
             }, inArgTuple);
-            if(Staging.all_of<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(inEntity)) {
-                auto [transform, collider, rigidbody] =  Staging.get<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(inEntity);
-                inPhysics->AddRigidbody(transform, collider, rigidbody);
-            }
+
+            inPhysics->AddRigidbody(Staging, inEntity);
         });
     }
 

@@ -64,11 +64,9 @@ bool MeowEngine::EnttTripleBuffer::ApplyAddRemoveOnStaging(MeowEngine::simulator
     entt::entity entityToRemove;
     while(EntityToRemoveOnStagingQueue.try_dequeue(entityToRemove)) {
         isEntityOrComponentChanged = true;
+        
         // only destroy if rigidbody exists
-        if(Staging.all_of<entity::RigidbodyComponent>(entityToRemove)) {
-            auto rigidbody = Staging.get<entity::RigidbodyComponent>(entityToRemove);
-            inPhysics->RemoveRigidbody(rigidbody);
-        }
+        inPhysics->RemoveRigidbody(Staging, entityToRemove);
 
         GetStaging().destroy(entityToRemove);
     }
@@ -117,17 +115,17 @@ void MeowEngine::EnttTripleBuffer::ApplyPropertyChange() {
     }
 }
 
-void MeowEngine::EnttTripleBuffer::ApplyPropertyChangeOnStaging() {
-    // Apply update physics transform to entities
-    auto view = Staging.view<entity::Transform3DComponent, entity::RigidbodyComponent>();
-
+void MeowEngine::EnttTripleBuffer::ApplyPropertyChangeOnStaging(MeowEngine::simulator::PhysicsSystem* pPhysics) {
     // Apply UI inputs to physics components
     std::shared_ptr<MeowEngine::ReflectionPropertyChange> change;
     while(PhysicsUiInputPropertyChangesQueue.try_dequeue(change)) {
-        if(view.contains(static_cast<entt::entity>(change->EntityId))) {
+        const entt::entity& entity = static_cast<entt::entity>(change->EntityId);
+
+        if(pPhysics->IsRigidbody(Staging, entity)) {
             MeowEngine::GetReflection().ApplyPropertyChange(*change, Staging);
-            auto [transform, rigidbody] = view.get<entity::Transform3DComponent, entity::RigidbodyComponent>(static_cast<entt::entity>(change->EntityId));
-            rigidbody.OverrideTransform(transform);
+
+            // Apply update physics transform to entities
+            pPhysics->SyncTransform(Staging, entity);
         }
     }
 }

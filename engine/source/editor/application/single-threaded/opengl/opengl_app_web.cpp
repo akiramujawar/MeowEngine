@@ -84,7 +84,7 @@ namespace MeowEngine {
 
         Scene->AddEntitiesOnPhysicsSystem(Physics.get());
         Physics->Update(FrameRateCounter->DeltaTime);
-        Scene->SyncPhysicsBufferOnPhysicsSystem();
+        Scene->SyncPhysicsBufferOnPhysicsSystem(Physics.get());
 //        Scene->SyncPhysicsBufferOnPhysicsSystem();
 
         Scene->AddRemoveEntitiesOnMainThread();

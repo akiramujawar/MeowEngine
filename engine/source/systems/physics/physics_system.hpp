@@ -5,19 +5,18 @@
 #ifndef MEOWENGINE_PHYSICS_SYSTEM_HPP
 #define MEOWENGINE_PHYSICS_SYSTEM_HPP
 
-#include <transform3d_component.hpp>
-#include <rigidbody_component.hpp>
-#include <collider_component.hpp>
-
-using namespace MeowEngine::entity;
+#include "entt_wrapper.hpp"
 
 namespace MeowEngine::simulator {
     struct PhysicsSystem {
         virtual void Create() = 0;
         virtual void Update(float inFixedDeltaTime) = 0;
 
-        virtual void AddRigidbody(entity::Transform3DComponent& transform, entity::ColliderComponent& collider, entity::RigidbodyComponent& rigidbody) = 0;
-        virtual void RemoveRigidbody(entity::RigidbodyComponent& rigidbody) = 0;
+        virtual void AddRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) = 0;
+        virtual void RemoveRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) = 0;
+        virtual void SyncTransform(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) = 0;
+
+        virtual bool IsRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) = 0;
     };
 }
 
