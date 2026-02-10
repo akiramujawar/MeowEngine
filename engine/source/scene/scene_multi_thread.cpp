@@ -90,39 +90,12 @@ struct SceneMultiThread::Internal {
                                            assets::TextureType::Pattern
                                    });
 
-        // used for reflections to display different components in ImGUI edit panel
-        // stores the component in a entt storage buffer with entt unique identifier
-        REGISTER_ENTT_COMPONENT(LifeObjectComponent);
-
-        REGISTER_ENTT_COMPONENT(Transform2DComponent);
-        REGISTER_ENTT_COMPONENT(Transform3DComponent);
-
-        REGISTER_ENTT_COMPONENT(ColliderComponent);
-        REGISTER_ENTT_COMPONENT(RigidbodyComponent);
-
-        REGISTER_ENTT_COMPONENT(RenderComponentBase);
-        REGISTER_ENTT_COMPONENT(LineRenderComponent);
-        REGISTER_ENTT_COMPONENT(MeshRenderComponent);
-        REGISTER_ENTT_COMPONENT(SkyBoxComponent);
-
-        REGISTER_ENTT_COMPONENT(ReflectionTestComponent);
-
-        // TODO: implement the following macro
-        // REGISTER_ENUM()
-        MeowEngine::Reflection.RegisterEnum<ColliderType>("entity::ColliderType");
-
         // register components in entt buffer.
         // this helps to dynamically manage add/remove components at runtime
         // considering & respects all threads.
-        RegistryBuffer.RegisterComponent<LifeObjectComponent>();
-        RegistryBuffer.RegisterComponent<Transform2DComponent>();
-        RegistryBuffer.RegisterComponent<Transform3DComponent>();
-        RegistryBuffer.RegisterComponent<ColliderComponent>();
-        RegistryBuffer.RegisterComponent<RigidbodyComponent>();
-        RegistryBuffer.RegisterComponent<RenderComponentBase>();
-        RegistryBuffer.RegisterComponent<LineRenderComponent>();
-        RegistryBuffer.RegisterComponent<MeshRenderComponent>();
-        RegistryBuffer.RegisterComponent<SkyBoxComponent>();
+#ifdef __MULTI_THREAD__
+        MeowEngine::GetReflection().InitialiseComponents(RegistryBuffer);
+#endif
     }
 
     bool AddEntitiesOnPhysicsThread(MeowEngine::simulator::PhysicsSystem* inPhysics) {
@@ -131,7 +104,7 @@ struct SceneMultiThread::Internal {
 
     void CreateSceneOnMainThread() {
         auto entity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(entity, "torus");
+        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(entity, "Torus");
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                 entity,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -154,7 +127,7 @@ struct SceneMultiThread::Internal {
 
         for(int i = 0 ; i < 1; i++){
             const auto cubeTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeTest, "cube");
+            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeTest, "Cube");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -183,7 +156,7 @@ struct SceneMultiThread::Internal {
 
         for(int i = 0 ; i < 1; i++){
             const auto sphereTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(sphereTest, "sphere");
+            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(sphereTest, "Sphere");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     sphereTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -210,26 +183,26 @@ struct SceneMultiThread::Internal {
             );
         }
 
-
-
-        // setup object
-        // later query for all rigidbody, get the physx, get the collider and construct for physics
-
-        const auto cameraEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cameraEntity, "Camera");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-            cameraEntity,
-            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-            math::Vector3{0, 0, 0},
-            math::Vector3{1.0, 1.0f, 1.0f},
-            glm::vec3{0.0f, 1.0f, 0.0f},
-            0.0f
-        );
-        RegistryBuffer.AddComponent<entity::CameraComponent>(
-            cameraEntity
-        );
-
-
+//
+//
+//        // setup object
+//        // later query for all rigidbody, get the physx, get the collider and construct for physics
+//
+//        const auto cameraEntity = RegistryBuffer.AddEntity();
+//        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cameraEntity, "Camera");
+//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+//            cameraEntity,
+//            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+//            math::Vector3{0, 0, 0},
+//            math::Vector3{1.0, 1.0f, 1.0f},
+//            glm::vec3{0.0f, 1.0f, 0.0f},
+//            0.0f
+//        );
+//        RegistryBuffer.AddComponent<entity::CameraComponent>(
+//            cameraEntity
+//        );
+//
+//
         const auto gridEntity = RegistryBuffer.AddEntity();
         RegistryBuffer.AddComponent<entity::LifeObjectComponent>(gridEntity, "Grid");
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
@@ -246,7 +219,7 @@ struct SceneMultiThread::Internal {
         );
 
         const auto skyEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(skyEntity, "sky");
+        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(skyEntity, "Sky Box");
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                 skyEntity,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -260,7 +233,7 @@ struct SceneMultiThread::Internal {
                 assets::ShaderPipelineType::Sky
         );
 
-        MeowEngine::Log("Creating", "Created");
+        MeowEngine::Log("Scene Multi-thread", "Created on main thread");
     }
 
     bool AddRemoveEntitiesOnMainThread() {
@@ -459,7 +432,7 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.ApplyPropertyChange();
     }
 
-    void SyncPhysicsBufferOnPhysicsThread() {
+    void SyncPhysicsBufferOnPhysicsThread(MeowEngine::simulator::PhysicsSystem* inPhysics) {
         // Apply update physics transform to entities
         auto view = RegistryBuffer.GetStaging().view<entity::Transform3DComponent, entity::RigidbodyComponent>();
         for(auto entity: view)
@@ -471,7 +444,7 @@ struct SceneMultiThread::Internal {
         }
 
         // Apply UI inputs to physics components
-        RegistryBuffer.ApplyPropertyChangeOnStaging();
+        RegistryBuffer.ApplyPropertyChangeOnStaging(inPhysics);
     }
 };
 
@@ -525,8 +498,8 @@ void SceneMultiThread::SyncRenderBufferOnMainThread() {
     InternalPointer->SyncRenderBufferOnMainThread();
 }
 
-void SceneMultiThread::SyncPhysicsBufferOnPhysicsSystem() {
-    InternalPointer->SyncPhysicsBufferOnPhysicsThread();
+void SceneMultiThread::SyncPhysicsBufferOnPhysicsSystem(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+    InternalPointer->SyncPhysicsBufferOnPhysicsThread(inPhysics);
 }
 
 

@@ -19,6 +19,7 @@ include_directories(${THIRD_PARTY_DIR}/SDL/include)
 include_directories(${THIRD_PARTY_DIR}/glm)
 include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/SDL2_image)
+include_directories(${THIRD_PARTY_DIR}/magic-enum/include/magic_enum)
 include_directories(${THIRD_PARTY_DIR}/concurrentqueue)
 include_directories(${THIRD_PARTY_DIR}/imgui)
 include_directories(${THIRD_PARTY_DIR}/imgui/backends)
@@ -50,12 +51,14 @@ foreach(DIR ${ALL_DIRECTORIES})
     include_directories(${DIR})
 endforeach()
 
+add_compile_definitions(__SINGLE_THREAD__)
 # The 'web' executable is the output target for our Emscripten application and is why we end up with 'web.js' in the output folder. Note that it will use the C++ source code from the shared 'main' folder through the collated sources.
 add_executable(
     web
     ${THIRD_PARTY_DIR}/imgui/imgui.cpp ${THIRD_PARTY_DIR}/imgui/imgui_draw.cpp ${THIRD_PARTY_DIR}/imgui/imgui_tables.cpp ${THIRD_PARTY_DIR}/imgui/imgui_widgets.cpp ${THIRD_PARTY_DIR}/imgui/imgui_demo.cpp ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_sdl2.cpp ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_opengl3.cpp
     ${CPP_HEADERS}
     ${CPP_SOURCES}
+    ${MAIN_SOURCE_DIR}/main.mm
 )
 
 # BUG: some weird issue here. PHYSX_LIB is somehow already set to a physic common lib path.

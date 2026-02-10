@@ -15,6 +15,14 @@ namespace MeowEngine {
         return Current.create();
     }
 
+    void MeowEngine::EnttSingleBuffer::RemoveEntity(entt::entity &inEntity) {
+        GetCurrent().destroy(inEntity);
+    }
+
+    void MeowEngine::EnttSingleBuffer::RemoveEntity(const entt::entity &inEntity) {
+        GetCurrent().destroy(inEntity);
+    }
+
     void EnttSingleBuffer::ApplyPropertyChange() {
 
     }

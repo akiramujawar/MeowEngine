@@ -14,6 +14,7 @@
 #include "log.hpp"
 
 #include "entt_triple_buffer.hpp"
+#include "entt_single_buffer.hpp"
 
 #include "magic_enum.hpp"
 
@@ -82,7 +83,11 @@ namespace MeowEngine {
          * Currently it only initialises components for entt buffer, but as this is called on scene start,
          * we can additionally use this process other things related to components
          */
+#ifdef __MULTI_THREAD__
         void InitialiseComponents(MeowEngine::EnttTripleBuffer& pBuffer) {
+#elif __SINGLE_THREAD__
+        void InitialiseComponents(MeowEngine::EnttSingleBuffer& pBuffer) {
+#endif
             for(auto callback : ComponentBufferRegistryCallbacks) {
                 callback(&pBuffer);
             }
@@ -98,7 +103,11 @@ namespace MeowEngine {
          */
         template<typename Type>
         static void RegisterComponentOnEnttBuffer(void* pEnttBuffer) {
+#ifdef __MULTI_THREAD__
             auto buffer = static_cast<MeowEngine::EnttTripleBuffer*>(pEnttBuffer);
+#elif __SINGLE_THREAD__
+            auto buffer = static_cast<MeowEngine::EnttSingleBuffer*>(pEnttBuffer);
+#endif
             buffer->RegisterComponent<Type>();
         }
 

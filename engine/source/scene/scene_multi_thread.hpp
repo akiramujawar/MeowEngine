@@ -73,7 +73,7 @@ namespace MeowEngine {
         /**
          * Push rigidbody updates to transform & apply UI inputs to staging(physics) buffer
          */
-        void SyncPhysicsBufferOnPhysicsSystem();
+        void SyncPhysicsBufferOnPhysicsSystem(MeowEngine::simulator::PhysicsSystem* inPhysics);
 
         // -----------------------------
 

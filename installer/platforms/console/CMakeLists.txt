@@ -68,6 +68,7 @@ foreach(DIR ${ALL_DIRECTORIES})
      include_directories(${DIR})
 endforeach()
 
+add_compile_definitions(__MULTI_THREAD__)
 add_executable(
      MeowEngine
      ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp

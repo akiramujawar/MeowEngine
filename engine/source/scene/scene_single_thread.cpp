@@ -72,18 +72,24 @@ namespace MeowEngine {
                                                assets::TextureType::Pattern
                                        });
 
-            REGISTER_ENTT_COMPONENT(LifeObjectComponent);
+//            REGISTER_ENTT_COMPONENT(LifeObjectComponent);
+//
+//            REGISTER_ENTT_COMPONENT(Transform2DComponent);
+//            REGISTER_ENTT_COMPONENT(Transform3DComponent);
+//
+//            REGISTER_ENTT_COMPONENT(ColliderComponent);
+//            REGISTER_ENTT_COMPONENT(RigidbodyComponent);
+//
+//            REGISTER_ENTT_COMPONENT(RenderComponentBase);
+//            REGISTER_ENTT_COMPONENT(LineRenderComponent);
+//            REGISTER_ENTT_COMPONENT(MeshRenderComponent);
+//            REGISTER_ENTT_COMPONENT(SkyBoxComponent);
 
-            REGISTER_ENTT_COMPONENT(Transform2DComponent);
-            REGISTER_ENTT_COMPONENT(Transform3DComponent);
+            // TODO: this file itself should be not included in final build of multi-thread app
+#ifdef __SINGLE_THREAD__
+            MeowEngine::GetReflection().InitialiseComponents(RegistryBuffer);
+#endif
 
-            REGISTER_ENTT_COMPONENT(ColliderComponent);
-            REGISTER_ENTT_COMPONENT(RigidbodyComponent);
-
-            REGISTER_ENTT_COMPONENT(RenderComponentBase);
-            REGISTER_ENTT_COMPONENT(LineRenderComponent);
-            REGISTER_ENTT_COMPONENT(MeshRenderComponent);
-            REGISTER_ENTT_COMPONENT(SkyBoxComponent);
         }
 
 
@@ -224,9 +230,9 @@ namespace MeowEngine {
             );
 
             // Creating physics for all bodies in game
-            for(auto &&[entity, transform, collider, rigidbody]
-                    : RegistryBuffer.GetCurrent().view<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>().each()) {
-                inPhysics->AddRigidbody(transform, collider, rigidbody);
+            auto rigidbodyView = RegistryBuffer.GetCurrent().view<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>();
+            for(auto &&[entity, transform, collider, rigidbody] : rigidbodyView.each()) {
+                inPhysics->AddRigidbody(RegistryBuffer.GetCurrent(), entity);
             }
 
             MeowEngine::Log("Creating", "Created");
