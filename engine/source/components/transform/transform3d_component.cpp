@@ -10,10 +10,10 @@
 using MeowEngine::entity::Transform3DComponent;
 
 void MeowEngine::entity::Transform3DComponent::Reflect() {
-    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3, true);
-    REGISTER_PROPERTY(Transform3DComponent, Scale, MeowEngine::math::Vector3, true);
-    REGISTER_PROPERTY(Transform3DComponent, Quaternion, MeowEngine::math::Quaternion, false);
-    REGISTER_PROPERTY_CALLBACK(Transform3DComponent, Rotation, MeowEngine::math::Vector3, true, OnRotationReflect);
+    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3, true, true);
+    REGISTER_PROPERTY(Transform3DComponent, Scale, MeowEngine::math::Vector3, true, true);
+    REGISTER_PROPERTY(Transform3DComponent, Quaternion, MeowEngine::math::Quaternion, false, true);
+    REGISTER_PROPERTY_CALLBACK(Transform3DComponent, Rotation, MeowEngine::math::Vector3, true, true, OnRotationReflect);
 }
 
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)

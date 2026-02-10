@@ -17,15 +17,15 @@ MeowEngine::entity::ReflectionTestComponent::ReflectionTestComponent()
 }
 
 void MeowEngine::entity::SubChildClass::Reflect() {
-    REGISTER_PROPERTY(SubChildClass, MeshType, int, true);
-    REGISTER_PROPERTY(SubChildClass, Size, float, true);
-    REGISTER_PROPERTY(SubChildClass, Text, PString, true);
+    REGISTER_PROPERTY(SubChildClass, MeshType, int, true, true);
+    REGISTER_PROPERTY(SubChildClass, Size, float, true, true);
+    REGISTER_PROPERTY(SubChildClass, Text, PString, true, true);
 }
 
 void MeowEngine::entity::ChildClass::Reflect() {
-    REGISTER_PROPERTY(ChildClass, ChildMeshType, int, true);
-    REGISTER_PROPERTY(ChildClass, ChildSize, float, true);
-    REGISTER_PROPERTY(ChildClass, ChildText, PString, true);
+    REGISTER_PROPERTY(ChildClass, ChildMeshType, int, true, true);
+    REGISTER_PROPERTY(ChildClass, ChildSize, float, true, true);
+    REGISTER_PROPERTY(ChildClass, ChildText, PString, true, true);
     REGISTER_POINTER(ChildClass, ChildSubPointer, SubChildClass*, true, true);
 
 //    MeowEngine::Reflection.Reflect<SubChildClass>();
@@ -35,23 +35,23 @@ void MeowEngine::entity::DummyClass::Reflect() {
 //    MeowEngine::Reflection.Reflect<ChildClass>();
 //    MeowEngine::Reflection.Reflect<DummyClass>();
 
-    REGISTER_PROPERTY(DummyClass, RootMeshType, int, true);
-    REGISTER_PROPERTY(DummyClass, RootSize, float, true);
+    REGISTER_PROPERTY(DummyClass, RootMeshType, int, true, true);
+    REGISTER_PROPERTY(DummyClass, RootSize, float, true, true);
 
-    REGISTER_PROPERTY(DummyClass, RootChild, ChildClass, true);
+    REGISTER_PROPERTY(DummyClass, RootChild, ChildClass, true, true);
     REGISTER_POINTER(DummyClass, RootChildPointer, ChildClass*, true, true);
-    REGISTER_PROPERTY(DummyClass, RootText, PString, true);
+    REGISTER_PROPERTY(DummyClass, RootText, PString, true, true);
 
     REGISTER_POINTER(DummyClass, BasicClassNull, BasicClass*, true, false);
     REGISTER_POINTER(DummyClass, BasicClassNonNull, BasicClass*, true, false);
 }
 
 void MeowEngine::entity::ReflectionTestComponent::Reflect() {
-    REGISTER_PROPERTY(ReflectionTestComponent, Int, int, true); // primitive
-    REGISTER_PROPERTY_CALLBACK(ReflectionTestComponent, IntCallback, int, true, OnIntReflect); // primitive callback
+    REGISTER_PROPERTY(ReflectionTestComponent, Int, int, true, true); // primitive
+    REGISTER_PROPERTY_CALLBACK(ReflectionTestComponent, IntCallback, int, true, true, OnIntReflect); // primitive callback
 
-    REGISTER_PROPERTY(ReflectionTestComponent, Object, DummyClass, true); // class object
-    REGISTER_PROPERTY_CALLBACK(ReflectionTestComponent, ObjectCallback, DummyClass, true, OnObjectReflect); // class object callback
+    REGISTER_PROPERTY(ReflectionTestComponent, Object, DummyClass, true, true); // class object
+    REGISTER_PROPERTY_CALLBACK(ReflectionTestComponent, ObjectCallback, DummyClass, true, true, OnObjectReflect); // class object callback
 
     REGISTER_POINTER(ReflectionTestComponent, Pointer, DummyClass*, true, true); // pointer object
     REGISTER_POINTER_CALLBACK(ReflectionTestComponent, PointerCallback, DummyClass*, true, true, OnPointerReflect); // pointer object callback

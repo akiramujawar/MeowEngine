@@ -7,9 +7,9 @@
 #include "math_wrapper.hpp"
 
 void MeowEngine::math::Vector3::Reflect() {
-    REGISTER_PROPERTY(MeowEngine::math::Vector3, X, float, true);
-    REGISTER_PROPERTY(MeowEngine::math::Vector3, Y, float, true);
-    REGISTER_PROPERTY(MeowEngine::math::Vector3, Z, float, true);
+    REGISTER_PROPERTY(MeowEngine::math::Vector3, X, float, true, true);
+    REGISTER_PROPERTY(MeowEngine::math::Vector3, Y, float, true, true);
+    REGISTER_PROPERTY(MeowEngine::math::Vector3, Z, float, true, true);
 }
 
 float MeowEngine::math::Vector3::Magnitude() const {

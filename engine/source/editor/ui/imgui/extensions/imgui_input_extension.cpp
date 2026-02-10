@@ -326,22 +326,41 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
     // if we are unaware of manual type expand and show items inside the class / struct recursively
     else {
 //        ImGui::SetNextItemOpen(true, ImGuiCond_Once); // force opens the tree node
-        ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
 
-        if(ImGui::TreeNode(inProperty.Name.c_str())) {
-            ImGui::Unindent(20);
+        if(inProperty.IsMObject) {
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
+            if (ImGui::TreeNode(inProperty.Name.c_str())) {
+                ImGui::Unindent(20);
 
-            MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(inProperty.TypeName, inProperty.Get(inObject), pIsEditable & inProperty.IsEditable));
+                MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(inProperty.TypeName, inProperty.Get(inObject),
+                                                                          pIsEditable & inProperty.IsEditable));
 
-            // track the class hierarchy changes so re-apply on different threads in same manner
-            // i.e. entt comp -> class objects -> ... -> changed property
-            if(change != nullptr) {
-                change->ClassProperties.push_back(inProperty);
+                // track the class hierarchy changes so re-apply on different threads in same manner
+                // i.e. entt comp -> class objects -> ... -> changed property
+                if (change != nullptr) {
+                    change->ClassProperties.push_back(inProperty);
+                }
+
+                ImGui::Indent(20);
+                ImGui::TreePop();
             }
-
-            ImGui::Indent(20);
-            ImGui::TreePop();
         }
+        else {
+            // name of the variable
+            ImGui::AlignTextToFramePadding();
+            ImGui::Text("%s", inProperty.Name.c_str());
+
+            // on same line create space for text
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(200);
+            float availableSpace = ImGui::GetContentRegionAvail().x;
+            ImGui::SetNextItemWidth(availableSpace);
+
+            // mention the type of class pointer & weather it is null
+            ImGui::Text("%s", inProperty.TypeName.c_str());
+        }
+
+
     }
 
     return change;

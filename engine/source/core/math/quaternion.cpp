@@ -8,10 +8,10 @@
 namespace MeowEngine {
 
     void MeowEngine::math::Quaternion::Reflect() {
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, W, float, true);
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, X, float, true);
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, Y, float, true);
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, Z, float, true);
+        REGISTER_PROPERTY(MeowEngine::math::Quaternion, W, float, true, true);
+        REGISTER_PROPERTY(MeowEngine::math::Quaternion, X, float, true, true);
+        REGISTER_PROPERTY(MeowEngine::math::Quaternion, Y, float, true, true);
+        REGISTER_PROPERTY(MeowEngine::math::Quaternion, Z, float, true, true);
     }
 
     float math::Quaternion::Magnitude() const {

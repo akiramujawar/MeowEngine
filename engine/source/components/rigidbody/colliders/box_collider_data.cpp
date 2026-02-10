@@ -8,7 +8,8 @@
 using namespace MeowEngine::entity;
 
 void BoxColliderData::Reflect() {
-    REGISTER_PROPERTY(BoxColliderData, Size, MeowEngine::math::Vector3, true);
+    REGISTER_PROPERTY(BoxColliderData, Size, MeowEngine::math::Vector3, true, true)
+    REGISTER_PROPERTY(BoxColliderData, Geometry, physx::PxBoxGeometry, false, false)
 }
 
 BoxColliderData::BoxColliderData() {
