@@ -18,11 +18,35 @@ namespace MeowEngine {
         // we access only the transform data from render buffer
         // & using its property component data we draw the collider
 //        std::vector<glm::mat4> colliders;
-
+        const glm::mat4 cameraMatrix {cameraObject->GetProjectionMatrix() * cameraObject->GetViewMatrix()};
         std::vector<glm::mat4> boxColliders;
         std::vector<glm::mat4> sphereColliders;
 
         for(auto &&[entity, transform, collider]: registry.view<entity::Transform3DComponent, entity::ColliderComponent>().each()) {
+
+            math::Matrix4x4 rotationMatrix = transform.Quaternion.GetRotationMatrix4x4();
+            // TODO: Implement full matrix structure for transform matrix
+            glm::mat4 rotation4Matrix {};
+            rotation4Matrix[0][0] = rotationMatrix.X1;
+            rotation4Matrix[0][1] = rotationMatrix.Y1;
+            rotation4Matrix[0][2] = rotationMatrix.Z1;
+            rotation4Matrix[0][3] = rotationMatrix.D1;
+
+            rotation4Matrix[1][0] = rotationMatrix.X2;
+            rotation4Matrix[1][1] = rotationMatrix.Y2;
+            rotation4Matrix[1][2] = rotationMatrix.Z2;
+            rotation4Matrix[1][3] = rotationMatrix.D2;
+
+            rotation4Matrix[2][0] = rotationMatrix.X3;
+            rotation4Matrix[2][1] = rotationMatrix.Y3;
+            rotation4Matrix[2][2] = rotationMatrix.Z3;
+            rotation4Matrix[2][3] = rotationMatrix.D3;
+
+            rotation4Matrix[3][0] = rotationMatrix.X4;
+            rotation4Matrix[3][1] = rotationMatrix.Y4;
+            rotation4Matrix[3][2] = rotationMatrix.Z4;
+            rotation4Matrix[3][3] = rotationMatrix.D4;
+
             // cannot any more use transform matrix
             // we will take the position, rotation & pick size collider data & create our own transform matrix
             // this we can decouple and keep different sizes/positions
@@ -30,19 +54,22 @@ namespace MeowEngine {
             // position =transform position + collider offset
             // rotation = transform rotation
             // scale = transform scale * collider scale
-            glm::mat4 transformMatrix = glm::translate(transform.IdentityMatrix, glm::vec3(transform.Position.X, transform.Position.Y, transform.Position.Z))
-                                        * glm::rotate(transform.IdentityMatrix, glm::radians(transform.RotationDegrees), transform.RotationAxis);
+            glm::mat4 transformMatrix =
+                    cameraMatrix
+                    * glm::translate(transform.IdentityMatrix, glm::vec3(transform.Position.X, transform.Position.Y, transform.Position.Z))
+                    * rotation4Matrix;
+
             switch (collider.GetType()) {
                 case entity::ColliderType::BOX: {
                     auto &data = collider.GetData<entity::BoxColliderData>();
-                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(data.Size.X, data.Size.Y, data.Size.Z));
-                    boxColliders.push_back(transform.TransformMatrix);
+                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * data.Size.X, transform.Scale.Y * data.Size.Y,transform.Scale.Z * data.Size.Z));
+                    boxColliders.push_back(transformMatrix);
                     break;
                 }
                 case entity::ColliderType::SPHERE: {
                     auto &data = collider.GetData<SphereColliderData>();
-                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(data.Radius, data.Radius, data.Radius));
-                    sphereColliders.push_back(transform.TransformMatrix);
+                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * data.Radius, transform.Scale.Y * data.Radius, transform.Scale.Z * data.Radius));
+                    sphereColliders.push_back(transformMatrix);
                     break;
                 }
                 default:

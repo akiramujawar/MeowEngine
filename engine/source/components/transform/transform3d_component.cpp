@@ -12,20 +12,14 @@ using MeowEngine::entity::Transform3DComponent;
 void MeowEngine::entity::Transform3DComponent::Reflect() {
     REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3, true);
     REGISTER_PROPERTY(Transform3DComponent, Scale, MeowEngine::math::Vector3, true);
-    REGISTER_PROPERTY(Transform3DComponent, RotationTest, MeowEngine::math::Quaternion, false);
-    REGISTER_PROPERTY(Transform3DComponent, RotationTest3, MeowEngine::math::Quaternion, false);
-    REGISTER_PROPERTY(Transform3DComponent, RotationTest2, MeowEngine::math::Vector3, true);
-
-    // TODO: need a way to disable a property
-    REGISTER_PROPERTY(Transform3DComponent, RotationDegrees, float, true);
+    REGISTER_PROPERTY(Transform3DComponent, Quaternion, MeowEngine::math::Quaternion, false);
+    REGISTER_PROPERTY_CALLBACK(Transform3DComponent, Rotation, MeowEngine::math::Vector3, true, OnRotationReflect);
 }
 
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)
     : Position({0,0,0})
     , Scale ({1,1,1})
-    , Rotation (glm::vec4(0,0,0,0))
-    , RotationAxis(glm::vec3(0,1,0))
-    , RotationDegrees(0)
+
     , IdentityMatrix(glm::mat4(1.0f))
     , TransformMatrix(IdentityMatrix) {
     CalculateTransformMatrix(inProjectionMatrix);
@@ -34,9 +28,7 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, MeowEngine::math::Quaternion rotation)
     : Position(position)
     , Scale(scale)
-    , RotationTest(rotation)
-    , RotationAxis(glm::vec3(0,1,0))
-    , RotationDegrees(0)
+    , Quaternion(rotation)
     , IdentityMatrix(glm::mat4(1.0f))
     , TransformMatrix(IdentityMatrix) {
     CalculateTransformMatrix(inProjectionMatrix);
@@ -45,9 +37,8 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, 
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, MeowEngine::math::Vector3 eulerRotation)
         : Position(position)
         , Scale(scale)
-        , RotationTest(eulerRotation)
-        , RotationAxis(glm::vec3(0,1,0))
-        , RotationDegrees(0)
+        , Quaternion(eulerRotation)
+
         , IdentityMatrix(glm::mat4(1.0f))
         , TransformMatrix(IdentityMatrix) {
     CalculateTransformMatrix(inProjectionMatrix);
@@ -57,17 +48,15 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, 
                                            float rotationDegrees)
     : Position(position)
     , Scale(scale)
-    , Rotation(glm::vec4(0,0,0,0))
-    , RotationAxis(rotationAxis)
-    , RotationDegrees(rotationDegrees)
+
     , IdentityMatrix(glm::mat4(1.0f))
     , TransformMatrix(IdentityMatrix) {
     CalculateTransformMatrix(inProjectionMatrix);
 }
 
 void Transform3DComponent::CalculateTransformMatrix(const glm::mat4 &inProjectionMatrix) {
-    math::Matrix4x4 rotationMatrix = RotationTest.GetRotationMatrix4x4();
-    // NOTE: temp until we build matrix structure
+    math::Matrix4x4 rotationMatrix = Quaternion.GetRotationMatrix4x4();
+    // TODO: Implement full matrix structure for transform matrix
     glm::mat4 rotation4Matrix {};
     rotation4Matrix[0][0] = rotationMatrix.X1;
     rotation4Matrix[0][1] = rotationMatrix.Y1;
@@ -101,20 +90,24 @@ void Transform3DComponent::CalculateTransformMatrix(const glm::mat4 &inProjectio
 
 void Transform3DComponent::Update(const float& deltaTime) {
     // NOTE: Testing. Need to achieve through macro + reflection
-    RotationTest = math::Quaternion(RotationTest2.X * M_PI / 180, RotationTest2.Y* M_PI / 180, RotationTest2.Z* M_PI / 180);
+//    Quaternion = math::Quaternion(Rotation.X * M_PI / 180, Rotation.Y* M_PI / 180, Rotation.Z* M_PI / 180);
 //    float random = (float)std::rand() / RAND_MAX;
-    Position.Y += 1.2f * deltaTime;
+//    Position.Y += 1.2f * deltaTime;
 
 //    RotateBy(1.0f * 0.2f);
 }
 
-void Transform3DComponent::RotateBy(const float &degrees) {
-    RotationDegrees += degrees;
-
-    if(RotationDegrees > 360.0f) {
-        RotationDegrees -= 360.0f;
-    }
-    else if(RotationDegrees < -360.0f) {
-        RotationDegrees += 360;
-    }
+void Transform3DComponent::OnRotationReflect() {
+    Quaternion = math::Quaternion(Rotation.X * M_PI / 180, Rotation.Y* M_PI / 180, Rotation.Z * M_PI / 180);
 }
+
+//void Transform3DComponent::RotateBy(const float &degrees) {
+//    RotationDegrees += degrees;
+//
+//    if(RotationDegrees > 360.0f) {
+//        RotationDegrees -= 360.0f;
+//    }
+//    else if(RotationDegrees < -360.0f) {
+//        RotationDegrees += 360;
+//    }
+//}

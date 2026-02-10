@@ -102,20 +102,20 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
 }
 
 void MeowEngine::EnttReflection::UpdatePropertyChangeData(std::string& pComponentName, std::string& pPropertyAffectedName, void* pComponentData, std::string& pChangedName, MeowEngine::ReflectionPropertyChange& inPropertyChange, void* inChangedData) {
-    // Call the callback registered at component level for the specific property
-    std::vector<MeowEngine::ReflectionProperty> propertiesFromComponent = GetProperties(pComponentName);
-    for(const MeowEngine::ReflectionProperty &property : propertiesFromComponent) {
-        if(property.Name == pPropertyAffectedName) {
-            property.Callback(pComponentData);
-            break;
-        }
-    }
-
     // Update the value which is affected
     std::vector<MeowEngine::ReflectionProperty> propertiesFromChanged = GetProperties(pChangedName);
     for(const MeowEngine::ReflectionProperty &property : propertiesFromChanged) {
         if(property.Name == inPropertyChange.PropertyName) {
             property.Set(inChangedData, inPropertyChange.Data);
+            break;
+        }
+    }
+
+    // Call the callback registered at component level for the specific property
+    std::vector<MeowEngine::ReflectionProperty> propertiesFromComponent = GetProperties(pComponentName);
+    for(const MeowEngine::ReflectionProperty &property : propertiesFromComponent) {
+        if(property.Name == pPropertyAffectedName) {
+            property.Callback(pComponentData);
             break;
         }
     }

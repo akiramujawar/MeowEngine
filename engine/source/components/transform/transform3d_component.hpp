@@ -22,24 +22,9 @@ namespace MeowEngine::entity {
         void CalculateTransformMatrix(const glm::mat4& inProjectionMatrix);
 
         void Update(const float& deltaTime) override;
-        void RotateBy(const float& degrees);
+//        void RotateBy(const float& degrees);
 
         math::Vector3 GetForward();
-
-        MeowEngine::math::Vector3 Position;
-        MeowEngine::math::Vector3 Scale;
-        MeowEngine::math::Quaternion RotationTest;
-        MeowEngine::math::Quaternion RotationTest3;
-        MeowEngine::math::Vector3 RotationTest2;
-
-        // find proper way to handle rotations
-        glm::vec3 RotationAxis;
-        float RotationDegrees;
-        glm::vec4 Rotation;
-
-        glm::mat4 IdentityMatrix;
-        glm::mat4 TransformMatrix;
-
         static math::Vector3 GetFront() {}
         static math::Vector3 GetRight() {}
         static math::Vector3 GetUp() {}
@@ -48,6 +33,23 @@ namespace MeowEngine::entity {
             // 3x3 rotation matrix
             // 4x4 matrix with added rotation and position
         }
+
+    private:
+        void OnRotationReflect();
+
+    public:
+        MeowEngine::math::Vector3 Position;
+        MeowEngine::math::Vector3 Scale;
+        MeowEngine::math::Quaternion Quaternion;
+        MeowEngine::math::Vector3 Rotation;
+
+        // find proper way to handle rotations
+//        glm::vec3 RotationAxis;
+//        float RotationDegrees;
+//        glm::vec4 Rotation;
+
+        glm::mat4 IdentityMatrix;
+        glm::mat4 TransformMatrix;
     };
 }
 

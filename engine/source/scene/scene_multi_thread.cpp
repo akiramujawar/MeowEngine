@@ -147,7 +147,7 @@ struct SceneMultiThread::Internal {
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     cubeTest,
                     entity::ColliderType::BOX,
-                    new entity::BoxColliderData(MeowEngine::math::Vector3(0.7f, 0.7f, 0.7f))
+                    new entity::BoxColliderData(MeowEngine::math::Vector3(1,1,1))
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     cubeTest
@@ -176,7 +176,7 @@ struct SceneMultiThread::Internal {
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     sphereTest,
                     entity::ColliderType::SPHERE,
-                    new SphereColliderData(0.5f)
+                    new SphereColliderData(1)
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     sphereTest
