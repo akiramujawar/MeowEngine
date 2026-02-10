@@ -144,10 +144,11 @@ struct SceneMultiThread::Internal {
                             assets::TextureType::Pattern
                     }
             );
+            MeowEngine::entity::BoxColliderData colliderData {MeowEngine::math::Vector3(1,1,1)};
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     cubeTest,
                     entity::ColliderType::BOX,
-                    new entity::BoxColliderData(MeowEngine::math::Vector3(1,1,1))
+                    colliderData
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     cubeTest
@@ -173,10 +174,12 @@ struct SceneMultiThread::Internal {
                             assets::TextureType::Pattern
                     }
             );
+
+            MeowEngine::entity::SphereColliderData colliderData {1};
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     sphereTest,
                     entity::ColliderType::SPHERE,
-                    new SphereColliderData(1)
+                    colliderData
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     sphereTest
@@ -251,7 +254,7 @@ struct SceneMultiThread::Internal {
 
         if(inputManager.isMouseDown && (inputManager.mouseState & SDL_BUTTON_RMASK)) {
             const auto cubeEntity = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity, "cube");
+            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity, "Cube");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -271,7 +274,7 @@ struct SceneMultiThread::Internal {
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     cubeEntity,
                     entity::ColliderType::BOX,
-                    new entity::BoxColliderData()
+                    entity::BoxColliderData {}
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     cubeEntity

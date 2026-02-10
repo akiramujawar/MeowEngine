@@ -15,9 +15,14 @@ namespace MeowEngine {
         REGISTER_POINTER(ColliderComponent, Body, physx::PxActor*, false, false);
     }
 
-    ColliderComponent::ColliderComponent(entity::ColliderType inType, entity::ColliderData *inData) {
+    ColliderComponent::ColliderComponent(entity::ColliderType inType, entity::BoxColliderData inData) {
         Type = inType;
-        Data = inData;
+        Data = new BoxColliderData(std::move(inData));
+    }
+
+    ColliderComponent::ColliderComponent(entity::ColliderType inType, entity::SphereColliderData inData) {
+        Type = inType;
+        Data = new SphereColliderData(std::move(inData));
     }
 
     entity::ColliderType &ColliderComponent::GetType() {

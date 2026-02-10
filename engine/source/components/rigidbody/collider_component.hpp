@@ -18,7 +18,8 @@ namespace MeowEngine::entity {
         REFLECT_COMPONENT(ColliderComponent)
         static void Reflect();
 
-        ColliderComponent(entity::ColliderType inType, entity::ColliderData* inData);
+        ColliderComponent(entity::ColliderType inType, entity::BoxColliderData inData);
+        ColliderComponent(entity::ColliderType inType, entity::SphereColliderData inData);
         virtual ~ColliderComponent() = default;
 
         template<
@@ -38,7 +39,7 @@ namespace MeowEngine::entity {
 
     private:
         entity::ColliderType Type;
-        entity::ColliderData* Data;
+        entity::ColliderData* Data; // this is bad, we ended up creating
 
         // TODO: This is null on render thread. Why was this not null randomly while debugging?
         physx::PxActor* Body;

@@ -67,7 +67,7 @@ namespace MeowEngine {
                     break;
                 }
                 case entity::ColliderType::SPHERE: {
-                    auto &data = collider.GetData<SphereColliderData>();
+                    auto &data = collider.GetData<entity::SphereColliderData>();
                     transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * data.Radius, transform.Scale.Y * data.Radius, transform.Scale.Z * data.Radius));
                     sphereColliders.push_back(transformMatrix);
                     break;

@@ -7,7 +7,7 @@
 
 #include "collider_data.hpp"
 
-namespace MeowEngine {
+namespace MeowEngine::entity {
 
     class SphereColliderData : public entity::ColliderData {
     public:
