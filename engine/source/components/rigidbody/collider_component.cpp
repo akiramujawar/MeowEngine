@@ -10,9 +10,9 @@ using namespace MeowEngine::entity;
 
 namespace MeowEngine {
     void entity::ColliderComponent::Reflect() {
-        REGISTER_ENUM(ColliderComponent, Type, MeowEngine::entity::ColliderType);
-        REGISTER_POINTER(ColliderComponent, Data, entity::ColliderData*, true);
-        REGISTER_POINTER(ColliderComponent, Body, physx::PxActor*, false);
+        REGISTER_ENUM(ColliderComponent, Type, MeowEngine::entity::ColliderType, false);
+        REGISTER_POINTER(ColliderComponent, Data, entity::ColliderData*, true, true);
+        REGISTER_POINTER(ColliderComponent, Body, physx::PxActor*, false, false);
     }
 
     ColliderComponent::ColliderComponent(entity::ColliderType inType, entity::ColliderData *inData) {

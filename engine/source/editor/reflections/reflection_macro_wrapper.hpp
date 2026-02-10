@@ -97,14 +97,15 @@ namespace MeowEngine {
         );
 
     // objectPointer -
-    #define REGISTER_PROPERTY(Class, Property, Type) \
+    #define REGISTER_PROPERTY(Class, Property, Type, IsEditable) \
         MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                                        \
+                #Type,                                           \
+                IsEditable, \
                 true,                                              \
                 [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property); }, \
@@ -112,14 +113,15 @@ namespace MeowEngine {
             }\
         );
 
-    #define REGISTER_PROPERTY_CALLBACK(Class, Property, Type, Callback)\
+    #define REGISTER_PROPERTY_CALLBACK(Class, Property, Type, IsEditable, Callback)\
         MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                                        \
+                #Type,                                                             \
+                IsEditable, \
                 true,                                              \
                 [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);}, \
@@ -127,14 +129,15 @@ namespace MeowEngine {
             }\
         );
 
-    #define REGISTER_POINTER(Class, Property, Type, IsMObject)\
+    #define REGISTER_POINTER(Class, Property, Type, IsEditable, IsMObject)\
         MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                                        \
+                #Type,                                                    \
+                IsEditable, \
                 IsMObject, \
                 [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},                 \
@@ -142,14 +145,15 @@ namespace MeowEngine {
             }\
         );
 
-    #define REGISTER_POINTER_CALLBACK(Class, Property, Type, IsMObject, Callback)\
+    #define REGISTER_POINTER_CALLBACK(Class, Property, Type, IsEditable, IsMObject, Callback)\
         MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                                        \
+                #Type,                                                                       \
+                IsEditable, \
                 IsMObject, \
                 [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},                 \
@@ -157,14 +161,15 @@ namespace MeowEngine {
             }\
         );
 
-    #define REGISTER_ENUM(Class, Property, Type)\
+    #define REGISTER_ENUM(Class, Property, Type, IsEditable)\
         MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                          \
+                #Type,                                      \
+                IsEditable, \
                 true, \
                 [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},\
@@ -172,14 +177,15 @@ namespace MeowEngine {
             }\
         );
 
-    #define REGISTER_ENUM_CALLBACK(Class, Property, Type, Callback)\
+    #define REGISTER_ENUM_CALLBACK(Class, Property, Type, IsEditable, Callback)\
         MeowEngine::GetReflection().RegisterProperty(\
             #Class,\
             {\
                 #Property,                          \
                 GetPropertyType<Type>(),                                    \
                 GetPropertyTypeId<Type>(),          \
-                #Type,                          \
+                #Type,                                                         \
+                IsEditable, \
                 true, \
                 [](void* objectPointer, const void* value) { ((Class*)objectPointer)->Property = *(Type*)value; },\
                 [](void* objectPointer) -> void* { return &(((Class*)objectPointer)->Property);},\

@@ -36,7 +36,7 @@ void MeowEngine::graphics::ui::ImGuiEditPanel::Draw(entt::registry& registry, st
                     // Display Component Name
                     if(ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
                         if(
-                            MeowEngine::ReflectionPropertyChange* change = MeowEngine::ImGuiInputExtension::ShowProperty(componentName, componentObject);
+                            MeowEngine::ReflectionPropertyChange* change = MeowEngine::ImGuiInputExtension::ShowProperty(componentName, componentObject, true);
                             change != nullptr
                         ){
                             change->EntityId = static_cast<int>(lifeObject);

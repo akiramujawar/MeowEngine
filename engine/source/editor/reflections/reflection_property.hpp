@@ -17,6 +17,7 @@ namespace MeowEngine {
         MeowEngine::PropertyType Type; // type of class
         const type_info& TypeId; // type id of class
         std::string TypeName; // name of class
+        bool IsEditable; // can property be edited in ui
         bool IsMObject; // is the property derived from MObject
 
         std::function<void (void*, const void*)> Set;

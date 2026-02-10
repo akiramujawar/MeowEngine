@@ -6,7 +6,7 @@
 #include "log.hpp"
 
 void MeowEngine::entity::RigidbodyComponent::Reflect(){
-    REGISTER_POINTER(RigidbodyComponent, DynamicBody, physx::PxRigidDynamic*, false)
+    REGISTER_POINTER(RigidbodyComponent, DynamicBody, physx::PxRigidDynamic*, false, false)
 }
 
 MeowEngine::entity::RigidbodyComponent::RigidbodyComponent() {

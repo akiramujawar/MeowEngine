@@ -8,7 +8,7 @@
 using MeowEngine::entity::RenderComponentBase;
 
 void MeowEngine::entity::RenderComponentBase::Reflect() {
-    REGISTER_ENUM(RenderComponentBase, Shader, MeowEngine::assets::ShaderPipelineType);
+    REGISTER_ENUM(RenderComponentBase, Shader, MeowEngine::assets::ShaderPipelineType, false);
 }
 
 RenderComponentBase::RenderComponentBase()

@@ -8,8 +8,11 @@
 
 #include "pstring.hpp"
 #include "vector3.hpp"
+#include "quaternion.hpp"
+#include "matrix3x3.hpp"
+#include "matrix4x4.hpp"
 
-MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowProperty(const std::string& inClassName, void* inObject) {
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowProperty(const std::string& inClassName, void* inObject, bool pIsEditable) {
     std::vector<MeowEngine::ReflectionProperty> properties = MeowEngine::GetReflection().GetProperties(inClassName);
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
@@ -17,27 +20,31 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrope
     for (const auto &property: properties) {
         ImGui::Indent();
 
+
+
         switch (property.Type) {
             case MeowEngine::NOT_DEFINED:
                 break;
             case MeowEngine::PRIMITIVE: {
-                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowPrimitive(property, inObject));
+                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowPrimitive(property, inObject, pIsEditable));
                 break;
             }
             case MeowEngine::ARRAY:
                 MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowArray(property, inObject));
                 break;
             case MeowEngine::POINTER:
-                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowPointer(property, inObject));
+                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowPointer(property, inObject, pIsEditable));
                 break;
             case MeowEngine::ENUM:
-                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowEnum(property, inObject));
+                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowEnum(property, inObject, pIsEditable));
                 break;
             case MeowEngine::CLASS_OR_STRUCT: {
-                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowClassOrStruct(property, inObject));
+                MeowEngine::ReflectionPropertyChange::Assign(change, ImGuiInputExtension::ShowClassOrStruct(property, inObject, pIsEditable));
                 break;
             }
         }
+
+
 
         ImGui::Unindent();
 
@@ -46,11 +53,15 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrope
     return change;
 }
 
-MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimitive(const MeowEngine::ReflectionProperty& inProperty, void* inObject) {
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimitive(const MeowEngine::ReflectionProperty& inProperty, void* inObject, bool pIsEditable) {
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
     // NOTE: The parent class has to be derived from MObject
     auto dataObject = static_cast<entity::MObject*>(inObject);
+
+    if(!(pIsEditable & inProperty.IsEditable)) {
+        ImGui::BeginDisabled(true);
+    }
 
     if(inProperty.TypeId == typeid(int)) {
         void* value = inProperty.Get(inObject);
@@ -91,6 +102,10 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPrimi
         }
     }
 
+    if(!(pIsEditable & inProperty.IsEditable)) {
+        ImGui::EndDisabled();
+    }
+
     return change;
 }
 
@@ -110,7 +125,7 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowArray
     return change;
 }
 
-MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPointer(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPointer(const MeowEngine::ReflectionProperty &inProperty, void *inObject, bool pIsEditable) {
     // TODO: We consider pointer classes, but what about pointer primitives like int, float, double etc...
     // TODO: Similarly, do we look into unique/ shared/ weak pointer as well?
     MeowEngine::ReflectionPropertyChange* change = nullptr;
@@ -129,7 +144,7 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPoint
         if (ImGui::TreeNode(displayLabel.c_str())) {
             ImGui::Unindent(20);
 
-            MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(valueObject->GetClassName(), valueObject));
+            MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(valueObject->GetClassName(), valueObject, pIsEditable & inProperty.IsEditable));
 
             // track the class hierarchy changes so re-apply on different threads in same manner
             // i.e. entt comp -> class objects -> ... -> changed property
@@ -164,7 +179,7 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowPoint
     return change;
 }
 
-MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(const MeowEngine::ReflectionProperty &inProperty, void *inObject) {
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(const MeowEngine::ReflectionProperty &inProperty, void *inObject, bool pIsEditable) {
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
     auto dataObject = static_cast<entity::MObject*>(inObject);
@@ -187,6 +202,10 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(
     // get names from our entt reflection registry
     std::vector<std::string> enumNames = MeowEngine::GetReflection().GetEnumValues(inProperty.TypeName);
 
+    if(!(pIsEditable & inProperty.IsEditable)) {
+        ImGui::BeginDisabled(true);
+    }
+
     // show our enum popup
     if( ImGui::Combo(
         nameId.c_str(),
@@ -206,10 +225,14 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowEnum(
         );
     }
 
+    if(!(pIsEditable & inProperty.IsEditable)) {
+        ImGui::EndDisabled();
+    }
+
     return change;
 }
 
-MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClassOrStruct(const MeowEngine::ReflectionProperty& inProperty, void* inObject) {
+MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClassOrStruct(const MeowEngine::ReflectionProperty& inProperty, void* inObject, bool pIsEditable) {
     MeowEngine::ReflectionPropertyChange* change = nullptr;
 
     if(inProperty.TypeId == typeid(MeowEngine::PString)) {
@@ -228,12 +251,20 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
         float availableSpace = ImGui::GetContentRegionAvail().x;
         ImGui::SetNextItemWidth(availableSpace);
 
+        if(!(pIsEditable & inProperty.IsEditable)) {
+            ImGui::BeginDisabled(true);
+        }
+
         if(ImGui::InputText(uniqueName.c_str(), changeHolder.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(
                 inProperty.Name,
                 new MeowEngine::PString(changeHolder),
                 [](void* inPointer){ delete static_cast<MeowEngine::PString*>(inPointer); }
             );
+        }
+
+        if(!(pIsEditable & inProperty.IsEditable)) {
+            ImGui::EndDisabled();
         }
     }
     else if(inProperty.TypeId == typeid(MeowEngine::math::Vector3)) {
@@ -252,8 +283,44 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
         float availableSpace = ImGui::GetContentRegionAvail().x;
         ImGui::SetNextItemWidth(availableSpace);
 
+        if(!(pIsEditable & inProperty.IsEditable)) {
+            ImGui::BeginDisabled(true);
+        }
+
         if(ImGui::InputFloat3(uniqueName.c_str(), &changeHolder[0], nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
             change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new MeowEngine::math::Vector3(changeHolder), [](void* inPointer){ delete static_cast<MeowEngine::math::Vector3*>(inPointer); });
+        }
+
+        if(!(pIsEditable & inProperty.IsEditable)) {
+            ImGui::EndDisabled();
+        }
+    }
+    else if(inProperty.TypeId == typeid(MeowEngine::math::Quaternion)) {
+        auto dataObject = static_cast<entity::MObject*>(inObject);
+
+        void* value = inProperty.Get(inObject);
+        MeowEngine::math::Quaternion changeHolder = *static_cast<MeowEngine::math::Quaternion*>(value);
+
+        std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(), dataObject->GetClassName().c_str());
+
+        // show name of item
+        ImGui::AlignTextToFramePadding();
+        ImGui::Text("%s", inProperty.Name.c_str());
+        ImGui::SameLine();
+        ImGui::SetCursorPosX(200);
+        float availableSpace = ImGui::GetContentRegionAvail().x;
+        ImGui::SetNextItemWidth(availableSpace);
+
+        if(!(pIsEditable & inProperty.IsEditable)) {
+            ImGui::BeginDisabled(true);
+        }
+
+        if(ImGui::InputFloat4(uniqueName.c_str(), &changeHolder[0], nullptr, ImGuiInputTextFlags_EnterReturnsTrue)) {
+            change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new MeowEngine::math::Quaternion(changeHolder), [](void* inPointer){ delete static_cast<MeowEngine::math::Quaternion*>(inPointer); });
+        }
+
+        if(!(pIsEditable & inProperty.IsEditable)) {
+            ImGui::EndDisabled();
         }
     }
     // if we are unaware of manual type expand and show items inside the class / struct recursively
@@ -264,7 +331,7 @@ MeowEngine::ReflectionPropertyChange* MeowEngine::ImGuiInputExtension::ShowClass
         if(ImGui::TreeNode(inProperty.Name.c_str())) {
             ImGui::Unindent(20);
 
-            MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(inProperty.TypeName, inProperty.Get(inObject)));
+            MeowEngine::ReflectionPropertyChange::Assign(change, ShowProperty(inProperty.TypeName, inProperty.Get(inObject), pIsEditable & inProperty.IsEditable));
 
             // track the class hierarchy changes so re-apply on different threads in same manner
             // i.e. entt comp -> class objects -> ... -> changed property

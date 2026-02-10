@@ -10,14 +10,14 @@
 using MeowEngine::entity::Transform3DComponent;
 
 void MeowEngine::entity::Transform3DComponent::Reflect() {
-    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3);
-    REGISTER_PROPERTY(Transform3DComponent, Scale, MeowEngine::math::Vector3);
-    REGISTER_PROPERTY(Transform3DComponent, RotationTest, MeowEngine::math::Quaternion);
-    REGISTER_PROPERTY(Transform3DComponent, RotationTest3, MeowEngine::math::Quaternion);
-    REGISTER_PROPERTY(Transform3DComponent, RotationTest2, MeowEngine::math::Vector3);
+    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3, true);
+    REGISTER_PROPERTY(Transform3DComponent, Scale, MeowEngine::math::Vector3, true);
+    REGISTER_PROPERTY(Transform3DComponent, RotationTest, MeowEngine::math::Quaternion, false);
+    REGISTER_PROPERTY(Transform3DComponent, RotationTest3, MeowEngine::math::Quaternion, false);
+    REGISTER_PROPERTY(Transform3DComponent, RotationTest2, MeowEngine::math::Vector3, true);
 
     // TODO: need a way to disable a property
-    REGISTER_PROPERTY(Transform3DComponent, RotationDegrees, float);
+    REGISTER_PROPERTY(Transform3DComponent, RotationDegrees, float, true);
 }
 
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)

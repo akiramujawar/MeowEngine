@@ -14,13 +14,13 @@ using namespace std;
 namespace MeowEngine {
     class ImGuiInputExtension {
     public:
-        static MeowEngine::ReflectionPropertyChange* ShowProperty(const std::string& inClassName, void* inObject);
+        static MeowEngine::ReflectionPropertyChange* ShowProperty(const std::string& inClassName, void* inObject, bool pIsEditable);
 
-        static MeowEngine::ReflectionPropertyChange* ShowPrimitive(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
+        static MeowEngine::ReflectionPropertyChange* ShowPrimitive(const MeowEngine::ReflectionProperty& inProperty, void* inObject, bool pIsEditable);
         static MeowEngine::ReflectionPropertyChange* ShowArray(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
-        static MeowEngine::ReflectionPropertyChange* ShowPointer(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
-        static MeowEngine::ReflectionPropertyChange* ShowEnum(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
-        static MeowEngine::ReflectionPropertyChange* ShowClassOrStruct(const MeowEngine::ReflectionProperty& inProperty, void* inObject);
+        static MeowEngine::ReflectionPropertyChange* ShowPointer(const MeowEngine::ReflectionProperty& inProperty, void* inObject, bool pIsEditable);
+        static MeowEngine::ReflectionPropertyChange* ShowEnum(const MeowEngine::ReflectionProperty& inProperty, void* inObject, bool pIsEditable);
+        static MeowEngine::ReflectionPropertyChange* ShowClassOrStruct(const MeowEngine::ReflectionProperty& inProperty, void* inObject, bool pIsEditable);
 
 
         static void ShowTabExample();

@@ -8,7 +8,7 @@
 
 namespace MeowEngine {
     void SphereColliderData::Reflect() {
-        REGISTER_PROPERTY(SphereColliderData, Radius, float);
+        REGISTER_PROPERTY(SphereColliderData, Radius, float, true);
     }
 
     SphereColliderData::SphereColliderData() {

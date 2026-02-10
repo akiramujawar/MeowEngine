@@ -81,6 +81,16 @@ namespace MeowEngine::math {
         float Y;
         float Z;
 
+        float& operator[](int index) {
+            switch (index) {
+                case 0: return W;
+                case 1: return X;
+                case 2: return Y;
+                case 3: return Z;
+                default: return X;
+            }
+        }
+
         // NOTE: this is not required as ||q||
         [[nodiscard]] float Magnitude() const;
         [[nodiscard]] float MagnitudeSquared() const;
