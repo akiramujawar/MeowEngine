@@ -427,6 +427,9 @@ struct SceneMultiThread::Internal {
             auto current = currentView.get<MeowEngine::entity::Transform3DComponent>(entity);
             auto& final = finalView.get<MeowEngine::entity::Transform3DComponent>(entity);
 
+            // any changes made on main thread, apply them on render thread (after this method they are swapped)
+            // TODO: currently we do it manually, we need a better way to do this,
+            // TODO: as manually apply changes could get difficult especially in long run
             final.Position = current.Position;
         }
 

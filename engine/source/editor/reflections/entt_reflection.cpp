@@ -111,7 +111,10 @@ void MeowEngine::EnttReflection::UpdatePropertyChangeData(std::string& pComponen
         }
     }
 
+    // TODO: This is temporary. After making the change, we need to recursively go from component to changed property and execute callbacks
+    // start ---
     // Call the callback registered at component level for the specific property
+    // This only happens for parent level. Not so good.
     std::vector<MeowEngine::ReflectionProperty> propertiesFromComponent = GetProperties(pComponentName);
     for(const MeowEngine::ReflectionProperty &property : propertiesFromComponent) {
         if(property.Name == pPropertyAffectedName) {
@@ -119,4 +122,13 @@ void MeowEngine::EnttReflection::UpdatePropertyChangeData(std::string& pComponen
             break;
         }
     }
+
+    std::vector<MeowEngine::ReflectionProperty> propertiesFromObject = GetProperties(pChangedName);
+    for(const auto& property : propertiesFromObject) {
+        if(property.Name == inPropertyChange.PropertyName) {
+            property.Callback(inChangedData);
+            break;
+        }
+    }
+    // end --
 }

@@ -204,7 +204,6 @@ namespace MeowEngine {
     void MeowEngine::EnttTripleBuffer::AddComponentOnStaging(entt::entity &inEntity, Args &&... inArgs) {
         ComponentToAddOnStagingQueue.enqueue([&, inEntity, inArgTuple = std::make_tuple(std::forward<Args>(inArgs)...)](MeowEngine::simulator::PhysicsSystem* inPhysics) {
             std::apply([&](auto&&... inUnpacked) {
-
                 Staging.emplace<ComponentType>(inEntity, std::forward<decltype(inUnpacked)>(inUnpacked)...);
             }, inArgTuple);
 
