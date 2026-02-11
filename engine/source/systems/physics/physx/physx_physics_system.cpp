@@ -75,10 +75,20 @@ void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPh
         auto [transform, collider, rigidbody] =  pPhysicsRegistry.get<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(pEntity);
 
         physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
-        physx::PxReal density = 1.0f;
-        physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
+
+        entity::ColliderData& colliderData = collider.GetColliderData();
+        colliderData.CreateGeometry();
+        colliderData.CreateMaterial(gPhysics);
+        colliderData.CreateShape(gPhysics);
+
+
+//        physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
+//        physx::PxShape* shape = gPhysics->createShape(geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f));
+
         // transform has rotation and position data
-        physx::PxRigidDynamic* actor = physx::PxCreateDynamic(*gPhysics, physicsTransform, geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f), density);
+//        physx::PxRigidDynamic* actor = physx::PxCreateDynamic(*gPhysics, physicsTransform, geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f), density);
+        physx::PxRigidDynamic* actor = gPhysics->createRigidDynamic(physicsTransform);
+        actor->attachShape(colliderData.GetShape());
 
         rigidbody.SetPhysicsBody(actor);
         collider.SetPhysicsBody(actor);

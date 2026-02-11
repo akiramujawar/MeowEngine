@@ -10,27 +10,23 @@ using namespace MeowEngine::entity;
 
 namespace MeowEngine {
     void entity::ColliderComponent::Reflect() {
-        REGISTER_ENUM(ColliderComponent, Type, MeowEngine::entity::ColliderType, false);
         REGISTER_POINTER(ColliderComponent, Data, entity::ColliderData*, true, true);
         REGISTER_POINTER(ColliderComponent, Body, physx::PxActor*, false, false);
     }
 
-    ColliderComponent::ColliderComponent(entity::ColliderType inType, entity::BoxColliderData inData) {
-        Type = inType;
+    ColliderComponent::ColliderComponent(entity::BoxColliderData inData) {
+        // TODO: remember to delete the object. currently tracy will be difficult as copy constructor instead of constructor
+        // & manually keeping track of these things would be difficult, find a better solution for this
         Data = new BoxColliderData(std::move(inData));
     }
 
-    ColliderComponent::ColliderComponent(entity::ColliderType inType, entity::SphereColliderData inData) {
-        Type = inType;
+    ColliderComponent::ColliderComponent(entity::SphereColliderData inData) {
         Data = new SphereColliderData(std::move(inData));
     }
 
-    entity::ColliderType &ColliderComponent::GetType() {
-        return Type;
-    }
 
-    physx::PxGeometry &ColliderComponent::GetGeometry() {
-        return Data->GetGeometry();
+    entity::ColliderData& ColliderComponent::GetColliderData() {
+        return *Data;
     }
 
     void ColliderComponent::SetPhysicsBody(physx::PxActor *inActor) {

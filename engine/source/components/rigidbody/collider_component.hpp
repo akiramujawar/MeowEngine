@@ -6,7 +6,7 @@
 #define MEOWENGINE_COLLIDER_COMPONENT_HPP
 
 #include <component_base.hpp>
-#include <collider_type.hpp>
+//#include <collider_type.hpp>
 
 #include <box_collider_data.hpp>
 #include "sphere_collider_data.hpp"
@@ -18,28 +18,18 @@ namespace MeowEngine::entity {
         REFLECT_COMPONENT(ColliderComponent)
         static void Reflect();
 
-        ColliderComponent(entity::ColliderType inType, entity::BoxColliderData inData);
-        ColliderComponent(entity::ColliderType inType, entity::SphereColliderData inData);
+        ColliderComponent(entity::BoxColliderData inData);
+        ColliderComponent(entity::SphereColliderData inData);
         virtual ~ColliderComponent() = default;
 
-        template<
-            typename Type,
-            typename = std::enable_if<
-                std::is_same_v<Type, BoxColliderData>
-                || std::is_same_v<Type, SphereColliderData>
-            >
-        >
-        Type& GetData() {
-            return *dynamic_cast<Type*>(Data);
-        }
-
-        entity::ColliderType& GetType();
-        physx::PxGeometry& GetGeometry();
         void SetPhysicsBody(physx::PxActor* inActor);
 
+        entity::ColliderData& GetColliderData();
+
     private:
-        entity::ColliderType Type;
-        entity::ColliderData* Data; // this is bad, we ended up creating
+        // TODO: We need to support, multiple colliders attached as shapes to a rigidbody
+        // TODO: Hence we will be refactoring pointer into vector array
+        entity::ColliderData* Data;
 
         // TODO: This is null on render thread. Why was this not null randomly while debugging?
         physx::PxActor* Body;

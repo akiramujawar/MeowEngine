@@ -5,8 +5,10 @@
 #ifndef MEOWENGINE_COLLIDER_DATA_HPP
 #define MEOWENGINE_COLLIDER_DATA_HPP
 
-#include "m_object.hpp"
 #include "PxPhysicsAPI.h"
+
+#include "m_object.hpp"
+#include <collider_type.hpp>
 
 namespace MeowEngine::entity {
     /**
@@ -20,7 +22,23 @@ namespace MeowEngine::entity {
         REFLECT_MObject(ColliderData)
         static void Reflect() {}
 
+        template<typename Type>
+        Type& Cast() {
+            return *dynamic_cast<Type*>(this);
+        }
+
+        entity::ColliderType& GetType() { return Type; };
+
         virtual physx::PxGeometry& GetGeometry() = 0;
+        virtual physx::PxMaterial& GetMaterial() = 0;
+        virtual physx::PxShape& GetShape() = 0;
+
+        virtual void CreateGeometry() = 0; // pass transform scale
+        virtual void CreateMaterial(physx::PxPhysics*) = 0;
+        virtual void CreateShape(physx::PxPhysics*) = 0;
+
+    protected:
+        MeowEngine::entity::ColliderType Type;
     };
 }
 

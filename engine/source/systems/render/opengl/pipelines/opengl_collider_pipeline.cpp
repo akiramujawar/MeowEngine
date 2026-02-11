@@ -59,16 +59,22 @@ namespace MeowEngine {
                     * glm::translate(transform.IdentityMatrix, glm::vec3(transform.Position.X, transform.Position.Y, transform.Position.Z))
                     * rotation4Matrix;
 
-            switch (collider.GetType()) {
+            // get the colliders, cast as per the types and calculate their transform matrix
+            // & segregate them into for instance rendering
+            entity::ColliderData& data = collider.GetColliderData();
+
+            switch (data.GetType()) {
                 case entity::ColliderType::BOX: {
-                    auto &data = collider.GetData<entity::BoxColliderData>();
-                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * data.Size.X, transform.Scale.Y * data.Size.Y,transform.Scale.Z * data.Size.Z));
+                    auto& shape = data.Cast<entity::BoxColliderData>();
+
+                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Size.X, transform.Scale.Y * shape.Size.Y,transform.Scale.Z * shape.Size.Z));
                     boxColliders.push_back(transformMatrix);
+
                     break;
                 }
                 case entity::ColliderType::SPHERE: {
-                    auto &data = collider.GetData<entity::SphereColliderData>();
-                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * data.Radius, transform.Scale.Y * data.Radius, transform.Scale.Z * data.Radius));
+                    auto &shape = data.Cast<entity::SphereColliderData>();
+                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Radius, transform.Scale.Y * shape.Radius, transform.Scale.Z * shape.Radius));
                     sphereColliders.push_back(transformMatrix);
                     break;
                 }

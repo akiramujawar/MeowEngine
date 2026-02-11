@@ -19,15 +19,30 @@ namespace MeowEngine::entity {
         // SphereColliderData data(); // success
         explicit SphereColliderData();
         explicit SphereColliderData(float inRadius);
-
         virtual ~SphereColliderData() = default;
 
         physx::PxGeometry& GetGeometry() override;
+        physx::PxMaterial& GetMaterial() override;
+        physx::PxShape& GetShape() override;
 
+        void CreateGeometry() override;
+        void CreateMaterial(physx::PxPhysics*) override;
+        void CreateShape(physx::PxPhysics*) override;
+
+    private:
+        void OnRadiusReflect();
+        void OnMaterialReflect();
+
+    public:
         float Radius;
+        float StaticFriction;
+        float DynamicFriction;
+        float Restitution;
 
     private:
         physx::PxSphereGeometry Geometry;
+        physx::PxMaterial* Material;
+        physx::PxShape* Shape;
     };
 
 } // MeowEngine

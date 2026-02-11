@@ -18,15 +18,31 @@ namespace MeowEngine::entity {
         // BoxColliderData data = 0; // error
         // BoxColliderData data(); // success
         explicit BoxColliderData();
-        explicit BoxColliderData(MeowEngine::math::Vector3 inSize);
+        explicit BoxColliderData(const MeowEngine::math::Vector3& inSize);
         virtual ~BoxColliderData() = default;
 
         physx::PxGeometry& GetGeometry() override;
+        physx::PxMaterial& GetMaterial() override;
+        physx::PxShape& GetShape() override;
 
+        void CreateGeometry() override;
+        void CreateMaterial(physx::PxPhysics*) override;
+        void CreateShape(physx::PxPhysics*) override;
+
+    private:
+        void OnSizeReflect();
+        void OnMaterialReflect();
+
+    public:
         MeowEngine::math::Vector3 Size; // could a different class
+        float StaticFriction;
+        float DynamicFriction;
+        float Restitution;
 
     private:
         physx::PxBoxGeometry Geometry;
+        physx::PxMaterial* Material;
+        physx::PxShape* Shape;
     };
 }
 
