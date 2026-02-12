@@ -28,23 +28,23 @@ namespace MeowEngine {
             // TODO: Implement full matrix structure for transform matrix
             glm::mat4 rotation4Matrix {};
             rotation4Matrix[0][0] = rotationMatrix.X1;
-            rotation4Matrix[0][1] = rotationMatrix.Y1;
-            rotation4Matrix[0][2] = rotationMatrix.Z1;
-            rotation4Matrix[0][3] = rotationMatrix.D1;
+            rotation4Matrix[0][1] = rotationMatrix.X2;
+            rotation4Matrix[0][2] = rotationMatrix.X3;
+            rotation4Matrix[0][3] = rotationMatrix.X4;
 
-            rotation4Matrix[1][0] = rotationMatrix.X2;
+            rotation4Matrix[1][0] = rotationMatrix.Y1;
             rotation4Matrix[1][1] = rotationMatrix.Y2;
-            rotation4Matrix[1][2] = rotationMatrix.Z2;
-            rotation4Matrix[1][3] = rotationMatrix.D2;
+            rotation4Matrix[1][2] = rotationMatrix.Y3;
+            rotation4Matrix[1][3] = rotationMatrix.Y4;
 
-            rotation4Matrix[2][0] = rotationMatrix.X3;
-            rotation4Matrix[2][1] = rotationMatrix.Y3;
+            rotation4Matrix[2][0] = rotationMatrix.Z1;
+            rotation4Matrix[2][1] = rotationMatrix.Z2;
             rotation4Matrix[2][2] = rotationMatrix.Z3;
-            rotation4Matrix[2][3] = rotationMatrix.D3;
+            rotation4Matrix[2][3] = rotationMatrix.Z4;
 
-            rotation4Matrix[3][0] = rotationMatrix.X4;
-            rotation4Matrix[3][1] = rotationMatrix.Y4;
-            rotation4Matrix[3][2] = rotationMatrix.Z4;
+            rotation4Matrix[3][0] = rotationMatrix.D1;
+            rotation4Matrix[3][1] = rotationMatrix.D2;
+            rotation4Matrix[3][2] = rotationMatrix.D3;
             rotation4Matrix[3][3] = rotationMatrix.D4;
 
             // cannot any more use transform matrix

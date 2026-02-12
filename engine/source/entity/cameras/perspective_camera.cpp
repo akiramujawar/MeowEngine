@@ -8,11 +8,11 @@ using MeowEngine::PerspectiveCamera;
 
 namespace {
     glm::mat4 CreateProjectionMatrix(const float& width, const float& height) {
-        return glm::perspective(glm::radians(45.0f), width / height, 0.01f, 3000.0f);
+        return glm::perspectiveLH_NO(glm::radians(45.0f), width / height, 0.01f, 3000.0f);
     }
 
     glm::mat4 CreateViewMatrix(glm::vec3 position, glm::vec3 lookAtTarget, glm::vec3 up) {
-        return glm::lookAt(position, lookAtTarget, up);
+        return glm::lookAtRH(position, lookAtTarget, up);
     }
 } // namespace
 
@@ -27,28 +27,6 @@ struct PerspectiveCamera::Internal {
         , Position(0.0f, 1.0f , -10.0f)
         , LookAtTarget(0.0f, 1.0f, 0.0f)
         , Up(0.0f, 1.0f, 0.0f) {
-
-//        glm::vec3 horizontalTarget {LookAtTarget.x, 0.0f, LookAtTarget.z};
-//        horizontalTarget.normalize();
-//        float angle = glm::degrees(asin(abs(LookAtTarget.z)));
-//        if(LookAtTarget.z >= 0.0f) {
-//            if(LookAtTarget.x >= 0.0f) {
-//                angleHorizontal = 360.0f - angle;
-//            }
-//            else {
-//                angleHorizontal = 180.0f + angle;
-//            }
-//        }
-//        else {
-//            if(LookAtTarget.x >= 0.0f) {
-//                angleHorizontal = angle;
-//            }
-//            else {
-//                angleHorizontal = 180.0f - angle;
-//            }
-//        }
-//
-//        angleVertical = -glm::degrees(asin(LookAtTarget.y));
     }
 };
 
@@ -58,7 +36,7 @@ MeowEngine::PerspectiveCamera::PerspectiveCamera(const float &width, const float
 void PerspectiveCamera::Configure(const glm::vec3& position, const glm::vec3& up, const glm::vec3& direction) {
     InternalPointer->Position = position;
     InternalPointer->Up = up;
-    InternalPointer->LookAtTarget = position - direction;
+    InternalPointer->LookAtTarget = position + glm::vec3(direction.x, direction.y, direction.z);
 }
 
 const glm::mat4 MeowEngine::PerspectiveCamera::GetProjectionMatrix() const {

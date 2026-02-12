@@ -27,7 +27,7 @@ BoxColliderData::BoxColliderData()
     Size = MeowEngine::math::Vector3(0.5f, 0.5f, 0.5f);
     StaticFriction = 0.6f;
     DynamicFriction = 0.6f;
-    Restitution = 0.6f;
+    Restitution = 0.3f;
 }
 
 BoxColliderData::BoxColliderData(const MeowEngine::math::Vector3& inSize)

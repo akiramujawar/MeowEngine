@@ -24,9 +24,9 @@ namespace MeowEngine::entity {
             , Geometry() {
         Type = MeowEngine::entity::ColliderType::SPHERE;
         Radius = 0.5f;
-        StaticFriction = 0.6f;
-        DynamicFriction = 0.6f;
-        Restitution = 0.6f;
+        StaticFriction = 1;
+        DynamicFriction = 1;
+        Restitution = 1;
 
     }
 
@@ -36,9 +36,9 @@ namespace MeowEngine::entity {
             , Geometry() {
         Type = MeowEngine::entity::ColliderType::SPHERE;
         Radius = inRadius;
-        StaticFriction = 0.6f;
-        DynamicFriction = 0.6f;
-        Restitution = 0.6f;
+        StaticFriction = 1;
+        DynamicFriction = 1;
+        Restitution = 0.3f;
     }
 
     physx::PxGeometry& SphereColliderData::GetGeometry() {

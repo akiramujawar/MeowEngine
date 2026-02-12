@@ -35,8 +35,8 @@ struct CameraController::Internal {
     Internal(const glm::vec3& position)
         : Identity(glm::mat4(1))
         , Up(glm::vec3{0.0f, 1.0f, 0.0f})
-        , HorizontalAngle(-90.0f)
-        , VerticalAngle(-10.0f)
+        , HorizontalAngle(180)
+        , VerticalAngle(0)
         , Position(position)
         , Orientation(::ComputeOrientation(Identity, HorizontalAngle, Up))
         , ForwardDirection(::ComputeForwardDirection(Orientation)) {
@@ -44,22 +44,23 @@ struct CameraController::Internal {
     }
 
     void LookAround(const float& deltaX, const float& deltaY) {
-        HorizontalAngle += deltaX / TurnSpeed;
-        VerticalAngle += deltaY / TurnSpeed;
+        HorizontalAngle -= deltaX / TurnSpeed;
+        VerticalAngle -= deltaY / TurnSpeed;
 
-        glm::vec3 YAxis {0.0f, 1.0f, 0.0f};
-        glm::vec3 viewAxis {-1.0f, 0.0f, 0.0f};
-        Rotate(viewAxis, HorizontalAngle, YAxis);
-        Normalize(viewAxis);
-        glm::vec3 aroundHorizontalAxis = Cross(YAxis, viewAxis);// YAxis.cross(viewAxis);
-        Normalize(aroundHorizontalAxis);
-        Rotate(viewAxis, VerticalAngle, aroundHorizontalAxis);
-        Normalize(viewAxis);
-        ForwardDirection = viewAxis;
+        glm::vec3 worldUp(0.0f, 1.0f, 0.0f);
 
-        Up = Cross(ForwardDirection, aroundHorizontalAxis);
-        Normalize(Up);
-//        MeowEngine::Log("Logs:" , std::to_string(HorizontalAngle) + " || " + std::to_string(VerticalAngle));
+        float yaw   = glm::radians(HorizontalAngle);
+        float pitch = glm::radians(VerticalAngle);
+
+        glm::vec3 forward;
+        forward.x = cos(pitch) * sin(yaw);
+        forward.y = sin(pitch);
+        forward.z = cos(pitch) * cos(yaw);
+
+        ForwardDirection = glm::normalize(forward);
+
+        glm::vec3 Right = glm::normalize(glm::cross(worldUp, ForwardDirection));
+        Up = glm::normalize(glm::cross(ForwardDirection, Right));
     }
 
     void Normalize(glm::vec3& inVec) {
