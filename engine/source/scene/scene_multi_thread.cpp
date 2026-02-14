@@ -108,7 +108,7 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                 entity,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                math::Vector3{5, 0, 0},
+                math::Vector3{5, 5, 5},
                 math::Vector3{1.0, 1.0f, 1.0f},
                 glm::vec3{0.0f, 1.0f, 0.0f},
                 12.0f
@@ -127,11 +127,11 @@ struct SceneMultiThread::Internal {
 
         for(int i = 0 ; i < 1; i++){
             const auto cubeTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeTest, "Cube");
+            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeTest, "Cube (" + std::to_string(i) + ")");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 20.0f + i, 2},
+                    math::Vector3{0.0f, 5.0f + i, 2},
                     math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
@@ -154,9 +154,9 @@ struct SceneMultiThread::Internal {
             );
         }
 
-        for(int i = 0 ; i < 1; i++){
+        for(int i = 0 ; i < 0; i++){
             const auto sphereTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(sphereTest, "Sphere");
+            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(sphereTest, "Sphere (" + std::to_string(i) + ")");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     sphereTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -174,7 +174,7 @@ struct SceneMultiThread::Internal {
                     }
             );
 
-            MeowEngine::entity::SphereColliderData colliderData {1};
+            MeowEngine::entity::SphereColliderData colliderData {0.5f};
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     sphereTest,
                     colliderData
@@ -381,19 +381,28 @@ struct SceneMultiThread::Internal {
         auto stagingView = RegistryBuffer.GetStaging().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
         auto finalView = RegistryBuffer.GetFinal().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
 
+        // the bool is atomic and results in locking mechanism to make sure sync is done
+        // in order to prevent bad memory data reads
         if(inIsPhysicsThreadWorking) {
             // since physics is working on its buffer (staging) we cache the main thread updates
+            // is this even necessary?
             for(entt::entity entity : currentView) {
 
                 auto& staging = stagingView.get<MeowEngine::entity::RigidbodyComponent>(entity);
                 auto final = finalView.get<MeowEngine::entity::Transform3DComponent>(entity);
                 auto current = currentView.get<MeowEngine::entity::Transform3DComponent>(entity);
 
-                staging.CacheDelta(current.Position - final.Position);
+                // TODO: check on this once, this could lead multiple cache copies
+                staging.CacheDelta(current.Position - final.Position, math::Quaternion::Multiply(
+                    current.Quaternion,
+                    math::Quaternion::Inverse(final.Quaternion)
+                ));
             }
         }
         else {
             // since physics is not working, we can update rigidbody in physics thread
+            // remember: physics & main applies transformations on its own.
+            // in that case, we let physics take the ownership of data & get delta changes from main thread
             for (entt::entity entity: currentView) {
                 auto &final = finalView.get<MeowEngine::entity::Transform3DComponent>(entity);
                 auto &current = currentView.get<MeowEngine::entity::Transform3DComponent>(entity);
@@ -402,10 +411,16 @@ struct SceneMultiThread::Internal {
                 auto &rigidbody = stagingView.get<MeowEngine::entity::RigidbodyComponent>(entity);
 
                 // Update physics body with transformation updates from main / final buffers
-                rigidbody.AddDelta(current.Position - final.Position);
+                rigidbody.AddDelta(current.Position - final.Position, math::Quaternion::Multiply(
+                        current.Quaternion,
+                        math::Quaternion::Inverse(final.Quaternion)
+                ));
 
                 // Update main buffer with rigidbody transformations
                 current.Position = staging.Position;
+//                current.Scale = staging.Scale;
+                current.Rotation = staging.Rotation;
+                current.Quaternion = staging.Quaternion;
             }
         }
     }
@@ -428,6 +443,9 @@ struct SceneMultiThread::Internal {
             // TODO: currently we do it manually, we need a better way to do this,
             // TODO: as manually apply changes could get difficult especially in long run
             final.Position = current.Position;
+//            final.Scale = current.Scale;
+            final.Rotation = current.Rotation;
+            final.Quaternion = current.Quaternion;
         }
 
         // Apply UI inputs to render and main buffers

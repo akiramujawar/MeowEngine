@@ -22,7 +22,7 @@ namespace MeowEngine::entity {
         void CalculateTransformMatrix(const glm::mat4& inProjectionMatrix);
 
         void Update(const float& deltaTime) override;
-//        void RotateBy(const float& degrees);
+        void RecalculateEuler();
 
         math::Vector3 GetForward();
         static math::Vector3 GetFront() {}

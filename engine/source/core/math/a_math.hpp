@@ -32,7 +32,10 @@ namespace MeowEngine::math {
         static float Tan(float pValue) {}
 
         static float ATan2(float pY, float pX) {
-            return atan2(1,2);
+            return atan2(pY, pX);
+        }
+        static float ASin(float pValue) {
+            return asin(pValue);
         }
     };
 

@@ -11,6 +11,12 @@ namespace MeowEngine::math {
     struct Vector3 : entity::MObject {
         REFLECT_MObject(Vector3)
         static void Reflect();
+        std::string ToString() const {
+            return
+                std::to_string(X) + ", " +
+                std::to_string(Y) + ", " +
+                std::to_string(Z);
+        }
 
         Vector3()
         : X (0)
@@ -61,6 +67,14 @@ namespace MeowEngine::math {
             };
         }
 
+        Vector3& operator+=(const Vector3& in) {
+            X += in.X;
+            Y += in.Y;
+            Z += in.Z;
+
+            return *this;
+        }
+
         Vector3 operator*(const float in) const {
             return {
                 X * in,
@@ -75,6 +89,34 @@ namespace MeowEngine::math {
                 Y / in,
                 Z / in
             };
+        }
+
+        static Vector3 Zero() {
+            return Vector3();
+        }
+
+        static Vector3 Right() {
+            return Vector3(1,0,0);
+        }
+
+        static Vector3 Left() {
+            return Vector3(-1,0,0);
+        }
+
+        static Vector3 Up() {
+            return Vector3(0,1,0);
+        }
+
+        static Vector3 Down() {
+            return Vector3(0,-1,0);
+        }
+
+        static Vector3 Forward() {
+            return Vector3(0,0,1);
+        }
+
+        static Vector3 Backward() {
+            return Vector3(0,0,-1);
         }
 
         /**

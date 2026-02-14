@@ -5,7 +5,9 @@
 - [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
 - [x] Populating enums, pointers classes in edit panel
 - [x] Automated component registration in triple buffer
+- [ ] Adding Rotations & Scaling to transform & physics bodies
 - [ ] Adding navigation to github / go back for web builds
+- [ ] Reworking multithreading using command pattern for physics thread
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
 - [ ] Selecting objects
 - [ ] Position, Scale, Rotation handles for selected objects

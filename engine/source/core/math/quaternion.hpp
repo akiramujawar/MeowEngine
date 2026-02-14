@@ -16,9 +16,16 @@ namespace MeowEngine::math {
     struct Quaternion : entity::MObject {
         REFLECT_MObject(Quaternion)
         static void Reflect();
+        std::string ToString() const {
+            return
+                std::to_string(W) + ", " +
+                std::to_string(X) + ", " +
+                std::to_string(Y) + ", " +
+                std::to_string(Z);
+        }
 
         Quaternion()
-        : W (0)
+        : W (1)
         , X (0)
         , Y (0)
         , Z (0) {}
@@ -55,6 +62,10 @@ namespace MeowEngine::math {
          *
          */
         Quaternion(float pX, float pY, float pZ) {
+            pX *= M_PI / 180;
+            pY *= M_PI / 180;
+            pZ *= M_PI / 180;
+
             float cosX = math::AMath::Cos(pX / 2);
             float cosY = math::AMath::Cos(pY / 2);
             float cosZ = math::AMath::Cos(pZ / 2);
@@ -94,7 +105,7 @@ namespace MeowEngine::math {
         // NOTE: this is not required as ||q||
         [[nodiscard]] float Magnitude() const;
         [[nodiscard]] float MagnitudeSquared() const;
-        Quaternion Normalised() const;
+        Quaternion Normalised();
 
         /**
          * https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
@@ -102,34 +113,48 @@ namespace MeowEngine::math {
          * @return
          */
         static math::Vector3 Euler(const Quaternion& pValue) {
-            float WX = pValue.W * pValue.X;
-            float WY = pValue.W * pValue.Y;
-            float WZ = pValue.W * pValue.Z;
+            Quaternion quat = pValue;
+            quat.Normalised();
 
-            float XY = pValue.X * pValue.Y;
-            float XZ = pValue.X * pValue.Z;
-            float YZ = pValue.Y * pValue.Z;
+            float WX = quat.W * quat.X;
+            float WY = quat.W * quat.Y;
+            float WZ = quat.W * quat.Z;
 
-            float XSquare = pValue.X * pValue.X;
-            float YSquare = pValue.Y * pValue.Y;
-            float ZSquare = pValue.Z * pValue.Z;
+            float XY = quat.X * quat.Y;
+            float XZ = quat.X * quat.Z;
+            float YZ = quat.Y * quat.Z;
 
-            // x-axis rotation
+            float XSquare = quat.X * quat.X;
+            float YSquare = quat.Y * quat.Y;
+            float ZSquare = quat.Z * quat.Z;
+
+            // x-axis rotation (roll)
             float Xpy = 2 * (WX + YZ);
             float Xpx = 1 - 2 * (XSquare + YSquare);
 
-            // y-axis rotation
-            float Ypy = math::AMath::Sqrt(1 + 2 * (WY - XZ));
-            float Ypx = math::AMath::Sqrt(1 - 2 * (WY - XZ));
+            // y-axis rotation (pitch)
+//            float Ypy = math::AMath::Sqrt(1 + 2 * (WY - XZ));
+//            float Ypx = math::AMath::Sqrt(1 - 2 * (WY - XZ));
+            float Sinp = 2.0f * (WY - XZ);
+            if (Sinp > 1.0f) {
+                Sinp = 1.0f;
+            }
+            if (Sinp < -1.0f) {
+                Sinp = -1.0f;
+            }
 
-            // z-axis rotation
+            // z-axis rotation (yaw)
             float Zpy = 2 * (WZ + XY);
             float Zpx = 1 - 2 * (YSquare + ZSquare);
 
+            float XRadian = math::AMath::ATan2(Xpy, Xpx);
+            float YRadian = math::AMath::ASin(Sinp);
+            float ZRadian = math::AMath::ATan2(Zpy, Zpx);
+
             return {
-                math::AMath::ATan2(Xpy, Xpx),
-                -(float)M_PI_2 + 2 * math::AMath::ATan2(Ypy, Ypx),
-                math::AMath::ATan2(Zpy, Zpx)
+                static_cast<float>(XRadian * 180 / M_PI),
+                static_cast<float>(YRadian * 180 / M_PI),
+                static_cast<float>(ZRadian * 180 / M_PI)
             };
         }
 
@@ -196,6 +221,10 @@ namespace MeowEngine::math {
 
         void Lerp();
         void Slerp();
+
+        static Quaternion Identity() {
+            return {1,0,0,0};
+        }
     };
 
 } // MeowEngine

@@ -37,7 +37,7 @@ MeowEngine::simulator::PhysXPhysicsSystem::~PhysXPhysicsSystem() {
 void MeowEngine::simulator::PhysXPhysicsSystem::Create() {
 
 
-    physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*gPhysics, physx::PxPlane(0,1,0,0), *gPhysics->createMaterial(0.0f, 0.0f, 0.6f));
+    physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*gPhysics, physx::PxPlane(0,1,0,0), *gPhysics->createMaterial(1,1,1));
     gScene->addActor(*groundPlane);
 
 //groundPlane->getGlobalPose()
@@ -92,6 +92,8 @@ void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPh
 
         rigidbody.SetPhysicsBody(actor);
         collider.SetPhysicsBody(actor);
+
+        physx::PxRigidBodyExt::updateMassAndInertia(*actor,1.0f);
 
         gScene->addActor(*actor);
     }

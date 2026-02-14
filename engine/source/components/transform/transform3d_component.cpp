@@ -93,12 +93,20 @@ void Transform3DComponent::Update(const float& deltaTime) {
 //    Quaternion = math::Quaternion(Rotation.X * M_PI / 180, Rotation.Y* M_PI / 180, Rotation.Z* M_PI / 180);
 //    float random = (float)std::rand() / RAND_MAX;
 //    Position.Y += 1.2f * deltaTime;
+//    Rotation.X += 1.2f * deltaTime;
+//    RecalculateQuaternion();
 
-//    RotateBy(1.0f * 0.2f);
+    Quaternion.Rotate(10.0f * deltaTime, 13.0f * deltaTime, 13.0f * deltaTime);
+    RecalculateEuler();
+}
+
+void Transform3DComponent::RecalculateEuler() {
+    Rotation = math::Quaternion::Euler(Quaternion);
 }
 
 void Transform3DComponent::OnRotationReflect() {
-    Quaternion = math::Quaternion(Rotation.X * M_PI / 180, Rotation.Y* M_PI / 180, Rotation.Z * M_PI / 180);
+    // TODO: Use Quaternion.Rotate or we would create gimble lock issues
+    Quaternion = math::Quaternion(Rotation);
 }
 
 //void Transform3DComponent::RotateBy(const float &degrees) {

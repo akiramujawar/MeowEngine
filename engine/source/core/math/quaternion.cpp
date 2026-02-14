@@ -100,19 +100,36 @@ namespace MeowEngine {
         return matrix;
     }
 
-    math::Quaternion math::Quaternion::Normalised() const {
-        return math::Quaternion();
+    math::Quaternion math::Quaternion::Normalised() {
+        float length = Magnitude();
+
+        // Edge Case we return identity quat
+        if(length == 0) {
+            return Quaternion::Identity();
+        };
+
+        W = W / length;
+        X = X / length;
+        Y = Y / length;
+        Z = Z / length;
+
+        return {
+            W,
+            X,
+            Y,
+            Z
+        };
     }
-
-    math::Quaternion math::Quaternion::Multiply(const math::Vector3 &pVector) {
-        return math::Quaternion();
-    }
-
-    void math::Quaternion::Lerp() {
-
-    }
-
-    void math::Quaternion::Slerp() {
-
-    }
+//
+//    math::Quaternion math::Quaternion::Multiply(const math::Vector3 &pVector) {
+//        return math::Quaternion();
+//    }
+//
+//    void math::Quaternion::Lerp() {
+//
+//    }
+//
+//    void math::Quaternion::Slerp() {
+//
+//    }
 } // MeowEngine

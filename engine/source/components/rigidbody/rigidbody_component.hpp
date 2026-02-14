@@ -22,18 +22,20 @@ namespace MeowEngine::entity {
 
         /**
          * update transform using rigidbody transform
+         * SyncTransformAndRigidbody()
          * @param inTransform
          */
         void UpdateTransform(entity::Transform3DComponent& inTransform);
 
         /**
          * update rigidbody transform using transform
+         * SyncRigidbody
          * @param inTransform
          */
         void OverrideTransform(entity::Transform3DComponent& inTransform);
 
-        void AddDelta(MeowEngine::math::Vector3 inDelta);
-        void CacheDelta(MeowEngine::math::Vector3 inDelta);
+        void AddDelta(MeowEngine::math::Vector3 inDelta, MeowEngine::math::Quaternion pDelta);
+        void CacheDelta(MeowEngine::math::Vector3 inDelta, MeowEngine::math::Quaternion pDelta);
 
         void SetPhysicsBody(physx::PxRigidDynamic* inBody);
         physx::PxRigidDynamic* GetPhysicsBody();
@@ -41,8 +43,24 @@ namespace MeowEngine::entity {
     private:
         physx::PxRigidDynamic* DynamicBody;
 
+        /**
+         * When physics is free, we move the cached delta to position delta
+         */
         MeowEngine::math::Vector3 PositionDelta;
+        MeowEngine::math::Quaternion QuaternionDelta;
+
+        /**
+         * Main thread position delta is cached when physics buffer is busy
+         * This is accumulated when physics thread is busy.
+         * This resets when physics thread is free, and is moved to PositionDelta
+         * TODO: Rework on this, to something like physics command.
+         * Main thread throws commands to physics
+         * Physics creates a snap shot of data to.
+         * We will be keep 3 buffers even though it might be heavy on memory
+         * This is learning project and not everything has to be perfect! <3
+         */
         MeowEngine::math::Vector3 PositionCachedDelta;
+        MeowEngine::math::Quaternion QuaternionCachedDelta;
     };
 }
 
