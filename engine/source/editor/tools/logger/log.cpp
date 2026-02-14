@@ -37,10 +37,15 @@ void MeowEngine::Log(const std::string& tag, std::initializer_list<std::string_v
 
     SetLogType(mType);
 
-    std::cout << tag;
+    std::cout << tag << ": ";
 
+    int i = 0;
     for(const auto& message : messages) {
-        std::cout << ',' << message;
+        std::cout << message;
+
+        if(++i < messages.size()) {
+            std::cout << ", ";
+        }
     }
 
     std::cout<<std::endl;
