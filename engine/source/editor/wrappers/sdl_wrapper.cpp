@@ -52,16 +52,11 @@ MeowEngine::WindowSize MeowEngine::sdl::GetInitialWindowSize() {
 #else
     const MeowEngine::Platform platform{MeowEngine::GetCurrentPlatform()};
 
-    if (platform == MeowEngine::Platform::ios || platform == MeowEngine::Platform::android)
-    {
-        // For mobile platforms we will fetch the full screen size.
-        SDL_DisplayMode displayMode;
-        SDL_GetDesktopDisplayMode(0, &displayMode);
-        return MeowEngine::WindowSize{static_cast<uint32_t>(displayMode.w), static_cast<uint32_t>(displayMode.h)};
-    }
+    // For mobile platforms we will fetch the full screen size.
+    SDL_DisplayMode displayMode;
+    SDL_GetDesktopDisplayMode(0, &displayMode);
+    return MeowEngine::WindowSize{static_cast<uint32_t>(displayMode.w), static_cast<uint32_t>(displayMode.h)};
 
-    // For other platforms we'll just show a fixed size window.
-    return MeowEngine::WindowSize{1000, 500};
 #endif
 }
 
