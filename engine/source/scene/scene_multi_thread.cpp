@@ -21,7 +21,7 @@
 #include "box_collider_shape.hpp"
 #include "collider_component.hpp"
 #include "reflection_test_component.hpp"
-#include "handle_render_component.hpp"
+#include "transform_handle_component.hpp"
 
 #include "sky_box_component.hpp"
 
@@ -217,7 +217,7 @@ struct SceneMultiThread::Internal {
             glm::vec3{0.0f, 1.0f, 0.0f},
             0.0f
         );
-        RegistryBuffer.AddComponent<entity::HandleRenderComponent>(
+        RegistryBuffer.AddComponent<entity::TransformHandleComponent>(
             transformHandleEntity,
             assets::ShaderPipelineType::TRANSFORM_HANDLE
         );

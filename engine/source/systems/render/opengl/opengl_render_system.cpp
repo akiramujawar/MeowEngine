@@ -12,7 +12,7 @@
 #include "opengl_collider_pipeline.hpp"
 #include "opengl_transform_handle_pipeline.hpp"
 
-#include "handle_render_component.hpp"
+#include "transform_handle_component.hpp"
 
 using MeowEngine::OpenGLRenderSystem;
 

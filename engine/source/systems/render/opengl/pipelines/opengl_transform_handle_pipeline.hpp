@@ -9,7 +9,7 @@
 #include "graphics_wrapper.hpp"
 
 #include "opengl_pipeline_base.hpp"
-#include "handle_render_component.hpp"
+#include "transform_handle_component.hpp"
 
 #include "transform3d_component.hpp"
 #include "perspective_camera.hpp"
@@ -24,7 +24,7 @@ namespace MeowEngine::pipeline {
     public:
         void Render(
             const MeowEngine::OpenGLAssetManager& assetManager,
-            const MeowEngine::entity::HandleRenderComponent* renderComponent,
+            const MeowEngine::entity::TransformHandleComponent* renderComponent,
             const MeowEngine::entity::Transform3DComponent* transform3DComponent,
             const MeowEngine::PerspectiveCamera* camera
         ) const;

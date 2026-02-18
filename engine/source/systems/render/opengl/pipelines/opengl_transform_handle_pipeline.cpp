@@ -20,7 +20,7 @@ OpenGLTransformHandlePipeline::~OpenGLTransformHandlePipeline() {
 
 void OpenGLTransformHandlePipeline::Render(
     const MeowEngine::OpenGLAssetManager& assetManager,
-    const MeowEngine::entity::HandleRenderComponent* renderComponent,
+    const MeowEngine::entity::TransformHandleComponent* renderComponent,
     const MeowEngine::entity::Transform3DComponent* transform3DComponent,
     const MeowEngine::PerspectiveCamera* camera
 ) const {
