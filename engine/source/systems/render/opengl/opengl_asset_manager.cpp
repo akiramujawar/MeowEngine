@@ -10,6 +10,9 @@
 #include "opengl_grid_pipeline.hpp"
 #include "opengl_sky_box_pipeline.hpp"
 #include "opengl_collider_pipeline.hpp"
+#include "opengl_transform_handle_pipeline.hpp"
+
+#include "magic_enum.hpp"
 
 
 using MeowEngine::OpenGLAssetManager;
@@ -193,9 +196,16 @@ using MeowEngine::pipeline::OpenGLMeshPipeline;
 // using template for having dynamic return of pipelines
 template<typename T>
 T* OpenGLAssetManager::GetShaderPipeline(const MeowEngine::assets::ShaderPipelineType& shaderPipeline) {
-    auto test = InternalPointer->shaderPipelineCache.at(shaderPipeline);
+    try {
+        auto pipeline = InternalPointer->shaderPipelineCache.at(shaderPipeline);
+        return static_cast<T *>(pipeline);
+    }
+    catch(...) {
+        auto pipelineName = magic_enum::enum_name(shaderPipeline);
 
-    return static_cast<T*>(test);
+        MeowEngine::Log("Asset Manager", {pipelineName, "Shader Not Found"}, MeowEngine::LogType::ERROR);
+        return nullptr;
+    }
 }
 
 template OpenGLMeshPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLMeshPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
