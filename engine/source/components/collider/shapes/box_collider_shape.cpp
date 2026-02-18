@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 30/08/24.
 //
 
-#include "box_collider_data.hpp"
+#include "box_collider_shape.hpp"
 
 #include "reflection_macro_wrapper.hpp"
 

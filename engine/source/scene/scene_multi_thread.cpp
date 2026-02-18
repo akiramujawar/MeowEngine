@@ -18,7 +18,7 @@
 
 #include "life_object_component.hpp"
 #include "transform3d_component.hpp"
-#include "box_collider_data.hpp"
+#include "box_collider_shape.hpp"
 #include "collider_component.hpp"
 #include "reflection_test_component.hpp"
 

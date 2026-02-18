@@ -2,13 +2,13 @@
 // Created by Akira Mujawar on 01/09/24.
 //
 
-#ifndef MEOWENGINE_COLLIDER_DATA_HPP
-#define MEOWENGINE_COLLIDER_DATA_HPP
+#ifndef MEOWENGINE_COLLIDER_SHAPE_BASE_HPP
+#define MEOWENGINE_COLLIDER_SHAPE_BASE_HPP
 
 #include "PxPhysicsAPI.h"
 
 #include "m_object.hpp"
-#include <collider_type.hpp>
+#include <collider_shape_type.hpp>
 
 namespace MeowEngine::entity {
     /**
@@ -43,4 +43,4 @@ namespace MeowEngine::entity {
 }
 
 
-#endif //MEOWENGINE_COLLIDER_DATA_HPP
+#endif //MEOWENGINE_COLLIDER_SHAPE_BASE_HPP

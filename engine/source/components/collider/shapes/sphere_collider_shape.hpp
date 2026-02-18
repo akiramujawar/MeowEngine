@@ -2,10 +2,10 @@
 // Created by Akira Mujawar on 12/02/25.
 //
 
-#ifndef MEOWENGINE_SPHERE_COLLIDER_DATA_HPP
-#define MEOWENGINE_SPHERE_COLLIDER_DATA_HPP
+#ifndef MEOWENGINE_SPHERE_COLLIDER_SHAPE_HPP
+#define MEOWENGINE_SPHERE_COLLIDER_SHAPE_HPP
 
-#include "collider_data.hpp"
+#include "collider_shape_base.hpp"
 
 namespace MeowEngine::entity {
 
@@ -47,4 +47,4 @@ namespace MeowEngine::entity {
 
 } // MeowEngine
 
-#endif //MEOWENGINE_SPHERE_COLLIDER_DATA_HPP
+#endif //MEOWENGINE_SPHERE_COLLIDER_SHAPE_HPP

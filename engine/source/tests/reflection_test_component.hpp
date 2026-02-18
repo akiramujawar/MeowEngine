@@ -6,7 +6,7 @@
 #define MEOWENGINE_REFLECTION_TEST_COMPONENT_HPP
 
 #include <pstring.hpp>
-#include <collider_type.hpp>
+#include <collider_shape_type.hpp>
 #include <log.hpp>
 #include "component_base.hpp"
 

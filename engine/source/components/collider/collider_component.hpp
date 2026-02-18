@@ -8,8 +8,8 @@
 #include <component_base.hpp>
 //#include <collider_type.hpp>
 
-#include <box_collider_data.hpp>
-#include "sphere_collider_data.hpp"
+#include <box_collider_shape.hpp>
+#include "sphere_collider_shape.hpp"
 
 namespace MeowEngine::entity {
     class ColliderComponent : public MeowEngine::entity::ComponentBase {
