@@ -17,9 +17,9 @@ namespace MeowEngine::entity {
      * This helps to have a single component with support for different styles of colliders.
      * TODO: Check if this restricts from having multiple colliders on same entity
      */
-    class ColliderData : MObject {
+    class ColliderShapeBase : MObject {
     public:
-        REFLECT_MObject(ColliderData)
+        REFLECT_MObject(ColliderShapeBase)
         static void Reflect() {}
 
         template<typename Type>

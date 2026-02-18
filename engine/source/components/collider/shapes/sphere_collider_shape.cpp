@@ -7,18 +7,18 @@
 #include "reflection_macro_wrapper.hpp"
 
 namespace MeowEngine::entity {
-    void SphereColliderData::Reflect() {
-        REGISTER_PROPERTY_CALLBACK(SphereColliderData, Radius, float, true, true, OnRadiusReflect)
-        REGISTER_PROPERTY_CALLBACK(SphereColliderData, StaticFriction, float, true, true, OnMaterialReflect)
-        REGISTER_PROPERTY_CALLBACK(SphereColliderData, DynamicFriction, float, true, true, OnMaterialReflect)
-        REGISTER_PROPERTY_CALLBACK(SphereColliderData, Restitution, float, true, true, OnMaterialReflect)
+    void SphereColliderShape::Reflect() {
+        REGISTER_PROPERTY_CALLBACK(SphereColliderShape, Radius, float, true, true, OnRadiusReflect)
+        REGISTER_PROPERTY_CALLBACK(SphereColliderShape, StaticFriction, float, true, true, OnMaterialReflect)
+        REGISTER_PROPERTY_CALLBACK(SphereColliderShape, DynamicFriction, float, true, true, OnMaterialReflect)
+        REGISTER_PROPERTY_CALLBACK(SphereColliderShape, Restitution, float, true, true, OnMaterialReflect)
 
-        REGISTER_PROPERTY(SphereColliderData, Geometry, physx::PxSphereGeometry, false, false)
-        REGISTER_POINTER(SphereColliderData, Material, physx::PxMaterial*, false, false)
-        REGISTER_POINTER(SphereColliderData, Shape, physx::PxShape*, false, false)
+        REGISTER_PROPERTY(SphereColliderShape, Geometry, physx::PxSphereGeometry, false, false)
+        REGISTER_POINTER(SphereColliderShape, Material, physx::PxMaterial*, false, false)
+        REGISTER_POINTER(SphereColliderShape, Shape, physx::PxShape*, false, false)
     }
 
-    SphereColliderData::SphereColliderData()
+    SphereColliderShape::SphereColliderShape()
             : Material(nullptr)
             , Shape(nullptr)
             , Geometry() {
@@ -30,7 +30,7 @@ namespace MeowEngine::entity {
 
     }
 
-    SphereColliderData::SphereColliderData(float inRadius)
+    SphereColliderShape::SphereColliderShape(float inRadius)
             : Material(nullptr)
             , Shape(nullptr)
             , Geometry() {
@@ -41,33 +41,33 @@ namespace MeowEngine::entity {
         Restitution = 0.3f;
     }
 
-    physx::PxGeometry& SphereColliderData::GetGeometry() {
+    physx::PxGeometry& SphereColliderShape::GetGeometry() {
         return Geometry;
     }
 
-    physx::PxMaterial& SphereColliderData::GetMaterial() {
+    physx::PxMaterial& SphereColliderShape::GetMaterial() {
         return *Material;
     }
 
-    physx::PxShape& SphereColliderData::GetShape() {
+    physx::PxShape& SphereColliderShape::GetShape() {
         return *Shape;
     }
 
-    void SphereColliderData::CreateGeometry() {
+    void SphereColliderShape::CreateGeometry() {
         Geometry = physx::PxSphereGeometry(Radius);
     }
 
-    void SphereColliderData::CreateMaterial(physx::PxPhysics* pPhysics) {
+    void SphereColliderShape::CreateMaterial(physx::PxPhysics* pPhysics) {
         Material = pPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution);
     }
 
-    void SphereColliderData::CreateShape(physx::PxPhysics* pPhysics) {
+    void SphereColliderShape::CreateShape(physx::PxPhysics* pPhysics) {
         Shape = pPhysics->createShape(Geometry, *Material);
     }
 
 // ----------------------
 
-    void SphereColliderData::OnRadiusReflect() {
+    void SphereColliderShape::OnRadiusReflect() {
         Geometry.radius = Radius / 2;
 
         // TODO: Find better a way to do this in a better way. As Shape is not available in other threads &
@@ -79,7 +79,7 @@ namespace MeowEngine::entity {
         }
     }
 
-    void SphereColliderData::OnMaterialReflect() {
+    void SphereColliderShape::OnMaterialReflect() {
         MeowEngine::Log("OnMaterialReflect", "Reflected");
     }
 

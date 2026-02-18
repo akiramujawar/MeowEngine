@@ -9,17 +9,17 @@
 
 namespace MeowEngine::entity {
 
-    class SphereColliderData : public entity::ColliderData {
+    class SphereColliderShape : public entity::ColliderShapeBase {
     public:
-        REFLECT_MObject(SphereColliderData)
+        REFLECT_MObject(SphereColliderShape)
         static void Reflect();
 
         // using explicit prevents any implicit conerstion / copy-init
         // SphereColliderData data = 0 // error
         // SphereColliderData data(); // success
-        explicit SphereColliderData();
-        explicit SphereColliderData(float inRadius);
-        virtual ~SphereColliderData() = default;
+        explicit SphereColliderShape();
+        explicit SphereColliderShape(float inRadius);
+        virtual ~SphereColliderShape() = default;
 
         physx::PxGeometry& GetGeometry() override;
         physx::PxMaterial& GetMaterial() override;

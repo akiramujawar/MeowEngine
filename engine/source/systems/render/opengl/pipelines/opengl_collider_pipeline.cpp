@@ -61,11 +61,11 @@ namespace MeowEngine {
 
             // get the colliders, cast as per the types and calculate their transform matrix
             // & segregate them into for instance rendering
-            entity::ColliderData& data = collider.GetColliderData();
+            entity::ColliderShapeBase& data = collider.GetColliderData();
 
             switch (data.GetType()) {
                 case entity::ColliderType::BOX: {
-                    auto& shape = data.Cast<entity::BoxColliderData>();
+                    auto& shape = data.Cast<entity::BoxColliderShape>();
 
                     transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Size.X, transform.Scale.Y * shape.Size.Y,transform.Scale.Z * shape.Size.Z));
                     boxColliders.push_back(transformMatrix);
@@ -73,7 +73,7 @@ namespace MeowEngine {
                     break;
                 }
                 case entity::ColliderType::SPHERE: {
-                    auto &shape = data.Cast<entity::SphereColliderData>();
+                    auto &shape = data.Cast<entity::SphereColliderShape>();
                     transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Radius, transform.Scale.Y * shape.Radius, transform.Scale.Z * shape.Radius));
                     sphereColliders.push_back(transformMatrix);
                     break;

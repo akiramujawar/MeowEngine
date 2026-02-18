@@ -9,17 +9,17 @@
 #include "math_wrapper.hpp"
 
 namespace MeowEngine::entity {
-    class BoxColliderData : public entity::ColliderData {
+    class BoxColliderShape : public entity::ColliderShapeBase {
     public:
-        REFLECT_MObject(BoxColliderData)
+        REFLECT_MObject(BoxColliderShape)
         static void Reflect();
 
         // using explicit prevents any implicit conversion / copy-init
         // BoxColliderData data = 0; // error
         // BoxColliderData data(); // success
-        explicit BoxColliderData();
-        explicit BoxColliderData(const MeowEngine::math::Vector3& inSize);
-        virtual ~BoxColliderData() = default;
+        explicit BoxColliderShape();
+        explicit BoxColliderShape(const MeowEngine::math::Vector3& inSize);
+        virtual ~BoxColliderShape() = default;
 
         physx::PxGeometry& GetGeometry() override;
         physx::PxMaterial& GetMaterial() override;

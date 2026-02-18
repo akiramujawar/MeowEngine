@@ -8,18 +8,18 @@
 
 using namespace MeowEngine::entity;
 
-void BoxColliderData::Reflect() {
-    REGISTER_PROPERTY_CALLBACK(BoxColliderData, Size, MeowEngine::math::Vector3, true, true, OnSizeReflect)
-    REGISTER_PROPERTY_CALLBACK(BoxColliderData, StaticFriction, float, true, true, OnMaterialReflect)
-    REGISTER_PROPERTY_CALLBACK(BoxColliderData, DynamicFriction, float, true, true, OnMaterialReflect)
-    REGISTER_PROPERTY_CALLBACK(BoxColliderData, Restitution, float, true, true, OnMaterialReflect)
+void BoxColliderShape::Reflect() {
+    REGISTER_PROPERTY_CALLBACK(BoxColliderShape, Size, MeowEngine::math::Vector3, true, true, OnSizeReflect)
+    REGISTER_PROPERTY_CALLBACK(BoxColliderShape, StaticFriction, float, true, true, OnMaterialReflect)
+    REGISTER_PROPERTY_CALLBACK(BoxColliderShape, DynamicFriction, float, true, true, OnMaterialReflect)
+    REGISTER_PROPERTY_CALLBACK(BoxColliderShape, Restitution, float, true, true, OnMaterialReflect)
 
-    REGISTER_PROPERTY(BoxColliderData, Geometry, physx::PxBoxGeometry, false, false)
-    REGISTER_POINTER(BoxColliderData, Material, physx::PxMaterial*, false, false)
-    REGISTER_POINTER(BoxColliderData, Shape, physx::PxShape*, false, false)
+    REGISTER_PROPERTY(BoxColliderShape, Geometry, physx::PxBoxGeometry, false, false)
+    REGISTER_POINTER(BoxColliderShape, Material, physx::PxMaterial*, false, false)
+    REGISTER_POINTER(BoxColliderShape, Shape, physx::PxShape*, false, false)
 }
 
-BoxColliderData::BoxColliderData()
+BoxColliderShape::BoxColliderShape()
 : Material(nullptr)
 , Shape(nullptr)
 , Geometry() {
@@ -30,7 +30,7 @@ BoxColliderData::BoxColliderData()
     Restitution = 0.3f;
 }
 
-BoxColliderData::BoxColliderData(const MeowEngine::math::Vector3& inSize)
+BoxColliderShape::BoxColliderShape(const MeowEngine::math::Vector3& inSize)
 : Material(nullptr)
 , Shape(nullptr)
 , Geometry() {
@@ -41,33 +41,33 @@ BoxColliderData::BoxColliderData(const MeowEngine::math::Vector3& inSize)
     Restitution = 0.6f;
 }
 
-physx::PxGeometry& BoxColliderData::GetGeometry() {
+physx::PxGeometry& BoxColliderShape::GetGeometry() {
     return Geometry;
 }
 
-physx::PxMaterial& BoxColliderData::GetMaterial() {
+physx::PxMaterial& BoxColliderShape::GetMaterial() {
     return *Material;
 }
 
-physx::PxShape& BoxColliderData::GetShape() {
+physx::PxShape& BoxColliderShape::GetShape() {
     return *Shape;
 }
 
-void BoxColliderData::CreateGeometry() {
+void BoxColliderShape::CreateGeometry() {
     Geometry = physx::PxBoxGeometry(physx::PxVec3(Size.X, Size.Y, Size.Z));
 }
 
-void BoxColliderData::CreateMaterial(physx::PxPhysics* pPhysics) {
+void BoxColliderShape::CreateMaterial(physx::PxPhysics* pPhysics) {
     Material = pPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution);
 }
 
-void BoxColliderData::CreateShape(physx::PxPhysics* pPhysics) {
+void BoxColliderShape::CreateShape(physx::PxPhysics* pPhysics) {
     Shape = pPhysics->createShape(Geometry, *Material);
 }
 
 // ----------------------
 
-void BoxColliderData::OnSizeReflect() {
+void BoxColliderShape::OnSizeReflect() {
     Geometry.halfExtents = physx::PxVec3(Size.X / 2, Size.Y / 2, Size.Z / 2);
 
     // TODO: Find better a way to do this in a better way. As Shape is not available in other threads &
@@ -79,6 +79,6 @@ void BoxColliderData::OnSizeReflect() {
     }
 }
 
-void BoxColliderData::OnMaterialReflect() {
+void BoxColliderShape::OnMaterialReflect() {
     MeowEngine::Log("OnMaterialReflect", "Reflected");
 }

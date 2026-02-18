@@ -133,7 +133,7 @@ namespace MeowEngine {
             );
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     cubeEntity,
-                    entity::BoxColliderData {}
+                    entity::BoxColliderShape {}
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     cubeEntity
@@ -159,7 +159,7 @@ namespace MeowEngine {
             );
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     cubeEntity1,
-                    entity::BoxColliderData{}
+                    entity::BoxColliderShape{}
             );
             RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                     cubeEntity1
@@ -186,7 +186,7 @@ namespace MeowEngine {
                 );
                 RegistryBuffer.AddComponent<entity::ColliderComponent>(
                         cubeTest,
-                        entity::BoxColliderData{}
+                        entity::BoxColliderShape{}
                 );
                 RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                         cubeTest
@@ -265,7 +265,7 @@ namespace MeowEngine {
                 );
                 RegistryBuffer.AddComponent<entity::ColliderComponent>(
                         cubeEntity,
-                        entity::BoxColliderData {}
+                        entity::BoxColliderShape {}
                 );
                 RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
                         cubeEntity

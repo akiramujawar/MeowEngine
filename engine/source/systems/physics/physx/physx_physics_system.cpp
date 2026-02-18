@@ -76,7 +76,7 @@ void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPh
 
         physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
 
-        entity::ColliderData& colliderData = collider.GetColliderData();
+        entity::ColliderShapeBase& colliderData = collider.GetColliderData();
         colliderData.CreateGeometry();
         colliderData.CreateMaterial(gPhysics);
         colliderData.CreateShape(gPhysics);

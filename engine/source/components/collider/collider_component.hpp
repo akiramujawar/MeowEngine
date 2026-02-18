@@ -18,18 +18,18 @@ namespace MeowEngine::entity {
         REFLECT_COMPONENT(ColliderComponent)
         static void Reflect();
 
-        ColliderComponent(entity::BoxColliderData inData);
-        ColliderComponent(entity::SphereColliderData inData);
+        ColliderComponent(entity::BoxColliderShape inData);
+        ColliderComponent(entity::SphereColliderShape inData);
         virtual ~ColliderComponent() = default;
 
         void SetPhysicsBody(physx::PxActor* inActor);
 
-        entity::ColliderData& GetColliderData();
+        entity::ColliderShapeBase& GetColliderData();
 
     private:
         // TODO: We need to support, multiple colliders attached as shapes to a rigidbody
         // TODO: Hence we will be refactoring pointer into vector array
-        entity::ColliderData* Data;
+        entity::ColliderShapeBase* Data;
 
         // TODO: This is null on render thread. Why was this not null randomly while debugging?
         physx::PxActor* Body;
