@@ -10,6 +10,9 @@
 #include "opengl_grid_pipeline.hpp"
 #include "opengl_sky_box_pipeline.hpp"
 #include "opengl_collider_pipeline.hpp"
+#include "opengl_transform_handle_pipeline.hpp"
+
+#include "handle_render_component.hpp"
 
 using MeowEngine::OpenGLRenderSystem;
 
@@ -26,43 +29,6 @@ struct OpenGLRenderSystem::Internal {
              std::shared_ptr<MeowEngine::graphics::ImGuiUserInterfaceSystem> inUIRenderer)
     : AssetManager(assetManager)
     , UI(inUIRenderer){}
-
-//    void Render(MeowEngine::PerspectiveCamera* cameraObject, MeowEngine::core::LifeObject* lifeObject) {
-//
-////        AssetManager->GetShaderPipeline(shaderPipelineType).Render(
-////                *AssetManager,
-////                staticMeshInstances,
-////                lineDraw
-////        );
-//
-//        RenderComponentBase* renderComponent = lifeObject->RenderComponent;
-//
-//        switch (renderComponent->GetShaderPipelineType()) {
-//            case ShaderPipelineType::Default:
-////                AssetManager->GetShaderPipeline<OpenGLMeshPipeline>(ShaderPipelineType::Default)->Render(
-////                    *AssetManager,
-////                    dynamic_cast<MeshRenderComponent*>(renderComponent),
-////                    dynamic_cast<MeowEngine::entity::Transform3dComponent*>(lifeObject->TransformComponent)
-////                );
-//                break;
-//            case ShaderPipelineType::Line:
-//                AssetManager->GetShaderPipeline<OpenGLLinePipeline>(ShaderPipelineType::Line)->Render(
-//                    *AssetManager,
-//                    dynamic_cast<LineRenderComponent*>(renderComponent),
-//                    dynamic_cast<MeowEngine::core::component::Transform3DComponent*>(lifeObject->TransformComponent),
-//                    cameraObject
-//                );
-//                break;
-//            case ShaderPipelineType::Grid:
-//                AssetManager->GetShaderPipeline<OpenGLGridPipeline>(ShaderPipelineType::Grid)->Render(
-//                        *AssetManager,
-//                        renderComponent,
-//                        dynamic_cast<MeowEngine::core::component::Transform3DComponent*>(lifeObject->TransformComponent),
-//                        cameraObject
-//                );
-//                break;
-//        }
-//    }
 
     void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry)
     {
@@ -81,6 +47,9 @@ struct OpenGLRenderSystem::Internal {
 //        for(auto &&[entt::entity, MeowEngine::entity::Transform3dComponent]: registry.view<entity::Transform3dComponent>().each()) {
 //            // ...
 //        }
+
+        // Where-ever optimisation can be achieved remove it from such loop queries.
+        // We know there's only one skybox or grid so no need to include that
         for(auto &&[entity,renderComponent, transform]: registry.view<entity::MeshRenderComponent, entity::Transform3DComponent>().each())
         {
             AssetManager->GetShaderPipeline<OpenGLMeshPipeline>(ShaderPipelineType::Default)->Render(
@@ -111,9 +80,17 @@ struct OpenGLRenderSystem::Internal {
                         &transform,
                         cameraObject
                 );
-
-
         }
+
+//        for(auto &&[entity,renderComponent, transform]: registry.view<entity::HandleRenderComponent, entity::Transform3DComponent>().each())
+//        {
+//            AssetManager->GetShaderPipeline<OpenGLTransformHandlePipeline>(ShaderPipelineType::TRANSFORM_HANDLE)->Render(
+//                    *AssetManager,
+//                    &renderComponent,
+//                    &transform,
+//                    cameraObject
+//            );
+//        }
     }
 
     void RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, unsigned int frameBufferId, const double fps) {

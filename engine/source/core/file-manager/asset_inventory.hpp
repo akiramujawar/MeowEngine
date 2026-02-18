@@ -17,7 +17,8 @@ namespace MeowEngine::assets {
         Line,
         Grid,
         Sky,
-        PHYSICS_COLLIDER
+        PHYSICS_COLLIDER,
+        TRANSFORM_HANDLE
     };
     REFLECT_ENUM(MeowEngine::assets, ShaderPipelineType)
 

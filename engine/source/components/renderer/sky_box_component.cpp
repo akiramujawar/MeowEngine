@@ -12,7 +12,7 @@ void MeowEngine::entity::SkyBoxComponent::Reflect() {
 }
 
 SkyBoxComponent::SkyBoxComponent()
-    : Shader(MeowEngine::assets::ShaderPipelineType::Default) {}
+    : MeowEngine::entity::RenderComponentBase(MeowEngine::assets::ShaderPipelineType::Default) {}
 
 SkyBoxComponent::SkyBoxComponent(MeowEngine::assets::ShaderPipelineType shaderPipelineType)
-    : Shader(shaderPipelineType) {}
+    : MeowEngine::entity::RenderComponentBase(shaderPipelineType) {}

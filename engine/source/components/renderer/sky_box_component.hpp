@@ -21,10 +21,10 @@ namespace MeowEngine::entity {
 
 //        virtual void Update(const glm::mat4 &projectionViewMatrix) = 0;
 
-        MeowEngine::assets::ShaderPipelineType& GetShaderPipelineType() { return Shader; }
+//        MeowEngine::assets::ShaderPipelineType& GetShaderPipelineType() { return Shader; }
 
-    protected:
-        MeowEngine::assets::ShaderPipelineType Shader;
+//    protected:
+//        MeowEngine::assets::ShaderPipelineType Shader;
     };
 }
 

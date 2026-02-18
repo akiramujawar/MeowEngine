@@ -21,6 +21,7 @@
 #include "box_collider_shape.hpp"
 #include "collider_component.hpp"
 #include "reflection_test_component.hpp"
+#include "handle_render_component.hpp"
 
 #include "sky_box_component.hpp"
 
@@ -73,7 +74,8 @@ struct SceneMultiThread::Internal {
                                                   assets::ShaderPipelineType::Default,
                                                   assets::ShaderPipelineType::Line,
                                                   assets::ShaderPipelineType::Sky,
-                                                  assets::ShaderPipelineType::PHYSICS_COLLIDER
+                                                  assets::ShaderPipelineType::PHYSICS_COLLIDER,
+                                                  assets::ShaderPipelineType::TRANSFORM_HANDLE
                                           });
 
         assetManager->LoadStaticMeshes({
@@ -204,6 +206,22 @@ struct SceneMultiThread::Internal {
 //        );
 //
 //
+
+        const auto transformHandleEntity = RegistryBuffer.AddEntity();
+        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(transformHandleEntity, "Transform Handle");
+        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            transformHandleEntity,
+            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+            math::Vector3{0, 0, 0},
+            math::Vector3{1.0, 1.0f, 1.0f},
+            glm::vec3{0.0f, 1.0f, 0.0f},
+            0.0f
+        );
+        RegistryBuffer.AddComponent<entity::HandleRenderComponent>(
+            transformHandleEntity,
+            assets::ShaderPipelineType::TRANSFORM_HANDLE
+        );
+
         const auto gridEntity = RegistryBuffer.AddEntity();
         RegistryBuffer.AddComponent<entity::LifeObjectComponent>(gridEntity, "Grid");
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
