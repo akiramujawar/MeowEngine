@@ -2,14 +2,17 @@
 // Created by Akira Mujawar on 19/02/26.
 //
 
-#ifndef MEOWENGINE_OPENGL_EXTENSION_HPP
-#define MEOWENGINE_OPENGL_EXTENSION_HPP
+#ifndef MEOWENGINE_GLM_EXTENSION_HPP
+#define MEOWENGINE_GLM_EXTENSION_HPP
 
 #include "glm_wrapper.hpp"
 #include "math_wrapper.hpp"
 
 namespace MeowEngine {
-    class OpenGLExtension {
+    /**
+     * This is temporary, with time we will completely remove the GLM usage within our engine
+     */
+    class GLMExtension {
     public:
         /**
          * TODO: Implement full matrix structure for transform matrix
@@ -45,4 +48,4 @@ namespace MeowEngine {
 }
 
 
-#endif //MEOWENGINE_OPENGL_EXTENSION_HPP
+#endif //MEOWENGINE_GLM_EXTENSION_HPP

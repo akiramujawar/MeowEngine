@@ -4,7 +4,7 @@
 
 #include "transform3d_component.hpp"
 #include <log.hpp>
-#include "opengl_extension.hpp"
+#include "glm_extension.hpp"
 
 #include "reflection_macro_wrapper.hpp"
 
@@ -57,7 +57,7 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, 
 
 void Transform3DComponent::CalculateTransformMatrix(const glm::mat4 &inProjectionMatrix) {
     math::Matrix4x4 rotationMatrix = Quaternion.GetRotationMatrix4x4();
-    glm::mat4 rotation4Matrix = MeowEngine::OpenGLExtension::GetMat4FromMatrix4x4(rotationMatrix);
+    glm::mat4 rotation4Matrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(rotationMatrix);
 
         TransformMatrix = inProjectionMatrix
                       * glm::translate(IdentityMatrix, glm::vec3(Position.X, Position.Y, Position.Z))

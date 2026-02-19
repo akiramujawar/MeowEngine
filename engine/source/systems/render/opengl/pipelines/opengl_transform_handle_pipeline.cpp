@@ -4,7 +4,7 @@
 
 #include "opengl_transform_handle_pipeline.hpp"
 
-#include "opengl_extension.hpp"
+#include "glm_extension.hpp"
 
 namespace MeowEngine::pipeline {
     OpenGLTransformHandlePipeline::OpenGLTransformHandlePipeline(const GLuint &pShaderProgramID)
@@ -68,7 +68,7 @@ namespace MeowEngine::pipeline {
         glUseProgram(ShaderProgramID);
 
         math::Quaternion rotationQuat = transform3DComponent->Quaternion;
-        glm::mat4 rotationMatrix = MeowEngine::OpenGLExtension::GetMat4FromMatrix4x4(
+        glm::mat4 rotationMatrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(
                 rotationQuat.GetRotationMatrix4x4());
 
         glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_view"), 1, GL_FALSE,
