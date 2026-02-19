@@ -80,7 +80,7 @@ namespace MeowEngine::pipeline {
         glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_handleRotation"), 1, GL_FALSE,
                            &rotationMatrix[0][0]);
 
-        glUniform1f(glGetUniformLocation(ShaderProgramID, "u_handleScale"), 0.1f);
+        glUniform1f(glGetUniformLocation(ShaderProgramID, "u_handleScale"), 0.11f);
         glUniform1i(glGetUniformLocation(ShaderProgramID, "u_selectedAxis"), -1);
 
         glDisable(GL_CULL_FACE);
@@ -185,7 +185,7 @@ namespace MeowEngine::pipeline {
     ) {
         float cubeOffset = 0.5f;
         glm::vec3 cubeCenter = pDirection * cubeOffset;
-        float s = 0.03f;
+        float s = 0.05f;
 
         glm::vec3 offsets[8] = {
                 {-s, -s, -s},
@@ -226,8 +226,8 @@ namespace MeowEngine::pipeline {
             glm::vec3 pDirection
     ) {
         float arrowOffset = 1.0f;
-        float arrowLength = 0.15f;
-        float arrowRadius = 0.05f;
+        float arrowLength = 0.17f;
+        float arrowRadius = 0.075f;
         int segments = 16;
 
         uint32_t arrowBaseIndex = pVertices.size() / 5;
@@ -278,7 +278,7 @@ namespace MeowEngine::pipeline {
             const std::function<uint32_t(glm::vec3, int, int)>& pAddVertex,
             int pAxis
     ) {
-        float ringRadius = 0.8f;
+        float ringRadius = 0.75f;
         float thickness = 0.02f;
 
         float ringSegments = 64;

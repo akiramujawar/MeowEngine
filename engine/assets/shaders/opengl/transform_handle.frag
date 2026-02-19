@@ -13,13 +13,13 @@ out vec4 o_fragColor;
 
 vec3 getAxisColor(int pAxis) {
     if (pAxis == 0) {
-        return vec3(0.9, 0.2, 0.2); // red
+        return vec3(0.9, 0.2, 0.2); // red x
     }
     if (pAxis == 1) {
-        return vec3(0.2, 0.85, 0.25); // green
+        return vec3(0.2, 0.85, 0.25); // green y
     }
     else {
-        return vec3(0.2, 0.45, 0.95); // blue
+        return vec3(0.2, 0.45, 0.95); // blue z
     }
 }
 

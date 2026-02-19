@@ -77,8 +77,8 @@ void Transform3DComponent::Update(const float& deltaTime) {
 //    Rotation.X += 1.2f * deltaTime;
 //    RecalculateQuaternion();
 
-    Quaternion.Rotate(10.0f * deltaTime, 13.0f * deltaTime, 13.0f * deltaTime);
-    RecalculateEuler();
+//    Quaternion.Rotate(10.0f * deltaTime, 13.0f * deltaTime, 13.0f * deltaTime);
+//    RecalculateEuler();
 }
 
 void Transform3DComponent::RecalculateEuler() {
