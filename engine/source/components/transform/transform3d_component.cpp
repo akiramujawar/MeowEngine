@@ -4,6 +4,7 @@
 
 #include "transform3d_component.hpp"
 #include <log.hpp>
+#include "opengl_extension.hpp"
 
 #include "reflection_macro_wrapper.hpp"
 
@@ -56,27 +57,7 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, 
 
 void Transform3DComponent::CalculateTransformMatrix(const glm::mat4 &inProjectionMatrix) {
     math::Matrix4x4 rotationMatrix = Quaternion.GetRotationMatrix4x4();
-    // TODO: Implement full matrix structure for transform matrix
-    glm::mat4 rotation4Matrix {};
-    rotation4Matrix[0][0] = rotationMatrix.X1;
-    rotation4Matrix[0][1] = rotationMatrix.X2;
-    rotation4Matrix[0][2] = rotationMatrix.X3;
-    rotation4Matrix[0][3] = rotationMatrix.X4;
-
-    rotation4Matrix[1][0] = rotationMatrix.Y1;
-    rotation4Matrix[1][1] = rotationMatrix.Y2;
-    rotation4Matrix[1][2] = rotationMatrix.Y3;
-    rotation4Matrix[1][3] = rotationMatrix.Y4;
-
-    rotation4Matrix[2][0] = rotationMatrix.Z1;
-    rotation4Matrix[2][1] = rotationMatrix.Z2;
-    rotation4Matrix[2][2] = rotationMatrix.Z3;
-    rotation4Matrix[2][3] = rotationMatrix.Z4;
-
-    rotation4Matrix[3][0] = rotationMatrix.D1;
-    rotation4Matrix[3][1] = rotationMatrix.D2;
-    rotation4Matrix[3][2] = rotationMatrix.D3;
-    rotation4Matrix[3][3] = rotationMatrix.D4;
+    glm::mat4 rotation4Matrix = MeowEngine::OpenGLExtension::GetMat4FromMatrix4x4(rotationMatrix);
 
         TransformMatrix = inProjectionMatrix
                       * glm::translate(IdentityMatrix, glm::vec3(Position.X, Position.Y, Position.Z))

@@ -5,6 +5,7 @@
 #include "opengl_collider_pipeline.hpp"
 #include "transform3d_component.hpp"
 #include "collider_component.hpp"
+#include "opengl_extension.hpp"
 
 namespace MeowEngine {
 
@@ -23,29 +24,9 @@ namespace MeowEngine {
         std::vector<glm::mat4> sphereColliders;
 
         for(auto &&[entity, transform, collider]: registry.view<entity::Transform3DComponent, entity::ColliderComponent>().each()) {
-
             math::Matrix4x4 rotationMatrix = transform.Quaternion.GetRotationMatrix4x4();
-            // TODO: Implement full matrix structure for transform matrix
-            glm::mat4 rotation4Matrix {};
-            rotation4Matrix[0][0] = rotationMatrix.X1;
-            rotation4Matrix[0][1] = rotationMatrix.X2;
-            rotation4Matrix[0][2] = rotationMatrix.X3;
-            rotation4Matrix[0][3] = rotationMatrix.X4;
 
-            rotation4Matrix[1][0] = rotationMatrix.Y1;
-            rotation4Matrix[1][1] = rotationMatrix.Y2;
-            rotation4Matrix[1][2] = rotationMatrix.Y3;
-            rotation4Matrix[1][3] = rotationMatrix.Y4;
-
-            rotation4Matrix[2][0] = rotationMatrix.Z1;
-            rotation4Matrix[2][1] = rotationMatrix.Z2;
-            rotation4Matrix[2][2] = rotationMatrix.Z3;
-            rotation4Matrix[2][3] = rotationMatrix.Z4;
-
-            rotation4Matrix[3][0] = rotationMatrix.D1;
-            rotation4Matrix[3][1] = rotationMatrix.D2;
-            rotation4Matrix[3][2] = rotationMatrix.D3;
-            rotation4Matrix[3][3] = rotationMatrix.D4;
+            glm::mat4 rotation4Matrix = MeowEngine::OpenGLExtension::GetMat4FromMatrix4x4(rotationMatrix);
 
             // cannot any more use transform matrix
             // we will take the position, rotation & pick size collider data & create our own transform matrix
