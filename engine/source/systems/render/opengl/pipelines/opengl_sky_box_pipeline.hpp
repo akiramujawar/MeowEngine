@@ -27,7 +27,6 @@ namespace MeowEngine::pipeline {
         void Render(
             const MeowEngine::OpenGLAssetManager& assetManager,
             const MeowEngine::entity::SkyBoxComponent* renderComponent,
-            const MeowEngine::entity::Transform3DComponent* transform3DComponent,
             const MeowEngine::PerspectiveCamera* camera
         ) const;
 

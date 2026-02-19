@@ -19,7 +19,6 @@ OpenGLGridPipeline::~OpenGLGridPipeline() {
 void OpenGLGridPipeline::Render(
         const MeowEngine::OpenGLAssetManager &assetManager,
         const MeowEngine::entity::RenderComponentBase *renderComponent,
-        const MeowEngine::entity::Transform3DComponent* transform3DComponent,
         const MeowEngine::PerspectiveCamera* camera) const {
 
     glUseProgram(ShaderProgramID);

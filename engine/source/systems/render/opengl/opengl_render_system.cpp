@@ -13,11 +13,13 @@
 #include "opengl_transform_handle_pipeline.hpp"
 
 #include "transform_handle_component.hpp"
+#include "grid_component.hpp"
 
 using MeowEngine::OpenGLRenderSystem;
 
 using namespace MeowEngine::pipeline;
 using namespace MeowEngine::entity;
+using namespace MeowEngine::component;
 
 using MeowEngine::assets::ShaderPipelineType;
 
@@ -48,10 +50,12 @@ struct OpenGLRenderSystem::Internal {
 //            // ...
 //        }
 
+        // TODO: Find a cleaner way as manual query for render components for shader pipeline will result in editor code changes for every new shaders
+        // TODO: This can be taken up once we start on improving our shader pipeline itself
         // Where-ever optimisation can be achieved remove it from such loop queries.
         // We know there's only one skybox or grid so no need to include that
-        for(auto &&[entity,renderComponent, transform]: registry.view<entity::MeshRenderComponent, entity::Transform3DComponent>().each())
-        {
+
+        for(auto &&[entity,renderComponent, transform]: registry.view<entity::MeshRenderComponent, entity::Transform3DComponent>().each()) {
             AssetManager->GetShaderPipeline<OpenGLMeshPipeline>(ShaderPipelineType::Default)->Render(
                     *AssetManager,
                     &renderComponent,
@@ -59,33 +63,27 @@ struct OpenGLRenderSystem::Internal {
             );
         }
 
-        for(auto &&[entity,renderComponent, transform]: registry.view<entity::RenderComponentBase, entity::Transform3DComponent>().each())
-        {
-
+        for(auto &&[entity,renderComponent]: registry.view<component::GridComponent>().each()) {
                 AssetManager->GetShaderPipeline<OpenGLGridPipeline>(ShaderPipelineType::Grid)->Render(
                         *AssetManager,
                         &renderComponent,
-                        &transform,
                         cameraObject
                 );
-
         }
 
-        for(auto &&[entity,renderComponent, transform]: registry.view<entity::SkyBoxComponent, entity::Transform3DComponent>().each())
-        {
-
+        for(auto &&[entity,renderComponent]: registry.view<entity::SkyBoxComponent>().each()) {
                 AssetManager->GetShaderPipeline<OpenGLSkyBoxPipeline>(ShaderPipelineType::Sky)->Render(
                         *AssetManager,
                         &renderComponent,
-                        &transform,
                         cameraObject
                 );
         }
+
         if(registry.valid(pSelection.SelectedEntity)) {
             auto selectedTransform = registry.try_get<entity::Transform3DComponent>(pSelection.SelectedEntity);
 
             if(selectedTransform != nullptr) {
-                for (auto &&[entity, renderComponent, transform]: registry.view<entity::TransformHandleComponent, entity::Transform3DComponent>().each()) {
+                for (auto &&[entity, renderComponent]: registry.view<entity::TransformHandleComponent>().each()) {
                     AssetManager->GetShaderPipeline<OpenGLTransformHandlePipeline>(
                             ShaderPipelineType::TRANSFORM_HANDLE)->Render(
                             *AssetManager,

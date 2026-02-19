@@ -25,6 +25,7 @@
 #include "transform_handle_component.hpp"
 #include "sky_box_component.hpp"
 #include "rigidbody_component.hpp"
+#include "grid_component.hpp"
 
 #include "entt_triple_buffer.hpp"
 #include "reflection_macro_wrapper.hpp"
@@ -36,6 +37,7 @@ using MeowEngine::SceneMultiThread;
 
 using namespace MeowEngine::assets;
 using namespace MeowEngine::entity;
+using namespace MeowEngine::component;
 
 namespace {
     MeowEngine::PerspectiveCamera CreateCamera(const MeowEngine::WindowSize& size) {
@@ -210,14 +212,14 @@ struct SceneMultiThread::Internal {
 
         const auto transformHandleEntity = RegistryBuffer.AddEntity();
         RegistryBuffer.AddComponent<entity::LifeObjectComponent>(transformHandleEntity, "Transform Handle");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-            transformHandleEntity,
-            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-            math::Vector3{0, 0, 0},
-            math::Vector3{1.0, 1.0f, 1.0f},
-            glm::vec3{0.0f, 1.0f, 0.0f},
-            0.0f
-        );
+//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+//            transformHandleEntity,
+//            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+//            math::Vector3{0, 0, 0},
+//            math::Vector3{1.0, 1.0f, 1.0f},
+//            glm::vec3{0.0f, 1.0f, 0.0f},
+//            0.0f
+//        );
         RegistryBuffer.AddComponent<entity::TransformHandleComponent>(
             transformHandleEntity,
             assets::ShaderPipelineType::TRANSFORM_HANDLE
@@ -225,29 +227,29 @@ struct SceneMultiThread::Internal {
 
         const auto gridEntity = RegistryBuffer.AddEntity();
         RegistryBuffer.AddComponent<entity::LifeObjectComponent>(gridEntity, "Grid");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-                gridEntity,
-                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                math::Vector3{0, 0, 0},
-                math::Vector3{1.0, 1.0f, 1.0f},
-                glm::vec3{0.0f, 1.0f, 0.0f},
-                0.0f
-        );
-        RegistryBuffer.AddComponent<entity::RenderComponentBase>(
+//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+//                gridEntity,
+//                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+//                math::Vector3{0, 0, 0},
+//                math::Vector3{1.0, 1.0f, 1.0f},
+//                glm::vec3{0.0f, 1.0f, 0.0f},
+//                0.0f
+//        );
+        RegistryBuffer.AddComponent<component::GridComponent>(
             gridEntity,
             assets::ShaderPipelineType::Grid
         );
 
         const auto skyEntity = RegistryBuffer.AddEntity();
         RegistryBuffer.AddComponent<entity::LifeObjectComponent>(skyEntity, "Sky Box");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-                skyEntity,
-                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                math::Vector3{0, 0, 0},
-                math::Vector3{1.0, 1.0f, 1.0f},
-                glm::vec3{0.0f, 1.0f, 0.0f},
-                0.0f
-        );
+//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+//                skyEntity,
+//                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+//                math::Vector3{0, 0, 0},
+//                math::Vector3{1.0, 1.0f, 1.0f},
+//                glm::vec3{0.0f, 1.0f, 0.0f},
+//                0.0f
+//        );
         RegistryBuffer.AddComponent<entity::SkyBoxComponent>(
                 skyEntity,
                 assets::ShaderPipelineType::Sky
