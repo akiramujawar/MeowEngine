@@ -29,7 +29,7 @@ MeowEngine::graphics::ui::ImGuiStructurePanel::~ImGuiStructurePanel() {
 
 }
 
-void ImGuiStructurePanel::Draw(entt::registry& registry) {
+void ImGuiStructurePanel::Draw(entt::registry& registry, MeowEngine::SelectionData& pSelection) {
 //    auto registers = scene.GetEntities();
 
     ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
@@ -41,6 +41,7 @@ void ImGuiStructurePanel::Draw(entt::registry& registry) {
             auto& lifeObject =  view.get<MeowEngine::entity::LifeObjectComponent>(entity);
             CreateSelectableItem(
                 registry,
+                pSelection,
                 lifeObject,
                 entity
             );
@@ -51,14 +52,10 @@ void ImGuiStructurePanel::Draw(entt::registry& registry) {
 
 }
 
-void ImGuiStructurePanel::CreateSelectableItem(entt::registry& registry, MeowEngine::entity::LifeObjectComponent& lifeObject, entt::entity item) {
-//    auto registers = scene.GetEntities();
-
-//    const int id = lifeObject.Id;
+void ImGuiStructurePanel::CreateSelectableItem(entt::registry& registry, MeowEngine::SelectionData& pSelection, MeowEngine::entity::LifeObjectComponent& lifeObject, entt::entity item) {
     const int id = static_cast<int>(item);
 
-//    const bool isSelected = registry.valid(SelectedEntity) && registry.get<MeowEngine::entity::LifeObjectComponent>(SelectedEntity).Id == id;
-    const bool isSelected = registry.valid(SelectedEntity) && static_cast<int>(SelectedEntity) == id;
+    const bool isSelected = registry.valid(pSelection.SelectedEntity) && static_cast<int>(pSelection.SelectedEntity) == id;
     ImGuiTreeNodeFlags flags = lifeObject.GetChildCount() == 0 ? DefaultSelectableNoListFlags : DefaultSelectableFlags;
 
     // If the item is selected we add selected flag
@@ -71,11 +68,7 @@ void ImGuiStructurePanel::CreateSelectableItem(entt::registry& registry, MeowEng
 
     // If item gets clicked with cache item
     if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-        SelectedEntity = item ;
+        pSelection.SelectedEntity = item ;
         MeowEngine::Log("Object Selected: ", std::to_string(id));
     }
-}
-
-entt::entity ImGuiStructurePanel::GetSelectedItem() {
-    return SelectedEntity;
 }

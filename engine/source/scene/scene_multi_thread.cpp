@@ -7,6 +7,8 @@
 #include "camera_controller.hpp"
 #include "perspective_camera.hpp"
 #include "static_mesh_instance.hpp"
+#include "selection_data.hpp"
+
 #include "log.hpp"
 #include "opengl_line_pipeline.hpp"
 
@@ -15,17 +17,15 @@
 #include "line_render_component.hpp"
 #include "transform2d_component.hpp"
 #include "transform3d_component.hpp"
-
 #include "life_object_component.hpp"
 #include "transform3d_component.hpp"
 #include "box_collider_shape.hpp"
 #include "collider_component.hpp"
 #include "reflection_test_component.hpp"
 #include "transform_handle_component.hpp"
-
 #include "sky_box_component.hpp"
-
 #include "rigidbody_component.hpp"
+
 #include "entt_triple_buffer.hpp"
 #include "reflection_macro_wrapper.hpp"
 
@@ -49,6 +49,7 @@ namespace {
 struct SceneMultiThread::Internal {
     MeowEngine::PerspectiveCamera Camera;
     MeowEngine::CameraController CameraController;
+    MeowEngine::SelectionData SelectionData; // later we will have some type of unified system for selection system
 
     EnttTripleBuffer RegistryBuffer;
 
@@ -382,12 +383,12 @@ struct SceneMultiThread::Internal {
 //        for(auto& lifeObject : LifeObjects) {
 //            renderer.Render(&Camera, &lifeObject);
 //        }
-        renderer.RenderGameView(&Camera, RegistryBuffer.GetFinal());
+        renderer.RenderGameView(&Camera, RegistryBuffer.GetFinal(), SelectionData);
         renderer.RenderPhysics(&Camera, RegistryBuffer.GetFinal());
     }
 
     void RenderUserInterface(MeowEngine::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
-        renderer.RenderUserInterface(RegistryBuffer.GetFinal(), RegistryBuffer.GetPropertyChangeQueue() , frameBufferId, fps);
+        renderer.RenderUserInterface(RegistryBuffer.GetFinal(), RegistryBuffer.GetPropertyChangeQueue(), SelectionData , frameBufferId, fps);
     }
 
     void SwapMainAndRenderBufferOnMainThread() {

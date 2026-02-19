@@ -21,6 +21,9 @@
 #include "sky_box_component.hpp"
 
 #include "rigidbody_component.hpp"
+
+#include "selection_data.hpp"
+
 #include "reflection_macro_wrapper.hpp"
 #include "entt_single_buffer.hpp"
 
@@ -35,6 +38,7 @@ namespace MeowEngine {
         MeowEngine::PerspectiveCamera Camera;
         MeowEngine::CameraController CameraController;
 
+        MeowEngine::SelectionData SelectionData;
         MeowEngine::EnttSingleBuffer RegistryBuffer;
 
         // User Input Events
@@ -313,11 +317,11 @@ namespace MeowEngine {
         }
 
         void RenderGameView(MeowEngine::RenderSystem& renderer) {
-            renderer.RenderGameView(&Camera, RegistryBuffer.GetCurrent());
+            renderer.RenderGameView(&Camera, RegistryBuffer.GetCurrent(), SelectionData);
         }
 
         void RenderUserInterface(MeowEngine::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
-            renderer.RenderUserInterface(RegistryBuffer.GetCurrent(), RegistryBuffer.GetPropertyChangeQueue() , frameBufferId, fps);
+            renderer.RenderUserInterface(RegistryBuffer.GetCurrent(), RegistryBuffer.GetPropertyChangeQueue(), SelectionData, frameBufferId, fps);
         }
 
         void ApplyUpdateChanges() {

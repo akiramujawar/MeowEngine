@@ -15,6 +15,7 @@
 #include "imgui_log_panel.hpp"
 #include "entt_wrapper.hpp"
 #include "queue"
+#include "selection_data.hpp"
 
 namespace MeowEngine::graphics {
     struct ImGuiUserInterfaceSystem {
@@ -22,7 +23,7 @@ namespace MeowEngine::graphics {
         ~ImGuiUserInterfaceSystem();
 
         void Input(const SDL_Event& event);
-        void Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, unsigned int frameBufferId, const double fps);
+        void Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection, unsigned int frameBufferId, const double fps);
 
         // Closes any child processes like tracy
         void ClosePIDs();
@@ -34,7 +35,7 @@ namespace MeowEngine::graphics {
         void OpenTracyProfiler();
 
         void CreateNewFrame();
-        void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, uint32_t frameBufferId, const double fps);
+        void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection, uint32_t frameBufferId, const double fps);
         void RenderFrame();
 
         void CreateDockingSpace();

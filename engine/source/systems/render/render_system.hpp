@@ -9,13 +9,21 @@
 
 #include "entt_wrapper.hpp"
 #include "perspective_camera.hpp"
+#include "selection_data.hpp"
 #include "reflection_property_change.hpp"
 #include "queue"
 
 namespace MeowEngine {
     struct RenderSystem {
-        virtual void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) = 0;
-        virtual void RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, unsigned int frameBufferId, const double fps) = 0;
+        virtual void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject,
+                                    entt::registry& registry,
+                                    MeowEngine::SelectionData& pSelection) = 0;
+
+        virtual void RenderUserInterface(entt::registry& registry,
+                                         std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
+                                         MeowEngine::SelectionData& pSelection,
+                                         unsigned int frameBufferId,
+                                         const double fps) = 0;
 
         virtual void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) = 0;
     };

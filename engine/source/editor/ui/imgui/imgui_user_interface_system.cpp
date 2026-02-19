@@ -138,9 +138,9 @@ void ImGuiUserInterfaceSystem::Input(const SDL_Event& event) {
 #endif
 }
 
-void MeowEngine::graphics::ImGuiUserInterfaceSystem::Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, unsigned int frameBufferId, const double fps) {
+void MeowEngine::graphics::ImGuiUserInterfaceSystem::Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection, unsigned int frameBufferId, const double fps) {
     CreateNewFrame();
-    DrawFrame(registry, inUIInputQueue, frameBufferId, fps);
+    DrawFrame(registry, inUIInputQueue, pSelection, frameBufferId, fps);
     RenderFrame();
 }
 
@@ -185,15 +185,15 @@ void MeowEngine::graphics::ImGuiUserInterfaceSystem::CreateNewFrame() {
     ImGui::NewFrame();
 }
 
-void MeowEngine::graphics::ImGuiUserInterfaceSystem::DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, uint32_t frameBufferId, const double fps) {
+void MeowEngine::graphics::ImGuiUserInterfaceSystem::DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection, uint32_t frameBufferId, const double fps) {
     CreateDockingSpace();
 
 //    CreateRender3DPanel(frameBufferId);
 //    CreateLifeObjectSelectorPanel(scene);
 
 
-    EditPanel.Draw(registry, inUIInputQueue, StructurePanel.GetSelectedItem());
-    StructurePanel.Draw(registry);
+    EditPanel.Draw(registry, inUIInputQueue, pSelection);
+    StructurePanel.Draw(registry, pSelection);
     WorldRenderPanel.Draw(reinterpret_cast<void*>(frameBufferId), fps);
     LogPanel.Draw();
 

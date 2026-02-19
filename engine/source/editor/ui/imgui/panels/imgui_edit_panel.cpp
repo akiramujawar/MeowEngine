@@ -17,21 +17,21 @@ MeowEngine::graphics::ui::ImGuiEditPanel::~ImGuiEditPanel() {
 
 }
 
-void MeowEngine::graphics::ui::ImGuiEditPanel::Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, entt::entity lifeObject) {
+void MeowEngine::graphics::ui::ImGuiEditPanel::Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection) {
     ImGuiWindowFlags window_flags = 0;
     window_flags |= ImGuiWindowFlags_NoCollapse;
 
     ImGui::Begin("Edit", &CanDrawPanel);
     {
-        // NOTE: There's a issue when a edit is made to edit panel and a new item is selected without loosing focus from edit panel
-        if(registry.valid(lifeObject))
+        // TODO: There's a issue when a edit is made to edit panel and a new item is selected without loosing focus from edit panel
+        if(registry.valid(pSelection.SelectedEntity))
         {
             // for each component or
             for(pair<unsigned int, entt::basic_sparse_set<>&> component : registry.storage()){
-                if(component.second.contains(lifeObject)) {
+                if(component.second.contains(pSelection.SelectedEntity)) {
                     entt::id_type type = component.first;
                     const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
-                    void* componentObject = component.second.value(lifeObject);
+                    void* componentObject = component.second.value(pSelection.SelectedEntity);
 
                     // Display Component Name
                     if(ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -39,7 +39,7 @@ void MeowEngine::graphics::ui::ImGuiEditPanel::Draw(entt::registry& registry, st
                             MeowEngine::ReflectionPropertyChange* change = MeowEngine::ImGuiInputExtension::ShowProperty(componentName, componentObject, true);
                             change != nullptr
                         ){
-                            change->EntityId = static_cast<int>(lifeObject);
+                            change->EntityId = static_cast<int>(pSelection.SelectedEntity);
                             change->ComponentType = type;
 
 //                            MeowEngine::Log("Edit Panel", *static_cast<float*>(change->Data));

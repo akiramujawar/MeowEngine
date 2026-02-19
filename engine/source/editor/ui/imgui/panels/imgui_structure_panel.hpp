@@ -9,20 +9,18 @@
 //#include "opengl_framebuffer.hpp"
 //#include "window_size.hpp"
 #include "imgui_wrapper.hpp"
-#include "life_object_component.hpp"
 #include "entt_wrapper.hpp"
+
+#include "life_object_component.hpp"
+#include "selection_data.hpp"
 
 namespace MeowEngine::graphics::ui {
     struct ImGuiStructurePanel {
         ImGuiStructurePanel();
         ~ImGuiStructurePanel();
 
-        void Draw(entt::registry& registry);
-
-        void CreateSelectableItem(entt::registry& registry, MeowEngine::entity::LifeObjectComponent& lifeObject, entt::entity item);
-
-        // Returns true if item is selected
-        entt::entity GetSelectedItem();
+        void Draw(entt::registry& registry, MeowEngine::SelectionData& pSelection);
+        void CreateSelectableItem(entt::registry& registry, MeowEngine::SelectionData& pSelection, MeowEngine::entity::LifeObjectComponent& lifeObject, entt::entity item);
 
     private:
         const ImGuiTreeNodeFlags DefaultSelectableFlags;
@@ -31,9 +29,6 @@ namespace MeowEngine::graphics::ui {
 
         bool IsActive;
         ImGuiWindowFlags WindowFlags;
-//        std::weak_ptr<core::LifeObject> SelectedItem;
-//        core::LifeObject* SelectedItem;
-        entt::entity SelectedEntity;
     };
 }
 

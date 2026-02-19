@@ -6,8 +6,9 @@
 #define MEOWENGINE_IMGUI_EDIT_PANEL_HPP
 
 #include "math_wrapper.hpp"
-//#include "scene.hpp"
 #include "entt_wrapper.hpp"
+
+#include "selection_data.hpp"
 #include "reflection_property_change.hpp"
 #include "queue"
 
@@ -16,7 +17,7 @@ namespace MeowEngine::graphics::ui {
         ImGuiEditPanel();
         ~ImGuiEditPanel();
 
-        void Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, entt::entity lifeObject);
+        void Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection);
 
     private:
         bool CanDrawPanel;
