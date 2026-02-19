@@ -5,7 +5,7 @@
 // these set using alVertexAttribPointer at the time of shader pipeline instance
 
 // repsents the vertices of transform handles
-layout(location = 0) in vec3 l_vertex;
+layout(location = 0) in vec3 l_vertexPosition;
 
 // represents a given axis
 layout(location = 1) in int l_axis;
@@ -34,7 +34,7 @@ void main() {
     float scale = dist * u_handleScale;
 
     // apply rotation (mat4), position (vec3), scale (float)
-    vec4 localPosition = u_handleRotation * vec4(l_vertex * scale, 1.0);
+    vec4 localPosition = u_handleRotation * vec4(l_vertexPosition * scale, 1.0);
 
     // convert to world position vec3
     vec3 worldPos = u_handlePosition + localPosition.xyz;

@@ -23,15 +23,40 @@ namespace MeowEngine::pipeline {
 
     public:
         void Render(
-            const MeowEngine::OpenGLAssetManager& assetManager,
-            const MeowEngine::entity::TransformHandleComponent* renderComponent,
-            const MeowEngine::entity::Transform3DComponent* transform3DComponent,
-            const MeowEngine::PerspectiveCamera* camera
+            const OpenGLAssetManager& assetManager,
+            const entity::TransformHandleComponent* renderComponent,
+            const entity::Transform3DComponent* transform3DComponent,
+            const PerspectiveCamera* camera
         ) const;
 
     private:
+        void CreateHandle(std::vector<float>& vertices, std::vector<uint32_t>& indices);
+        void AddAxisLines(std::vector<float>& pVertices,
+                          std::vector<uint32_t>& pIndices,
+                          const std::function<uint32_t(glm::vec3, int, int)>& pAddVertex,
+                          int pAxis);
+        void AddScaleCubes(std::vector<float>& pVertices,
+                           std::vector<uint32_t>& pIndices,
+                           const std::function<uint32_t(glm::vec3, int, int)>& pAddVertex,
+                           int pAxis,
+                           glm::vec3 pDirection);
+        void AddArrowHeads(std::vector<float>& pVertices,
+                           std::vector<uint32_t>& pIndices,
+                           const std::function<uint32_t(glm::vec3, int, int)>& pAddVertex,
+                           int pAxis,
+                           glm::vec3 pDirection);
+        void AddRotationRings(std::vector<uint32_t>& pIndices,
+                              const std::function<uint32_t(glm::vec3, int, int)>& pAddVertex,
+                              int pAxis);
+
+    private:
         const GLuint ShaderProgramID;
-        unsigned int VertexArrayObject;
+
+        GLuint VertexArrayObject;
+        GLuint VertexBufferObject;
+        GLuint ElementBufferObject;
+
+        int IndexCount;
     };
 }
 
