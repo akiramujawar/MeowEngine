@@ -11,7 +11,7 @@
 #include "imgui_wrapper.hpp"
 #include "entt_wrapper.hpp"
 
-#include "life_object_component.hpp"
+#include "hierarchy_component.hpp"
 #include "selection_data.hpp"
 
 namespace MeowEngine::graphics::ui {
@@ -20,7 +20,11 @@ namespace MeowEngine::graphics::ui {
         ~ImGuiStructurePanel();
 
         void Draw(entt::registry& registry, MeowEngine::SelectionData& pSelection);
-        void CreateSelectableItem(entt::registry& registry, MeowEngine::SelectionData& pSelection, MeowEngine::entity::LifeObjectComponent& lifeObject, entt::entity item);
+        void CreateSelectableItem(
+                entt::registry& registry,
+                MeowEngine::SelectionData& pSelection,
+                component::HierarchyComponent& pHierarchyComponent,
+                bool& pIsItemClicked);
 
     private:
         const ImGuiTreeNodeFlags DefaultSelectableFlags;

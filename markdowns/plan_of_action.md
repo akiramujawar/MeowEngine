@@ -18,6 +18,7 @@
 - [ ] Implement Tracy throughout engine especially for tracking memory allocations
 - [ ] Create Unique ID generator for items
 - [ ] Documenting done items and different approaches and used libraries
+- [x] Hierarchy for entities
 
 ## Meow Engine v0.6
 - [x] Compilation of physx for web

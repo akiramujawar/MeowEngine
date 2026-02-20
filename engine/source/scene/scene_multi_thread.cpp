@@ -17,7 +17,7 @@
 #include "line_render_component.hpp"
 #include "transform2d_component.hpp"
 #include "transform3d_component.hpp"
-#include "life_object_component.hpp"
+#include "info_component.hpp"
 #include "transform3d_component.hpp"
 #include "box_collider_shape.hpp"
 #include "collider_component.hpp"
@@ -26,6 +26,7 @@
 #include "sky_box_component.hpp"
 #include "rigidbody_component.hpp"
 #include "grid_component.hpp"
+#include "hierarchy_component.hpp"
 
 #include "entt_triple_buffer.hpp"
 #include "reflection_macro_wrapper.hpp"
@@ -108,10 +109,23 @@ struct SceneMultiThread::Internal {
     }
 
     void CreateSceneOnMainThread() {
-        auto entity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(entity, "Torus");
+        auto torus = RegistryBuffer.AddEntity();
+
+        // this is for demo purpose :p
+        // TODO: Need to find a better alternative since adding components is multi-threaded.
+        // TODO: We dont get the structure right away.
+        // TODO: Preventing us to do create commands like SetParent on Hierarchy component.
+        auto torusChildTransform = RegistryBuffer.AddEntity();
+        auto torusChildTransformChildTransform = RegistryBuffer.AddEntity();
+        auto torusChildTransformChildHierarchy = RegistryBuffer.AddEntity();
+        auto torusChildHierarchy = RegistryBuffer.AddEntity();
+        auto torusChildHierarchyChildHierarchy = RegistryBuffer.AddEntity();
+        auto torusChildHierarchyTransformHierarchy = RegistryBuffer.AddEntity();
+
+        RegistryBuffer.AddComponent<component::HierarchyComponent>(torus, torus, entt::null, torusChildTransform, entt::null, entt::null);
+        RegistryBuffer.AddComponent<entity::InfoComponent>(torus, "Torus");
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-                entity,
+            torus,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
                 math::Vector3{5, 5, 5},
                 math::Vector3{1.0, 1.0f, 1.0f},
@@ -119,7 +133,7 @@ struct SceneMultiThread::Internal {
                 12.0f
         );
         RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
-                entity,
+            torus,
                 assets::ShaderPipelineType::Default,
                 new MeowEngine::StaticMeshInstance{
                         assets::StaticMeshType::Torus,
@@ -127,16 +141,59 @@ struct SceneMultiThread::Internal {
                 }
         );
         RegistryBuffer.AddComponent<entity::ReflectionTestComponent>(
-            entity
+            torus
         );
 
-        for(int i = 0 ; i < 1; i++){
+        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildTransform, torusChildTransform, torus, torusChildTransformChildTransform, torusChildHierarchy, entt::null);
+        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildTransform, "1 (transform)");
+        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            torusChildTransform,
+            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+            math::Vector3{5, 5, 5},
+            math::Vector3{1.0, 1.0f, 1.0f},
+            glm::vec3{0.0f, 1.0f, 0.0f},
+            12.0f
+        );
+
+        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildTransformChildTransform, torusChildTransformChildTransform, torusChildTransform, entt::null, torusChildTransformChildHierarchy, entt::null);
+        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildTransformChildTransform, "1-1 (transform)");
+        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            torusChildTransformChildTransform,
+            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+            math::Vector3{5, 5, 5},
+            math::Vector3{1.0, 1.0f, 1.0f},
+            glm::vec3{0.0f, 1.0f, 0.0f},
+            12.0f
+        );
+
+        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildTransformChildHierarchy, torusChildTransformChildHierarchy, torusChildTransform, entt::null, entt::null, torusChildTransformChildTransform);
+        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildTransformChildHierarchy, "1-2");
+
+        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildHierarchy, torusChildHierarchy, torus, torusChildHierarchyChildHierarchy, entt::null, torusChildTransform);
+        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildHierarchy, "2");
+
+        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildHierarchyChildHierarchy, torusChildHierarchyChildHierarchy, torusChildHierarchy, torusChildHierarchyTransformHierarchy, entt::null, entt::null);
+        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildHierarchyChildHierarchy, "2-1");
+
+        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildHierarchyTransformHierarchy, torusChildHierarchyTransformHierarchy, torusChildHierarchyChildHierarchy, entt::null, entt::null, entt::null);
+        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildHierarchyTransformHierarchy, "2-1-1 (transform)");
+        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            torusChildHierarchyTransformHierarchy,
+            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+            math::Vector3{5, 5, 5},
+            math::Vector3{1.0, 1.0f, 1.0f},
+            glm::vec3{0.0f, 1.0f, 0.0f},
+            12.0f
+        );
+
+        for(int i = 0 ; i < 10; i++){
             const auto cubeTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeTest, "Cube (" + std::to_string(i) + ")");
+            RegistryBuffer.AddComponent<component::HierarchyComponent>(cubeTest, cubeTest, entt::null, entt::null, entt::null, entt::null);
+            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeTest, "Cube (" + std::to_string(i) + ")");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 5.0f + i, 2},
+                    math::Vector3{0.0f, 5.0f + i * 3, 2},
                     math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
@@ -159,13 +216,14 @@ struct SceneMultiThread::Internal {
             );
         }
 
-        for(int i = 0 ; i < 0; i++){
+        for(int i = 0 ; i < 10; i++){
             const auto sphereTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(sphereTest, "Sphere (" + std::to_string(i) + ")");
+            RegistryBuffer.AddComponent<component::HierarchyComponent>(sphereTest, sphereTest, entt::null, entt::null, entt::null, entt::null);
+            RegistryBuffer.AddComponent<entity::InfoComponent>(sphereTest, "Sphere (" + std::to_string(i) + ")");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     sphereTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 20.0f + i, 2},
+                    math::Vector3{0.0f, 20.0f + i * 3, 2},
                     math::Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
@@ -189,67 +247,36 @@ struct SceneMultiThread::Internal {
             );
         }
 
-//
-//
-//        // setup object
-//        // later query for all rigidbody, get the physx, get the collider and construct for physics
-//
-//        const auto cameraEntity = RegistryBuffer.AddEntity();
-//        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cameraEntity, "Camera");
-//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-//            cameraEntity,
-//            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-//            math::Vector3{0, 0, 0},
-//            math::Vector3{1.0, 1.0f, 1.0f},
-//            glm::vec3{0.0f, 1.0f, 0.0f},
-//            0.0f
-//        );
-//        RegistryBuffer.AddComponent<entity::CameraComponent>(
-//            cameraEntity
-//        );
-//
-//
+        const auto cameraEntity = RegistryBuffer.AddEntity();
+        RegistryBuffer.AddComponent<entity::InfoComponent>(cameraEntity, "Camera");
+        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            cameraEntity,
+            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+            math::Vector3{0, 0, 0},
+            math::Vector3{1.0, 1.0f, 1.0f},
+            glm::vec3{0.0f, 1.0f, 0.0f},
+            0.0f
+        );
+        RegistryBuffer.AddComponent<entity::CameraComponent>(
+            cameraEntity
+        );
 
         const auto transformHandleEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(transformHandleEntity, "Transform Handle");
-//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-//            transformHandleEntity,
-//            Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-//            math::Vector3{0, 0, 0},
-//            math::Vector3{1.0, 1.0f, 1.0f},
-//            glm::vec3{0.0f, 1.0f, 0.0f},
-//            0.0f
-//        );
+        RegistryBuffer.AddComponent<entity::InfoComponent>(transformHandleEntity, "Transform Handle");
         RegistryBuffer.AddComponent<entity::TransformHandleComponent>(
             transformHandleEntity,
             assets::ShaderPipelineType::TRANSFORM_HANDLE
         );
 
         const auto gridEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(gridEntity, "Grid");
-//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-//                gridEntity,
-//                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-//                math::Vector3{0, 0, 0},
-//                math::Vector3{1.0, 1.0f, 1.0f},
-//                glm::vec3{0.0f, 1.0f, 0.0f},
-//                0.0f
-//        );
+        RegistryBuffer.AddComponent<entity::InfoComponent>(gridEntity, "Grid");
         RegistryBuffer.AddComponent<component::GridComponent>(
             gridEntity,
             assets::ShaderPipelineType::Grid
         );
 
         const auto skyEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::LifeObjectComponent>(skyEntity, "Sky Box");
-//        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
-//                skyEntity,
-//                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-//                math::Vector3{0, 0, 0},
-//                math::Vector3{1.0, 1.0f, 1.0f},
-//                glm::vec3{0.0f, 1.0f, 0.0f},
-//                0.0f
-//        );
+        RegistryBuffer.AddComponent<entity::InfoComponent>(skyEntity, "Sky Box");
         RegistryBuffer.AddComponent<entity::SkyBoxComponent>(
                 skyEntity,
                 assets::ShaderPipelineType::Sky
@@ -273,7 +300,7 @@ struct SceneMultiThread::Internal {
 
         if(inputManager.isMouseDown && (inputManager.mouseState & SDL_BUTTON_RMASK)) {
             const auto cubeEntity = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity, "Cube");
+            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity, "Cube");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),

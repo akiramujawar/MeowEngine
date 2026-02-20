@@ -29,6 +29,26 @@
 ### creating alternate systems for switching maths/ physics/ rendering
 ### hierarchy for objects -> 9
 - requires transforms
+- while i was researching i created this list to build a solid foundation considering memory & performance
+- the below list can be a later part, we either create topology or have use DFS for transforms 
+- ECS Layer
+  - EnTT (AoS sparse-set)
+  - Entity metadata
+  - Handles to systems
+- Transform System
+  - Dirty flag
+  - Topological order
+  - Possibly SoA layout
+- Physics Core
+  - SoA storage
+  - Broadphase
+  - Constraint graph
+  - Island detection
+  - Solver
+  - Parallel jobs
+- Synchronization
+  - Double buffering
+  - Stable handles
 ### ui logger
 - requires file manager
   builds

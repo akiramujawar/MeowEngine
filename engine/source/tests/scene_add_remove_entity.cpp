@@ -15,7 +15,7 @@ namespace MeowEngine {
 //            test2 =0;
 //            const auto cubeEntity = RegistryBuffer.AddEntity();
 //            MeowEngine::Log("Added", static_cast<int>(cubeEntity));
-//            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity, "cube");
+//            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity, "cube");
 //            RegistryBuffer.AddComponent<entity::Transform3DComponent>(
 //                    cubeEntity,
 //                    Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),

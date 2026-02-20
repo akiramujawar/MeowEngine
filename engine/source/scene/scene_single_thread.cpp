@@ -13,7 +13,7 @@
 #include "transform2d_component.hpp"
 #include "transform3d_component.hpp"
 
-#include "life_object_component.hpp"
+#include "info_component.hpp"
 #include "transform3d_component.hpp"
 #include "box_collider_shape.hpp"
 #include "collider_component.hpp"
@@ -76,7 +76,7 @@ namespace MeowEngine {
                                                assets::TextureType::Pattern
                                        });
 
-//            REGISTER_ENTT_COMPONENT(LifeObjectComponent);
+//            REGISTER_ENTT_COMPONENT(InfoComponent);
 //
 //            REGISTER_ENTT_COMPONENT(Transform2DComponent);
 //            REGISTER_ENTT_COMPONENT(Transform3DComponent);
@@ -99,7 +99,7 @@ namespace MeowEngine {
 
         void Create(MeowEngine::simulator::PhysicsSystem* inPhysics) {
             auto entity = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(entity, "torus");
+            RegistryBuffer.AddComponent<entity::InfoComponent>(entity, "torus");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     entity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -118,7 +118,7 @@ namespace MeowEngine {
             );
 
             const auto cubeEntity = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity, "cube");
+            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity, "cube");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -144,7 +144,7 @@ namespace MeowEngine {
             );
 
             const auto cubeEntity1 = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity1, "cube1");
+            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity1, "cube1");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity1,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -171,7 +171,7 @@ namespace MeowEngine {
 
             for(int i = 0 ; i < 2500; i++){
                 const auto cubeTest = RegistryBuffer.AddEntity();
-                RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeTest, "cube");
+                RegistryBuffer.AddComponent<entity::InfoComponent>(cubeTest, "cube");
                 RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                         cubeTest,
                         Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -201,7 +201,7 @@ namespace MeowEngine {
             // later query for all rigidbody, get the physx, get the collider and construct for physics
 
             const auto gridEntity = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(gridEntity, "grid");
+            RegistryBuffer.AddComponent<entity::InfoComponent>(gridEntity, "grid");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     gridEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -216,7 +216,7 @@ namespace MeowEngine {
             );
 
             const auto skyEntity = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::LifeObjectComponent>(skyEntity, "sky");
+            RegistryBuffer.AddComponent<entity::InfoComponent>(skyEntity, "sky");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     skyEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
@@ -250,7 +250,7 @@ namespace MeowEngine {
 
             if(inputManager.isMouseDown && (inputManager.mouseState & SDL_BUTTON_RMASK)) {
                 const auto cubeEntity = RegistryBuffer.AddEntity();
-                RegistryBuffer.AddComponent<entity::LifeObjectComponent>(cubeEntity, "cube");
+                RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity, "cube");
                 RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                         cubeEntity,
                         Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
