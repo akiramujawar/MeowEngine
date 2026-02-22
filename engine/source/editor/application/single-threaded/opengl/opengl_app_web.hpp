@@ -13,7 +13,7 @@
 #include "input_manager.hpp"
 //#include "scene_single_thread.hpp"
 #include "sdl_window.hpp"
-#include "imgui_user_interface_system.hpp"
+#include "imgui_ui_system.hpp"
 #include "opengl_render_system.hpp"
 #include "physx_physics_system.hpp"
 
@@ -53,7 +53,7 @@ namespace MeowEngine {
 
         // render
         std::unique_ptr<MeowEngine::SDLWindow> WindowContext;
-        std::shared_ptr<MeowEngine::graphics::ImGuiUserInterfaceSystem> UserInterface;
+        std::shared_ptr<Runtime::ImGuiUISystem> UserInterface;
         std::unique_ptr<MeowEngine::OpenGLRenderSystem> GameView;
 
         /**

@@ -2,25 +2,25 @@
 // Created by Akira Mujawar on 08/07/24.
 //
 
-#ifndef MEOWENGINE_IMGUI_USER_INTERFACE_SYSTEM_HPP
-#define MEOWENGINE_IMGUI_USER_INTERFACE_SYSTEM_HPP
+#ifndef MEOWENGINE_IMGUI_UI_SYSTEM_HPP
+#define MEOWENGINE_IMGUI_UI_SYSTEM_HPP
 
 //#include <scene.hpp>
 #include "opengl_framebuffer.hpp"
 #include "window_size.hpp"
 
-#include "imgui_structure_panel.hpp"
-#include "imgui_edit_panel.hpp"
-#include "imgui_world_render_panel.hpp"
-#include "imgui_log_panel.hpp"
+#include "imgui_world_tree_panel.hpp"
+#include "imgui_world_inspector_panel.hpp"
+#include "imgui_world_view_panel.hpp"
+#include "imgui_console_panel.hpp"
 #include "entt_wrapper.hpp"
 #include "queue"
 #include "selection_data.hpp"
 
-namespace MeowEngine::graphics {
-    struct ImGuiUserInterfaceSystem {
-        ImGuiUserInterfaceSystem(SDL_Window* window, SDL_GLContext& context);
-        ~ImGuiUserInterfaceSystem();
+namespace MeowEngine::Runtime {
+    struct ImGuiUISystem {
+        ImGuiUISystem(SDL_Window* window, SDL_GLContext& context);
+        ~ImGuiUISystem();
 
         void Input(const SDL_Event& event);
         void Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection, unsigned int frameBufferId, const double fps);
@@ -53,12 +53,13 @@ namespace MeowEngine::graphics {
 //        void CreateLogPanel();
 
         bool IsRendering;
-        MeowEngine::graphics::ui::ImGuiStructurePanel StructurePanel;
-        MeowEngine::graphics::ui::ImGuiEditPanel EditPanel;
-        MeowEngine::editor::ImGuiWorldRenderPanel WorldRenderPanel;
-        MeowEngine::editor::ImGuiLogPanel LogPanel;
+
+        ImGuiWorldTreePanel WorldTreePanel;
+        ImGuiWorldInspectorPanel WorldInspectorPanel;
+        ImGuiWorldViewPanel WorldViewPanel;
+        ImGuiConsolePanel ConsolePanel;
     };
 }
 
 
-#endif //MEOWENGINE_IMGUI_USER_INTERFACE_SYSTEM_HPP
+#endif //MEOWENGINE_IMGUI_UI_SYSTEM_HPP

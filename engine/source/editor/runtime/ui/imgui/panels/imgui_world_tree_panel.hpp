@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 13/07/24.
 //
 
-#ifndef MEOWENGINE_IMGUI_STRUCTURE_PANEL_HPP
-#define MEOWENGINE_IMGUI_STRUCTURE_PANEL_HPP
+#ifndef MEOWENGINE_IMGUI_WORLD_TREE_PANEL_HPP
+#define MEOWENGINE_IMGUI_WORLD_TREE_PANEL_HPP
 
 //#include <scene.hpp>
 //#include "opengl_framebuffer.hpp"
@@ -14,10 +14,10 @@
 #include "hierarchy_component.hpp"
 #include "selection_data.hpp"
 
-namespace MeowEngine::graphics::ui {
-    struct ImGuiStructurePanel {
-        ImGuiStructurePanel();
-        ~ImGuiStructurePanel();
+namespace MeowEngine::Runtime {
+    struct ImGuiWorldTreePanel {
+        ImGuiWorldTreePanel();
+        ~ImGuiWorldTreePanel();
 
         void Draw(entt::registry& registry, MeowEngine::SelectionData& pSelection);
         void CreateSelectableItem(
@@ -37,4 +37,4 @@ namespace MeowEngine::graphics::ui {
 }
 
 
-#endif //MEOWENGINE_IMGUI_STRUCTURE_PANEL_HPP
+#endif //MEOWENGINE_IMGUI_WORLD_TREE_PANEL_HPP

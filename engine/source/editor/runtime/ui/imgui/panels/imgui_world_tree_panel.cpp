@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 13/07/24.
 //
 
-#include "imgui_structure_panel.hpp"
+#include "imgui_world_tree_panel.hpp"
 
 //#include <SDL_video.h>
 //#include <SDL_events.h>
@@ -16,21 +16,21 @@
 //#include "imgui_renderer.hpp"
 //#include "bridge_wrapper.hpp"
 
-using MeowEngine::graphics::ui::ImGuiStructurePanel;
-namespace MeowEngine::graphics::ui {
 
-    ImGuiStructurePanel::ImGuiStructurePanel()
+namespace MeowEngine::Runtime {
+
+    ImGuiWorldTreePanel::ImGuiWorldTreePanel()
         : DefaultSelectableFlags(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth)
         , DefaultSelectableNoListFlags(DefaultSelectableFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen)
         , IsActive(true)
         , WindowFlags(ImGuiWindowFlags_NoCollapse) {}
 
-    ImGuiStructurePanel::~ImGuiStructurePanel() {}
+    ImGuiWorldTreePanel::~ImGuiWorldTreePanel() {}
 
-    void ImGuiStructurePanel::Draw(entt::registry &registry, MeowEngine::SelectionData &pSelection) {
+    void ImGuiWorldTreePanel::Draw(entt::registry &registry, MeowEngine::SelectionData &pSelection) {
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 
-        ImGui::Begin("Structure", &IsActive); {
+        ImGui::Begin("World Tree", &IsActive); {
             auto view = registry.view<component::HierarchyComponent>();
             bool isItemClicked = false;
 
@@ -48,7 +48,7 @@ namespace MeowEngine::graphics::ui {
 
     }
 
-    void ImGuiStructurePanel::CreateSelectableItem(entt::registry& registry,
+    void ImGuiWorldTreePanel::CreateSelectableItem(entt::registry& registry,
                                                    MeowEngine::SelectionData& pSelection,
                                                    component::HierarchyComponent& pHierarchyComponent,
                                                    bool& pIsItemClicked) {

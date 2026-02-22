@@ -1,0 +1,87 @@
+//
+// Created by Akira Mujawar on 13/07/24.
+//
+
+#include "imgui_world_inspector_panel.hpp"
+#include "imgui_wrapper.hpp"
+#include "log.hpp"
+
+#include "reflection_macro_wrapper.hpp"
+#include "imgui_input_extension.hpp"
+
+namespace MeowEngine::Runtime {
+    ImGuiWorldInspectorPanel::ImGuiWorldInspectorPanel() {
+
+    }
+
+    ImGuiWorldInspectorPanel::~ImGuiWorldInspectorPanel() {
+
+    }
+
+    void ImGuiWorldInspectorPanel::Draw(entt::registry& registry,
+                                        std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
+                                        MeowEngine::SelectionData& pSelection) {
+        ImGuiWindowFlags window_flags = 0;
+        window_flags |= ImGuiWindowFlags_NoCollapse;
+
+        ImGui::Begin("World Inspector", &CanDrawPanel);
+        {
+            // TODO: There's a issue when a edit is made to edit panel and a new item is selected without loosing focus from edit panel
+            if (registry.valid(pSelection.SelectedEntity)) {
+                // for each component or
+                for (pair<unsigned int, entt::basic_sparse_set<>&> component: registry.storage()) {
+                    if (component.second.contains(pSelection.SelectedEntity)) {
+                        entt::id_type type = component.first;
+                        const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
+                        void* componentObject = component.second.value(pSelection.SelectedEntity);
+
+                        // Display Component Name
+                        if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+                            if (
+                                MeowEngine::ReflectionPropertyChange* change = ImGuiInputExtension::ShowProperty(
+                                    componentName, componentObject, true);
+                                change != nullptr
+                                ) {
+                                change->EntityId = static_cast<int>(pSelection.SelectedEntity);
+                                change->ComponentType = type;
+
+//                            MeowEngine::Log("Edit Panel", *static_cast<float*>(change->Data));
+                                inUIInputQueue.push(std::make_shared<MeowEngine::ReflectionPropertyChange>(*change));
+                            }
+
+                            ImGui::Spacing();
+                        }
+                    }
+                }
+
+//            for(MeowEngine::ReflectionProperty property : componentProperties) {
+//                if(property.Name == propertyName) {
+//                    // if last last propertyName
+////                    property.Set(componentObject, propertyData);
+////                      else property.Get() then move forward in loop
+//                    break;
+//                }
+//            }
+
+                // entt component id -> queue<property.name> -> value data pointer
+
+//            entity::Transform3DComponent& transform = registry.get<MeowEngine::entity::Transform3DComponent>(lifeObject);
+//            entity::RigidbodyComponent* rigidbody = registry.try_get<MeowEngine::entity::RigidbodyComponent>(lifeObject);
+
+//            // If there's a rigidbody to avoid continuous transform update we add "enter" after edit's. Else it will auto update on edit.
+//            if(rigidbody) {
+//                ImGui::AlignTextToFramePadding();
+//                ImGui::Text("Position");
+//                ImGui::SameLine();
+//                if (ImGui::InputFloat3("##hidden_label", &transform.Position[0], "%.3f", ImGuiInputTextFlags_EnterReturnsTrue)) {
+//                    rigidbody->OverrideTransform(transform);
+//                }
+//            }
+            } else {
+                MeowEngine::Log("Selected Entity: ", "Entity not valid");
+            }
+
+            ImGui::End();
+        }
+    }
+}

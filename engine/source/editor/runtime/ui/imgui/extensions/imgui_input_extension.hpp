@@ -11,7 +11,7 @@
 
 using namespace std;
 
-namespace MeowEngine {
+namespace MeowEngine::Runtime {
     class ImGuiInputExtension {
     public:
         static MeowEngine::ReflectionPropertyChange* ShowProperty(const std::string& inClassName, void* inObject, bool pIsEditable);

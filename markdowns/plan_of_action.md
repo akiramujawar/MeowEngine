@@ -23,7 +23,7 @@
 ## Meow Engine v0.6
 - [x] Compilation of physx for web
 - [x] Single thread app builds for web
-- [ ] Populating arrays / lists etc... in EditPanel
+- [ ] Populating arrays / lists etc... in WorldInspectorPanel
 - [ ] Updating bash files for supporting physx on mac
 - [ ] Support for window
 - [ ] Research on making dev/debug builds for in-depth testing
