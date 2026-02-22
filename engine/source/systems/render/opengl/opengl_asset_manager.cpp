@@ -118,7 +118,7 @@ namespace {
             case ShaderPipelineType::Grid:
                 return new OpenGLGridPipeline(shaderProgramID);
             case ShaderPipelineType::Sky:
-                return new OpenGLGridPipeline(shaderProgramID);
+                return new OpenGLSkyBoxPipeline(shaderProgramID);
             case ShaderPipelineType::PHYSICS_COLLIDER:
                 return new MeowEngine::OpenGLColliderPipeline(shaderProgramID);
             case ShaderPipelineType::TRANSFORM_HANDLE:
