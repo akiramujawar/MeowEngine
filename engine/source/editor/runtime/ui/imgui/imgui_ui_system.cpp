@@ -56,7 +56,14 @@ namespace MeowEngine::Runtime {
     ImGuiUISystem::ImGuiUISystem(SDL_Window* window, SDL_GLContext& context)
 //    : isSceneViewportFocused(false)
 //    , SceneViewportSize({0,0})
-        : WorldInspectorPanel(), WorldTreePanel(), WorldViewPanel(), ConsolePanel() {
+        : WorldInspectorPanel()
+        , WorldTreePanel()
+        , WorldViewPanel()
+        , ConsolePanel()
+        , AssetPanel()
+        , WorldSettingPanel()
+        , ProjectSettingPanel()
+        , EditorSettingPanel() {
 
         MeowEngine::Log("ImGuiRenderer", "Creating...");
 
@@ -199,6 +206,10 @@ namespace MeowEngine::Runtime {
         WorldInspectorPanel.Draw(registry, inUIInputQueue, pSelection);
         WorldTreePanel.Draw(registry, pSelection);
         WorldViewPanel.Draw(reinterpret_cast<void*>(frameBufferId), fps);
+        WorldSettingPanel.Draw();
+        ProjectSettingPanel.Draw();
+        EditorSettingPanel.Draw();
+        AssetPanel.Draw();
         ConsolePanel.Draw();
 
 //    CreateObjectEditorPanel(temp);

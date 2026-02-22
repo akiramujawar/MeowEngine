@@ -13,6 +13,11 @@
 #include "imgui_world_inspector_panel.hpp"
 #include "imgui_world_view_panel.hpp"
 #include "imgui_console_panel.hpp"
+#include "imgui_asset_panel.hpp"
+#include "imgui_world_setting_panel.hpp"
+#include "imgui_project_setting_panel.hpp"
+#include "imgui_editor_setting_panel.hpp"
+
 #include "entt_wrapper.hpp"
 #include "queue"
 #include "selection_data.hpp"
@@ -58,6 +63,10 @@ namespace MeowEngine::Runtime {
         ImGuiWorldInspectorPanel WorldInspectorPanel;
         ImGuiWorldViewPanel WorldViewPanel;
         ImGuiConsolePanel ConsolePanel;
+        ImguiAssetPanel AssetPanel;
+        ImguiWorldSettingPanel WorldSettingPanel;
+        ImguiProjectSettingPanel ProjectSettingPanel;
+        ImguiEditorSettingPanel EditorSettingPanel;
     };
 }
 
