@@ -124,6 +124,12 @@
         - (native dialogs, os timing, platform detection)
         - PlatformType
 
+    - namespace: MeowEngine::Runtime::UISystem
+      - engine/source/runtime/ui
+      - IUISystem (/backend/imgui/ImguiUISystem.hpp)
+      - Panels
+      - Extensions (/backend/imgui/ImguiExtension.hpp)
+
 - learning / understanding / implementing tracy thoroughly -> 13
 
 - documenting every system for deeper understanding -> 11
@@ -177,3 +183,14 @@
     - build for mac
     - build for windows
     - optimising build process
+
+- multiscene
+only on engine load:
+  open a file to create file id's lets call it file_system.meow
+  read file directory
+  for every file which is not present add it with a simple counter increase (like a index). If a empty space is available fill that first.
+  for every file which is not present any more remove that from file_system.meow
+  load all files from file_system.meowdata by type into a container (struct FileInfo)
+  Opening a scene
+  load scene.meowdata read the dependency files. Load all of them turning into readable object like MeshInstance, ShaderPipleine etc..
+  images, models, text, json
