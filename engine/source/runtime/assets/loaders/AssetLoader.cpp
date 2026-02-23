@@ -4,7 +4,7 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION
 
-#include "assets.hpp"
+#include "AssetLoader.hpp"
 #include "SDLAPI.hpp"
 #include "vertex.hpp"
 //#include "sstream"

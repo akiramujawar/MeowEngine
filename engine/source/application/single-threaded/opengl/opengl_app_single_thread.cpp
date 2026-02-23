@@ -5,7 +5,7 @@
 #include "opengl_app_single_thread.hpp"
 
 #include "OpenGLAPI.hpp"
-#include "EngineWindow.hpp"
+#include "SDLEngineWindow.hpp"
 #include "log.hpp"
 
 #include "opengl_render_system.hpp"
@@ -92,7 +92,7 @@ namespace {
         return MeowEngine::OpenGLRenderSystem(assetManager, pUISystem);
     }
 
-    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::EngineWindow& pWindow) {
+    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::SDLEngineWindow& pWindow) {
         return std::make_shared<MeowEngine::Runtime::ImGuiUISystem>(pWindow);
     }
 
@@ -103,7 +103,7 @@ namespace {
 } // namespace
 
 struct OpenGLAppSingleThread::Internal {
-    EngineWindow Window;
+    SDLEngineWindow Window;
     std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> UI;
     MeowEngine::graphics::OpenGLFrameBuffer FrameBuffer;
     MeowEngine::input::InputManager InputManager;

@@ -53,7 +53,7 @@ namespace {
 
 namespace MeowEngine::Runtime {
 
-    ImGuiUISystem::ImGuiUISystem(const EngineWindow& pWindow)
+    ImGuiUISystem::ImGuiUISystem(const SDLEngineWindow& pWindow)
 //    : isSceneViewportFocused(false)
 //    , SceneViewportSize({0,0})
         : WorldInspectorPanel()

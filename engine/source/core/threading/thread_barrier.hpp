@@ -8,7 +8,7 @@
 #include "mutex"
 #include "thread"
 #include "condition_variable"
-#include "CoreConfig.hpp"
+#include "Profiler.hpp"
 
 class ThreadBarrier {
 public:

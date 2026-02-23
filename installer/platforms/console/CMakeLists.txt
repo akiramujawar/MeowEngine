@@ -10,6 +10,9 @@ set(MAIN_SOURCE_DIR "../../../engine/source")
 set(ASSETS "../../../engine/assets")
 set(INSTALLER_DIR "../../console")
 set(LIBRARY_DIR "../../../../libs")
+set(CONFIGS_DIR "../../../engine/configs")
+set(TOOLS_DIR "../../../engine/tools")
+set(EXAMPLES_DIR "../../../engine/examples")
 
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY out)
 # Set the output directories
@@ -68,20 +71,51 @@ foreach(DIR ${ALL_DIRECTORIES})
      include_directories(${DIR})
 endforeach()
 
-add_compile_definitions(__MULTI_THREAD__ __ENABLE_TRACY__)
+# configs
+file(GLOB_RECURSE CONFIGS_HEADERS ${CONFIGS_DIR}/*.hpp)
+file(GLOB_RECURSE CONFIGS_SOURCES ${CONFIGS_DIR}/*.cpp)
+include_directories(${CONFIGS_DIR})
+
+# tools
+file(GLOB_RECURSE TOOLS_HEADERS ${TOOLS_DIR}/*.hpp)
+file(GLOB_RECURSE TOOLS_SOURCES ${TOOLS_DIR}/*.cpp)
+include_directories(${TOOLS_DIR})
+
+# examples
+file(GLOB_RECURSE EXAMPLES_HEADERS ${EXAMPLES_DIR}/*.hpp)
+file(GLOB_RECURSE EXAMPLES_SOURCES ${EXAMPLES_DIR}/*.cpp)
+include_directories(${EXAMPLES_DIR})
+
+#add_compile_definitions(__MULTI_THREAD__ __ENABLE_TRACY__)
+#target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
+#target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
+
 add_executable(
      MeowEngine
      ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
      ${THIRD_PARTY_DIR}/concurrentqueue/concurrentqueue.h
      ${THIRD_PARTY_DIR}/imgui/imgui.cpp ${THIRD_PARTY_DIR}/imgui/imgui_draw.cpp ${THIRD_PARTY_DIR}/imgui/imgui_tables.cpp ${THIRD_PARTY_DIR}/imgui/imgui_widgets.cpp ${THIRD_PARTY_DIR}/imgui/imgui_demo.cpp ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_sdl2.cpp ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_opengl3.cpp
+
      ${CPP_HEADERS}
      ${CPP_SOURCES}
+
+     ${CONFIGS_HEADERS}
+     ${CONFIGS_SOURCES}
+
+     ${TOOLS_HEADERS}
+     ${TOOLS_SOURCES}
+
+     ${EXAMPLES_HEADERS}
+     ${EXAMPLES_SOURCES}
+
      ${M_SOURCES}
      ${MAIN_SOURCE_DIR}/application/main.mm
 )
 
-# Link profiler with console executable
+target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
+target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
 
+# Link profiler with console executable
 add_library(
    TracyClient STATIC
         ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp

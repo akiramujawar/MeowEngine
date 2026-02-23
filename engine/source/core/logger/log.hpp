@@ -8,7 +8,7 @@
 #pragma once
 
 #include <string>
-#include "CoreConfig.hpp"
+#include "Profiler.hpp"
 
 namespace MeowEngine {
     enum LogType {

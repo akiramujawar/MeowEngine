@@ -5,7 +5,7 @@
 #include "opengl_mesh_pipeline.hpp"
 
 //#include "opengl_pipeline_base.hpp"
-#include "assets.hpp"
+#include "AssetLoader.hpp"
 #include "opengl_asset_manager.hpp"
 #include <stdexcept>
 //#include <vector>

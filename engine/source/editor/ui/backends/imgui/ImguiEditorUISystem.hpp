@@ -21,11 +21,11 @@
 #include "entt.hpp"
 #include "queue"
 #include "selection_data.hpp"
-#include "EngineWindow.hpp"
+#include "SDLEngineWindow.hpp"
 
 namespace MeowEngine::Runtime {
     struct ImGuiUISystem {
-        ImGuiUISystem(const EngineWindow& pWindow);
+        ImGuiUISystem(const SDLEngineWindow& pWindow);
         ~ImGuiUISystem();
 
         void Input(const SDL_Event& event);

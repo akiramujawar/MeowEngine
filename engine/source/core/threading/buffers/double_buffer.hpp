@@ -6,7 +6,7 @@
 #define MEOWENGINE_BUFFER_HPP
 
 #include "utility"
-#include "CoreConfig.hpp"
+#include "Profiler.hpp"
 
 using namespace std;
 
