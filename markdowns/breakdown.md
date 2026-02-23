@@ -29,8 +29,11 @@
 
 - creating file manager -> 12
     - What manes what?
-        - System implies a processing loop
-        - Manager implies ownership & cache
+        - System processes logic per frame / processes / has behaviour (something which works over time)
+        - Manager implies ownership & cache (owns & control things)
+        - Service
+        - Wrapper - something which hides a module implementation completely (use only for external libraries)
+        - Include
 
     - What goes where?
         - Anything runtime goes under engine/source
@@ -38,12 +41,15 @@
         - Any OS implementations goes under engine/source/platform
         - Anything platform specific variation goes under feature/platform
         - core is foundation - only pure c++
-        - editor is tooling - uses features & core
-        - engine is container which includes core,editor,other features
+        - platform depends on core
+        - engine depends on core & platform
+        - editor depends on engine + core + platform
+        - tools depends on editor / engine
         - runtime is application
 
     - Flow
-        - WorldLoader -> Some ResourceManager -> Some System -> Asset Manager -> File System
+        - WorldLoader -> Some ResourceManager -> Asset Manager -> File System -> Platform
+        - 
 
     - engine/source/core/file_system
         - namespace: MeowEngine::Core (core will have maths/ecs abstractions/memory allocators/logging/threading)
@@ -88,6 +94,8 @@
 
     - engine/source/runtime/resource
         - namespace: MeowEngine::Runtime
+        - We create ResourceDomainMapping for universal resource loader.
+        - Let the below go into its own specific system
         - RenderResourceManager - calls AssetManager.load & IRenderSystem.create & cache
         - AudioResourceManager - calls AssetManager.load & IAudioSystem.create & cache
         - PhysicsResourceManager - calls AssetManager.load & IPhysicsSystem.create & cache
