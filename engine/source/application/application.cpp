@@ -2,10 +2,10 @@
 // Created by Akira Mujawar on 06/07/22.
 //
 
-#include "sdl_wrapper.hpp"
+#include "SDLAPI.hpp"
 #include "application.hpp"
 
-#include "imgui_wrapper.hpp"
+#include "ImguiAPI.hpp"
 #include "log.hpp"
 //
 //using MeowEngine::Application;

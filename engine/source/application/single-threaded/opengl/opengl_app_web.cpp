@@ -27,11 +27,11 @@ namespace MeowEngine {
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);
         InputManager = std::make_unique<MeowEngine::input::InputManager>();
 
-        WindowContext = std::make_unique<MeowEngine::SDLWindow>();
+        Window = std::make_unique<MeowEngine::EngineWindow>();
         AssetManager = std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
         FrameBuffer = std::make_unique<MeowEngine::graphics::OpenGLFrameBuffer>(1000,500);
 
-        UserInterface = std::make_shared<Runtime::ImGuiUISystem>(WindowContext->window, WindowContext->context);
+        UserInterface = std::make_shared<Runtime::ImGuiUISystem>(*Window.get());
         GameView = std::make_unique<MeowEngine::OpenGLRenderSystem>(AssetManager, UserInterface);
         Physics = std::make_shared<MeowEngine::simulator::PhysXPhysicsSystem>();
 
@@ -62,7 +62,7 @@ namespace MeowEngine {
 
     void OpenGLAppWeb::CreateScene() {
         Scene = std::make_shared<MeowEngine::SceneMultiThread>(
-                MeowEngine::sdl::GetWindowSize(WindowContext->window)
+            Window->GetWindowSize()
         );
 
         Physics->Create();
@@ -92,7 +92,7 @@ namespace MeowEngine {
 
         RenderGameView();
         RenderUserInterface();
-        WindowContext->SwapWindow();
+        Window->SwapWindow();
     }
 
     bool OpenGLAppWeb::ProcessDeviceEvents(const float& inDeltaTime) {

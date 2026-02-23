@@ -4,8 +4,8 @@
 
 #include "opengl_app_single_thread.hpp"
 
-#include "graphics_wrapper.hpp"
-#include "sdl_wrapper.hpp"
+#include "OpenGLAPI.hpp"
+#include "EngineWindow.hpp"
 #include "log.hpp"
 
 #include "opengl_render_system.hpp"
@@ -34,47 +34,47 @@ namespace {
 //        glViewport(0,0, viewportWidth,viewportHeight);
 //    }
 
-    SDL_GLContext CreateContext(SDL_Window* window) {
-        static const std::string logTag("MeowEngine::OpenGLApplication::CreateContext");
-
-        SDL_GLContext context {SDL_GL_CreateContext(window)};
-        SDL_GL_SetSwapInterval(1);// wth si this lol? from 100-450 to 1700 fps?
-        SDL_GL_MakeCurrent(window, context);
-        #ifdef WIN32
-            glewInit();
-        #endif
-
-        glClearDepthf(1.0f);
-
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);
-
-        glEnable(GL_CULL_FACE);
-
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+//    SDL_GLContext CreateContext(SDL_Window* window) {
+//        static const std::string logTag("MeowEngine::OpenGLApplication::CreateContext");
+//
+//        SDL_GLContext context {SDL_GL_CreateContext(window)};
+//        SDL_GL_SetSwapInterval(1);// wth si this lol? from 100-450 to 1700 fps?
+//        SDL_GL_MakeCurrent(window, context);
+//        #ifdef WIN32
+//            glewInit();
+//        #endif
+//
+//        glClearDepthf(1.0f);
+//
 //        glEnable(GL_DEPTH_TEST);
-//        glDepthMask(GL_TRUE);
 //        glDepthFunc(GL_LEQUAL);
-//        glDepthRange(0.0f, 1.0f);
-//        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-//        glEnable(GL_SAMPLE_ALPHA_TO_ONE);
+//
+//        glEnable(GL_CULL_FACE);
+//
 //        glEnable(GL_BLEND);
-//        glBlendEquation(GL_FUNC_ADD);
-//        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-//        glEnable(GL_ALPHA_TEST);
-//        glAlphaFunc(GL_GREATER, 0.1f);
-
-//        ::UpdateViewport(window);
-        MeowEngine::Log(logTag, "Context Created");
-
-        // Check WebGL version
-        const char* version = (const char*)glGetString(GL_VERSION);
-        MeowEngine::Log("MeowEngine::graphics::OpenGLFrameBuffer: WEBGL Version", version);
-
-        return context;
-    }
+//        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//
+////        glEnable(GL_DEPTH_TEST);
+////        glDepthMask(GL_TRUE);
+////        glDepthFunc(GL_LEQUAL);
+////        glDepthRange(0.0f, 1.0f);
+////        glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+////        glEnable(GL_SAMPLE_ALPHA_TO_ONE);
+////        glEnable(GL_BLEND);
+////        glBlendEquation(GL_FUNC_ADD);
+////        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+////        glEnable(GL_ALPHA_TEST);
+////        glAlphaFunc(GL_GREATER, 0.1f);
+//
+////        ::UpdateViewport(window);
+//        MeowEngine::Log(logTag, "Context Created");
+//
+//        // Check WebGL version
+//        const char* version = (const char*)glGetString(GL_VERSION);
+//        MeowEngine::Log("MeowEngine::graphics::OpenGLFrameBuffer: WEBGL Version", version);
+//
+//        return context;
+//    }
 
     MeowEngine::graphics::OpenGLFrameBuffer CreateFrameBuffer() {
         // NOTE: we launch this needs to be init properly
@@ -85,39 +85,26 @@ namespace {
         return std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
     }
 
-    MeowEngine::OpenGLRenderSystem CreateRenderer(std::shared_ptr<MeowEngine::OpenGLAssetManager> assetManager) {
-        SDL_GLContext test;
-        std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> test1;
-        test1 = make_shared<MeowEngine::Runtime::ImGuiUISystem>(nullptr, test);
-        return MeowEngine::OpenGLRenderSystem(assetManager, test1);
+    MeowEngine::OpenGLRenderSystem CreateRenderer(std::shared_ptr<MeowEngine::OpenGLAssetManager> assetManager, std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> pUISystem) {
+//        SDL_GLContext test;
+//        std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> test1;
+//        test1 = make_shared<MeowEngine::Runtime::ImGuiUISystem>(nullptr, test);
+        return MeowEngine::OpenGLRenderSystem(assetManager, pUISystem);
     }
 
-    MeowEngine::Runtime::ImGuiUISystem CreateUI(SDL_Window* window, SDL_GLContext& context) {
-        return MeowEngine::Runtime::ImGuiUISystem(window, context);
+    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::EngineWindow& pWindow) {
+        return std::make_shared<MeowEngine::Runtime::ImGuiUISystem>(pWindow);
     }
 
     std::shared_ptr<MeowEngine::simulator::PhysicsSystem> CreatePhysics() {
         return std::make_shared<MeowEngine::simulator::PhysXPhysicsSystem>();
     }
 
-//    std::unique_ptr<MeowEngine::Scene> CreateMainScene(SDL_Window* window, MeowEngine::OpenGLAssetManager& assetManager, MeowEngine::simulator::PhysicsSystem& inPhysics) {
-//        std::unique_ptr<MeowEngine::SceneMultiThread> mainScene {
-//            std::make_unique<MeowEngine::SceneMultiThread>(
-//                MeowEngine::sdl::GetWindowSize(window)
-//            )
-//        };
-//
-////        mainScene->Create(assetManager, inPhysics);
-//
-//        return mainScene;
-//    }
-
 } // namespace
 
 struct OpenGLAppSingleThread::Internal {
-    SDL_Window* Window;
-    SDL_GLContext Context;
-    MeowEngine::Runtime::ImGuiUISystem UI;
+    EngineWindow Window;
+    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> UI;
     MeowEngine::graphics::OpenGLFrameBuffer FrameBuffer;
     MeowEngine::input::InputManager InputManager;
 
@@ -126,26 +113,16 @@ struct OpenGLAppSingleThread::Internal {
 //    std::unique_ptr<MeowEngine::Scene> Scene;
     std::shared_ptr<MeowEngine::simulator::PhysicsSystem> Physics;
 
-    Internal() : Window(MeowEngine::sdl::CreateWindow(SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI)) ,
-                 Context(CreateContext(Window)),
+    Internal() : Window() ,
                  AssetManager(::CreateAssetManager()),
-                 Renderer(::CreateRenderer(AssetManager)),
-                 UI(CreateUI(Window, Context)),
+                 UI(CreateUI(Window)),
+                 Renderer(::CreateRenderer(AssetManager, UI)),
                  FrameBuffer(::CreateFrameBuffer()),
                  InputManager(),
                  Physics(::CreatePhysics())
     {}
 
-    ~Internal() {
-        SDL_GL_DeleteContext(Context);
-        SDL_DestroyWindow(Window);
-    }
-
-//    void OnWindowResized() {
-//        MeowEngine::Log("opengl_application::", "OnWindowResized");
-//        GetScene().OnWindowResized(MeowEngine::sdl::GetWindowSize(Window));
-//        ::UpdateViewport(Window);
-//    }
+    ~Internal() {}
 
     void OnViewportResize(const WindowSize& size) {
 //        GetScene().OnWindowResized(size);
@@ -168,7 +145,7 @@ struct OpenGLAppSingleThread::Internal {
         // Each loop we will process any events that are waiting for us.
         while (SDL_PollEvent(&event))
         {
-            UI.Input(event);
+            UI.get()->Input(event);
 
             switch (event.type)
             {
@@ -180,13 +157,13 @@ struct OpenGLAppSingleThread::Internal {
 
                     // If we get a quit signal, we will return that we don't want to keep looping.
                 case SDL_QUIT:
-                    UI.ClosePIDs();
+                    UI.get()->ClosePIDs();
                     return false;
 
                 case SDL_KEYDOWN:
                     // If we get a key down event for the ESC key, we also don't want to keep looping.
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
-                        UI.ClosePIDs();
+                        UI.get()->ClosePIDs();
                         return false;
                     }
                     break;
@@ -279,7 +256,7 @@ struct OpenGLAppSingleThread::Internal {
                 {
 //                    FpsCounter.End();
                     PT_PROFILE_SCOPE_N("swap");
-                    SDL_GL_SwapWindow(Window);
+                    Window.SwapWindow();
 
 
 

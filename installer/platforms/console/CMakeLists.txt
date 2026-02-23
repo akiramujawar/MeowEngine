@@ -37,7 +37,7 @@ include_directories(${THIRD_PARTY_DIR}/concurrentqueue)
 include_directories(${THIRD_PARTY_DIR}/imgui)
 include_directories(${THIRD_PARTY_DIR}/imgui/backends)
 include_directories(${THIRD_PARTY_DIR}/tracy/public/tracy)
-include_directories(${THIRD_PARTY_DIR}/entt/single_include)
+include_directories(${THIRD_PARTY_DIR}/entt/single_include/entt)
 include_directories(${THIRD_PARTY_DIR}/physx/physx/include)
 
 # glob is not good idea
@@ -68,7 +68,7 @@ foreach(DIR ${ALL_DIRECTORIES})
      include_directories(${DIR})
 endforeach()
 
-add_compile_definitions(__MULTI_THREAD__)
+add_compile_definitions(__MULTI_THREAD__ __ENABLE_TRACY__)
 add_executable(
      MeowEngine
      ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
@@ -77,7 +77,7 @@ add_executable(
      ${CPP_HEADERS}
      ${CPP_SOURCES}
      ${M_SOURCES}
-     ${MAIN_SOURCE_DIR}/main.mm
+     ${MAIN_SOURCE_DIR}/application/main.mm
 )
 
 # Link profiler with console executable

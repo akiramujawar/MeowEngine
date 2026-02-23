@@ -12,12 +12,12 @@
 #include "frame_rate_counter.hpp"
 #include "input_manager.hpp"
 //#include "scene_single_thread.hpp"
-#include "sdl_window.hpp"
+#include "EngineWindow.hpp"
 #include "ImguiEditorUISystem.hpp"
 #include "opengl_render_system.hpp"
 #include "physx_physics_system.hpp"
 
-#include "emscripten_wrapper.hpp"
+#include "EmscriptenAPI.hpp"
 
 #include "scene_multi_thread.hpp"
 
@@ -52,7 +52,7 @@ namespace MeowEngine {
         std::shared_ptr<MeowEngine::SceneMultiThread> Scene;
 
         // render
-        std::unique_ptr<MeowEngine::SDLWindow> WindowContext;
+        std::unique_ptr<MeowEngine::EngineWindow> Window;
         std::shared_ptr<Runtime::ImGuiUISystem> UserInterface;
         std::unique_ptr<MeowEngine::OpenGLRenderSystem> GameView;
 

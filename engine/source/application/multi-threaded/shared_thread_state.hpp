@@ -14,7 +14,7 @@
 #include "thread_wait.hpp"
 #include "thread_pause.hpp"
 
-#include "sdl_wrapper.hpp"
+#include "SDLAPI.hpp"
 
 namespace MeowEngine {
     struct SharedThreadState {

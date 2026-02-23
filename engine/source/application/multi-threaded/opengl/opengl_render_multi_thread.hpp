@@ -8,8 +8,8 @@
 #include "thread"
 
 #include "frame_rate_counter.hpp"
-#include "graphics_wrapper.hpp"
-#include "sdl_window.hpp"
+#include "OpenGLAPI.hpp"
+#include "EngineWindow.hpp"
 #include "asset_manager.hpp"
 #include "opengl_render_system.hpp"
 
@@ -31,7 +31,7 @@ namespace MeowEngine {
 
         // TODO: When we plan to handle multi-scene we look into this, make this private
         // we decouple window / context into a class
-        std::unique_ptr<MeowEngine::SDLWindow> WindowContext;
+        std::unique_ptr<MeowEngine::EngineWindow> Window;
         std::shared_ptr<Runtime::ImGuiUISystem> UserInterface;
 
     private:

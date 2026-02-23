@@ -1,0 +1,8 @@
+//
+// Created by Akira Mujawar on 23/02/26.
+//
+
+#ifndef MEOWENGINE_IENGINEWINDOW_HPP
+#define MEOWENGINE_IENGINEWINDOW_HPP
+
+#endif //MEOWENGINE_IENGINEWINDOW_HPP

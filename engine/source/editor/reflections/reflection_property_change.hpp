@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_REFLECTION_PROPERTY_CHANGE_HPP
 #define MEOWENGINE_REFLECTION_PROPERTY_CHANGE_HPP
 
-#include "entt_wrapper.hpp"
+#include "entt.hpp"
 #include "reflection_property.hpp"
 
 namespace MeowEngine {

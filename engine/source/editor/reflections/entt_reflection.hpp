@@ -6,7 +6,7 @@
 #define MEOWENGINE_ENTT_REFLECTION_HPP
 
 #include "unordered_map"
-#include "entt_wrapper.hpp"
+#include "entt.hpp"
 #include "vector"
 #include "reflection_property.hpp"
 #include "reflection_property_change.hpp"

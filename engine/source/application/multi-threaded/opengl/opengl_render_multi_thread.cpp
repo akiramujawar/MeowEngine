@@ -11,9 +11,9 @@ namespace MeowEngine {
     : SharedState(inState) {
         MeowEngine::Log("Render", "Creating Object");
 
-        WindowContext = std::make_unique<MeowEngine::SDLWindow>();
+        Window = std::make_unique<MeowEngine::EngineWindow>();
         AssetManager = std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
-        UserInterface = std::make_shared<Runtime::ImGuiUISystem>(WindowContext->window, WindowContext->context);
+        UserInterface = std::make_shared<Runtime::ImGuiUISystem>(*Window.get());
         GameView = std::make_unique<MeowEngine::OpenGLRenderSystem>(AssetManager, UserInterface);
         FrameBuffer = std::make_unique<MeowEngine::graphics::OpenGLFrameBuffer>(1000,500);
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);
@@ -25,7 +25,7 @@ namespace MeowEngine {
         FrameBuffer.reset();
         UserInterface.reset();
         GameView.reset();
-        WindowContext.reset();
+        Window.reset();
     }
 
     void OpenGLRenderMultiThread::SetScene(std::shared_ptr<MeowEngine::SceneMultiThread> inScene) {
@@ -37,7 +37,7 @@ namespace MeowEngine {
 
         // NOTE: Clearing context in main thread before using for render thread fixes a crash
         // which occurs while drag window
-        SDL_GL_MakeCurrent(WindowContext->window, nullptr);
+        Window.get()->ClearContext();
 
         RenderThread = std::thread(&MeowEngine::OpenGLRenderMultiThread::RenderThreadLoop, this);
     }
@@ -53,7 +53,7 @@ namespace MeowEngine {
         SharedState.ActiveWaitThread.GetAtomic()++;
 
         // Switch SDL to use render thread
-        SDL_GL_MakeCurrent(WindowContext->window, WindowContext->context);
+        Window.get()->MakeCurrent();
 
         // Load Scene Resources like shaders and meshes
         Scene->LoadOnRenderSystem(AssetManager);
@@ -72,7 +72,7 @@ namespace MeowEngine {
             RenderGameView();
             RenderUserInterface();
 
-            WindowContext->SwapWindow();
+            Window->SwapWindow();
 
             // MeowEngine::Log("Render Thread", "Waiting for other threads to finish processing");
             // wait for all threads to sync up for frame ending
