@@ -26,7 +26,7 @@ namespace MeowEngine {
         SDL_GL_SwapWindow(window);
     }
 
-    MeowEngine::WindowSize SDLEngineWindow::GetWindowSize() {
+    Vector2Int SDLEngineWindow::GetWindowSize() {
         uint32_t displayWidth{0};
         uint32_t displayHeight{0};
 
@@ -45,13 +45,13 @@ namespace MeowEngine {
             return document.getElementById('canvas').height;
         }))};
 
-        return MeowEngine::WindowSize{width, height};
+        return WindowSize{width, height};
 #else
         int width {0};
         int height {0};
 
         SDL_GetWindowSize(window, &width, &height);
-        return MeowEngine::WindowSize{static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
+        return Vector2Int{width, height};
 
 #endif
     }
@@ -86,7 +86,7 @@ namespace MeowEngine {
         // Enable double buffering (this is usually the default)
         // 1: Enable VSync || 0: Disable VSync
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        MeowEngine::WindowSize windowSize{GetInitialWindowSize()};
+        Vector2Int windowSize{GetInitialWindowSize()};
 
 
 #ifdef __EMSCRIPTEN__
@@ -173,7 +173,7 @@ namespace MeowEngine {
         }
     }
 
-    MeowEngine::WindowSize SDLEngineWindow::GetInitialWindowSize() {
+    Vector2Int SDLEngineWindow::GetInitialWindowSize() {
 #ifdef __EMSCRIPTEN__
         return GetWindowSize();
 #else
@@ -183,7 +183,7 @@ namespace MeowEngine {
         SDL_DisplayMode displayMode;
         SDL_GetDesktopDisplayMode(0, &displayMode);
 
-        return MeowEngine::WindowSize{static_cast<uint32_t>(displayMode.w), static_cast<uint32_t>(displayMode.h)};
+        return Vector2Int{displayMode.w, displayMode.h};
 #endif
 
     }
@@ -192,7 +192,7 @@ namespace MeowEngine {
 
 
 //#ifdef __EMSCRIPTEN__
-//MeowEngine::WindowSize GetEmscriptenCanvasSize() {
+//WindowSize GetEmscriptenCanvasSize() {
 //        // For Emscripten targets we will invoke some Javascript
 //        // to find out the dimensions of the canvas in the HTML
 //        // document. Note that the 'width' and 'height' attributes
@@ -207,6 +207,6 @@ namespace MeowEngine {
 //            return document.getElementById('canvas').height;
 //        }))};
 //
-//        return MeowEngine::WindowSize{width, height};
+//        return WindowSize{width, height};
 //    };
 //#endif

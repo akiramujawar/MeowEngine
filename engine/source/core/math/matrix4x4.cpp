@@ -4,6 +4,10 @@
 
 #include "matrix4x4.hpp"
 
-void MeowEngine::math::Matrix4x4::Reflect() {
+namespace MeowEngine::Core::Math {
+
+    void Matrix4x4::Reflect() {
+
+    }
 
 }

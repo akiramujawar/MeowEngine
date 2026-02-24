@@ -7,10 +7,7 @@
 #include "reflection_macro_wrapper.hpp"
 
 #include "pstring.hpp"
-#include "vector3.hpp"
-#include "quaternion.hpp"
-#include "matrix3x3.hpp"
-#include "matrix4x4.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine::Runtime {
 
@@ -68,7 +65,7 @@ namespace MeowEngine::Runtime {
         MeowEngine::ReflectionPropertyChange* change = nullptr;
 
         // NOTE: The parent class has to be derived from MObject
-        auto dataObject = static_cast<entity::MObject*>(inObject);
+        auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
 
         if (!(pIsEditable & inProperty.IsEditable)) {
             ImGui::BeginDisabled(true);
@@ -151,7 +148,7 @@ namespace MeowEngine::Runtime {
 
         // inObject here is already a pointer itself hence in next line dereference it
         // data* -> **pointer -> *object
-        entity::MObject* valueObject = *static_cast<entity::MObject**>(value);
+        MeowEngine::Core::MObject* valueObject = *static_cast<MeowEngine::Core::MObject**>(value);
 
         auto displayLabel = MeowEngine::PString::Format("%s%s", inProperty.Name.c_str(), "*");
 
@@ -201,7 +198,7 @@ namespace MeowEngine::Runtime {
                                               bool pIsEditable) {
         MeowEngine::ReflectionPropertyChange* change = nullptr;
 
-        auto dataObject = static_cast<entity::MObject*>(inObject);
+        auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
 
         void* value = inProperty.Get(inObject);
         int changeHolder = *static_cast<int*>(value);
@@ -257,7 +254,7 @@ namespace MeowEngine::Runtime {
         MeowEngine::ReflectionPropertyChange* change = nullptr;
 
         if (inProperty.TypeId == typeid(MeowEngine::PString)) {
-            auto dataObject = static_cast<entity::MObject*>(inObject);
+            auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
 
             void* value = inProperty.Get(inObject);
             MeowEngine::PString changeHolder = *static_cast<MeowEngine::PString*>(value);
@@ -288,11 +285,11 @@ namespace MeowEngine::Runtime {
             if (!(pIsEditable & inProperty.IsEditable)) {
                 ImGui::EndDisabled();
             }
-        } else if (inProperty.TypeId == typeid(MeowEngine::math::Vector3)) {
-            auto dataObject = static_cast<entity::MObject*>(inObject);
+        } else if (inProperty.TypeId == typeid(Vector3)) {
+            auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
 
             void* value = inProperty.Get(inObject);
-            MeowEngine::math::Vector3 changeHolder = *static_cast<MeowEngine::math::Vector3*>(value);
+            Vector3 changeHolder = *static_cast<Vector3*>(value);
 
             std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
                                                                  dataObject->GetClassName().c_str());
@@ -312,18 +309,18 @@ namespace MeowEngine::Runtime {
             if (ImGui::InputFloat3(uniqueName.c_str(), &changeHolder[0], nullptr,
                                    ImGuiInputTextFlags_EnterReturnsTrue)) {
                 change = new MeowEngine::ReflectionPropertyChange(inProperty.Name,
-                                                                  new MeowEngine::math::Vector3(changeHolder),
-                                                                  [](void* inPointer) { delete static_cast<MeowEngine::math::Vector3*>(inPointer); });
+                                                                  new Vector3(changeHolder),
+                                                                  [](void* inPointer) { delete static_cast<Vector3*>(inPointer); });
             }
 
             if (!(pIsEditable & inProperty.IsEditable)) {
                 ImGui::EndDisabled();
             }
-        } else if (inProperty.TypeId == typeid(MeowEngine::math::Quaternion)) {
-            auto dataObject = static_cast<entity::MObject*>(inObject);
+        } else if (inProperty.TypeId == typeid(Quaternion)) {
+            auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
 
             void* value = inProperty.Get(inObject);
-            MeowEngine::math::Quaternion changeHolder = *static_cast<MeowEngine::math::Quaternion*>(value);
+            Quaternion changeHolder = *static_cast<Quaternion*>(value);
 
             std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
                                                                  dataObject->GetClassName().c_str());
@@ -343,8 +340,8 @@ namespace MeowEngine::Runtime {
             if (ImGui::InputFloat4(uniqueName.c_str(), &changeHolder[0], nullptr,
                                    ImGuiInputTextFlags_EnterReturnsTrue)) {
                 change = new MeowEngine::ReflectionPropertyChange(inProperty.Name,
-                                                                  new MeowEngine::math::Quaternion(changeHolder),
-                                                                  [](void* inPointer) { delete static_cast<MeowEngine::math::Quaternion*>(inPointer); });
+                                                                  new Quaternion(changeHolder),
+                                                                  [](void* inPointer) { delete static_cast<Quaternion*>(inPointer); });
             }
 
             if (!(pIsEditable & inProperty.IsEditable)) {

@@ -41,7 +41,7 @@ using namespace MeowEngine::entity;
 using namespace MeowEngine::component;
 
 namespace {
-    MeowEngine::PerspectiveCamera CreateCamera(const MeowEngine::WindowSize& size) {
+    MeowEngine::PerspectiveCamera CreateCamera(const MeowEngine::Vector2Int& size) {
         return MeowEngine::PerspectiveCamera(static_cast<float>(size.Width), static_cast<float>(size.Height));
     }
 }
@@ -59,7 +59,7 @@ struct SceneMultiThread::Internal {
     // User Input Events
     const uint8_t* KeyboardState; // SDL owns the object & will manage the lifecycle. We just keep a pointer.
 
-    Internal(const MeowEngine::WindowSize& size)
+    Internal(const Vector2Int& size)
         : Camera(::CreateCamera(size))
         , CameraController({glm::vec3(0.0f, 2.0f , -10.0f)})
         , KeyboardState(SDL_GetKeyboardState(nullptr))
@@ -68,7 +68,7 @@ struct SceneMultiThread::Internal {
         MeowEngine::Log("MainScene", "Scene Created");
     }
 
-    void OnWindowResized(const MeowEngine::WindowSize& size) {
+    void OnWindowResized(const Vector2Int& size) {
         Camera = ::CreateCamera(size);
     }
 
@@ -127,8 +127,8 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
             torus,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                math::Vector3{5, 5, 5},
-                math::Vector3{1.0, 1.0f, 1.0f},
+                Vector3{5, 5, 5},
+                Vector3{1.0, 1.0f, 1.0f},
                 glm::vec3{0.0f, 1.0f, 0.0f},
                 12.0f
         );
@@ -149,8 +149,8 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
             torusChildTransform,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-            math::Vector3{5, 5, 5},
-            math::Vector3{1.0, 1.0f, 1.0f},
+            Vector3{5, 5, 5},
+            Vector3{1.0, 1.0f, 1.0f},
             glm::vec3{0.0f, 1.0f, 0.0f},
             12.0f
         );
@@ -160,8 +160,8 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
             torusChildTransformChildTransform,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-            math::Vector3{5, 5, 5},
-            math::Vector3{1.0, 1.0f, 1.0f},
+            Vector3{5, 5, 5},
+            Vector3{1.0, 1.0f, 1.0f},
             glm::vec3{0.0f, 1.0f, 0.0f},
             12.0f
         );
@@ -180,8 +180,8 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
             torusChildHierarchyTransformHierarchy,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-            math::Vector3{5, 5, 5},
-            math::Vector3{1.0, 1.0f, 1.0f},
+            Vector3{5, 5, 5},
+            Vector3{1.0, 1.0f, 1.0f},
             glm::vec3{0.0f, 1.0f, 0.0f},
             12.0f
         );
@@ -193,8 +193,8 @@ struct SceneMultiThread::Internal {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 5.0f + i * 3, 2},
-                    math::Vector3{0.5f, 0.5f,0.5f},
+                    Vector3{0.0f, 5.0f + i * 3, 2},
+                    Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -206,7 +206,7 @@ struct SceneMultiThread::Internal {
                             assets::TextureType::Pattern
                     }
             );
-            MeowEngine::entity::BoxColliderShape colliderData {MeowEngine::math::Vector3(1, 1, 1)};
+            MeowEngine::entity::BoxColliderShape colliderData {Vector3(1, 1, 1)};
             RegistryBuffer.AddComponent<entity::ColliderComponent>(
                     cubeTest,
                     colliderData
@@ -223,8 +223,8 @@ struct SceneMultiThread::Internal {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     sphereTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 20.0f + i * 3, 2},
-                    math::Vector3{0.5f, 0.5f,0.5f},
+                    Vector3{0.0f, 20.0f + i * 3, 2},
+                    Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -252,8 +252,8 @@ struct SceneMultiThread::Internal {
         RegistryBuffer.AddComponent<entity::Transform3DComponent>(
             cameraEntity,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-            math::Vector3{0, 0, 0},
-            math::Vector3{1.0, 1.0f, 1.0f},
+            Vector3{0, 0, 0},
+            Vector3{1.0, 1.0f, 1.0f},
             glm::vec3{0.0f, 1.0f, 0.0f},
             0.0f
         );
@@ -301,11 +301,12 @@ struct SceneMultiThread::Internal {
         if(inputManager.isMouseDown && (inputManager.mouseState & SDL_BUTTON_RMASK)) {
             const auto cubeEntity = RegistryBuffer.AddEntity();
             RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity, "Cube");
+            RegistryBuffer.AddComponent<component::HierarchyComponent>(cubeEntity, cubeEntity, entt::null, entt::null, entt::null, entt::null);
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 20.0f, 2},
-                    math::Vector3{0.5f, 0.5f,0.5f},
+                    Vector3{0.0f, 20.0f, 2},
+                    Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -351,6 +352,9 @@ struct SceneMultiThread::Internal {
 //        }
     }
 
+    float timer = 0;
+    float delay = 0.1f;
+
     // We can perform -> culling, input detection
     void Update(const float& deltaTime) {
         Camera.Configure(CameraController.GetPosition(), CameraController.GetUp(), CameraController.GetDirection());
@@ -369,6 +373,39 @@ struct SceneMultiThread::Internal {
             transform.Update(deltaTime);
             transform.CalculateTransformMatrix(cameraMatrix);
         }
+
+//        timer += deltaTime;
+//
+//        if(timer > delay) {
+//            timer = 0;
+//
+//            const auto cubeEntity = RegistryBuffer.AddEntity();
+//            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity, "Cube");
+//            RegistryBuffer.AddComponent<component::HierarchyComponent>(cubeEntity, cubeEntity, entt::null, entt::null, entt::null, entt::null);
+//            RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+//                cubeEntity,
+//                Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
+//                math::Vector3{0.0f, 20.0f, 2},
+//                math::Vector3{0.5f, 0.5f,0.5f},
+//                glm::vec3{0.0f, 1.0f, 0.0f},
+//                0
+//            );
+//            RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
+//                cubeEntity,
+//                assets::ShaderPipelineType::Default,
+//                new MeowEngine::StaticMeshInstance{
+//                    assets::StaticMeshType::Cube,
+//                    assets::TextureType::Pattern
+//                }
+//            );
+//            RegistryBuffer.AddComponent<entity::ColliderComponent>(
+//                cubeEntity,
+//                entity::BoxColliderShape {MeowEngine::math::Vector3(1, 1, 1)}
+//            );
+//            RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
+//                cubeEntity
+//            );
+//        }
 
         //        auto view = registry.view<MeowEngine::core::component::Transform3DComponent>();
 //        for(auto entity: view)
@@ -441,9 +478,9 @@ struct SceneMultiThread::Internal {
                 auto current = currentView.get<MeowEngine::entity::Transform3DComponent>(entity);
 
                 // TODO: check on this once, this could lead multiple cache copies
-                staging.CacheDelta(current.Position - final.Position, math::Quaternion::Multiply(
-                    current.Quaternion,
-                    math::Quaternion::Inverse(final.Quaternion)
+                staging.CacheDelta(current.Position - final.Position, Quaternion::Multiply(
+                    current.Rotation,
+                    Quaternion::Inverse(final.Rotation)
                 ));
             }
         }
@@ -459,16 +496,16 @@ struct SceneMultiThread::Internal {
                 auto &rigidbody = stagingView.get<MeowEngine::entity::RigidbodyComponent>(entity);
 
                 // Update physics body with transformation updates from main / final buffers
-                rigidbody.AddDelta(current.Position - final.Position, math::Quaternion::Multiply(
-                        current.Quaternion,
-                        math::Quaternion::Inverse(final.Quaternion)
+                rigidbody.AddDelta(current.Position - final.Position, Quaternion::Multiply(
+                        current.Rotation,
+                        Quaternion::Inverse(final.Rotation)
                 ));
 
                 // Update main buffer with rigidbody transformations
                 current.Position = staging.Position;
 //                current.Scale = staging.Scale;
+                current.Euler = staging.Euler;
                 current.Rotation = staging.Rotation;
-                current.Quaternion = staging.Quaternion;
             }
         }
     }
@@ -492,8 +529,8 @@ struct SceneMultiThread::Internal {
             // TODO: as manually apply changes could get difficult especially in long run
             final.Position = current.Position;
 //            final.Scale = current.Scale;
+            final.Euler = current.Euler;
             final.Rotation = current.Rotation;
-            final.Quaternion = current.Quaternion;
         }
 
         // Apply UI inputs to render and main buffers
@@ -517,10 +554,10 @@ struct SceneMultiThread::Internal {
     }
 };
 
-SceneMultiThread::SceneMultiThread(const MeowEngine::WindowSize& size)
+SceneMultiThread::SceneMultiThread(const Vector2Int& size)
     : InternalPointer(MeowEngine::make_internal_ptr<Internal>(size)){}
 
-void SceneMultiThread::OnWindowResized(const MeowEngine::WindowSize &size) {
+void SceneMultiThread::OnWindowResized(const Vector2Int &size) {
     InternalPointer->OnWindowResized(size);
 }
 

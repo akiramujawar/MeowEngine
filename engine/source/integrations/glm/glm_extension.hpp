@@ -6,7 +6,7 @@
 #define MEOWENGINE_GLM_EXTENSION_HPP
 
 #include "GLMAPI.hpp"
-#include "math_wrapper.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine {
     /**
@@ -19,7 +19,7 @@ namespace MeowEngine {
          * @param pValue
          * @return
          */
-        static glm::mat4 GetMat4FromMatrix4x4(const math::Matrix4x4 pValue) {
+        static glm::mat4 GetMat4FromMatrix4x4(const Matrix4x4 pValue) {
             glm::mat4 rotation4Matrix {};
 
             rotation4Matrix[0][0] = pValue.X1;

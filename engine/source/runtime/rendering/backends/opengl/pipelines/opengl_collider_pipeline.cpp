@@ -24,7 +24,7 @@ namespace MeowEngine {
         std::vector<glm::mat4> sphereColliders;
 
         for(auto &&[entity, transform, collider]: registry.view<entity::Transform3DComponent, entity::ColliderComponent>().each()) {
-            math::Matrix4x4 rotationMatrix = transform.Quaternion.GetRotationMatrix4x4();
+            Matrix4x4 rotationMatrix = transform.Rotation.GetRotationMatrix4x4();
 
             glm::mat4 rotation4Matrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(rotationMatrix);
 

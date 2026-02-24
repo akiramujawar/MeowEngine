@@ -34,8 +34,8 @@ namespace MeowEngine::entity {
          */
         void OverrideTransform(entity::Transform3DComponent& inTransform);
 
-        void AddDelta(MeowEngine::math::Vector3 inDelta, MeowEngine::math::Quaternion pDelta);
-        void CacheDelta(MeowEngine::math::Vector3 inDelta, MeowEngine::math::Quaternion pDelta);
+        void AddDelta(Vector3 inDelta, Quaternion pDelta);
+        void CacheDelta(Vector3 inDelta, Quaternion pDelta);
 
         void SetPhysicsBody(physx::PxRigidDynamic* inBody);
         physx::PxRigidDynamic* GetPhysicsBody();
@@ -46,8 +46,8 @@ namespace MeowEngine::entity {
         /**
          * When physics is free, we move the cached delta to position delta
          */
-        MeowEngine::math::Vector3 PositionDelta;
-        MeowEngine::math::Quaternion QuaternionDelta;
+        Vector3 PositionDelta;
+        Quaternion QuaternionDelta;
 
         /**
          * Main thread position delta is cached when physics buffer is busy
@@ -59,8 +59,8 @@ namespace MeowEngine::entity {
          * We will be keep 3 buffers even though it might be heavy on memory
          * This is learning project and not everything has to be perfect! <3
          */
-        MeowEngine::math::Vector3 PositionCachedDelta;
-        MeowEngine::math::Quaternion QuaternionCachedDelta;
+        Vector3 PositionCachedDelta;
+        Quaternion QuaternionCachedDelta;
     };
 }
 

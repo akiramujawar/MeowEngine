@@ -6,7 +6,7 @@
 #define MEOWENGINE_IMGUIWORLDVIEWPANEL_HPP
 
 #include "ImguiAPI.hpp"
-#include "Vector2Uint.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine::Runtime {
 
@@ -21,7 +21,7 @@ namespace MeowEngine::Runtime {
         bool IsFocused; // soon come up with good naming conventions
 
         ImGuiWindowFlags WindowFlags;
-        WindowSize SceneViewportSize;
+        Vector2Int SceneViewportSize;
     };
 }
 

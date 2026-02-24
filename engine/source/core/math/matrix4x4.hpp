@@ -5,7 +5,8 @@
 #ifndef MEOWENGINE_MATRIX4X4_HPP
 #define MEOWENGINE_MATRIX4X4_HPP
 
-namespace MeowEngine::math {
+namespace MeowEngine::Core::Math {
+
     struct Matrix4x4 {
         static void Reflect();
 

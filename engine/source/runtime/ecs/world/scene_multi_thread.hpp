@@ -12,13 +12,13 @@
 #include "render_system.hpp"
 #include "physics_system.hpp"
 
-#include "Vector2Uint.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine {
     struct SceneMultiThread {
-        SceneMultiThread(const MeowEngine::WindowSize& frameSize);
+        SceneMultiThread(const Vector2Int& frameSize);
 
-        void OnWindowResized(const MeowEngine::WindowSize& size);
+        void OnWindowResized(const Vector2Int& size);
 
         // -----------------------------------------------------------------------
 

@@ -6,10 +6,10 @@
 #define MEOWENGINE_PSTRING_HPP
 
 #include "string"
-#include "m_object.hpp"
+#include "Object.hpp"
 
 namespace MeowEngine {
-    class PString : public std::string, entity::MObject {
+    class PString : public std::string, Core::MObject {
 
     public:
         REFLECT_MObject(PString)

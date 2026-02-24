@@ -6,7 +6,7 @@
 #define MEOWENGINE_TRANSFORM3D_COMPONENT_HPP
 
 #include "transform_component_base.hpp"
-#include "math_wrapper.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine::entity {
     class Transform3DComponent : public MeowEngine::entity::TransformComponentBase {
@@ -15,21 +15,21 @@ namespace MeowEngine::entity {
         static void Reflect();
 
         Transform3DComponent(const glm::mat4& inProjectionMatrix);
-        Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3, MeowEngine::math::Vector3, MeowEngine::math::Quaternion rotation);
-        Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3, MeowEngine::math::Vector3, MeowEngine::math::Vector3 eulerRotation);
-        Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3, MeowEngine::math::Vector3, glm::vec3 rotationAxis, float rotationDegrees);
+        Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3, Vector3, Quaternion rotation);
+        Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3, Vector3, Vector3 eulerRotation);
+        Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3, Vector3, glm::vec3 rotationAxis, float rotationDegrees);
 
         void CalculateTransformMatrix(const glm::mat4& inProjectionMatrix);
 
         void Update(const float& deltaTime) override;
         void RecalculateEuler();
 
-        math::Vector3 GetForward();
-        static math::Vector3 GetFront() {}
-        static math::Vector3 GetRight() {}
-        static math::Vector3 GetUp() {}
+        Vector3 GetForward();
+        static Vector3 GetFront() {}
+        static Vector3 GetRight() {}
+        static Vector3 GetUp() {}
 
-        static math::Matrix4x4 CreateViewMatrix() {
+        static Matrix4x4 CreateViewMatrix() {
             // 3x3 rotation matrix
             // 4x4 matrix with added rotation and position
         }
@@ -38,10 +38,10 @@ namespace MeowEngine::entity {
         void OnRotationReflect();
 
     public:
-        MeowEngine::math::Vector3 Position;
-        MeowEngine::math::Vector3 Scale;
-        MeowEngine::math::Quaternion Quaternion;
-        MeowEngine::math::Vector3 Rotation;
+        Vector3 Position;
+        Vector3 Scale;
+        Quaternion Rotation;
+        Vector3 Euler;
 
         // find proper way to handle rotations
 //        glm::vec3 RotationAxis;

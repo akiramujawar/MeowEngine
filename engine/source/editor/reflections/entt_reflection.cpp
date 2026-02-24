@@ -4,7 +4,7 @@
 
 #include "entt_reflection.hpp"
 
-#include "m_object.hpp"
+#include "Object.hpp"
 #include "log.hpp"
 #include "pstring.hpp"
 
@@ -66,7 +66,7 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
 
             // if its pointer we dereference from pointer to object
             if(property.Type == MeowEngine::PropertyType::POINTER) {
-                entity::MObject *dataObject = *static_cast<entity::MObject **>(data); // object
+                MeowEngine::Core::MObject *dataObject = *static_cast<MeowEngine::Core::MObject **>(data); // object
                 data = dataObject;
             }
         }
@@ -77,8 +77,8 @@ void MeowEngine::EnttReflection::ApplyPropertyChange(MeowEngine::ReflectionPrope
 
         if(changedProperty.Type == MeowEngine::PropertyType::POINTER) {
             // dereference for pointers to point towards correct address
-            auto objectPointer = static_cast<MeowEngine::entity::MObject **>(data);
-            MeowEngine::entity::MObject* objectData = *objectPointer;
+            auto objectPointer = static_cast<MeowEngine::Core::MObject **>(data);
+            MeowEngine::Core::MObject* objectData = *objectPointer;
 
             // this isn't required as no changes will be submitted as null objects / non-MObjects won't be displayed
             // but as fail case, to debug better while building engine we put try catch

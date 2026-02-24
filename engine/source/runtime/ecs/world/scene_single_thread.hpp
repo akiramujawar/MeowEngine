@@ -11,7 +11,7 @@
 #include "render_system.hpp"
 #include "physics_system.hpp"
 
-#include "Vector2Uint.hpp"
+#include "Math.hpp"
 
 // main update - creates something for both physics and main
 // apply
@@ -22,9 +22,9 @@
 namespace MeowEngine {
 
     struct SceneSingleThread {
-        SceneSingleThread(const MeowEngine::WindowSize&);
+        SceneSingleThread(const Vector2Int&);
 
-        void OnWindowResized(const MeowEngine::WindowSize& size);
+        void OnWindowResized(const Vector2Int& size);
         void LoadOnRenderSystem(std::shared_ptr<MeowEngine::AssetManager> assetManager);
         void CreateSceneOnMainSystem(MeowEngine::simulator::PhysicsSystem* inPhysics);
 

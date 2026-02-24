@@ -28,7 +28,7 @@
 #include "entt_single_buffer.hpp"
 
 namespace {
-    MeowEngine::PerspectiveCamera CreateCamera(const MeowEngine::WindowSize& size) {
+    MeowEngine::PerspectiveCamera CreateCamera(const MeowEngine::Vector2Int& size) {
         return MeowEngine::PerspectiveCamera(static_cast<float>(size.Width), static_cast<float>(size.Height));
     }
 }
@@ -44,13 +44,13 @@ namespace MeowEngine {
         // User Input Events
         const uint8_t* KeyboardState; // SDL owns the object & will manage the lifecycle. We just keep a pointer.
 
-        Internal(const MeowEngine::WindowSize& size)
+        Internal(const Vector2Int& size)
         : Camera(::CreateCamera(size))
         , CameraController({glm::vec3(0.0f, 2.0f , -10.0f)})
         , KeyboardState(SDL_GetKeyboardState(nullptr))
         , RegistryBuffer() {}
 
-        void OnWindowResized(const MeowEngine::WindowSize& size) {
+        void OnWindowResized(const Vector2Int& size) {
             Camera = ::CreateCamera(size);
         }
 
@@ -103,8 +103,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     entity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{5, 0, 0},
-                    math::Vector3{1.0, 1.0f, 1.0f},
+                    Vector3{5, 0, 0},
+                    Vector3{1.0, 1.0f, 1.0f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     12.0f
             );
@@ -122,8 +122,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 20.0f, 2},
-                    math::Vector3{0.5f, 0.5f,0.5f},
+                    Vector3{0.0f, 20.0f, 2},
+                    Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -148,8 +148,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     cubeEntity1,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0.0f, 0.0f, 2},
-                    math::Vector3{0.5f, 0.5f,0.5f},
+                    Vector3{0.0f, 0.0f, 2},
+                    Vector3{0.5f, 0.5f,0.5f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
@@ -175,8 +175,8 @@ namespace MeowEngine {
                 RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                         cubeTest,
                         Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                        math::Vector3{0.0f, 20.0f + i, 2},
-                        math::Vector3{0.5f, 0.5f,0.5f},
+                        Vector3{0.0f, 20.0f + i, 2},
+                        Vector3{0.5f, 0.5f,0.5f},
                         glm::vec3{0.0f, 1.0f, 0.0f},
                         0
                 );
@@ -205,8 +205,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     gridEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0, 0, 0},
-                    math::Vector3{1.0, 1.0f, 1.0f},
+                    Vector3{0, 0, 0},
+                    Vector3{1.0, 1.0f, 1.0f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0.0f
             );
@@ -220,8 +220,8 @@ namespace MeowEngine {
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                     skyEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                    math::Vector3{0, 0, 0},
-                    math::Vector3{1.0, 1.0f, 1.0f},
+                    Vector3{0, 0, 0},
+                    Vector3{1.0, 1.0f, 1.0f},
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0.0f
             );
@@ -254,8 +254,8 @@ namespace MeowEngine {
                 RegistryBuffer.AddComponent<entity::Transform3DComponent>(
                         cubeEntity,
                         Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-                        math::Vector3{0.0f, 20.0f, 2},
-                        math::Vector3{0.5f, 0.5f,0.5f},
+                        Vector3{0.0f, 20.0f, 2},
+                        Vector3{0.5f, 0.5f,0.5f},
                         glm::vec3{0.0f, 1.0f, 0.0f},
                         0
                 );
@@ -343,9 +343,9 @@ namespace MeowEngine {
 
     };
 
-    SceneSingleThread::SceneSingleThread(const MeowEngine::WindowSize& frameSize) : InternalPointer(MeowEngine::make_internal_ptr<Internal>(frameSize)) {}
+    SceneSingleThread::SceneSingleThread(const Vector2Int& frameSize) : InternalPointer(MeowEngine::make_internal_ptr<Internal>(frameSize)) {}
 
-    void SceneSingleThread::OnWindowResized(const MeowEngine::WindowSize &size) {
+    void SceneSingleThread::OnWindowResized(const Vector2Int &size) {
         InternalPointer->OnWindowResized(size);
     }
 

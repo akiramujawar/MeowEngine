@@ -7,7 +7,7 @@
 
 #include "PxPhysicsAPI.h"
 
-#include "m_object.hpp"
+#include "Object.hpp"
 #include <collider_shape_type.hpp>
 
 namespace MeowEngine::entity {
@@ -17,7 +17,7 @@ namespace MeowEngine::entity {
      * This helps to have a single component with support for different styles of colliders.
      * TODO: Check if this restricts from having multiple colliders on same entity
      */
-    class ColliderShapeBase : MObject {
+    class ColliderShapeBase : Core::MObject {
     public:
         REFLECT_MObject(ColliderShapeBase)
         static void Reflect() {}

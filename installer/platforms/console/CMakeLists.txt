@@ -11,6 +11,7 @@ set(ASSETS "../../../engine/assets")
 set(INSTALLER_DIR "../../console")
 set(LIBRARY_DIR "../../../../libs")
 set(CONFIGS_DIR "../../../engine/configs")
+set(INCLUDE_DIR "../../../engine/include")
 set(TOOLS_DIR "../../../engine/tools")
 set(EXAMPLES_DIR "../../../engine/examples")
 
@@ -76,6 +77,11 @@ file(GLOB_RECURSE CONFIGS_HEADERS ${CONFIGS_DIR}/*.hpp)
 file(GLOB_RECURSE CONFIGS_SOURCES ${CONFIGS_DIR}/*.cpp)
 include_directories(${CONFIGS_DIR})
 
+# configs
+file(GLOB_RECURSE INCLUDE_HEADERS ${INCLUDE_DIR}/*.hpp)
+file(GLOB_RECURSE INCLUDE_SOURCES ${INCLUDE_DIR}/*.cpp)
+include_directories(${INCLUDE_DIR})
+
 # tools
 file(GLOB_RECURSE TOOLS_HEADERS ${TOOLS_DIR}/*.hpp)
 file(GLOB_RECURSE TOOLS_SOURCES ${TOOLS_DIR}/*.cpp)
@@ -101,6 +107,9 @@ add_executable(
 
      ${CONFIGS_HEADERS}
      ${CONFIGS_SOURCES}
+
+     ${INCLUDE_HEADERS}
+     ${INCLUDE_SOURCES}
 
      ${TOOLS_HEADERS}
      ${TOOLS_SOURCES}

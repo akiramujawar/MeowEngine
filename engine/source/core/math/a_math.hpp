@@ -7,37 +7,31 @@
 
 #include "cmath"
 
-namespace MeowEngine::math {
+namespace MeowEngine::Core::Math {
 
-    /**
-     * A stands for Algebra. Hence AMath.
-     * There's absolutely no need to have this, but for library sake, we create a wrapper methods
-     */
-    class AMath {
-        // sin
-        // cos
-        // tan etc...
+    inline float Sin(float p) { return std::sin(p); }
+    inline float Sin(double p) { return std::sin(p); }
 
-    public:
-        static float Sqrt(float pValue) {
-            return sqrt(pValue);
-        }
+    inline float Cos(float p) { return std::cos(p); }
+    inline float Cos(double p) { return std::cos(p); }
 
-        static float Cos(float pValue) {
-            return cos(pValue);
-        }
-        static float Sin(float pValue) {
-            return sin(pValue);
-        }
-        static float Tan(float pValue) {}
+    inline float Tan(float p) { return std::tan(p); }
+    inline float Tan(double p) { return std::tan(p); }
 
-        static float ATan2(float pY, float pX) {
-            return atan2(pY, pX);
-        }
-        static float ASin(float pValue) {
-            return asin(pValue);
-        }
-    };
+    inline float ASin(float p) { return std::asin(p); }
+    inline float ASin(double p) { return std::asin(p); }
+
+    inline float ACos(float p) { return std::acos(p); }
+    inline float ACos(double p) { return std::acos(p); }
+
+    inline float ATan(float p) { return std::atan(p); }
+    inline float ATan(double p) { return std::atan(p); }
+
+    inline float ATan2(float pY, float pX) { return std::atan2(pY, pX); }
+    inline float ATan2(double pY, double pX) { return std::atan2(pY, pX); }
+
+    inline float Sqrt(float p) { return std::sqrt(p); }
+    inline float Sqrt(double p) { return std::sqrt(p); }
 
 }
 

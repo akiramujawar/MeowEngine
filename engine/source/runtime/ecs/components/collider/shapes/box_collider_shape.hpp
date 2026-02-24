@@ -6,7 +6,7 @@
 #define MEOWENGINE_BOX_COLLIDER_SHAPE_HPP
 
 #include "collider_shape_base.hpp"
-#include "math_wrapper.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine::entity {
     class BoxColliderShape : public entity::ColliderShapeBase {
@@ -18,7 +18,7 @@ namespace MeowEngine::entity {
         // BoxColliderData data = 0; // error
         // BoxColliderData data(); // success
         explicit BoxColliderShape();
-        explicit BoxColliderShape(const MeowEngine::math::Vector3& inSize);
+        explicit BoxColliderShape(const Vector3& inSize);
         virtual ~BoxColliderShape() = default;
 
         physx::PxGeometry& GetGeometry() override;
@@ -34,7 +34,7 @@ namespace MeowEngine::entity {
         void OnMaterialReflect();
 
     public:
-        MeowEngine::math::Vector3 Size; // could a different class
+        Vector3 Size; // could a different class
         float StaticFriction;
         float DynamicFriction;
         float Restitution;

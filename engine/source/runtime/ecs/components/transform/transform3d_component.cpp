@@ -11,10 +11,10 @@
 using MeowEngine::entity::Transform3DComponent;
 
 void MeowEngine::entity::Transform3DComponent::Reflect() {
-    REGISTER_PROPERTY(Transform3DComponent, Position, MeowEngine::math::Vector3, true, true);
-    REGISTER_PROPERTY(Transform3DComponent, Scale, MeowEngine::math::Vector3, true, true);
-    REGISTER_PROPERTY(Transform3DComponent, Quaternion, MeowEngine::math::Quaternion, false, true);
-    REGISTER_PROPERTY_CALLBACK(Transform3DComponent, Rotation, MeowEngine::math::Vector3, true, true, OnRotationReflect);
+    REGISTER_PROPERTY(Transform3DComponent, Position, Vector3, true, true);
+    REGISTER_PROPERTY(Transform3DComponent, Scale, Vector3, true, true);
+    REGISTER_PROPERTY(Transform3DComponent, Rotation, Quaternion, false, true);
+    REGISTER_PROPERTY_CALLBACK(Transform3DComponent, Euler, Vector3, true, true, OnRotationReflect);
 }
 
 Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)
@@ -26,26 +26,26 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix)
     CalculateTransformMatrix(inProjectionMatrix);
 }
 
-Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, MeowEngine::math::Quaternion rotation)
+Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3 position, Vector3 scale, Quaternion rotation)
     : Position(position)
     , Scale(scale)
-    , Quaternion(rotation)
+    , Rotation(rotation)
     , IdentityMatrix(glm::mat4(1.0f))
     , TransformMatrix(IdentityMatrix) {
     CalculateTransformMatrix(inProjectionMatrix);
 }
 
-Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, MeowEngine::math::Vector3 eulerRotation)
+Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3 position, Vector3 scale, Vector3 eulerRotation)
         : Position(position)
         , Scale(scale)
-        , Quaternion(eulerRotation)
+        , Rotation(eulerRotation)
 
         , IdentityMatrix(glm::mat4(1.0f))
         , TransformMatrix(IdentityMatrix) {
     CalculateTransformMatrix(inProjectionMatrix);
 }
 
-Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, MeowEngine::math::Vector3 position, MeowEngine::math::Vector3 scale, glm::vec3 rotationAxis,
+Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3 position, Vector3 scale, glm::vec3 rotationAxis,
                                            float rotationDegrees)
     : Position(position)
     , Scale(scale)
@@ -56,7 +56,7 @@ Transform3DComponent::Transform3DComponent(const glm::mat4& inProjectionMatrix, 
 }
 
 void Transform3DComponent::CalculateTransformMatrix(const glm::mat4 &inProjectionMatrix) {
-    math::Matrix4x4 rotationMatrix = Quaternion.GetRotationMatrix4x4();
+    Matrix4x4 rotationMatrix = Rotation.GetRotationMatrix4x4();
     glm::mat4 rotation4Matrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(rotationMatrix);
 
         TransformMatrix = inProjectionMatrix
@@ -71,23 +71,23 @@ void Transform3DComponent::CalculateTransformMatrix(const glm::mat4 &inProjectio
 
 void Transform3DComponent::Update(const float& deltaTime) {
     // NOTE: Testing. Need to achieve through macro + reflection
-//    Quaternion = math::Quaternion(Rotation.X * M_PI / 180, Rotation.Y* M_PI / 180, Rotation.Z* M_PI / 180);
+//    Rotation = math::Quaternion(Euler.X * M_PI / 180, Euler.Y* M_PI / 180, Euler.Z* M_PI / 180);
 //    float random = (float)std::rand() / RAND_MAX;
 //    Position.Y += 1.2f * deltaTime;
-//    Rotation.X += 1.2f * deltaTime;
+//    Euler.X += 1.2f * deltaTime;
 //    RecalculateQuaternion();
 
-//    Quaternion.Rotate(10.0f * deltaTime, 13.0f * deltaTime, 13.0f * deltaTime);
+//    Rotation.Rotate(10.0f * deltaTime, 13.0f * deltaTime, 13.0f * deltaTime);
 //    RecalculateEuler();
 }
 
 void Transform3DComponent::RecalculateEuler() {
-    Rotation = math::Quaternion::Euler(Quaternion);
+    Euler = Quaternion::Euler(Rotation);
 }
 
 void Transform3DComponent::OnRotationReflect() {
     // TODO: Use Quaternion.Rotate or we would create gimble lock issues
-    Quaternion = math::Quaternion(Rotation);
+    Rotation = Quaternion(Euler);
 }
 
 //void Transform3DComponent::RotateBy(const float &degrees) {

@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_IMGUIWORLDINSPECTORPANEL_HPP
 #define MEOWENGINE_IMGUIWORLDINSPECTORPANEL_HPP
 
-#include "math_wrapper.hpp"
+#include "Math.hpp"
 #include "entt.hpp"
 
 #include "selection_data.hpp"

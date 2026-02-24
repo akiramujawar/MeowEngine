@@ -5,7 +5,7 @@
 #include "ImguiWorldViewPanel.hpp"
 
 #include "log.hpp"
-#include "Vector2Uint.hpp"
+#include "Math.hpp"
 #include <SDL_events.h>
 
 namespace MeowEngine::Runtime {

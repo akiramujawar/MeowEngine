@@ -160,7 +160,7 @@ namespace MeowEngine::Runtime {
 //    return isSceneViewportFocused;
 //}
 //
-//const MeowEngine::WindowSize& MeowEngine::graphics::ImGuiRenderer::GetSceneViewportSize() const {
+//const WindowSize& MeowEngine::graphics::ImGuiRenderer::GetSceneViewportSize() const {
 //    return SceneViewportSize;
 //}
 

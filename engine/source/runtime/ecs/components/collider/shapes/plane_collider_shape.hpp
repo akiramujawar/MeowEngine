@@ -6,7 +6,7 @@
 #define MEOWENGINE_PLANE_COLLIDER_SHAPE_HPP
 
 #include "collider_shape_base.hpp"
-#include "math_wrapper.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine {
 

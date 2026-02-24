@@ -3,7 +3,7 @@
 //
 
 #include "opengl_sphere_collider.hpp"
-#include "math_wrapper.hpp"
+#include "Math.hpp"
 
 namespace MeowEngine {
     OpenGLSphereCollider::OpenGLSphereCollider() {

@@ -7,7 +7,7 @@
 
 //#include <scene.hpp>
 #include "opengl_framebuffer.hpp"
-#include "Vector2Uint.hpp"
+#include "Math.hpp"
 
 #include "ImguiWorldTreePanel.hpp"
 #include "ImguiWorldInspectorPanel.hpp"

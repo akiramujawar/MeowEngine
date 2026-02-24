@@ -67,7 +67,7 @@ namespace MeowEngine::pipeline {
     ) const {
         glUseProgram(ShaderProgramID);
 
-        math::Quaternion rotationQuat = transform3DComponent->Quaternion;
+        Quaternion rotationQuat = transform3DComponent->Rotation;
         glm::mat4 rotationMatrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(
                 rotationQuat.GetRotationMatrix4x4());
 

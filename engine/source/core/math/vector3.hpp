@@ -5,12 +5,14 @@
 #ifndef MEOWENGINE_VECTOR3_HPP
 #define MEOWENGINE_VECTOR3_HPP
 
-#include "m_object.hpp"
+#include "Object.hpp"
 
-namespace MeowEngine::math {
-    struct Vector3 : entity::MObject {
-        REFLECT_MObject(Vector3)
+namespace MeowEngine::Core::Math {
+
+    struct Vector3 {
+        REFLECT_VALUE(Vector3)
         static void Reflect();
+
         std::string ToString() const {
             return
                 std::to_string(X) + ", " +

@@ -9,7 +9,7 @@
 using namespace MeowEngine::entity;
 
 void BoxColliderShape::Reflect() {
-    REGISTER_PROPERTY_CALLBACK(BoxColliderShape, Size, MeowEngine::math::Vector3, true, true, OnSizeReflect)
+    REGISTER_PROPERTY_CALLBACK(BoxColliderShape, Size, Vector3, true, true, OnSizeReflect)
     REGISTER_PROPERTY_CALLBACK(BoxColliderShape, StaticFriction, float, true, true, OnMaterialReflect)
     REGISTER_PROPERTY_CALLBACK(BoxColliderShape, DynamicFriction, float, true, true, OnMaterialReflect)
     REGISTER_PROPERTY_CALLBACK(BoxColliderShape, Restitution, float, true, true, OnMaterialReflect)
@@ -24,13 +24,13 @@ BoxColliderShape::BoxColliderShape()
 , Shape(nullptr)
 , Geometry() {
     Type = MeowEngine::entity::ColliderType::BOX;
-    Size = MeowEngine::math::Vector3(0.5f, 0.5f, 0.5f);
+    Size = Vector3(0.5f, 0.5f, 0.5f);
     StaticFriction = 0.6f;
     DynamicFriction = 0.6f;
     Restitution = 0.3f;
 }
 
-BoxColliderShape::BoxColliderShape(const MeowEngine::math::Vector3& inSize)
+BoxColliderShape::BoxColliderShape(const Vector3& inSize)
 : Material(nullptr)
 , Shape(nullptr)
 , Geometry() {

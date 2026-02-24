@@ -10,8 +10,8 @@ void MeowEngine::entity::RigidbodyComponent::Reflect(){
 }
 
 MeowEngine::entity::RigidbodyComponent::RigidbodyComponent()
-: QuaternionCachedDelta(math::Quaternion::Identity())
-, QuaternionDelta(math::Quaternion::Identity()) {
+: QuaternionCachedDelta(Quaternion::Identity())
+, QuaternionDelta(Quaternion::Identity()) {
 
 }
 
@@ -27,20 +27,20 @@ void RigidbodyComponent::UpdateTransform(Transform3DComponent &inTransform) {
     physx::PxTransform pose = DynamicBody->getGlobalPose();
 
     // update Position & Quaternion from accumulated delta & physics simulation
-    inTransform.Position = math::Vector3{
+    inTransform.Position = Vector3{
         pose.p.x + PositionDelta.X,
         pose.p.y + PositionDelta.Y,
         pose.p.z + PositionDelta.Z
     };
 
-    inTransform.Quaternion = math::Quaternion(
+    inTransform.Rotation = Quaternion(
         pose.q.w,
         pose.q.x,
         pose.q.y,
         pose.q.z
     );
 
-    inTransform.Quaternion = math::Quaternion::Multiply(inTransform.Quaternion, QuaternionDelta);
+    inTransform.Rotation = Quaternion::Multiply(inTransform.Rotation, QuaternionDelta);
     inTransform.RecalculateEuler();
 //    math::Quaternion quat = math::Quaternion::Multiply(inTransform.Quaternion, math::Quaternion::Identity());
 //    math::Vector3 vec = math::Quaternion::Euler(quat);
@@ -53,8 +53,8 @@ void RigidbodyComponent::UpdateTransform(Transform3DComponent &inTransform) {
 //    MeowEngine::Log("Vec" , vec.ToString());
 
     // reset the delta
-    PositionDelta = math::Vector3::Zero();
-    QuaternionDelta = math::Quaternion::Identity();
+    PositionDelta = Vector3::Zero();
+    QuaternionDelta = Quaternion::Identity();
 
     // reapply the final position & quaternion to the physx actor
     pose.p = physx::PxVec3T<float>(
@@ -64,10 +64,10 @@ void RigidbodyComponent::UpdateTransform(Transform3DComponent &inTransform) {
     );
 
     pose.q = physx::PxQuatT<float>(
-        inTransform.Quaternion.X,
-        inTransform.Quaternion.Y,
-        inTransform.Quaternion.Z,
-        inTransform.Quaternion.W
+        inTransform.Rotation.X,
+        inTransform.Rotation.Y,
+        inTransform.Rotation.Z,
+        inTransform.Rotation.W
     );
 
     DynamicBody->setGlobalPose(pose);
@@ -84,26 +84,26 @@ void RigidbodyComponent::OverrideTransform(Transform3DComponent &inTransform) {
     );
 
     pose.q = physx::PxQuatT<float>(
-            inTransform.Quaternion.X,
-            inTransform.Quaternion.Y,
-            inTransform.Quaternion.Z,
-            inTransform.Quaternion.W
+            inTransform.Rotation.X,
+            inTransform.Rotation.Y,
+            inTransform.Rotation.Z,
+            inTransform.Rotation.W
     );
 
     DynamicBody->setGlobalPose(pose);
 }
 
-void MeowEngine::entity::RigidbodyComponent::CacheDelta(MeowEngine::math::Vector3 inDelta, MeowEngine::math::Quaternion pDelta) {
+void MeowEngine::entity::RigidbodyComponent::CacheDelta(Vector3 inDelta, Quaternion pDelta) {
     PositionCachedDelta += inDelta;
-    QuaternionCachedDelta = math::Quaternion::Multiply(QuaternionCachedDelta, pDelta);
+    QuaternionCachedDelta = Quaternion::Multiply(QuaternionCachedDelta, pDelta);
 }
 
-void MeowEngine::entity::RigidbodyComponent::AddDelta(MeowEngine::math::Vector3 inDelta, MeowEngine::math::Quaternion pDelta) {
+void MeowEngine::entity::RigidbodyComponent::AddDelta(Vector3 inDelta, Quaternion pDelta) {
     PositionDelta += inDelta + PositionCachedDelta;
-    QuaternionDelta = math::Quaternion::Multiply(QuaternionDelta, pDelta);
-    QuaternionDelta = math::Quaternion::Multiply(QuaternionDelta, QuaternionCachedDelta);
+    QuaternionDelta = Quaternion::Multiply(QuaternionDelta, pDelta);
+    QuaternionDelta = Quaternion::Multiply(QuaternionDelta, QuaternionCachedDelta);
 
-    PositionCachedDelta = math::Vector3::Zero();
-    QuaternionCachedDelta = math::Quaternion::Identity();
+    PositionCachedDelta = Vector3::Zero();
+    QuaternionCachedDelta = Quaternion::Identity();
 }
 

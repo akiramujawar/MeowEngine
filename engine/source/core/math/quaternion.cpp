@@ -5,24 +5,24 @@
 #include "quaternion.hpp"
 #include "reflection_macro_wrapper.hpp"
 
-namespace MeowEngine {
+namespace MeowEngine::Core::Math {
 
-    void MeowEngine::math::Quaternion::Reflect() {
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, W, float, true, true);
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, X, float, true, true);
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, Y, float, true, true);
-        REGISTER_PROPERTY(MeowEngine::math::Quaternion, Z, float, true, true);
+    void Quaternion::Reflect() {
+        REGISTER_PROPERTY(Quaternion, W, float, true, true);
+        REGISTER_PROPERTY(Quaternion, X, float, true, true);
+        REGISTER_PROPERTY(Quaternion, Y, float, true, true);
+        REGISTER_PROPERTY(Quaternion, Z, float, true, true);
     }
 
-    float math::Quaternion::Magnitude() const {
-        return AMath::Sqrt(X * X + Y * Y + Z * Z + W * W);
+    float Quaternion::Magnitude() const {
+        return Math::Sqrt(X * X + Y * Y + Z * Z + W * W);
     }
 
-    float math::Quaternion::MagnitudeSquared() const {
+    float Quaternion::MagnitudeSquared() const {
         return X * X + Y * Y + Z * Z + W * W;
     }
 
-    void math::Quaternion::Rotate(float pX, float pY, float pZ) {
+    void Quaternion::Rotate(float pX, float pY, float pZ) {
         Quaternion deltaQuat = Quaternion(pX, pY, pZ);
         Quaternion finalQuat = Quaternion::Multiply(deltaQuat, *this);
 
@@ -32,7 +32,7 @@ namespace MeowEngine {
         Z = finalQuat.Z;
     }
 
-    math::Matrix3x3 math::Quaternion::GetRotationMatrix3x3() {
+    Matrix3x3 Quaternion::GetRotationMatrix3x3() {
         float xSquare = X * X;
         float ySquare = Y * Y;
         float zSquare = Z * Z;
@@ -45,7 +45,7 @@ namespace MeowEngine {
         float WY = W * Y;
         float WZ = W * Z;
 
-        math::Matrix3x3 matrix {};
+        Matrix3x3 matrix {};
         // col 1
         matrix.X1 = 1 - 2 * ySquare - 2 * zSquare;
         matrix.X2 = 2 * XY + 2 * WZ;
@@ -62,7 +62,7 @@ namespace MeowEngine {
         return matrix;
     }
 
-    math::Matrix4x4 math::Quaternion::GetRotationMatrix4x4() {
+    Matrix4x4 Quaternion::GetRotationMatrix4x4() {
         float xSquare = X * X;
         float ySquare = Y * Y;
         float zSquare = Z * Z;
@@ -75,7 +75,7 @@ namespace MeowEngine {
         float WY = W * Y;
         float WZ = W * Z;
 
-        math::Matrix4x4 matrix {};
+        Matrix4x4 matrix {};
         // col 1
         matrix.X1 = 1 - 2 * ySquare - 2 * zSquare;
         matrix.X2 = 2 * XY + 2 * WZ;
@@ -100,7 +100,7 @@ namespace MeowEngine {
         return matrix;
     }
 
-    math::Quaternion math::Quaternion::Normalised() {
+    Quaternion Quaternion::Normalised() {
         float length = Magnitude();
 
         // Edge Case we return identity quat

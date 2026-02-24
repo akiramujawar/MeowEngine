@@ -124,7 +124,7 @@ struct OpenGLAppSingleThread::Internal {
 
     ~Internal() {}
 
-    void OnViewportResize(const WindowSize& size) {
+    void OnViewportResize(const Vector2Int& size) {
 //        GetScene().OnWindowResized(size);
         glViewport(0,0, size.Width,size.Height);
         FrameBuffer.RescaleFrameBuffer(size.Width, size.Height);
@@ -171,7 +171,7 @@ struct OpenGLAppSingleThread::Internal {
                 case SDL_USEREVENT:
                     switch (event.user.code) {
                         case 2: {
-                            const WindowSize size = *(WindowSize *) event.user.data1;
+                            const Vector2Int size = *(Vector2Int *) event.user.data1;
                             OnViewportResize(size);
                             break;
                         }

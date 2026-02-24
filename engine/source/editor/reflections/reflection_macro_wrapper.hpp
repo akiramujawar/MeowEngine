@@ -34,6 +34,21 @@ namespace MeowEngine {
 
     // Essentially results in calling a static Reflect method while initialisation
     // of engine
+    #define REFLECT_VALUE(Type) \
+        \
+        struct Type##Reflector {            \
+            Type##Reflector() {             \
+                Type::Reflect();            \
+            }                               \
+        };                                  \
+        \
+        inline static Type##Reflector _reflector{};
+//        std::string GetClassName() override { \
+//            return #Type; \
+//        }
+
+    // Essentially results in calling a static Reflect method while initialisation
+    // of engine
     #define REFLECT_MObject(Type) \
         \
         struct Type##Reflector {            \

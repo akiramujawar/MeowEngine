@@ -16,7 +16,7 @@
 //        Scene() = default;
 //        virtual ~Scene() = default;
 //
-//        virtual void OnWindowResized(const MeowEngine::WindowSize& size) = 0;
+//        virtual void OnWindowResized(const WindowSize& size) = 0;
 //
 //        // -----------------------------------------------------------------------
 //

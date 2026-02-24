@@ -7,7 +7,7 @@
 
 #include "SDLAPI.hpp"
 
-#include "Vector2Uint.hpp"
+#include "Math.hpp"
 #include "log.hpp"
 
 namespace MeowEngine {
@@ -16,7 +16,7 @@ namespace MeowEngine {
         ~SDLEngineWindow();
 
         void SwapWindow() const;
-        MeowEngine::WindowSize GetWindowSize();
+        Vector2Int GetWindowSize();
         void ClearContext() const;
         void MakeCurrent() const;
 
@@ -28,7 +28,7 @@ namespace MeowEngine {
         SDL_GLContext CreateContext();
 
         bool ShouldDisplayFullScreen();
-        MeowEngine::WindowSize GetInitialWindowSize();
+        Vector2Int GetInitialWindowSize();
 
     private:
         SDL_Window* window;

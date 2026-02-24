@@ -16,7 +16,7 @@ namespace MeowEngine::entity {
         int TestValue;
     };
 
-    class SubChildClass : MObject {
+    class SubChildClass : Core::MObject {
     public:
         REFLECT_MObject(SubChildClass)
         static void Reflect();
@@ -26,7 +26,7 @@ namespace MeowEngine::entity {
         PString Text; // unable to modify this
     };
 
-    class ChildClass : MObject {
+    class ChildClass : Core::MObject {
     public:
         REFLECT_MObject(ChildClass)
         static void Reflect();
@@ -38,7 +38,7 @@ namespace MeowEngine::entity {
         SubChildClass* ChildSubPointer;
     };
 
-    class DummyClass : MObject {
+    class DummyClass : Core::MObject {
     public:
         REFLECT_MObject(DummyClass)
         static void Reflect();

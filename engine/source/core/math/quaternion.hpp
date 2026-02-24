@@ -9,13 +9,14 @@
 #include "matrix4x4.hpp"
 #include "matrix3x3.hpp"
 #include "a_math.hpp"
-#include "m_object.hpp"
+#include "Object.hpp"
 
-namespace MeowEngine::math {
+namespace MeowEngine::Core::Math {
 
-    struct Quaternion : entity::MObject {
-        REFLECT_MObject(Quaternion)
+    struct Quaternion {
+        REFLECT_VALUE(Quaternion)
         static void Reflect();
+
         std::string ToString() const {
             return
                 std::to_string(W) + ", " +
@@ -66,13 +67,13 @@ namespace MeowEngine::math {
             pY *= M_PI / 180;
             pZ *= M_PI / 180;
 
-            float cosX = math::AMath::Cos(pX / 2);
-            float cosY = math::AMath::Cos(pY / 2);
-            float cosZ = math::AMath::Cos(pZ / 2);
+            float cosX = Math::Cos(pX / 2);
+            float cosY = Math::Cos(pY / 2);
+            float cosZ = Math::Cos(pZ / 2);
 
-            float sinX = math::AMath::Sin(pX / 2);
-            float sinY = math::AMath::Sin(pY / 2);
-            float sinZ = math::AMath::Sin(pZ / 2);
+            float sinX = Math::Sin(pX / 2);
+            float sinY = Math::Sin(pY / 2);
+            float sinZ = Math::Sin(pZ / 2);
 
             // NOTE: Solve this for practice
             W = cosX * cosY * cosZ + sinX * sinY * sinZ;
@@ -85,7 +86,7 @@ namespace MeowEngine::math {
          * NOTE: check back on this
          * @param pEuler in radians
          */
-        explicit Quaternion(const math::Vector3& pEuler) : Quaternion(pEuler.X, pEuler.Y, pEuler.Z) {}
+        explicit Quaternion(const Vector3& pEuler) : Quaternion(pEuler.X, pEuler.Y, pEuler.Z) {}
 
         float W;
         float X;
@@ -112,7 +113,7 @@ namespace MeowEngine::math {
          * @param pValue
          * @return
          */
-        static math::Vector3 Euler(const Quaternion& pValue) {
+        static Vector3 Euler(const Quaternion& pValue) {
             Quaternion quat = pValue;
             quat.Normalised();
 
@@ -147,9 +148,9 @@ namespace MeowEngine::math {
             float Zpy = 2 * (WZ + XY);
             float Zpx = 1 - 2 * (YSquare + ZSquare);
 
-            float XRadian = math::AMath::ATan2(Xpy, Xpx);
-            float YRadian = math::AMath::ASin(Sinp);
-            float ZRadian = math::AMath::ATan2(Zpy, Zpx);
+            float XRadian = Math::ATan2(Xpy, Xpx);
+            float YRadian = Math::ASin(Sinp);
+            float ZRadian = Math::ATan2(Zpy, Zpx);
 
             return {
                 static_cast<float>(XRadian * 180 / M_PI),
@@ -171,7 +172,7 @@ namespace MeowEngine::math {
             };
         }
 
-        static Quaternion Multiply(const math::Vector3& pVector);
+        static Quaternion Multiply(const Vector3& pVector);
 
         /**
          * Conjugate of q = w + vec is q̄ = w - vec
@@ -216,8 +217,8 @@ namespace MeowEngine::math {
          */
         void Rotate(float pX, float pY, float pZ);
 
-        math::Matrix3x3 GetRotationMatrix3x3();
-        math::Matrix4x4 GetRotationMatrix4x4();
+        Matrix3x3 GetRotationMatrix3x3();
+        Matrix4x4 GetRotationMatrix4x4();
 
         void Lerp();
         void Slerp();

@@ -145,7 +145,7 @@ namespace MeowEngine {
                         case 2: {
                             MeowEngine::Log("Main Thread", "Rescaled Window");
 
-                            const WindowSize size = *(WindowSize *) event.user.data1;
+                            const Vector2Int size = *(Vector2Int *) event.user.data1;
                             Scene->OnWindowResized(size);
 
                             break;
