@@ -1,0 +1,1 @@
+just another abstraction which will get implemented by opengl/ vulkan. I m loving abstractions, again why we doing this. We aren't even considering vulkan n until we get a solid engine which might take ages.

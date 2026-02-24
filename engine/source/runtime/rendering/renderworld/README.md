@@ -1,0 +1,1 @@
+it wont know the stuff like opengl or vulkan. heres where we to sorta deicide on render order / cullings / lights maybe / postprocessing (hehe)
