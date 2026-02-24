@@ -8,14 +8,14 @@
 #include "string"
 #include "reflection_macro_wrapper.hpp"
 
-namespace MeowEngine::Core {
+namespace MeowEngine::Core::Types {
     /**
      * This class is important for reflections of class object pointers
      * Any pointer which needs to be displayed has to be derived from MObject
      */
-    class MObject {
+    class Object {
     public:
-        virtual ~MObject() = default;
+        virtual ~Object() = default;
         virtual std::string GetClassName() = 0;
     };
 }

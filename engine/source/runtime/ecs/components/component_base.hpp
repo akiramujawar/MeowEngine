@@ -5,11 +5,11 @@
 #ifndef MEOWENGINE_COMPONENT_BASE_HPP
 #define MEOWENGINE_COMPONENT_BASE_HPP
 
-#include "Object.hpp"
+#include "Types.hpp"
 
 namespace MeowEngine::entity {
 
-    class ComponentBase : Core::MObject {
+    class ComponentBase : Object {
         std::string GetClassName() override {
             return "ComponentBase";
         };

@@ -6,7 +6,7 @@
 #include "ImguiAPI.hpp"
 #include "reflection_macro_wrapper.hpp"
 
-#include "pstring.hpp"
+#include "String.hpp"
 #include "Math.hpp"
 
 namespace MeowEngine::Runtime {
@@ -65,7 +65,7 @@ namespace MeowEngine::Runtime {
         MeowEngine::ReflectionPropertyChange* change = nullptr;
 
         // NOTE: The parent class has to be derived from MObject
-        auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
+        auto dataObject = static_cast<Object*>(inObject);
 
         if (!(pIsEditable & inProperty.IsEditable)) {
             ImGui::BeginDisabled(true);
@@ -75,8 +75,8 @@ namespace MeowEngine::Runtime {
             void* value = inProperty.Get(inObject);
             int changeHolder = *static_cast<int*>(value);
 
-            std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
-                                                                 dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
+                                                    dataObject->GetClassName().c_str());
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -95,8 +95,8 @@ namespace MeowEngine::Runtime {
             void* value = inProperty.Get(inObject);
             float changeHolder = *static_cast<float*>(value);
 
-            std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
-                                                                 dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
+                                                    dataObject->GetClassName().c_str());
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -148,9 +148,9 @@ namespace MeowEngine::Runtime {
 
         // inObject here is already a pointer itself hence in next line dereference it
         // data* -> **pointer -> *object
-        MeowEngine::Core::MObject* valueObject = *static_cast<MeowEngine::Core::MObject**>(value);
+        Object* valueObject = *static_cast<Object**>(value);
 
-        auto displayLabel = MeowEngine::PString::Format("%s%s", inProperty.Name.c_str(), "*");
+        auto displayLabel = String::Format("%s%s", inProperty.Name.c_str(), "*");
 
         if (inProperty.IsMObject) {
             // show a tree and node and pass dereference of the data which is dataObject for populating further
@@ -198,15 +198,15 @@ namespace MeowEngine::Runtime {
                                               bool pIsEditable) {
         MeowEngine::ReflectionPropertyChange* change = nullptr;
 
-        auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
+        auto dataObject = static_cast<Object*>(inObject);
 
         void* value = inProperty.Get(inObject);
         int changeHolder = *static_cast<int*>(value);
 
         // this ensures a unique id for each type of input item displayed,
         // helps us to capture changes (tracked internally by imgui)
-        std::string nameId = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
-                                                         dataObject->GetClassName().c_str());
+        std::string nameId = String::Format("##%s%s", inProperty.Name.c_str(),
+                                            dataObject->GetClassName().c_str());
 
         // show name of item
         ImGui::AlignTextToFramePadding();
@@ -253,14 +253,14 @@ namespace MeowEngine::Runtime {
                                                        bool pIsEditable) {
         MeowEngine::ReflectionPropertyChange* change = nullptr;
 
-        if (inProperty.TypeId == typeid(MeowEngine::PString)) {
-            auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
+        if (inProperty.TypeId == typeid(String)) {
+            auto dataObject = static_cast<Object*>(inObject);
 
             void* value = inProperty.Get(inObject);
-            MeowEngine::PString changeHolder = *static_cast<MeowEngine::PString*>(value);
+            String changeHolder = *static_cast<String*>(value);
 
-            std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
-                                                                 dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
+                                                    dataObject->GetClassName().c_str());
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -277,8 +277,8 @@ namespace MeowEngine::Runtime {
             if (ImGui::InputText(uniqueName.c_str(), changeHolder.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
                 change = new MeowEngine::ReflectionPropertyChange(
                     inProperty.Name,
-                    new MeowEngine::PString(changeHolder),
-                    [](void* inPointer) { delete static_cast<MeowEngine::PString*>(inPointer); }
+                    new String(changeHolder),
+                    [](void* inPointer) { delete static_cast<String*>(inPointer); }
                 );
             }
 
@@ -286,13 +286,13 @@ namespace MeowEngine::Runtime {
                 ImGui::EndDisabled();
             }
         } else if (inProperty.TypeId == typeid(Vector3)) {
-            auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
+            auto dataObject = static_cast<Object*>(inObject);
 
             void* value = inProperty.Get(inObject);
             Vector3 changeHolder = *static_cast<Vector3*>(value);
 
-            std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
-                                                                 dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
+                                                    dataObject->GetClassName().c_str());
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -317,13 +317,13 @@ namespace MeowEngine::Runtime {
                 ImGui::EndDisabled();
             }
         } else if (inProperty.TypeId == typeid(Quaternion)) {
-            auto dataObject = static_cast<MeowEngine::Core::MObject*>(inObject);
+            auto dataObject = static_cast<Object*>(inObject);
 
             void* value = inProperty.Get(inObject);
             Quaternion changeHolder = *static_cast<Quaternion*>(value);
 
-            std::string uniqueName = MeowEngine::PString::Format("##%s%s", inProperty.Name.c_str(),
-                                                                 dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
+                                                    dataObject->GetClassName().c_str());
 
             // show name of item
             ImGui::AlignTextToFramePadding();

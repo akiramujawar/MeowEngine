@@ -2,21 +2,21 @@
 // Created by Akira Mujawar on 09/01/25.
 //
 
-#ifndef MEOWENGINE_PSTRING_HPP
-#define MEOWENGINE_PSTRING_HPP
+#ifndef MEOWENGINE_STRING_HPP
+#define MEOWENGINE_STRING_HPP
 
 #include "string"
 #include "Object.hpp"
 
-namespace MeowEngine {
-    class PString : public std::string, Core::MObject {
+namespace MeowEngine::Core::Types {
+    class String : public std::string {
 
     public:
-        REFLECT_MObject(PString)
+        REFLECT_VALUE(String)
         static void Reflect() {}
 
-        PString();
-        PString(std::string inString);
+        String();
+        String(std::string inString);
 
         template<typename... Args>
         static std::string Format(const char* fmt, Args... args)
@@ -31,4 +31,4 @@ namespace MeowEngine {
     };
 }
 
-#endif //MEOWENGINE_PSTRING_HPP
+#endif //MEOWENGINE_STRING_HPP

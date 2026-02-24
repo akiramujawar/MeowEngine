@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_VECTOR3_HPP
 #define MEOWENGINE_VECTOR3_HPP
 
-#include "Object.hpp"
+#include "Types.hpp"
 
 namespace MeowEngine::Core::Math {
 

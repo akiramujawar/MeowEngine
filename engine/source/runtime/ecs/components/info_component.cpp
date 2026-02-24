@@ -7,7 +7,7 @@
 #include "reflection_macro_wrapper.hpp"
 
 void MeowEngine::entity::InfoComponent::Reflect() {
-    REGISTER_PROPERTY(InfoComponent, Name, MeowEngine::PString, true, true);
+    REGISTER_PROPERTY(InfoComponent, Name, String, true, true);
 }
 
 MeowEngine::entity::InfoComponent::InfoComponent(std::string name)

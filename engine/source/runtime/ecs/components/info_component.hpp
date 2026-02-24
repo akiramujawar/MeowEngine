@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_INFO_COMPONENT_HPP
 #define MEOWENGINE_INFO_COMPONENT_HPP
 
-#include "pstring.hpp"
+#include "String.hpp"
 #include "component_base.hpp"
 
 namespace MeowEngine::entity {
@@ -16,7 +16,7 @@ namespace MeowEngine::entity {
 
         InfoComponent(std::string name);
 
-        MeowEngine::PString Name;
+        String Name;
     };
 }
 

@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_REFLECTION_TEST_COMPONENT_HPP
 #define MEOWENGINE_REFLECTION_TEST_COMPONENT_HPP
 
-#include <pstring.hpp>
+#include <String.hpp>
 #include <collider_shape_type.hpp>
 #include <log.hpp>
 #include "component_base.hpp"
@@ -16,29 +16,29 @@ namespace MeowEngine::entity {
         int TestValue;
     };
 
-    class SubChildClass : Core::MObject {
+    class SubChildClass : Object {
     public:
         REFLECT_MObject(SubChildClass)
         static void Reflect();
 
         int MeshType;
         float Size;
-        PString Text; // unable to modify this
+        String Text; // unable to modify this
     };
 
-    class ChildClass : Core::MObject {
+    class ChildClass : Object {
     public:
         REFLECT_MObject(ChildClass)
         static void Reflect();
 
         int ChildMeshType;
         float ChildSize;
-        PString ChildText;
+        String ChildText;
 
         SubChildClass* ChildSubPointer;
     };
 
-    class DummyClass : Core::MObject {
+    class DummyClass : Object {
     public:
         REFLECT_MObject(DummyClass)
         static void Reflect();
@@ -53,7 +53,7 @@ namespace MeowEngine::entity {
 
         int RootMeshType;
         float RootSize;
-        PString RootText;
+        String RootText;
 
         ChildClass RootChild;
         ChildClass* RootChildPointer;
