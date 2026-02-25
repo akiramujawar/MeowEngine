@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_COMPONENT_BASE_HPP
 #define MEOWENGINE_COMPONENT_BASE_HPP
 
-#include "Types.hpp"
+#include "Core.hpp"
 
 namespace MeowEngine::entity {
 

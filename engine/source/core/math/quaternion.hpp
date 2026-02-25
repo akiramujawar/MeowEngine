@@ -9,7 +9,7 @@
 #include "matrix4x4.hpp"
 #include "matrix3x3.hpp"
 #include "a_math.hpp"
-#include "Types.hpp"
+#include "Core.hpp"
 
 namespace MeowEngine::Core::Math {
 

@@ -28,6 +28,34 @@ namespace MeowEngine::Core::Types {
             snprintf(&buf[0], size + 1, fmt, args...);
             return buf;
         }
+
+        /**
+         * Split from end to start
+         * @param pDelimiter
+         * @return
+         */
+        std::vector<std::string> SplitR(const std::string& pDelimiter) {
+            size_t nextIndex = 0;
+            std::vector<std::string> names;
+            size_t lastIndex = size()- 1;
+
+            while(true) {
+                nextIndex = rfind(pDelimiter, lastIndex);
+
+                if(nextIndex == std::string::npos) {
+                    names.push_back(substr(0, lastIndex));
+                    break;
+                }
+
+                names.push_back(substr(nextIndex + 1, lastIndex - nextIndex + 1));
+
+                if(nextIndex == 0) {
+                    break;
+                }
+
+                lastIndex = nextIndex - pDelimiter.size();
+            }
+        }
     };
 }
 

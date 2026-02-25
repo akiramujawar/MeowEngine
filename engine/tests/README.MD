@@ -1,0 +1,1 @@
+the idea for this folder, is to create tests for the most of the primitive code. Which will be open ended, ideally the core librarry
