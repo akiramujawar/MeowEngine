@@ -16,7 +16,8 @@ namespace MeowEngine::Runtime {
         , DefaultSelectableFlags(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth)
         , DefaultSelectableNoListFlags(DefaultSelectableFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen)
         , IsActive(false)
-        , thumbnail(OpenGLThumbnail(assets::LoadBitmap("assets/icons/thumbnails/folder.png"))){
+        , folderImage(OpenGLThumbnail(assets::LoadBitmap("assets/icons/thumbnails/folder.png")))
+        , unknownImage(OpenGLThumbnail(assets::LoadBitmap("assets/icons/thumbnails/unknown.png"))){
         PT_PROFILE_ALLOC("ImguiAssetPanel", sizeof(ImguiAssetPanel))
 
     }
@@ -62,15 +63,18 @@ namespace MeowEngine::Runtime {
             }
 
             ImGuiTableFlags flags;
-            flags = ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_Hideable;
-            if(ImGui::BeginTable("", 2, flags)) {
+            flags = ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp;
+            auto availableSize = ImGui::GetContentRegionAvail();
+
+            if(ImGui::BeginTable("", 2, flags, ImGui::GetContentRegionAvail())) {
                 ImGui::TableSetupColumn("Project");
                 ImGui::TableSetupColumn("");
 
                 ImGui::TableHeadersRow();
 
                 // Folder View
-                ImGui::TableNextRow(ImGuiTableRowFlags_None, 20);
+//                ImGui::TableNextRow(ImGuiTableRowFlags_None, 20);
+                ImGui::TableNextRow(ImGuiTableRowFlags_None, ImGui::GetContentRegionAvail().y);
                 ImGui::TableNextColumn() ;
 
                 // show open project assets
@@ -89,9 +93,9 @@ namespace MeowEngine::Runtime {
                     ShowDirectory(selectionData, assetPath.GetRawString(), "engine");
                 }
 
-                // Thumbnail View
+                // thumbnail view
                 ImGui::TableNextColumn();
-                if(ImGui::BeginTable("test", 4, ImGuiTableFlags_NoBordersInBody)) {
+                if(ImGui::BeginTable("DirectoryFiles", 4, ImGuiTableFlags_NoBordersInBody)) {
                     ShowSelectedDirectoryFiles(selectionData);
                     ImGui::EndTable();
                 }
@@ -127,11 +131,11 @@ namespace MeowEngine::Runtime {
         );
 
         // if item gets clicked with cache item
-//        if (!pIsItemClicked && ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
         if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-            MeowEngine::Log("Directory Selected: ", path.GetName().GetRawString());
             selectionData.SelectedDirectoryPath = path.GetRawString();
-//            pIsItemClicked = true;
+            selectionData.SelectedAssetPath = path.GetRawString();
+    
+            MeowEngine::Log("Directory Selected: ", path.GetName().GetRawString());
         }
 
         if(!directories.empty() && isOpen){
@@ -151,26 +155,68 @@ namespace MeowEngine::Runtime {
 
         for(const auto& assetPath : assetPaths) {
             ImGui::TableNextColumn();
-
-            // TODO: Once we have our full system ready to load/unload assets we update this properly
-//            auto thumbnailTexture = assets::LoadBitmap("assets/icons/thumbnails/folder.png");
-//            auto thumbnailRenderer = OpenGLThumbnail(thumbnailTexture);
-            thumbnail.Bind();
-            float width = thumbnail.GetWidth();
-            float height = thumbnail.GetHeight();
-//            float width = 1;
-//            float height = 1;
-
-//            ImVec2 size = ImVec2(32.0f, 32.0f);                         // Size of the image we want to make visible
-//            ImVec2 uv0 = ImVec2(0.0f, 0.0f);                            // UV coordinates for lower-left
-//            ImVec2 uv1 = ImVec2(32.0f / width, 32.0f / height);    // UV coordinates for (32,32) in our texture
-//            ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
-//            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
-//
-//            ImGui::Image((ImTextureID)thumbnailRenderer.GetTextureID(), size, uv0, uv1, bg_col, tint_col);
-            ImGui::Image((ImTextureID)thumbnail.GetTextureID(), ImVec2(64,64));
-            ImGui::Text("%s", assetPath.GetName().CStr());
-
+            ShowThumbnail(selectionData, assetPath);
         }
+    }
+
+    void ImguiAssetPanel::ShowThumbnail(SelectionData& selectionData,
+                                        const FileSystem::Path& path) {
+        FileSystem::Path name = path.GetName();
+        
+        ImVec2 size(100, 100);
+        ImGui::PushID(path.CStr());
+
+        // show a button (hidden overlay)
+        if(ImGui::InvisibleButton("button", size)) {
+            selectionData.SelectedAssetPath = path.GetRawString();
+            MeowEngine::Log("Asset Selected", name.GetRawString());
+        }
+
+        // prepare from the draw commands
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
+        ImVec2 min = ImGui::GetItemRectMin();
+        ImVec2 max = ImGui::GetItemRectMax();
+        ImVec2 center = ImVec2(
+            (min.x + max.x) * 0.5f,
+            (min.y + max.y) * 0.5f
+        );
+
+        // hover effect
+        bool hovered = ImGui::IsItemHovered();
+        ImU32 backgroundColor = hovered? IM_COL32(90, 90, 90, 255) : IM_COL32(0,0,0,0);
+        if(path.GetStringView() == selectionData.SelectedAssetPath) {
+            backgroundColor = IM_COL32(0, 137, 209, 255);
+        }
+        
+        drawList->AddRectFilled(min, max, backgroundColor, 6.0f);
+
+        // calculate text
+        ImVec2 textSize = ImGui::CalcTextSize(name.CStr());
+        ImVec2 textPosition = ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 10);
+
+        // calculate image
+        ImVec2 imageSize(64, 64);
+        ImVec2 imageMinPosition(
+            center.x - imageSize.x * 0.5f,
+            textPosition.y - imageSize.y
+        );
+
+        ImVec2 imageMaxPosition(
+            center.x + imageSize.x * 0.5f,
+            textPosition.y
+        );
+
+        // TODO: Once we have our full system ready to load/unload assets we update this properly
+        // draw
+        void* imageData = path.GetExtension().GetStringView().empty()? folderImage.GetTextureID() : unknownImage.GetTextureID();
+        drawList->AddImage(
+            (ImTextureID)imageData,
+            imageMinPosition,
+            imageMaxPosition
+        );
+
+        drawList->AddText(textPosition, IM_COL32_WHITE, name.CStr());
+
+        ImGui::PopID();
     }
 }

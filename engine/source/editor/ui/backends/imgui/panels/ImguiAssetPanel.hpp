@@ -14,6 +14,10 @@
 #include "selection_data.hpp"
 #include "opengl_thumbnail.hpp"
 
+namespace MeowEngine::Core::IO::FileSystem {
+    class Path;
+}
+
 namespace MeowEngine::Runtime {
     struct ImguiAssetPanel {
         ImguiAssetPanel();
@@ -26,14 +30,20 @@ namespace MeowEngine::Runtime {
                            const std::string& pathString,
                            const std::string& pathName);
 
-        void ShowSelectedDirectoryFiles(MeowEngine::SelectionData& selectionData);
+        void ShowSelectedDirectoryFiles(SelectionData& selectionData);
+
+        void ShowThumbnail(SelectionData& selectionData, const Core::IO::FileSystem::Path& path);
 
     private:
+        
         bool IsActive;
         ImGuiWindowFlags WindowFlags;
         const ImGuiTreeNodeFlags DefaultSelectableFlags;
         const ImGuiTreeNodeFlags DefaultSelectableNoListFlags;
-        OpenGLThumbnail thumbnail;
+
+        // TODO: Temp until we have loader system
+        OpenGLThumbnail folderImage;
+        OpenGLThumbnail unknownImage;
     };
 }
 
