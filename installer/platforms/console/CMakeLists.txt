@@ -90,7 +90,29 @@ include_directories(${TOOLS_DIR})
 # examples
 file(GLOB_RECURSE EXAMPLES_HEADERS ${EXAMPLES_DIR}/*.hpp)
 file(GLOB_RECURSE EXAMPLES_SOURCES ${EXAMPLES_DIR}/*.cpp)
-include_directories(${EXAMPLES_DIR})
+#include_directories(${EXAMPLES_DIR})
+
+# Collect all directories under the include directory
+file(GLOB_RECURSE ALL_EXAMPLE_ENTRIES "${EXAMPLES_DIR}/*")
+
+# Extract directories from the list of entries
+set(ALL_EXAMPLE_DIRECTORIES "")
+foreach(ENTRY ${ALL_EXAMPLE_ENTRIES})
+     get_filename_component(DIR ${ENTRY} DIRECTORY)
+     if(IS_DIRECTORY ${DIR})
+          list(APPEND ALL_EXAMPLE_DIRECTORIES ${DIR})
+     endif()
+endforeach()
+
+# Remove duplicates from the list of directories
+list(REMOVE_DUPLICATES ALL_EXAMPLE_DIRECTORIES)
+
+# include example directory
+message("Directories found in ${DIRECTORY_TO_SEARCH}:")
+foreach(DIR ${ALL_EXAMPLE_DIRECTORIES})
+     message("${DIR}")
+     include_directories(${DIR})
+endforeach()
 
 #add_compile_definitions(__MULTI_THREAD__ __ENABLE_TRACY__)
 #target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)

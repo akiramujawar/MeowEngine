@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 22/02/26.
 //
 
-#ifndef MEOWENGINE_IO_HPP
+#ifndef MEOWENGINE_FILESYSTEM_HPP
 #define MEOWENGINE_FILESYSTEM_HPP
 
 #include "Path.hpp"
@@ -23,25 +23,25 @@ namespace MeowEngine::Core::IO::FileSystem {
     // similar to our selection data, we also select the file and use it to open it.
     class FileSystem {
     public:
-        static bool Exists(const Path& pPath);
+        static bool Exists(const Path& path);
 
-        static bool CreateDirectory(const Path& pPath);
-        static bool Remove(const Path&);
+        static bool CreateDirectory(const Path& path);
+        static bool Remove(const Path& path);
 
-        static std::unique_ptr<File> Open(const Path& pPath, FileMode pMode);
+        static std::unique_ptr<File> Open(const Path& path, FileMode mode);
         static void Close();
 
         static void Read();
         static void Write();
 
-        static size_t FileSize(const Path& pPath);
+        static size_t FileSize(const Path& path);
 
         static void Mount();
         static void Unmount();
 
-        static void Resolve(const Path& pVirtualPath);
+        static void Resolve(const Path& virtualPath);
     };
 
 } // Core
 
-#endif //MEOWENGINE_IO_HPP
+#endif //MEOWENGINE_FILESYSTEM_HPP

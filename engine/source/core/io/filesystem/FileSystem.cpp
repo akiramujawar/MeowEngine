@@ -9,23 +9,23 @@
 namespace MeowEngine::Core::IO::FileSystem {
 
 
-    bool FileSystem::Exists(const Path& pPath) {
-        return filesystem::exists(pPath.CStr());
+    bool FileSystem::Exists(const Path& path) {
+        return filesystem::exists(path.GetRawString());
     }
 
-    bool FileSystem::CreateDirectory(const Path& pPath) {
-        return false;
+    bool FileSystem::CreateDirectory(const Path& path) {
+        return filesystem::create_directory(path.GetRawString());
     }
 
-    bool FileSystem::Remove(const Path&) {
-        return false;
+    bool FileSystem::Remove(const Path& path) {
+        return filesystem::remove(path.GetRawString());
     }
 
-    std::unique_ptr<File> FileSystem::Open(const Path& pPath, FileMode pMode) {
+    std::unique_ptr<File> FileSystem::Open(const Path& path, FileMode mode) {
         return std::unique_ptr<File>();
     }
 
-    size_t FileSystem::FileSize(const Path& pPath) {
+    size_t FileSystem::FileSize(const Path& path) {
         return 0;
     }
 
@@ -37,7 +37,7 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     }
 
-    void FileSystem::Resolve(const Path& pVirtualPath) {
+    void FileSystem::Resolve(const Path& virtualPath) {
 
     }
 

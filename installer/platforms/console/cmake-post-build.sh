@@ -15,9 +15,16 @@ pushd ../../../builds/console || exit
   fi
 
   if [ !  -d 'assets' ]; then
-    echo "Linking Assets Data"
-    # shellcheck disable=SC2226
-    ln -s ../../engine/assets
+      echo "Linking Engine Data"
+      # shellcheck disable=SC2226
+      ln -s ../../engine/assets
+  fi
+
+  if [ ! -d 'project' ]; then
+      echo "Linking Example Project"
+      # shellcheck disable=SC2226
+      ln -s ../../engine/examples
+      mv examples project
   fi
 
   if [ !  -d 'dependencies/profiler' ]; then

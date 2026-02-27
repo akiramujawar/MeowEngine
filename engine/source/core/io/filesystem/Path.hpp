@@ -13,14 +13,28 @@ namespace MeowEngine::Core::IO::FileSystem {
     public:
 //        Path();
         Path(const char* path);
-        Path(const std::string& path);
-        Path(const Types::String& path);
+        explicit Path(const std::string_view& path);
+//        Path(const Types::String& path);
 
         const char* CStr() const;
+        const std::string_view& GetStringView() const;
         const std::string& GetRawString() const;
-        Types::String GetString() const;
+        const Types::String& GetString() const;
 
+        Path operator+ (const Path& path);
+
+        /**
+         * Full path of file/folder
+         * e.g. User://c/folder/folder
+         * @return
+         */
         bool IsAbsolute() const;
+
+        /**
+         * Relative to current directory
+         * e.g. project/folder/folder
+         * @return
+         */
         bool IsRelative() const;
         bool Exists() const;
 

@@ -29,7 +29,7 @@ namespace MeowEngine {
     }
 }
 
-void MeowEngine::Log(const std::string& tag, std::initializer_list<std::string_view> messages, LogType mType) {
+void MeowEngine::Log(const std::string_view& tag, std::initializer_list<std::string_view> messages, LogType mType) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
 //    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -53,7 +53,7 @@ void MeowEngine::Log(const std::string& tag, std::initializer_list<std::string_v
 #endif
 }
 
-void MeowEngine::Log(const std::string& tag, const std::string& message, LogType mType) {
+void MeowEngine::Log(const std::string_view& tag, const std::string_view& message, LogType mType) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
     __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -66,7 +66,7 @@ void MeowEngine::Log(const std::string& tag, const std::string& message, LogType
 #endif
 }
 
-void MeowEngine::Log(const std::string& tag, const char* message, LogType mType) {
+void MeowEngine::Log(const std::string_view& tag, const char* message, LogType mType) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
     __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -78,7 +78,7 @@ void MeowEngine::Log(const std::string& tag, const char* message, LogType mType)
 #endif
 }
 
-void MeowEngine::Log(const std::string& tag, const int& message, LogType mType) {
+void MeowEngine::Log(const std::string_view& tag, const int& message, LogType mType) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
 //    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -90,7 +90,7 @@ void MeowEngine::Log(const std::string& tag, const int& message, LogType mType) 
 #endif
 }
 
-void MeowEngine::Log(const std::string& tag, const float& message, LogType mType) {
+void MeowEngine::Log(const std::string_view& tag, const float& message, LogType mType) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
     //    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -102,7 +102,7 @@ void MeowEngine::Log(const std::string& tag, const float& message, LogType mType
 #endif
 }
 
-void MeowEngine::Log(const std::string& tag, const bool& message, LogType mType) {
+void MeowEngine::Log(const std::string_view& tag, const bool& message, LogType mType) {
 #ifndef NDEBUG
 #ifdef __ANDROID__
     //    __android_log_print(ANDROID_LOG_DEBUG, "a-simple-triangle", "%s: %s", tag.c_str(), message.c_str());
@@ -120,9 +120,9 @@ void MeowEngine::Log(const std::string& tag, const bool& message, LogType mType)
 #endif
 }
 
-void MeowEngine::Log(const std::string& tag, const std::string& message, const std::exception& error, LogType mType) {
+void MeowEngine::Log(const std::string_view& tag, const std::string_view& message, const std::exception& error, LogType mType) {
     #ifndef NDEBUG
-        std::string output = message + " Exception message was: " + std::string{error.what()};
+        std::string output = std::string(message) + " Exception message was: " + std::string{error.what()};
 
     SetLogType(mType);
     MeowEngine::Log(tag, output);
