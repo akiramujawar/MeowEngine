@@ -18,6 +18,10 @@ namespace MeowEngine::Core::IO::FileSystem {
     class Path;
 }
 
+namespace MeowEngine::Editor::UI {
+    class ImguiCreateAssetPopupModal;
+}
+
 namespace MeowEngine::Runtime {
     struct ImguiAssetPanel {
         ImguiAssetPanel();
@@ -26,6 +30,8 @@ namespace MeowEngine::Runtime {
         void Draw(MeowEngine::SelectionData& selectionData);
 
     private:
+        void ShowTableHeaders();
+        void ShowTableContents(MeowEngine::SelectionData& selectionData);
         void ShowDirectory(MeowEngine::SelectionData& selectionData,
                            const std::string& pathString,
                            const std::string& pathName);
@@ -33,13 +39,15 @@ namespace MeowEngine::Runtime {
         void ShowSelectedDirectoryFiles(SelectionData& selectionData);
 
         void ShowThumbnail(SelectionData& selectionData, const Core::IO::FileSystem::Path& path);
-
+        void ShowCreatePopupMenu();
     private:
         
         bool IsActive;
         ImGuiWindowFlags WindowFlags;
         const ImGuiTreeNodeFlags DefaultSelectableFlags;
         const ImGuiTreeNodeFlags DefaultSelectableNoListFlags;
+        
+        std::unique_ptr<Editor::UI::ImguiCreateAssetPopupModal> ShowCreatePopupModal;
 
         // TODO: Temp until we have loader system
         OpenGLThumbnail folderImage;

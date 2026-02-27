@@ -8,7 +8,7 @@
 #include "IO.hpp"
 #include "ProjectConfig.hpp"
 #include "AssetLoader.hpp"
-
+#include "ImguiCreateAssetPopupModal.hpp"
 
 namespace MeowEngine::Runtime {
     ImguiAssetPanel::ImguiAssetPanel()
@@ -30,7 +30,7 @@ namespace MeowEngine::Runtime {
 
         ImGui::Begin("Assets", &IsActive, WindowFlags);
         {
-            if(ImGui::Button("Demo")) {
+         /*   if(ImGui::Button("Demo")) {
                 MeowEngine::Log("Button", "Clicked");
 
                 FileSystem::Path AssetPath { "assets/test" };
@@ -61,49 +61,84 @@ namespace MeowEngine::Runtime {
                 }
 
             }
-
-            ImGuiTableFlags flags;
-            flags = ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp;
+*/
+            ImGuiTableFlags flags = ImGuiTableFlags_Borders
+                | ImGuiTableFlags_Resizable
+                | ImGuiTableFlags_SizingStretchProp;
             auto availableSize = ImGui::GetContentRegionAvail();
 
             if(ImGui::BeginTable("", 2, flags, ImGui::GetContentRegionAvail())) {
-                ImGui::TableSetupColumn("Project");
-                ImGui::TableSetupColumn("");
-
-                ImGui::TableHeadersRow();
-
-                // Folder View
-//                ImGui::TableNextRow(ImGuiTableRowFlags_None, 20);
-                ImGui::TableNextRow(ImGuiTableRowFlags_None, ImGui::GetContentRegionAvail().y);
-                ImGui::TableNextColumn() ;
-
-                // show open project assets
-                {
-                    auto projectPath = FileSystem::Path(Settings::ProjectSettings::GetProjectPath());
-                    auto assetPath = projectPath + "source";
-
-                    ShowDirectory(selectionData, assetPath.GetRawString(), "assets");
-                }
-
-                // show internal engine assets
-                {
-                    auto enginePath = FileSystem::Path(Settings::ProjectSettings::GetEnginePath());
-                    auto assetPath = enginePath + "assets";
-
-                    ShowDirectory(selectionData, assetPath.GetRawString(), "engine");
-                }
-
-                // thumbnail view
-                ImGui::TableNextColumn();
-                if(ImGui::BeginTable("DirectoryFiles", 4, ImGuiTableFlags_NoBordersInBody)) {
-                    ShowSelectedDirectoryFiles(selectionData);
-                    ImGui::EndTable();
-                }
-
+                ShowTableHeaders();
+                ShowTableContents(selectionData);
+                
                 ImGui::EndTable();
             }
 
             ImGui::End();
+        }
+    }
+    
+    void ImguiAssetPanel::ShowTableHeaders() {
+        ImGui::TableSetupColumn("Directory");
+        ImGui::TableSetupColumn("FolderView"); // folder view
+    
+        // draw header ------------------ start
+        float headerHeight = ImGui::GetTextLineHeightWithSpacing() * 1.2f;
+        ImGui::TableNextRow(ImGuiTableRowFlags_Headers, headerHeight);
+    
+        // draw "Directory" header
+        ImGui::TableSetColumnIndex(0);
+        ImGui::PushID(0); {
+            float textHeight = ImGui::GetTextLineHeight();
+            float textOffset = (headerHeight - textHeight) * 0.5f;
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + textOffset);
+            ImGui::TextUnformatted(ImGui::TableGetColumnName(0));
+        
+            ImGui::PopID();
+        }
+    
+        // draw "FolderView" header
+        ImGui::TableSetColumnIndex(1);
+        ImGui::PushID(1);
+        {
+            // show button to open a create menu
+            const std::string& buttonText = "Create + ";
+            const ImVec2 buttonSize(ImGui::CalcTextSize(buttonText.c_str()).x, headerHeight);
+            if (ImGui::Button(buttonText.c_str(), buttonSize)) {
+                ImGui::OpenPopup("ShowCreatePopupMenu");
+            }
+        
+            ShowCreatePopupMenu();
+            ImGui::PopID();
+        }
+    }
+    
+    void ImguiAssetPanel::ShowTableContents(MeowEngine::SelectionData& selectionData) {
+        // folder view (tree)
+        ImGui::TableNextRow(ImGuiTableRowFlags_None, ImGui::GetContentRegionAvail().y);
+        ImGui::TableNextColumn() ;
+        
+        // show open project assets
+        {
+            auto projectPath = FileSystem::Path(Settings::ProjectSettings::GetProjectPath());
+            auto assetPath = projectPath + "source";
+        
+            ShowDirectory(selectionData, assetPath.GetRawString(), "assets");
+        }
+    
+        // show internal engine assets
+        {
+            auto enginePath = FileSystem::Path(Settings::ProjectSettings::GetEnginePath());
+            auto assetPath = enginePath + "assets";
+        
+            ShowDirectory(selectionData, assetPath.GetRawString(), "engine");
+        }
+    
+        // thumbnail view (tiles)
+        ImGui::TableNextColumn();
+        if(ImGui::BeginTable("DirectoryFiles", 4, ImGuiTableFlags_NoBordersInBody)) {
+            ShowSelectedDirectoryFiles(selectionData);
+            ImGui::EndTable();
         }
     }
 
@@ -218,5 +253,33 @@ namespace MeowEngine::Runtime {
         drawList->AddText(textPosition, IM_COL32_WHITE, name.CStr());
 
         ImGui::PopID();
+    }
+
+    void ImguiAssetPanel::ShowCreatePopupMenu() {
+        std::string createTypeString;
+        
+        // show popup menu for different types of items which can be created
+        if (ImGui::BeginPopup("ShowCreatePopupMenu")) {
+            Editor::UI::ImguiCreateAssetPopupModal::ShowMenuItem("Folder", createTypeString);
+        
+            if (ImGui::BeginMenu("Misc", "")) {  // 2nd param is for shortcut
+                Editor::UI::ImguiCreateAssetPopupModal::ShowMenuItem("World", createTypeString);
+                ImGui::EndMenu();
+            }
+        
+            ImGui::EndPopup();
+        }
+        
+        // draws the popup modal
+        if(ShowCreatePopupModal) {
+            if(ShowCreatePopupModal->Draw()) {
+                ShowCreatePopupModal.reset();
+            }
+        }
+        else if(!createTypeString.empty()) {
+            ShowCreatePopupModal = make_unique<Editor::UI::ImguiCreateAssetPopupModal>(createTypeString);
+        }
+    
+        
     }
 }
