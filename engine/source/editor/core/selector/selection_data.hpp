@@ -10,6 +10,8 @@
 namespace MeowEngine {
     struct SelectionData {
         entt::entity SelectedEntity;
+        std::string SelectedDirectoryPath;
+        std::string SelectedAssetPath;
     };
 }
 

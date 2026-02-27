@@ -8,16 +8,32 @@
 
 #include "ImguiAPI.hpp"
 
+#include "string_view"
+#include "string"
+
+#include "selection_data.hpp"
+#include "opengl_thumbnail.hpp"
+
 namespace MeowEngine::Runtime {
     struct ImguiAssetPanel {
         ImguiAssetPanel();
         ~ImguiAssetPanel();
 
-        void Draw();
+        void Draw(MeowEngine::SelectionData& selectionData);
+
+    private:
+        void ShowDirectory(MeowEngine::SelectionData& selectionData,
+                           const std::string& pathString,
+                           const std::string& pathName);
+
+        void ShowSelectedDirectoryFiles(MeowEngine::SelectionData& selectionData);
 
     private:
         bool IsActive;
         ImGuiWindowFlags WindowFlags;
+        const ImGuiTreeNodeFlags DefaultSelectableFlags;
+        const ImGuiTreeNodeFlags DefaultSelectableNoListFlags;
+        OpenGLThumbnail thumbnail;
     };
 }
 

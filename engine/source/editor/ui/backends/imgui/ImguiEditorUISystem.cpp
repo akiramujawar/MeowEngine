@@ -205,10 +205,10 @@ namespace MeowEngine::Runtime {
         WorldSettingPanel.Draw();
         ProjectSettingPanel.Draw();
         EditorSettingPanel.Draw();
-        AssetPanel.Draw();
+        AssetPanel.Draw(pSelection);
         ConsolePanel.Draw();
 
-//        ImGui::ShowDemoWindow(&IsRendering);
+        ImGui::ShowDemoWindow(&IsRendering);
     }
 
     void ImGuiUISystem::RenderFrame() {
