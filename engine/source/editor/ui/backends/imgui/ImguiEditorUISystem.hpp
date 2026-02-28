@@ -64,7 +64,7 @@ namespace MeowEngine::Runtime {
         ImGuiWorldInspectorPanel WorldInspectorPanel;
         ImGuiWorldViewPanel WorldViewPanel;
         ImGuiConsolePanel ConsolePanel;
-        ImguiAssetPanel AssetPanel;
+        Editor::UI::ImguiAssetPanel AssetPanel;
         ImguiWorldSettingPanel WorldSettingPanel;
         ImguiProjectSettingPanel ProjectSettingPanel;
         ImguiEditorSettingPanel EditorSettingPanel;

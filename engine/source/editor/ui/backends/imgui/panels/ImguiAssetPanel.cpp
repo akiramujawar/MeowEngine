@@ -9,8 +9,9 @@
 #include "ProjectConfig.hpp"
 #include "AssetLoader.hpp"
 #include "ImguiCreateAssetPopupModal.hpp"
+#include "ImguiAssetDragDrop.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor::UI {
     ImguiAssetPanel::ImguiAssetPanel()
         : WindowFlags(ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing)
         , DefaultSelectableFlags(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth)
@@ -101,14 +102,25 @@ namespace MeowEngine::Runtime {
         ImGui::TableSetColumnIndex(1);
         ImGui::PushID(1);
         {
-            // show button to open a create menu
-            const std::string& buttonText = "Create + ";
-            const ImVec2 buttonSize(ImGui::CalcTextSize(buttonText.c_str()).x, headerHeight);
-            if (ImGui::Button(buttonText.c_str(), buttonSize)) {
-                ImGui::OpenPopup("ShowCreatePopupMenu");
+            // show import button (onclick: creates a popup window)
+            const std::string& importButtonText = "Import + ";
+            const ImVec2 importButtonSize(ImGui::CalcTextSize(importButtonText.c_str()).x, headerHeight);
+            if (ImGui::Button(importButtonText.c_str(), importButtonSize)) {
+                // display window for importing files.
+                // TODO: check on this.
+                // ideally if dragging a file from outside and dropping is easier implement that
             }
-        
-            ShowCreatePopupMenu();
+    
+            ImGui::SameLine();
+    
+            // show create button (onclick: shows a popup menu)
+            const std::string& createButtonText = "Create + ";
+            const ImVec2 createButtonSize(ImGui::CalcTextSize(createButtonText.c_str()).x, headerHeight);
+            if (ImGui::Button(createButtonText.c_str(), createButtonSize)) {
+                ImGui::OpenPopup("ShowCreateAssetPopupMenu");
+            }
+    
+            ShowCreateAssetPopupMenu();
             ImGui::PopID();
         }
     }
@@ -172,6 +184,8 @@ namespace MeowEngine::Runtime {
     
             MeowEngine::Log("Directory Selected: ", path.GetName().GetRawString());
         }
+    
+        ImguiAssetDragDrop::DropAsset();
 
         if(!directories.empty() && isOpen){
             // show the child items in hierarchy
@@ -198,11 +212,15 @@ namespace MeowEngine::Runtime {
                                         const FileSystem::Path& path) {
         FileSystem::Path name = path.GetName();
         
-        ImVec2 size(100, 100);
+        // TODO: Once we have our full system ready to load/unload assets we update this properly
+        void* imagePtr = path.GetExtension().GetStringView().empty()? folderImage.GetTextureID() : unknownImage.GetTextureID();
+        
         ImGui::PushID(path.CStr());
-
+        
+        ImVec2 thumbnailSize(100, 100);
+        
         // show a button (hidden overlay)
-        if(ImGui::InvisibleButton("button", size)) {
+        if(ImGui::InvisibleButton("button", thumbnailSize)) {
             selectionData.SelectedAssetPath = path.GetRawString();
             MeowEngine::Log("Asset Selected", name.GetRawString());
         }
@@ -215,6 +233,7 @@ namespace MeowEngine::Runtime {
             (min.x + max.x) * 0.5f,
             (min.y + max.y) * 0.5f
         );
+        ImVec2 imageSize(64, 64);
 
         // hover effect
         bool hovered = ImGui::IsItemHovered();
@@ -223,14 +242,30 @@ namespace MeowEngine::Runtime {
             backgroundColor = IM_COL32(0, 137, 209, 255);
         }
         
+        // right click
+        {
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+                ImGui::OpenPopup("ShowEditAssetMenu");
+            }
+        
+            // show menu on right click
+            if (ImGui::BeginPopup("ShowEditAssetMenu")) {
+                ImGui::MenuItem("Delete");
+                ImGui::EndPopup();
+            }
+        }
+        
+        // drag n drop
+        ImguiAssetDragDrop::DragAsset(path.GetRawString(), path.GetName().GetRawString(), imagePtr);
+        ImguiAssetDragDrop::DropAsset();
+        
         drawList->AddRectFilled(min, max, backgroundColor, 6.0f);
 
-        // calculate text
+        // calculate asset name text
         ImVec2 textSize = ImGui::CalcTextSize(name.CStr());
         ImVec2 textPosition = ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 10);
 
-        // calculate image
-        ImVec2 imageSize(64, 64);
+        // calculate asset icon size
         ImVec2 imageMinPosition(
             center.x - imageSize.x * 0.5f,
             textPosition.y - imageSize.y
@@ -240,30 +275,29 @@ namespace MeowEngine::Runtime {
             center.x + imageSize.x * 0.5f,
             textPosition.y
         );
-
-        // TODO: Once we have our full system ready to load/unload assets we update this properly
-        // draw
-        void* imageData = path.GetExtension().GetStringView().empty()? folderImage.GetTextureID() : unknownImage.GetTextureID();
+        
+        // show asset icon
         drawList->AddImage(
-            (ImTextureID)imageData,
+            (ImTextureID)imagePtr,
             imageMinPosition,
             imageMaxPosition
         );
 
+        // show asset name text
         drawList->AddText(textPosition, IM_COL32_WHITE, name.CStr());
 
         ImGui::PopID();
     }
 
-    void ImguiAssetPanel::ShowCreatePopupMenu() {
+    void ImguiAssetPanel::ShowCreateAssetPopupMenu() {
         std::string createTypeString;
         
         // show popup menu for different types of items which can be created
-        if (ImGui::BeginPopup("ShowCreatePopupMenu")) {
-            Editor::UI::ImguiCreateAssetPopupModal::ShowMenuItem("Folder", createTypeString);
+        if (ImGui::BeginPopup("ShowCreateAssetPopupMenu")) {
+            ImguiCreateAssetPopupModal::ShowMenuItem("Folder", createTypeString);
         
             if (ImGui::BeginMenu("Misc", "")) {  // 2nd param is for shortcut
-                Editor::UI::ImguiCreateAssetPopupModal::ShowMenuItem("World", createTypeString);
+                ImguiCreateAssetPopupModal::ShowMenuItem("World", createTypeString);
                 ImGui::EndMenu();
             }
         
@@ -277,7 +311,7 @@ namespace MeowEngine::Runtime {
             }
         }
         else if(!createTypeString.empty()) {
-            ShowCreatePopupModal = make_unique<Editor::UI::ImguiCreateAssetPopupModal>(createTypeString);
+            ShowCreatePopupModal = make_unique<ImguiCreateAssetPopupModal>(createTypeString);
         }
     
         

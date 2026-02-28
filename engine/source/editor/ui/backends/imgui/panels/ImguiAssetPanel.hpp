@@ -20,9 +20,7 @@ namespace MeowEngine::Core::IO::FileSystem {
 
 namespace MeowEngine::Editor::UI {
     class ImguiCreateAssetPopupModal;
-}
-
-namespace MeowEngine::Runtime {
+    
     struct ImguiAssetPanel {
         ImguiAssetPanel();
         ~ImguiAssetPanel();
@@ -39,7 +37,7 @@ namespace MeowEngine::Runtime {
         void ShowSelectedDirectoryFiles(SelectionData& selectionData);
 
         void ShowThumbnail(SelectionData& selectionData, const Core::IO::FileSystem::Path& path);
-        void ShowCreatePopupMenu();
+        void ShowCreateAssetPopupMenu();
     private:
         
         bool IsActive;
