@@ -43,6 +43,7 @@ include_directories(${THIRD_PARTY_DIR}/imgui/backends)
 include_directories(${THIRD_PARTY_DIR}/tracy/public/tracy)
 include_directories(${THIRD_PARTY_DIR}/entt/single_include/entt)
 include_directories(${THIRD_PARTY_DIR}/physx/physx/include)
+include_directories(${THIRD_PARTY_DIR}/nativefiledialog/src/include)
 
 # glob is not good idea
 file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
@@ -114,10 +115,6 @@ foreach(DIR ${ALL_EXAMPLE_DIRECTORIES})
      include_directories(${DIR})
 endforeach()
 
-#add_compile_definitions(__MULTI_THREAD__ __ENABLE_TRACY__)
-#target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
-#target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
-
 add_executable(
      MeowEngine
      ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
@@ -146,6 +143,8 @@ add_executable(
 target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
 target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
 
+#target_link_libraries(MeowEngine PRIVATE nfd)
+
 # Link profiler with console executable
 add_library(
    TracyClient STATIC
@@ -161,6 +160,9 @@ target_link_libraries(MeowEngine PUBLIC OpenCL::OpenCL TracyClient ${CMAKE_DL_LI
 # Link native menu option for mac
 #include_directories(${SDL2_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIR})
 
+#add_subdirectory(path/to/nativefiledialog)
+#target_link_libraries(MyProgram PRIVATE nfd)
+
 target_link_libraries(MeowEngine PUBLIC
    ${SDL2_LIBRARIES}
    ${OPENGL_LIBRARIES}
@@ -173,11 +175,15 @@ find_library(PHYSX_COMMON_LIB NAMES libPhysXCommon_static_64.a PATHS ${THIRD_PAR
 find_library(PHYSX_FOUNDATION_LIB NAMES libPhysXFoundation_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
 find_library(PHYSX_EXTENSIONS_LIB NAMES libPhysXExtensions_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
 
+# check how to build nativefiledialog for mac/win
+find_library(NFD_LIB NAMES libnfd.a PATHS ${THIRD_PARTY_DIR}/nativefiledialog/build/src)
+
 target_link_libraries(MeowEngine PUBLIC
      ${PHYSX_LIBRARY}
      ${PHYSX_COMMON_LIB}
      ${PHYSX_FOUNDATION_LIB}
      ${PHYSX_EXTENSIONS_LIB}
+     ${NFD_LIB}
 )
 
 

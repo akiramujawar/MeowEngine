@@ -55,6 +55,37 @@ verify_frameworks_folder_exists() {
   popd || exit
 }
 
+fetch_third_party_lib_native_file_dialog() {
+  verify_third_party_folder_exists
+
+  # shellcheck disable=SC2164
+  pushd libs/third-party
+      if [ ! -d "nativefiledialog" ] ; then
+        echo "Fetching Native File Dialog"
+
+        wget https://github.com/btzy/nativefiledialog-extended/archive/refs/tags/v1.3.0.zip
+
+        # Unzip the file into the current folder
+        unzip -q v1.3.0.zip
+
+        # Rename
+        mv nativefiledialog-extended-1.3.0 nativefiledialog
+
+        # Clean up by deleting the zip file that we downloaded.
+        rm v1.3.0.zip
+
+        pushd nativefiledialog  || exit
+          mkdir build
+          pushd build  || exit
+            cmake -DCMAKE_BUILD_TYPE=Release ..
+            cmake --build .
+          popd || exit
+        popd || exit
+      fi
+    # shellcheck disable=SC2164
+    popd
+}
+
 fetch_third_party_lib_magic_enum() {
   verify_third_party_folder_exists
 
@@ -246,7 +277,7 @@ fetch_third_party_lib_physx()
   pushd libs/third-party
     if [ ! -d "physx" ] ; then
       echo "Fetching PhysX 5.0"
-      git clone https://github.com/wulcat/PhysX.git physx
+      git clone https://github.com/akiramujawar/PhysX.git physx
     fi
   # shellcheck disable=SC2164
   popd
@@ -270,7 +301,7 @@ fetch_third_party_lib_physx_web()
   pushd libs/third-party
     if [ ! -d "physx" ] ; then
       echo "Fetching PhysX 5.0"
-      git clone https://github.com/wulcat/PhysX.git physx
+      git clone https://github.com/akiramujawar/PhysX.git physx
     fi
   # shellcheck disable=SC2164
   popd

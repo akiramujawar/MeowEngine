@@ -49,6 +49,8 @@
     <files>
       <extensions>
         <pair source="cpp" header="hpp" fileNamingConvention="NONE" />
+        <pair source="c" header="h" fileNamingConvention="NONE" />
+        <pair source="cu" header="cuh" fileNamingConvention="NONE" />
       </extensions>
     </files>
     <codeStyleSettings language="ObjectiveC">
@@ -56,6 +58,7 @@
       <option name="ARRAY_INITIALIZER_WRAP" value="0" />
       <indentOptions>
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
       </indentOptions>
     </codeStyleSettings>
   </code_scheme>
