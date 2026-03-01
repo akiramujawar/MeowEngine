@@ -25,7 +25,7 @@ with modern technologies and architectural concepts.
 
 | Platform          | Support            |
 |-------------------|--------------------|
-| Unix              | :white_check_mark: |
+| macOS x86_64      | :white_check_mark: |
 | Mac (x84) Rosetta | :construction:     |
 | Web               | :white_check_mark: |
 | Window            | :soon:             |

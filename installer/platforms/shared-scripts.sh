@@ -77,7 +77,7 @@ fetch_third_party_lib_native_file_dialog() {
         pushd nativefiledialog  || exit
           mkdir build
           pushd build  || exit
-            cmake -DCMAKE_BUILD_TYPE=Release ..
+            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=x86_64 ..
             cmake --build .
           popd || exit
         popd || exit

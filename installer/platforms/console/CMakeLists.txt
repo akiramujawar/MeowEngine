@@ -160,13 +160,9 @@ target_link_libraries(MeowEngine PUBLIC OpenCL::OpenCL TracyClient ${CMAKE_DL_LI
 # Link native menu option for mac
 #include_directories(${SDL2_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIR})
 
-#add_subdirectory(path/to/nativefiledialog)
-#target_link_libraries(MyProgram PRIVATE nfd)
-
 target_link_libraries(MeowEngine PUBLIC
    ${SDL2_LIBRARIES}
    ${OPENGL_LIBRARIES}
-   "-framework Cocoa"
 )
 
 # BUG: some weird issue here. PHYSX_LIB is somehow already set to a physic common lib path.
@@ -175,17 +171,28 @@ find_library(PHYSX_COMMON_LIB NAMES libPhysXCommon_static_64.a PATHS ${THIRD_PAR
 find_library(PHYSX_FOUNDATION_LIB NAMES libPhysXFoundation_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
 find_library(PHYSX_EXTENSIONS_LIB NAMES libPhysXExtensions_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
 
-# check how to build nativefiledialog for mac/win
-find_library(NFD_LIB NAMES libnfd.a PATHS ${THIRD_PARTY_DIR}/nativefiledialog/build/src)
-
-target_link_libraries(MeowEngine PUBLIC
-     ${PHYSX_LIBRARY}
-     ${PHYSX_COMMON_LIB}
-     ${PHYSX_FOUNDATION_LIB}
-     ${PHYSX_EXTENSIONS_LIB}
-     ${NFD_LIB}
+add_subdirectory(
+   ${THIRD_PARTY_DIR}/nativefiledialog
+   ${CMAKE_BINARY_DIR}/nativefiledialog-build
 )
 
+target_link_libraries(MeowEngine PRIVATE nfd)
+
+if(APPLE)
+     target_link_libraries(MeowEngine PRIVATE
+        "-framework AppKit"
+        "-framework Foundation"
+        "-framework UniformTypeIdentifiers"
+        "-framework Cocoa"
+     )
+endif()
+
+target_link_libraries(MeowEngine PUBLIC
+        ${PHYSX_LIBRARY}
+        ${PHYSX_COMMON_LIB}
+        ${PHYSX_FOUNDATION_LIB}
+        ${PHYSX_EXTENSIONS_LIB}
+)
 
 # This is to ensure executable knows how to attach frameworks or other things to itself
 set_target_properties(
