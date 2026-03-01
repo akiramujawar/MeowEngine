@@ -154,6 +154,11 @@ namespace MeowEngine {
                             InputManager->isActive = *(bool *) event.user.data1;
                             break;
                         }
+                        case 4: {
+                            RenderThread->ShowImportPopup();
+                            
+                            break;
+                        }
                     }
                 default:
                     break;

@@ -107,8 +107,15 @@ namespace MeowEngine::Editor::UI {
             const ImVec2 importButtonSize(ImGui::CalcTextSize(importButtonText.c_str()).x, headerHeight);
             if (ImGui::Button(importButtonText.c_str(), importButtonSize)) {
                 // display window for importing files.
-                // TODO: check on this.
-                // ideally if dragging a file from outside and dropping is easier implement that
+                // NOTE: We create a event as creating a native window requires main thread.
+                // TODO: ideally if dragging a file from outside and dropping is easier implement that
+                // TODO: Create a way to handle & define the event types & data for code readability
+                SDL_Event event;
+                SDL_zero(event);
+                event.type = SDL_USEREVENT;
+                event.user.code = 4;
+    
+                SDL_PushEvent(&event);
             }
     
             ImGui::SameLine();
@@ -245,12 +252,17 @@ namespace MeowEngine::Editor::UI {
         // right click
         {
             if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+                selectionData.SelectedAssetPath = path.GetRawString();
+                
                 ImGui::OpenPopup("ShowEditAssetMenu");
+                MeowEngine::Log("Asset Right Clicked: ", path.GetName().GetRawString());
             }
         
             // show menu on right click
             if (ImGui::BeginPopup("ShowEditAssetMenu")) {
                 ImGui::MenuItem("Delete");
+                ImGui::MenuItem("Rename");
+                
                 ImGui::EndPopup();
             }
         }

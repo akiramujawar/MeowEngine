@@ -13,9 +13,6 @@
 #include "ImguiAPI.hpp"
 #include "ImguiEditorUISystem.hpp"
 #include "PlatformBridgeAPI.hpp"
-//#include "entt_wrapper.hpp"
-//#include <filesystem>
-
 
 namespace {
     pid_t tracy_profiler_pid = -1;
@@ -54,13 +51,10 @@ namespace {
 namespace MeowEngine::Runtime {
 
     ImGuiUISystem::ImGuiUISystem(const SDLEngineWindow& pWindow)
-//    : isSceneViewportFocused(false)
-//    , SceneViewportSize({0,0})
         : WorldInspectorPanel()
         , WorldTreePanel()
         , WorldViewPanel()
         , ConsolePanel()
-        , AssetPanel()
         , WorldSettingPanel()
         , ProjectSettingPanel()
         , EditorSettingPanel() {

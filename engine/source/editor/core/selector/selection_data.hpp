@@ -9,6 +9,8 @@
 
 namespace MeowEngine {
     struct SelectionData {
+        SelectionData();
+        
         entt::entity SelectedEntity;
         std::string SelectedDirectoryPath;
         std::string SelectedAssetPath;

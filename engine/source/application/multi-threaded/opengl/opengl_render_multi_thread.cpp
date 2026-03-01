@@ -5,6 +5,7 @@
 #include "opengl_render_multi_thread.hpp"
 
 #include "shared_thread_state.hpp"
+#include "SDL_NativeFileDialog.hpp"
 
 namespace MeowEngine {
     OpenGLRenderMultiThread::OpenGLRenderMultiThread(MeowEngine::SharedThreadState& inState)
@@ -44,6 +45,10 @@ namespace MeowEngine {
 
     void OpenGLRenderMultiThread::EndThread() {
         RenderThread.join();
+    }
+    
+    void OpenGLRenderMultiThread::ShowImportPopup() {
+        Runtime::Window::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetWindow());
     }
 
     void OpenGLRenderMultiThread::RenderThreadLoop() {

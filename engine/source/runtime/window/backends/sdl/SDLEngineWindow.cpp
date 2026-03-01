@@ -128,7 +128,7 @@ namespace MeowEngine {
         if(ShouldDisplayFullScreen()) {
             SDL_SetWindowFullscreen(window, SDL_TRUE);
         }
-
+        
         return window;
     }
 

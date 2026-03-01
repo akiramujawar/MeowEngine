@@ -28,6 +28,8 @@ namespace MeowEngine {
         void SetScene(std::shared_ptr<MeowEngine::SceneMultiThread> inScene);
         void StartThread();
         void EndThread();
+        
+        void ShowImportPopup();
 
         // TODO: When we plan to handle multi-scene we look into this, make this private
         // we decouple window / context into a class
