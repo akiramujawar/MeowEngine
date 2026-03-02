@@ -9,7 +9,11 @@
 #include "ProjectConfig.hpp"
 #include "AssetLoader.hpp"
 #include "ImguiCreateAssetPopupModal.hpp"
+#include "ImguiDeleteAssetPopupModal.hpp"
+#include "ImguiAssetRenamePopupModal.hpp"
+
 #include "ImguiAssetDragDrop.hpp"
+#include "CreateAssetType.hpp"
 
 namespace MeowEngine::Editor::UI {
     ImguiAssetPanel::ImguiAssetPanel()
@@ -28,58 +32,50 @@ namespace MeowEngine::Editor::UI {
     }
 
     void ImguiAssetPanel::Draw(MeowEngine::SelectionData& selectionData) {
-
+        
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+        ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0, 0));
+        
         ImGui::Begin("Assets", &IsActive, WindowFlags);
         {
-         /*   if(ImGui::Button("Demo")) {
-                MeowEngine::Log("Button", "Clicked");
-
-                FileSystem::Path AssetPath { "assets/test" };
-                FileSystem::Directory Folder { AssetPath };
-//                FileSystem::Directory Directory(); // why is this allowed. investigate
-
-                if(Folder.Exists()) {
-                    MeowEngine::Log("Exists", AssetPath.Exists());
-                    MeowEngine::Log("GetParent", AssetPath.GetParent().GetRawString());
-                    MeowEngine::Log("GetName", AssetPath.GetName().GetRawString());
-                    MeowEngine::Log("GetExtension", AssetPath.GetExtension().GetRawString());
-
-                    MeowEngine::Log("IsAbsolute", AssetPath.IsAbsolute());
-                    MeowEngine::Log("IsRelative", AssetPath.IsRelative());
-
-                    for(auto file : Folder.GetFiles(false)) {
-                        MeowEngine::Log("Files", file.CStr());
-                    }
-
-                    for(auto file : Folder.GetDirectories(false)) {
-                        MeowEngine::Log("Folders", file.CStr());
-                    }
-
-//                    FileSystem::FileSystem::Remove(AssetPath);
-                }
-                else {
-                    FileSystem::FileSystem::CreateDirectory(AssetPath);
-                }
-
-            }
-*/
+            ImGui::PopStyleVar(3);
+            ImGui::Dummy(ImVec2(0, 10));  // top padding
             ImGuiTableFlags flags = ImGuiTableFlags_Borders
                 | ImGuiTableFlags_Resizable
                 | ImGuiTableFlags_SizingStretchProp;
-            auto availableSize = ImGui::GetContentRegionAvail();
-
-            if(ImGui::BeginTable("", 2, flags, ImGui::GetContentRegionAvail())) {
-                ShowTableHeaders();
+            
+            
+            auto availableSpace = ImGui::GetContentRegionAvail();
+           
+            if(ImGui::BeginTable("", 2, flags, availableSpace)) {
+                ShowTableHeaders(selectionData);
                 ShowTableContents(selectionData);
                 
                 ImGui::EndTable();
             }
-
+            
+            // draws the popup modal
+            if(ShowCreatePopupModal && ShowCreatePopupModal->Draw(selectionData)) {
+                ShowCreatePopupModal.reset();
+            }
+            
+            // draws the popup modal
+            if(ShowDeletePopupModal && ShowDeletePopupModal->Draw()) {
+                ShowDeletePopupModal.reset();
+            }
+    
+            // draws the
+            if(IsRenamingAsset && IsRenamingAsset->Draw()) {
+                IsRenamingAsset.reset();
+            }
+            
             ImGui::End();
         }
+        
     }
     
-    void ImguiAssetPanel::ShowTableHeaders() {
+    void ImguiAssetPanel::ShowTableHeaders(MeowEngine::SelectionData& selectionData) {
         ImGui::TableSetupColumn("Directory");
         ImGui::TableSetupColumn("FolderView"); // folder view
     
@@ -92,6 +88,7 @@ namespace MeowEngine::Editor::UI {
         ImGui::PushID(0); {
             float textHeight = ImGui::GetTextLineHeight();
             float textOffset = (headerHeight - textHeight) * 0.5f;
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10);
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + textOffset);
             ImGui::TextUnformatted(ImGui::TableGetColumnName(0));
         
@@ -127,7 +124,7 @@ namespace MeowEngine::Editor::UI {
                 ImGui::OpenPopup("ShowCreateAssetPopupMenu");
             }
     
-            ShowCreateAssetPopupMenu();
+            ShowCreateAssetPopupMenu(selectionData);
             ImGui::PopID();
         }
     }
@@ -137,6 +134,8 @@ namespace MeowEngine::Editor::UI {
         ImGui::TableNextRow(ImGuiTableRowFlags_None, ImGui::GetContentRegionAvail().y);
         ImGui::TableNextColumn() ;
         
+        auto flags = ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar;
+        ImGui::BeginChild("##AssetsScrollableView", ImVec2(0,0), true, flags);
         // show open project assets
         {
             auto projectPath = FileSystem::Path(Settings::ProjectSettings::GetProjectPath());
@@ -152,13 +151,16 @@ namespace MeowEngine::Editor::UI {
         
             ShowDirectory(selectionData, assetPath.GetRawString(), "engine");
         }
-    
+        ImGui::EndChild();
+        
         // thumbnail view (tiles)
         ImGui::TableNextColumn();
+        ImGui::BeginChild("##ThumbnailsScrollableView", ImVec2(0,0), true, flags);
         if(ImGui::BeginTable("DirectoryFiles", 4, ImGuiTableFlags_NoBordersInBody)) {
             ShowSelectedDirectoryFiles(selectionData);
             ImGui::EndTable();
         }
+        ImGui::EndChild();
     }
 
     void ImguiAssetPanel::ShowDirectory(MeowEngine::SelectionData& selectionData,
@@ -241,9 +243,25 @@ namespace MeowEngine::Editor::UI {
             (min.y + max.y) * 0.5f
         );
         ImVec2 imageSize(64, 64);
-
+    
+        // calculate asset icon size
+        ImVec2 imageMinPosition(
+            center.x - imageSize.x * 0.5f,
+            max.y - ImGui::GetTextLineHeight() - imageSize.y
+        );
+    
+        ImVec2 imageMaxPosition(
+            center.x + imageSize.x * 0.5f,
+            max.y - ImGui::GetTextLineHeight()
+        );
+    
+        // calculate asset name text
+        ImVec2 textSize = ImGui::CalcTextSize(name.CStr());
+        ImVec2 textPosition = ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 10);
+        
         // hover effect
         bool hovered = ImGui::IsItemHovered();
+        
         ImU32 backgroundColor = hovered? IM_COL32(90, 90, 90, 255) : IM_COL32(0,0,0,0);
         if(path.GetStringView() == selectionData.SelectedAssetPath) {
             backgroundColor = IM_COL32(0, 137, 209, 255);
@@ -260,8 +278,19 @@ namespace MeowEngine::Editor::UI {
         
             // show menu on right click
             if (ImGui::BeginPopup("ShowEditAssetMenu")) {
-                ImGui::MenuItem("Delete");
-                ImGui::MenuItem("Rename");
+                if(ImGui::MenuItem("Delete")) {
+                    ShowDeletePopupModal = std::make_unique<ImguiDeleteAssetPopupModal>(selectionData.SelectedAssetPath);
+                }
+                
+                if(ImGui::MenuItem("Rename")) {
+                    IsRenamingAsset = make_unique<ImguiAssetRenamePopupModal>(
+                        min.x + 5,
+                        textPosition.y,
+                        max.x - min.x - 10,
+                        ImGui::GetTextLineHeight(),
+                        path.GetRawString()
+                    );
+                }
                 
                 ImGui::EndPopup();
             }
@@ -272,22 +301,7 @@ namespace MeowEngine::Editor::UI {
         ImguiAssetDragDrop::DropAsset();
         
         drawList->AddRectFilled(min, max, backgroundColor, 6.0f);
-
-        // calculate asset name text
-        ImVec2 textSize = ImGui::CalcTextSize(name.CStr());
-        ImVec2 textPosition = ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 10);
-
-        // calculate asset icon size
-        ImVec2 imageMinPosition(
-            center.x - imageSize.x * 0.5f,
-            textPosition.y - imageSize.y
-        );
-
-        ImVec2 imageMaxPosition(
-            center.x + imageSize.x * 0.5f,
-            textPosition.y
-        );
-        
+    
         // show asset icon
         drawList->AddImage(
             (ImTextureID)imagePtr,
@@ -295,37 +309,44 @@ namespace MeowEngine::Editor::UI {
             imageMaxPosition
         );
 
-        // show asset name text
-        drawList->AddText(textPosition, IM_COL32_WHITE, name.CStr());
+        // show asset name text (if a asset is being renamed, don't show for it)
+        if(!(IsRenamingAsset && IsRenamingAsset->IsSamePath(path.GetRawString()))) {
+            drawList->AddText(textPosition, IM_COL32_WHITE, name.CStr());
+        }
 
         ImGui::PopID();
     }
 
-    void ImguiAssetPanel::ShowCreateAssetPopupMenu() {
-        std::string createTypeString;
+    void ImguiAssetPanel::ShowCreateAssetPopupMenu(MeowEngine::SelectionData& selectionData) {
+        std::string titleText;
+        AssetCreateType createType = AssetCreateType::NONE;
         
         // show popup menu for different types of items which can be created
         if (ImGui::BeginPopup("ShowCreateAssetPopupMenu")) {
-            ImguiCreateAssetPopupModal::ShowMenuItem("Folder", createTypeString);
-        
+            if(ImGui::MenuItem("Folder")) {
+                FileSystem::Path directory(selectionData.SelectedDirectoryPath);
+                
+                titleText = "Create folder?";
+                createType = AssetCreateType::FOLDER;
+            }
+            
             if (ImGui::BeginMenu("Misc", "")) {  // 2nd param is for shortcut
-                ImguiCreateAssetPopupModal::ShowMenuItem("World", createTypeString);
+                if(ImGui::MenuItem("World")) {
+                    FileSystem::Path directory(selectionData.SelectedDirectoryPath);
+                    
+                    titleText = "Create world?";
+                    createType = AssetCreateType::WORLD;
+                }
                 ImGui::EndMenu();
             }
         
             ImGui::EndPopup();
         }
         
-        // draws the popup modal
-        if(ShowCreatePopupModal) {
-            if(ShowCreatePopupModal->Draw()) {
-                ShowCreatePopupModal.reset();
-            }
-        }
-        else if(!createTypeString.empty()) {
-            ShowCreatePopupModal = make_unique<ImguiCreateAssetPopupModal>(createTypeString);
-        }
-    
         
+        // creates an object for popup to render. gets destroyed when popup is closed.
+        if(createType != AssetCreateType::NONE) {
+            ShowCreatePopupModal = make_unique<ImguiCreateAssetPopupModal>(titleText, createType);
+        }
     }
 }

@@ -6,11 +6,18 @@
 #define MEOWENGINE_IMGUICREATEASSETPOPUPMODAL_HPP
 
 #include "string"
+#include "CreateAssetType.hpp"
+
+//struct ImGuiInputTextCallbackData;
+
+namespace MeowEngine {
+    struct SelectionData;
+}
 
 namespace MeowEngine::Editor::UI {
     class ImguiCreateAssetPopupModal {
     public:
-        ImguiCreateAssetPopupModal(const std::string& createType);
+        ImguiCreateAssetPopupModal(const std::string_view& title, const AssetCreateType& createType);
         ~ImguiCreateAssetPopupModal();
         
         /**
@@ -18,14 +25,13 @@ namespace MeowEngine::Editor::UI {
          * NOTE: Force close can be added if required otherwise self contained is good
          * @return
          */
-        bool Draw();
+        bool Draw(const SelectionData& selectionData);
         
     private:
-        std::string CreateTypeString;
-        std::string TitleString;
-        
-    public:
-        static void ShowMenuItem(const std::string& name, std::string& createType);
+        std::string TitleText;
+        std::string InputText;
+    
+        AssetCreateType AssetType;
     };
 }
 

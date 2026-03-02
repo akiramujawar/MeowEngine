@@ -43,6 +43,8 @@ namespace MeowEngine::Editor::UI {
             if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
                 const char* payloadData = (const char*)payloadVoidPtr->Data;
                 FileSystem::Path assetToMovePath {payloadData};
+                
+                // new old & new path here
             }
             
             ImGui::EndDragDropTarget();

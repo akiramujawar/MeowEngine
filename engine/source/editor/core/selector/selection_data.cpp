@@ -8,7 +8,7 @@
 
 namespace MeowEngine {
     SelectionData::SelectionData() {
-        auto projectPath = FileSystem::Path(Settings::ProjectSettings::GetProjectPath());
+        FileSystem::Path projectPath(Settings::ProjectSettings::GetProjectPath());
         auto assetPath = projectPath + "source";
         
         SelectedDirectoryPath = assetPath.GetRawString();

@@ -20,6 +20,8 @@ namespace MeowEngine::Core::IO::FileSystem {
 
 namespace MeowEngine::Editor::UI {
     class ImguiCreateAssetPopupModal;
+    class ImguiDeleteAssetPopupModal;
+    class ImguiAssetRenamePopupModal;
     
     struct ImguiAssetPanel {
         ImguiAssetPanel();
@@ -28,7 +30,7 @@ namespace MeowEngine::Editor::UI {
         void Draw(MeowEngine::SelectionData& selectionData);
 
     private:
-        void ShowTableHeaders();
+        void ShowTableHeaders(MeowEngine::SelectionData& selectionData);
         void ShowTableContents(MeowEngine::SelectionData& selectionData);
         void ShowDirectory(MeowEngine::SelectionData& selectionData,
                            const std::string& pathString,
@@ -37,15 +39,17 @@ namespace MeowEngine::Editor::UI {
         void ShowSelectedDirectoryFiles(SelectionData& selectionData);
 
         void ShowThumbnail(SelectionData& selectionData, const Core::IO::FileSystem::Path& path);
-        void ShowCreateAssetPopupMenu();
-    private:
+        void ShowCreateAssetPopupMenu(MeowEngine::SelectionData& selectionData);
         
+    private:
         bool IsActive;
         ImGuiWindowFlags WindowFlags;
         const ImGuiTreeNodeFlags DefaultSelectableFlags;
         const ImGuiTreeNodeFlags DefaultSelectableNoListFlags;
         
-        std::unique_ptr<Editor::UI::ImguiCreateAssetPopupModal> ShowCreatePopupModal;
+        std::unique_ptr<ImguiCreateAssetPopupModal> ShowCreatePopupModal;
+        std::unique_ptr<ImguiDeleteAssetPopupModal> ShowDeletePopupModal;
+        std::unique_ptr<ImguiAssetRenamePopupModal> IsRenamingAsset;
 
         // TODO: Temp until we have loader system
         OpenGLThumbnail folderImage;

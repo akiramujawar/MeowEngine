@@ -1,11 +1,5 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
-    <Objective-C>
-      <option name="SPACE_BEFORE_POINTER_IN_DECLARATION" value="false" />
-      <option name="SPACE_AFTER_POINTER_IN_DECLARATION" value="true" />
-      <option name="SPACE_BEFORE_REFERENCE_IN_DECLARATION" value="false" />
-      <option name="SPACE_AFTER_REFERENCE_IN_DECLARATION" value="true" />
-    </Objective-C>
     <Objective-C-extensions>
       <rules>
         <rule entity="NAMESPACE" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
@@ -20,8 +14,8 @@
         <rule entity="STRUCT_MEMBER_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
         <rule entity="CLASS_MEMBER_FIELD" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
         <rule entity="STRUCT_MEMBER_FIELD" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
-        <rule entity="GLOBAL_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
-        <rule entity="GLOBAL_VARIABLE" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
+        <rule entity="GLOBAL_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
+        <rule entity="GLOBAL_VARIABLE" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
         <rule entity="PARAMETER" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
         <rule entity="LOCAL_VARIABLE" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
       </rules>
@@ -40,8 +34,8 @@
         <rule entity="STRUCT_MEMBER_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
         <rule entity="CLASS_MEMBER_FIELD" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
         <rule entity="STRUCT_MEMBER_FIELD" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
-        <rule entity="GLOBAL_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
-        <rule entity="GLOBAL_VARIABLE" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
+        <rule entity="GLOBAL_FUNCTION" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
+        <rule entity="GLOBAL_VARIABLE" visibility="ANY" specifier="ANY" prefix="" style="PASCAL_CASE" suffix="" />
         <rule entity="PARAMETER" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
         <rule entity="LOCAL_VARIABLE" visibility="ANY" specifier="ANY" prefix="" style="CAMEL_CASE" suffix="" />
       </rules>
@@ -54,8 +48,6 @@
       </extensions>
     </files>
     <codeStyleSettings language="ObjectiveC">
-      <option name="TERNARY_OPERATION_WRAP" value="0" />
-      <option name="ARRAY_INITIALIZER_WRAP" value="0" />
       <indentOptions>
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
