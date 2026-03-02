@@ -40,8 +40,15 @@ namespace MeowEngine::Core::IO::FileSystem {
     const Types::String& Path::GetString() const {
         return Types::String(CurrentPath);
     }
-
-    Path Path::operator+ (const Path& path) {
+    
+    Path Path::operator+ (const std::string_view& path) const {
+        filesystem::path currentPath(CurrentPath);
+        filesystem::path newPath = currentPath / path;
+        
+        return Path { newPath.string() };
+    }
+    
+    Path Path::operator+ (const Path& path) const {
         filesystem::path currentPath(CurrentPath);
         filesystem::path newPath = currentPath / path.CurrentPath;
 

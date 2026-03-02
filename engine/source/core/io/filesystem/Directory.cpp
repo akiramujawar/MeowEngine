@@ -9,7 +9,7 @@
 namespace MeowEngine::Core::IO::FileSystem {
 
     Directory::Directory(const Path& path) : CurrentPath(path) {}
-
+    
     bool Directory::Exists() const {
         return FileSystem::Exists(CurrentPath);
     }
@@ -26,7 +26,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         std::vector<Path> files;
 
         // if not a folder return empty
-        if(!filesystem::directory_entry(CurrentPath.GetRawString()).is_directory()) {
+        if(!FileSystem::IsDirectory(CurrentPath)) {
             return files;
         }
 
@@ -44,7 +44,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         std::vector<Path> files;
 
         // if not a folder return empty
-        if(!filesystem::directory_entry(CurrentPath.GetRawString()).is_directory()) {
+        if(!FileSystem::IsDirectory(CurrentPath)) {
             return files;
         }
 
@@ -62,7 +62,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         std::vector<Path> files;
 
         // if not a folder return empty
-        if(!filesystem::directory_entry(CurrentPath.GetRawString()).is_directory()) {
+        if(!FileSystem::IsDirectory(CurrentPath)) {
             return files;
         }
 

@@ -26,6 +26,10 @@ namespace MeowEngine::Core::IO::FileSystem {
         static bool Exists(const Path& path);
 
         static bool CreateDirectory(const Path& path);
+        static bool IsDirectory(const Path& path);
+        
+        static bool Move(const Path& path, const Path& name);
+        static bool Rename(const Path& path, const std::string_view& name);
         static bool Remove(const Path& path);
 
         static std::unique_ptr<File> Open(const Path& path, FileMode mode);

@@ -15,7 +15,7 @@ namespace MeowEngine::Core::IO::FileSystem {
     class Directory {
     public:
         explicit Directory(const Path& path);
-
+        
         bool Exists() const;
         bool Create();
         bool Remove();
