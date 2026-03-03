@@ -10,7 +10,7 @@ set(MAIN_SOURCE_DIR "../../../engine/source")
 set(ASSETS "../../../engine/assets")
 set(INSTALLER_DIR "../../console")
 set(LIBRARY_DIR "../../../../libs")
-set(CONFIGS_DIR "../../../engine/configs")
+set(SETTINGS_DIR "../../../engine/settings")
 set(INCLUDE_DIR "../../../engine/include")
 set(TOOLS_DIR "../../../engine/tools")
 set(EXAMPLES_DIR "../../../engine/examples")
@@ -74,9 +74,9 @@ foreach(DIR ${ALL_DIRECTORIES})
 endforeach()
 
 # configs
-file(GLOB_RECURSE CONFIGS_HEADERS ${CONFIGS_DIR}/*.hpp)
-file(GLOB_RECURSE CONFIGS_SOURCES ${CONFIGS_DIR}/*.cpp)
-include_directories(${CONFIGS_DIR})
+file(GLOB_RECURSE SETTINGS_HEADERS ${SETTINGS_DIR}/*.hpp)
+file(GLOB_RECURSE SETTINGS_SOURCES ${SETTINGS_DIR}/*.cpp)
+include_directories(${SETTINGS_DIR})
 
 # configs
 file(GLOB_RECURSE INCLUDE_HEADERS ${INCLUDE_DIR}/*.hpp)
@@ -124,8 +124,8 @@ add_executable(
      ${CPP_HEADERS}
      ${CPP_SOURCES}
 
-     ${CONFIGS_HEADERS}
-     ${CONFIGS_SOURCES}
+     ${SETTINGS_HEADERS}
+     ${SETTINGS_SOURCES}
 
      ${INCLUDE_HEADERS}
      ${INCLUDE_SOURCES}

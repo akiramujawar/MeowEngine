@@ -29,3 +29,26 @@ namespace MeowEngine::Settings {
 }
 
 #endif //MEOWENGINE_PROJECTSETTINGS_HPP
+
+// console - static path?
+// panel to open project. we feed that path open project?
+// how can i have engine build separate & project build separate
+
+// when loading engine
+// separate engine build & separate project build
+
+// currently
+// setups using .sh
+// then builds and run using .cmake
+
+// ideally
+// on console
+// setup using cmake
+// build selected project & engine using cmake & run
+
+// on mac/win
+// setup using cmake
+// build dll or something similar using cmake
+// build project along with the dll and run
+
+// on web (its different)
