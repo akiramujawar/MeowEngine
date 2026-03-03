@@ -4,7 +4,7 @@
 
 #include "selection_data.hpp"
 #include "IO.hpp"
-#include "ProjectConfig.hpp"
+#include "ProjectSettings.hpp"
 
 namespace MeowEngine {
     SelectionData::SelectionData() {

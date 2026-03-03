@@ -9,18 +9,20 @@
 - [ ] Adding navigation to github / go back for web builds
 - [ ] Reworking multithreading using command pattern for physics thread
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
-- [ ] Selecting objects
 - [x] Position, Scale, Rotation handles for selected objects
 - [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
-- [ ] File Manager (Reading from file paths and avoiding enums usage for models and shaders)
+- [x] File Manager (show directories, files, rename, move & delete & import)
 - [ ] Creating support for multi-scene compilation
+- [ ] Simple tool for importing files like textures/meshes
 - [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
 - [ ] Implement Tracy throughout engine especially for tracking memory allocations
 - [ ] Create Unique ID generator for items
 - [ ] Documenting done items and different approaches and used libraries
 - [x] Hierarchy for entities
+- [ ] Reworking asset loading pipeline & render loading pipeline (shaders, textures, meshes)
 
 ## Meow Engine v0.6
+- [ ] Selecting objects
 - [x] Compilation of physx for web
 - [x] Single thread app builds for web
 - [ ] Populating arrays / lists etc... in WorldInspectorPanel
@@ -39,6 +41,5 @@
 - [ ] 2 builds for web - engine & a multi-scene simulation
 - [ ] Create a template for dump-testing shaders
 - [ ] Dynamic Window Layout & save'n'load
-- [ ] Simple tool for importing files like textures/meshes
 - [ ] Setting up Vulkan
 - [ ] Creating 3D spatial hashing (showcase & in-built)

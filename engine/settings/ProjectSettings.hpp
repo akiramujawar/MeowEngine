@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 26/02/26.
 //
 
-#ifndef MEOWENGINE_PROJECTCONFIG_HPP
-#define MEOWENGINE_PROJECTCONFIG_HPP
+#ifndef MEOWENGINE_PROJECTSETTINGS_HPP
+#define MEOWENGINE_PROJECTSETTINGS_HPP
 
 #include "string"
 
@@ -28,4 +28,4 @@ namespace MeowEngine::Settings {
     };
 }
 
-#endif //MEOWENGINE_PROJECTCONFIG_HPP
+#endif //MEOWENGINE_PROJECTSETTINGS_HPP

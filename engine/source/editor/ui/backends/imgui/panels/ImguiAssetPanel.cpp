@@ -6,7 +6,7 @@
 #include "log.hpp"
 
 #include "IO.hpp"
-#include "ProjectConfig.hpp"
+#include "ProjectSettings.hpp"
 #include "AssetLoader.hpp"
 #include "ImguiCreateAssetPopupModal.hpp"
 #include "ImguiDeleteAssetPopupModal.hpp"
