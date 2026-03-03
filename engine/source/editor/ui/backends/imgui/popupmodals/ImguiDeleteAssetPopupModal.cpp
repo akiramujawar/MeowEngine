@@ -40,6 +40,7 @@ namespace MeowEngine::Editor::UI {
             ImGui::Separator();
             
             if (ImGui::Button("OK", ImVec2(120, 0))) {
+                FileSystem::FileSystem::Remove(AssetPath.c_str());
                 needToBeClosed = true;
             }
             

@@ -28,7 +28,20 @@ namespace MeowEngine::Core::IO::FileSystem {
         static bool CreateDirectory(const Path& path);
         static bool IsDirectory(const Path& path);
         
-        static bool Move(const Path& path, const Path& name);
+        /**
+         *
+         * @param filePath old path
+         * @param directoryToMovePath new path (must be directory)
+         * @return
+         */
+        static bool Move(const Path& filePath, const Path& directoryToMovePath);
+        
+        /**
+         *
+         * @param path Path of the file to rename (project/abc.xyz). Includes the file name
+         * @param name New name for the file (only name)
+         * @return
+         */
         static bool Rename(const Path& path, const std::string_view& name);
         static bool Remove(const Path& path);
 

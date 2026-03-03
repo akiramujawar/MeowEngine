@@ -38,13 +38,17 @@ namespace MeowEngine::Editor::UI {
         }
     }
     
-    void ImguiAssetDragDrop::DropAsset() {
+    void ImguiAssetDragDrop::DropAsset(const std::string& moveToPath) {
         if (ImGui::BeginDragDropTarget()) {
+            // gets the asset path which needs to be moved & then using "moveToPath"
+            // it moves the file/folder to new directory
             if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
                 const char* payloadData = (const char*)payloadVoidPtr->Data;
-                FileSystem::Path assetToMovePath {payloadData};
+                FileSystem::Path assetPath {payloadData};
                 
-                // new old & new path here
+                if(FileSystem::FileSystem::IsDirectory(moveToPath.c_str())) {
+                    FileSystem::FileSystem::Move(assetPath, moveToPath.c_str());
+                }
             }
             
             ImGui::EndDragDropTarget();

@@ -38,10 +38,13 @@ namespace MeowEngine::Core::IO::FileSystem {
         
         std::error_code errorCode;
         
-        filesystem::rename(filePath.GetRawString(), directoryToMovePath.GetRawString(), errorCode);
+        const Path& newPath(directoryToMovePath + filePath.GetName());
+        
+        filesystem::rename(filePath.GetRawString(), newPath.GetRawString(), errorCode);
+        
         
         if(errorCode) {
-            MeowEngine::Log("Move", {filePath.GetRawString(), errorCode.message()}, LogType::ERROR);
+            MeowEngine::Log("Move", {filePath.GetRawString(), newPath.GetRawString(), errorCode.message()}, LogType::ERROR);
             
             return false;
         }
@@ -51,12 +54,14 @@ namespace MeowEngine::Core::IO::FileSystem {
     
     bool FileSystem::Rename(const Path& path, const std::string_view & name) {
         std::error_code errorCode;
-        const Path& newPath = path + name;
+        
+        const Path& directoryPath = path.GetParent();
+        const Path& newPath = directoryPath + name;
         
         filesystem::rename(path.GetRawString(), newPath.GetRawString(), errorCode);
         
         if(errorCode) {
-            MeowEngine::Log("Rename", {newPath.GetRawString(), errorCode.message()}, LogType::ERROR);
+            MeowEngine::Log("Rename", {path.GetRawString(), newPath.GetRawString(), errorCode.message()}, LogType::ERROR);
             
             return false;
         }
@@ -65,7 +70,16 @@ namespace MeowEngine::Core::IO::FileSystem {
     }
 
     bool FileSystem::Remove(const Path& path) {
-        return filesystem::remove(path.GetRawString());
+        std::error_code errorCode;
+        filesystem::remove(path.GetRawString(), errorCode);
+   
+        if(errorCode) {
+            MeowEngine::Log("Rename", {path.GetRawString(), errorCode.message()}, LogType::ERROR);
+        
+            return false;
+        }
+    
+        return true;
     }
 
     std::unique_ptr<File> FileSystem::Open(const Path& path, FileMode mode) {

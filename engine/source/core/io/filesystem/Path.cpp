@@ -41,6 +41,13 @@ namespace MeowEngine::Core::IO::FileSystem {
         return Types::String(CurrentPath);
     }
     
+    Path Path::operator+ (const char* path) const {
+        filesystem::path currentPath(CurrentPath);
+        filesystem::path newPath = currentPath / path;
+        
+        return Path { newPath.string() };
+    }
+    
     Path Path::operator+ (const std::string_view& path) const {
         filesystem::path currentPath(CurrentPath);
         filesystem::path newPath = currentPath / path;
@@ -71,13 +78,13 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     Path Path::GetParent() const {
         filesystem::path currentPath { CurrentPath };
-
-        auto end = currentPath.end();
-        for(int i = 0; end != currentPath.begin() && i < 2; i++) {
-            --end;
+        
+        if(currentPath.has_parent_path()) {
+            return Path(currentPath.parent_path().string());
         }
-
-        return Path { end->string() };
+        else {
+            return Path("");
+        }
     }
 
     Path Path::GetName() const {

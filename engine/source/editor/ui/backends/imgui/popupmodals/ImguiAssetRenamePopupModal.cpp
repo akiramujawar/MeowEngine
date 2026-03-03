@@ -15,6 +15,8 @@ namespace MeowEngine::Editor::UI {
     , Height(height)
     , AssetPath(assetPath) {
         RenameTextBuffer = FileSystem::Path(AssetPath).GetName().GetRawString();
+        RenameTextBuffer.resize(32);
+        
         MeowEngine::Log("ImguiAssetRenameInput", "Created");
     }
     
@@ -57,10 +59,10 @@ namespace MeowEngine::Editor::UI {
             ImGui::PushItemWidth(-FLT_MIN);
             
             // rename & return close if hit enter
-            if (ImGui::InputText("##RenameAsset", RenameTextBuffer.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
+            if (ImGui::InputText("##RenameAsset", RenameTextBuffer.data(), RenameTextBuffer.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
                 RenameTextBuffer.resize(strlen(RenameTextBuffer.c_str()));
-
                 
+                FileSystem::FileSystem::Rename(AssetPath.c_str(), RenameTextBuffer.c_str());
                 
                 needToBeClosed = true;
             }

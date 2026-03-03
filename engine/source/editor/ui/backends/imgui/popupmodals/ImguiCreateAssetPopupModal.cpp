@@ -35,7 +35,7 @@ namespace MeowEngine::Editor::UI {
             : TitleText(title)
             , AssetType(createType){
         
-//        ImGui::OpenPopup(TitleText.c_str());
+        InputText.resize(32);
         
         MeowEngine::Log("ImguiCreateAssetPopup", "Created");
     }
@@ -51,25 +51,22 @@ namespace MeowEngine::Editor::UI {
         if(!ImGui::IsPopupOpen(TitleText.c_str())) {
             ImGui::OpenPopup(TitleText.c_str());
         }
-        
+
         bool needToBeClosed = false;
     
         // always center this popup modal when appearing
         ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-        
         ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-//        ImGui::SetNextWindowSize(ImVec2(500,300), ImGuiCond_Appearing);
-    
         
         if(ImGui::BeginPopupModal(TitleText.c_str(), nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize)) {
             // show input text for update
             ImGui::PushItemWidth(-FLT_MIN);
             if(ImGui::InputText("##CreateAssetPopupModalInput",
                              InputText.data(),
-                             32,
+                             InputText.size(),
                              ImGuiInputTextFlags_CallbackCharFilter,
                              FilterInputText)) {
-                InputText.resize(strlen(InputText.c_str()));
+                // TODO: any verifications for the name check here
             }
             ImGui::PopItemWidth();
             ImGui::Separator();

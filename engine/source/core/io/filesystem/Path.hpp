@@ -12,8 +12,8 @@ namespace MeowEngine::Core::IO::FileSystem {
     class Path {
     public:
 //        Path();
-        explicit Path(const char* path);
-        explicit Path(const std::string_view& path);
+        Path(const char* path);
+        Path(const std::string_view& path);
 //        Path(const Types::String& path);
 
         const char* CStr() const;
@@ -21,6 +21,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         const std::string& GetRawString() const;
         const Types::String& GetString() const;
         
+        Path operator+ (const char* path) const;
         Path operator+ (const std::string_view& path) const;
         Path operator+ (const Path& path) const;
 

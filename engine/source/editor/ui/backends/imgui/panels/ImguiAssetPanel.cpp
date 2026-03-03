@@ -194,7 +194,7 @@ namespace MeowEngine::Editor::UI {
             MeowEngine::Log("Directory Selected: ", path.GetName().GetRawString());
         }
     
-        ImguiAssetDragDrop::DropAsset();
+        ImguiAssetDragDrop::DropAsset(path.GetRawString());
 
         if(!directories.empty() && isOpen){
             // show the child items in hierarchy
@@ -222,6 +222,7 @@ namespace MeowEngine::Editor::UI {
         FileSystem::Path name = path.GetName();
         
         // TODO: Once we have our full system ready to load/unload assets we update this properly
+        // TODO: remember we have check if its directory or not first. files without extensions will pretend to be folder with below logic
         void* imagePtr = path.GetExtension().GetStringView().empty()? folderImage.GetTextureID() : unknownImage.GetTextureID();
         
         ImGui::PushID(path.CStr());
@@ -298,7 +299,7 @@ namespace MeowEngine::Editor::UI {
         
         // drag n drop
         ImguiAssetDragDrop::DragAsset(path.GetRawString(), path.GetName().GetRawString(), imagePtr);
-        ImguiAssetDragDrop::DropAsset();
+        ImguiAssetDragDrop::DropAsset(path.GetRawString());
         
         drawList->AddRectFilled(min, max, backgroundColor, 6.0f);
     

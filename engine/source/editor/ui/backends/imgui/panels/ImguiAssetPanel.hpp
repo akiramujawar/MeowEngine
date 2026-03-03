@@ -38,6 +38,11 @@ namespace MeowEngine::Editor::UI {
 
         void ShowSelectedDirectoryFiles(SelectionData& selectionData);
 
+        /**
+         * We can move this into a thumbnail renderer or something similir
+         * @param selectionData
+         * @param path
+         */
         void ShowThumbnail(SelectionData& selectionData, const Core::IO::FileSystem::Path& path);
         void ShowCreateAssetPopupMenu(MeowEngine::SelectionData& selectionData);
         
