@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 21/06/24.
 //
 
-#include "asset_inventory.hpp"
+#include <asset_inventory.hpp>
 
 using MeowEngine::assets::StaticMeshType;
 using MeowEngine::assets::TextureType;

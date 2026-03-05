@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_STATIC_MESH_INSTANCE_HPP
 #define MEOWENGINE_STATIC_MESH_INSTANCE_HPP
 
-#include "asset_inventory.hpp"
+#include <asset_inventory.hpp>
 //#include "glm_wrapper.hpp"
 #include "internal_ptr.hpp"
 

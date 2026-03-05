@@ -141,7 +141,7 @@ namespace MeowEngine::Editor::UI {
             auto projectPath = FileSystem::Path(Settings::ProjectSettings::GetProjectPath());
             auto assetPath = projectPath + "source";
         
-            ShowDirectory(selectionData, assetPath.GetRawString(), "assets");
+            ShowDirectory(selectionData, assetPath.GetRawString(), "Project");
         }
     
         // show internal engine assets
@@ -149,7 +149,7 @@ namespace MeowEngine::Editor::UI {
             auto enginePath = FileSystem::Path(Settings::ProjectSettings::GetEnginePath());
             auto assetPath = enginePath + "assets";
         
-            ShowDirectory(selectionData, assetPath.GetRawString(), "engine");
+            ShowDirectory(selectionData, assetPath.GetRawString(), "Engine");
         }
         ImGui::EndChild();
         

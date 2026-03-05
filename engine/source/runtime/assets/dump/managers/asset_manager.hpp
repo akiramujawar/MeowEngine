@@ -13,6 +13,14 @@ namespace MeowEngine {
         virtual void LoadShaderPipelines(const std::vector<MeowEngine::assets::ShaderPipelineType>& shaderPipelines) = 0;
         virtual void LoadStaticMeshes(const std::vector<MeowEngine::assets::StaticMeshType>& staticMeshes) = 0;
         virtual void LoadTextures(const std::vector<MeowEngine::assets::TextureType>& textures) = 0;
+
+        // template<typename T>
+        // static T* Load(const std::string& path);
+        //
+        // static void Unload(AssetHandle handle);
+        // static AssetHandle Import(const std::string& file);
+
+        // getasset<type>
     };
 }
 

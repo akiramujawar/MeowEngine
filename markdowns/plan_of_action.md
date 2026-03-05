@@ -43,3 +43,6 @@
 - [ ] Dynamic Window Layout & save'n'load
 - [ ] Setting up Vulkan
 - [ ] Creating 3D spatial hashing (showcase & in-built)
+- [ ] Updating pipeline to use HLSL
+- [ ] Refactor to utilise <system/file.hpp> instead of "file.hpp"
+- [ ] Refactor cmake
