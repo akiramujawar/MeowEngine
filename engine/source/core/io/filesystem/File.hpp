@@ -5,28 +5,21 @@
 #ifndef MEOWENGINE_FILE_HPP
 #define MEOWENGINE_FILE_HPP
 
+#include <cstdio>
+#include <vector>
+
 namespace MeowEngine::Core::IO::FileSystem {
+    class Path;
+    class FileStream;
+    enum class FileMode;
 
     class File {
     public:
-        File();
+        static std::vector<u_int8_t> ReadAll(const std::string& path);
+        static std::string ReadText(const std::string& path);
 
-        bool Open();
-        void Close();
-
-        void IsOpen();
-
-        void Size();
-
-        void ReadAll();
-        void ReadText();
-
-        void Read();
-        void Write();
-
-        void Flush();
-
-        void GetPath();
+        static size_t Read(const std::string& path, void* buffer, size_t size);
+        static size_t Write(const std::string& path, const void* buffer, size_t size);
     };
 
 }

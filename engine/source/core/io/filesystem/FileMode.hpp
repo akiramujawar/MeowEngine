@@ -11,8 +11,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         READ,
         WRITE,
         APPEND,
-        READ_BINARY,
-        WRITE_BINARY
+        READ_WRITE
     };
 
 }
