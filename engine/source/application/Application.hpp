@@ -10,8 +10,8 @@
 #include "internal_ptr.hpp"
 
 namespace MeowEngine {
-    struct Engine {
-        Engine();
+    struct Application {
+        Application();
 
         void Run()  ;
 

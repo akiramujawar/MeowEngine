@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_OPENGL_APP_MULTI_THREAD_HPP
 #define MEOWENGINE_OPENGL_APP_MULTI_THREAD_HPP
 
-#include "application.hpp"
+#include "Engine.hpp"
 
 #include "input_manager.hpp"
 #include "frame_rate_counter.hpp"
@@ -19,7 +19,7 @@
 using namespace std;
 
 namespace MeowEngine {
-    class OpenGLAppMultiThread : public MeowEngine::Application{
+    class OpenGLAppMultiThread : public MeowEngine::Engine {
     public:
         OpenGLAppMultiThread();
 //        ~OpenGLAppMultiThread();

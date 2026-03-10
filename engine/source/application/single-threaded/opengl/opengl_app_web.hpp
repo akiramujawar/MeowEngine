@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_OPENGL_APP_WEB_HPP
 #define MEOWENGINE_OPENGL_APP_WEB_HPP
 
-#include "application.hpp"
+#include "Engine.hpp"
 
 #include "memory"
 
@@ -25,7 +25,7 @@ using namespace std;
 
 namespace MeowEngine {
 
-    struct OpenGLAppWeb : public MeowEngine::Application {
+    struct OpenGLAppWeb : public MeowEngine::Engine {
     public:
         OpenGLAppWeb() {
             MeowEngine::Log("Application", "Created");

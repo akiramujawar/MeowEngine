@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 06/07/22.
 //
 
-#include "engine.hpp"
+#include "Application.hpp"
 
 #include "opengl_app_multi_thread.hpp"
 #include "opengl_app_web.hpp"
@@ -12,9 +12,9 @@
 #include <stdexcept>
 #include <string>
 
-using MeowEngine::Engine;
+using MeowEngine::Application;
 
-struct Engine::Internal {
+struct Application::Internal {
     const std::string classLogTag;
 
     Internal() : classLogTag("MeowEngine::Engine::") {}
@@ -29,7 +29,7 @@ struct Engine::Internal {
     }
 
     // we are using unique_ptr smart pointer as a return value so it will self destruct upon leaving its containing scope
-    std::unique_ptr<MeowEngine::Application> ResolveApplication() {
+    std::unique_ptr<MeowEngine::Engine> ResolveApplication() {
         PT_PROFILE_SCOPE;
         static const std::string logTag{classLogTag + "resolving Application"};
 
@@ -55,9 +55,9 @@ struct Engine::Internal {
     }
 };
 
-Engine::Engine() : InternalPointer(MeowEngine::make_internal_ptr<Internal>()) {}
+Application::Application() : InternalPointer(MeowEngine::make_internal_ptr<Internal>()) {}
 
-void Engine::Run() {
+void Application::Run() {
     InternalPointer->Run();
 }
 

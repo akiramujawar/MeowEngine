@@ -2,14 +2,13 @@
 // Created by Akira Mujawar on 05/07/22.
 //
 
-#include "engine.hpp"
+#include "Application.hpp"
 
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
 #endif
 
 #import <log.hpp>
-
 
 int main(int, char* []) {
 
@@ -31,7 +30,8 @@ int main(int, char* []) {
 #endif
 
     MeowEngine::Log("Main", "Starting Engine");
-    MeowEngine::Engine().Run();
-
+    MeowEngine::Application().Run();
+    
+    //WriteMeowAsset("project/source/Texture.meow", GetMetadata(), ReadTexture());
     return 0;
 }

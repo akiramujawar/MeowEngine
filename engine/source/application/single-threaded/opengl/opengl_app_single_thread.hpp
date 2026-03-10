@@ -6,10 +6,10 @@
 #define MEOWENGINE_OPENGL_APP_SINGLE_THREAD_HPP
 
 #include "internal_ptr.hpp"
-#include "application.hpp"
+#include "Engine.hpp"
 
 namespace MeowEngine {
-    struct OpenGLAppSingleThread : public MeowEngine::Application {
+    struct OpenGLAppSingleThread : public MeowEngine::Engine {
         OpenGLAppSingleThread();
 
 //        void OnWindowResized() override;

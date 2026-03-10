@@ -2,11 +2,8 @@
 // Created by Akira Mujawar on 06/07/22.
 //
 
-#include "SDLAPI.hpp"
-#include "application.hpp"
+#include "Engine.hpp"
 
-#include "ImguiAPI.hpp"
-#include "log.hpp"
 //
 //using MeowEngine::Application;
 //
