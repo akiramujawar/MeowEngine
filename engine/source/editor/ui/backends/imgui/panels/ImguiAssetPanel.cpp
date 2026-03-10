@@ -111,6 +111,7 @@ namespace MeowEngine::Editor::UI {
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
                 event.user.code = 4;
+                event.user.data1 = &selectionData.SelectedDirectoryPath;
     
                 SDL_PushEvent(&event);
             }

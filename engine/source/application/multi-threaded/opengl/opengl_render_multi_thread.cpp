@@ -47,8 +47,8 @@ namespace MeowEngine {
         RenderThread.join();
     }
     
-    void OpenGLRenderMultiThread::ShowImportPopup() {
-        Runtime::Window::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetWindow());
+    void OpenGLRenderMultiThread::ShowImportPopup(std::vector<std::string>& selectedFiles) {
+        Runtime::Window::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetWindow(), selectedFiles);
     }
 
     void OpenGLRenderMultiThread::RenderThreadLoop() {

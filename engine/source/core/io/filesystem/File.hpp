@@ -15,11 +15,11 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     class File {
     public:
-        static std::vector<u_int8_t> ReadAll(const std::string& path);
-        static std::string ReadText(const std::string& path);
+        static std::vector<u_int8_t> ReadAll(const std::string_view path);
+        static std::string ReadText(const std::string_view path);
 
-        static size_t Read(const std::string& path, void* buffer, size_t size);
-        static size_t Write(const std::string& path, const void* buffer, size_t size);
+        static size_t Read(const std::string_view path, void* buffer, size_t size);
+        static size_t Write(const std::string_view path, const void* buffer, size_t size);
     };
 
 }

@@ -10,27 +10,20 @@
 
 
 namespace MeowEngine::Core::IO::FileSystem {
-    std::vector<u_int8_t> File::ReadAll(const std::string& path) {
-        // std::ifstream file("project/source/kitty.png", std::ios::binary);
-        //
-        // std::vector<uint8_t> assetData(
-        //     (std::istreambuf_iterator<char>(file)),
-        //     std::istreambuf_iterator<char>()
-        // );
-        //
-        // return assetData;
-
+    std::vector<u_int8_t> File::ReadAll(const std::string_view path) {
         FileStream stream;
-        std::vector<u_int8_t> data;
-
         stream.Open(Path(path), FileMode::READ);
+
+        std::size_t size = stream.Size();
+        std::vector<u_int8_t> data(size);
+
         stream.Read(data.data(), data.size());
         stream.Close();
 
         return data;
     }
 
-    std::string File::ReadText(const std::string& path) {
+    std::string File::ReadText(const std::string_view path) {
         FileStream stream;
         std::string data;
 
@@ -41,7 +34,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         return data;
     }
 
-    size_t File::Read(const std::string& path, void* buffer, size_t size) {
+    size_t File::Read(const std::string_view path, void* buffer, size_t size) {
         FileStream stream;
 
         stream.Open(Path(path), FileMode::READ);
@@ -51,7 +44,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         return size;
     }
 
-    size_t File::Write(const std::string& path, const void* buffer, size_t size) {
+    size_t File::Write(const std::string_view path, const void* buffer, size_t size) {
         FileStream stream;
 
         stream.Open(Path(path), FileMode::WRITE);

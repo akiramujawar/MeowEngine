@@ -16,21 +16,25 @@ namespace {
         }
     }
     
-    void ShowPaths(const nfdpathset_t* paths, SDL_Window* window) {
+    std::vector<std::string> ShowPaths(const nfdpathset_t* paths, SDL_Window* window, std::vector<std::string>& pathsSelected) {
         size_t num_chars = 0;
         
         nfdpathsetsize_t num_paths;
         if (NFD_PathSet_GetCount(paths, &num_paths) != NFD_OKAY) {
-            printf("NFD_PathSet_GetCount failed: %s\n", NFD_GetError());
-            return;
+            MeowEngine::Log("NFD_PathSet_GetCount failed", NFD_GetError());
+            MeowEngine::Runtime::Window::SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
+
+            return pathsSelected;
         }
         
         nfdpathsetsize_t i;
         for (i = 0; i != num_paths; ++i) {
             char* path;
             if (NFD_PathSet_GetPathU8(paths, i, &path) != NFD_OKAY) {
-                printf("NFD_PathSet_GetPathU8 failed: %s\n", NFD_GetError());
-                return;
+                MeowEngine::Log("NFD_PathSet_GetPathU8 failed", NFD_GetError());
+                MeowEngine::Runtime::Window::SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
+
+                return pathsSelected;
             }
             num_chars += strlen(path) + 1;
             NFD_PathSet_FreePathU8(path);
@@ -38,26 +42,26 @@ namespace {
         
         // We should never return NFD_OKAY with zero paths, but GCC doesn't know this and will emit a
         // warning that we're trying to malloc with size zero if we write the following line.
-        if (!num_paths) num_chars = 1;
-        
-        std::string message;
+        if (!num_paths) {
+            num_chars = 1;
+        }
         
         for (i = 0; i < num_paths; ++i) {
             char* path = nullptr;
             
             if (NFD_PathSet_GetPathU8(paths, i, &path) != NFD_OKAY) {
                 MeowEngine::Log("NFD Error", NFD_GetError());
-                return;
+                MeowEngine::Runtime::Window::SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
+
+                return pathsSelected;
             }
-            
-            if (!message.empty())
-                message += '\n';
-            
-            message += path;
+
+            pathsSelected.emplace_back(path);
+
             NFD_PathSet_FreePathU8(path);
         }
-    
-        MeowEngine::Runtime::Window::SDL_NativeFileDialog::ShowMessage(message.c_str(), window);
+
+        return pathsSelected;
     }
 }
 
@@ -86,16 +90,17 @@ namespace MeowEngine::Runtime::Window {
         }
     }
     
-    void SDL_NativeFileDialog::OpenDialog(SDL_Window* window) {
-        char* path;
+    void SDL_NativeFileDialog::OpenDialog(SDL_Window* window, std::string& path) {
+        char* nfdPath;
         nfdopendialogu8args_t args = {0};
         ::SetNativeWindow(window, &args.parentWindow);
-        const nfdresult_t res = NFD_OpenDialogU8_With(&path, &args);
+        const nfdresult_t res = NFD_OpenDialogU8_With(&nfdPath, &args);
         
         switch (res) {
             case NFD_OKAY:
-                ShowMessage(path, window);
-                NFD_FreePathU8(path);
+                path.assign(nfdPath);
+                ShowMessage(nfdPath, window);
+                NFD_FreePathU8(nfdPath);
                 break;
             case NFD_ERROR:
                 ShowError(NFD_GetError(), window);
@@ -105,8 +110,8 @@ namespace MeowEngine::Runtime::Window {
         }
     }
     
-    void SDL_NativeFileDialog::OpenDialogMultiple(SDL_Window* window) {
-        const nfdpathset_t* paths;
+    void SDL_NativeFileDialog::OpenDialogMultiple(SDL_Window* window, std::vector<std::string>& paths) {
+        const nfdpathset_t* nfdPaths;
         nfdnfilteritem_t filterItem[1] = {
             {
                 "Import Types Allowed",
@@ -120,11 +125,12 @@ namespace MeowEngine::Runtime::Window {
     
         ::SetNativeWindow(window, &args.parentWindow);
     
-        const nfdresult_t res = NFD_OpenDialogMultipleU8_With(&paths, &args);
+        const nfdresult_t res = NFD_OpenDialogMultipleU8_With(&nfdPaths, &args);
         switch (res) {
             case NFD_OKAY:
-                ShowPaths(paths, window);
-                NFD_PathSet_Free(paths);
+                ShowPaths(nfdPaths, window, paths);
+                NFD_PathSet_Free(nfdPaths);
+
                 break;
             case NFD_ERROR:
                 ShowError(NFD_GetError(), window);
@@ -134,54 +140,55 @@ namespace MeowEngine::Runtime::Window {
         }
     }
     
+    void SDL_NativeFileDialog::PickFolder(SDL_Window* window, std::string& path) {
+        char* nfdPath;
+        nfdpickfolderu8args_t args = {0};
+        ::SetNativeWindow(window, &args.parentWindow);
+        const nfdresult_t res = NFD_PickFolderU8_With(&nfdPath, &args);
+        
+        switch (res) {
+            case NFD_OKAY:
+                path.assign(nfdPath);
+                ShowMessage(nfdPath, window);
+                NFD_FreePathU8(nfdPath);
+                break;
+            case NFD_ERROR:
+                ShowError(NFD_GetError(), window);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    void SDL_NativeFileDialog::PickFolderMultiple(SDL_Window* window, std::vector<std::string>& paths) {
+        const nfdpathset_t* nfdPaths;
+        nfdpickfolderu8args_t args = {0};
+        ::SetNativeWindow(window, &args.parentWindow);
+        const nfdresult_t res = NFD_PickFolderMultipleU8_With(&nfdPaths, &args);
+        
+        switch (res) {
+            case NFD_OKAY:
+                ShowPaths(nfdPaths, window, paths);
+                NFD_PathSet_Free(nfdPaths);
+                break;
+            case NFD_ERROR:
+                ShowError(NFD_GetError(), window);
+                break;
+            default:
+                break;
+        }
+    }
+
     void SDL_NativeFileDialog::SaveDialog(SDL_Window* window) {
-        char* path;
+        char* nfdPaths;
         nfdsavedialogu8args_t args = {0};
         ::SetNativeWindow(window, &args.parentWindow);
-        const nfdresult_t res = NFD_SaveDialogU8_With(&path, &args);
-        
+        const nfdresult_t res = NFD_SaveDialogU8_With(&nfdPaths, &args);
+
         switch (res) {
             case NFD_OKAY:
-                ShowMessage(path, window);
-                NFD_FreePathU8(path);
-                break;
-            case NFD_ERROR:
-                ShowError(NFD_GetError(), window);
-                break;
-            default:
-                break;
-        }
-    }
-    
-    void SDL_NativeFileDialog::PickFolder(SDL_Window* window) {
-        char* path;
-        nfdpickfolderu8args_t args = {0};
-        ::SetNativeWindow(window, &args.parentWindow);
-        const nfdresult_t res = NFD_PickFolderU8_With(&path, &args);
-        
-        switch (res) {
-            case NFD_OKAY:
-                ShowMessage(path, window);
-                NFD_FreePathU8(path);
-                break;
-            case NFD_ERROR:
-                ShowError(NFD_GetError(), window);
-                break;
-            default:
-                break;
-        }
-    }
-    
-    void SDL_NativeFileDialog::PickFolderMultiple(SDL_Window* window) {
-        const nfdpathset_t* paths;
-        nfdpickfolderu8args_t args = {0};
-        ::SetNativeWindow(window, &args.parentWindow);
-        const nfdresult_t res = NFD_PickFolderMultipleU8_With(&paths, &args);
-        
-        switch (res) {
-            case NFD_OKAY:
-                ShowPaths(paths, window);
-                NFD_PathSet_Free(paths);
+                ShowMessage(nfdPaths, window);
+                NFD_FreePathU8(nfdPaths);
                 break;
             case NFD_ERROR:
                 ShowError(NFD_GetError(), window);

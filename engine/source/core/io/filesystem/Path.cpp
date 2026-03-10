@@ -62,6 +62,18 @@ namespace MeowEngine::Core::IO::FileSystem {
         return Path { newPath.string() };
     }
 
+    Path Path::operator+=(const char* path) const {
+        return {""};
+    }
+
+    Path Path::operator+=(const std::string_view& path) const {
+        return {""};
+    }
+
+    Path Path::operator+=(const Path& path) const {
+        return {""};
+    }
+
     bool Path::IsAbsolute() const {
         filesystem::path currentPath { CurrentPath };
         return currentPath.is_absolute();
@@ -90,7 +102,7 @@ namespace MeowEngine::Core::IO::FileSystem {
     Path Path::GetName() const {
         filesystem::path currentPath { CurrentPath };
 
-        return Path { currentPath.filename().string() };
+        return Path { currentPath.stem().string() };
     }
 
     Path Path::GetExtension() const {
@@ -99,18 +111,20 @@ namespace MeowEngine::Core::IO::FileSystem {
         return Path { currentPath.extension().string() };
     }
 
-    Path Path::ReplaceExtension(const std::string& extension) const {
+    void Path::ReplaceExtension(const std::string& extension) {
         filesystem::path currentPath { CurrentPath };
         currentPath.replace_extension(extension);
 
-        return Path { currentPath.string() };
+        CurrentPath = currentPath.string();
+        // return Path { currentPath.string() };
     }
 
-    Path Path::ReplaceExtension(const Types::String& extension) const {
+    void Path::ReplaceExtension(const Types::String& extension) {
         filesystem::path currentPath { CurrentPath };
         currentPath.replace_extension(extension.c_str());
 
-        return Path { currentPath.filename().string() };
+        CurrentPath = currentPath.string();
+        // return Path { currentPath.filename().string() };
     }
 
 }

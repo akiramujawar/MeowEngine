@@ -29,7 +29,7 @@ namespace MeowEngine {
         void StartThread();
         void EndThread();
         
-        void ShowImportPopup();
+        void ShowImportPopup(std::vector<std::string>& selectedFiles);
 
         // TODO: When we plan to handle multi-scene we look into this, make this private
         // we decouple window / context into a class

@@ -4,6 +4,7 @@
 
 #include "opengl_app_multi_thread.hpp"
 
+#include "AssetImporter.hpp"
 #include "scene_multi_thread.hpp"
 
 namespace MeowEngine {
@@ -155,10 +156,17 @@ namespace MeowEngine {
                             break;
                         }
                         case 4: {
-                            RenderThread->ShowImportPopup();
-                            
+                            std::vector<std::string> selectedFiles;
+                            RenderThread->ShowImportPopup(selectedFiles);
+
+                            for (auto& importFilePath : selectedFiles) {
+                                std::string saveToDirectoryPath = *static_cast<std::string*>(event.user.data1);
+                                Editor::AssetImporter::Import(importFilePath, saveToDirectoryPath);
+                            }
+
                             break;
                         }
+                        default: ;
                     }
                 default:
                     break;
