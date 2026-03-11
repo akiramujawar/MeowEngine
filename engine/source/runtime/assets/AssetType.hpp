@@ -7,11 +7,17 @@
 
 namespace MeowEngine::Runtime::Asset {
     enum class AssetType : int{
-        UNKNOWN,
-        TEXTURE,
-        MESH,
-        WORLD,
-        MATERIAL
+        // misc / core
+        UNKNOWN = 0,
+        PROJECT = 1,
+
+        // file types
+        TEXTURE = 101,
+        MESH = 102,
+
+        // engine specific
+        WORLD = 201,
+        MATERIAL = 202
     };
 }
 

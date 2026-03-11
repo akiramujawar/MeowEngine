@@ -17,17 +17,26 @@ namespace MeowEngine::Runtime::Asset {
     struct AssetHeader {
         char Magic[4]{};
 
-        uint32_t Version;
-        uint32_t UUID;
+        uint32_t Version{};
+        uint64_t UUID{};
         int Type;
 
-        uint64_t SettingIndicator;
-        uint64_t SettingSize;
+        uint64_t SettingIndicator{};
+        uint64_t SettingSize{};
 
-        uint64_t DataIndicator;
-        uint64_t DataSize;
+        uint64_t DataIndicator{};
+        uint64_t DataSize{};
 
-        AssetHeader(uint32_t uuid, int type)
+        AssetHeader()
+        : Version(0)
+        , UUID(0)
+        , Type(0)
+        , SettingIndicator(0)
+        , SettingSize(0)
+        , DataIndicator(0)
+        , DataSize(0) {}
+
+        AssetHeader(uint64_t uuid, int type)
         : Version(1)
         , UUID(uuid)
         , Type(type)

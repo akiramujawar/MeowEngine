@@ -3,3 +3,7 @@
 //
 
 #include "AssetCache.hpp"
+
+namespace MeowEngine::Runtime::Asset {
+
+}

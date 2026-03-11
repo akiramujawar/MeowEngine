@@ -7,6 +7,8 @@
 #include <AssetType.hpp>
 
 #include <IO.hpp>
+#include <Core.hpp>
+#include <UUID.hpp>
 
 using namespace MeowEngine::Runtime;
 
@@ -69,7 +71,7 @@ namespace MeowEngine::Editor {
         FileSystem::Path saveFilePath = FileSystem::Path(savePath) + importFilePath.GetName();
         saveFilePath.ReplaceExtension("meowdata");
 
-        const uint32_t uuid = 999;
+        const uint64_t uuid = UUID::Generate();
         const std::string setting = GetSettings(type);
         const std::vector<uint8_t> assetData = FileSystem::File::ReadAll(importPath);
 
@@ -90,6 +92,8 @@ namespace MeowEngine::Editor {
 
         stream.Flush();
         stream.Close();
+
+        AssetManagerTemp().GetResolver().Add(uuid, saveFilePath.GetRawString());
     }
 
 }
