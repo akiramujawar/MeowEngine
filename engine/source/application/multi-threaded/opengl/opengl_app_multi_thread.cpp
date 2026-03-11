@@ -18,7 +18,6 @@ namespace MeowEngine {
 //    }
 
     void OpenGLAppMultiThread::CreateApplication() {
-        Engine::CreateApplication();
 
         // Initialize Shared State
         SharedState.IsAppRunning = true;
@@ -29,6 +28,15 @@ namespace MeowEngine {
          // Create Thread Wrappers with their sub-systems
         RenderThread = std::make_unique<MeowEngine::OpenGLRenderMultiThread>(SharedState);
         PhysicThread = std::make_unique<MeowEngine::PhysicsMultiThread>(SharedState);
+
+        // Select and set project path
+        std::string projectPath;
+        RenderThread->ShowPickFolderPopup(projectPath);
+        GetProject().ProjectSettings.SetProjectPath(projectPath);
+
+        // Initialise
+        // TODO: later we will include everything here (like InputManager etc...)
+        GetAssetManager().Init();
 
         // Create Scene & Setup Main thread
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 1); // 60 frames per second

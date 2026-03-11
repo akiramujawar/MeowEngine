@@ -5,10 +5,13 @@
 #include <AssetImporter.hpp>
 #include <AssetHeader.hpp>
 #include <AssetType.hpp>
+#include <AssetEntry.hpp>
 
 #include <IO.hpp>
 #include <Core.hpp>
 #include <UUID.hpp>
+
+#include <AssetRegistrySerializer.hpp>
 
 using namespace MeowEngine::Runtime;
 
@@ -93,7 +96,11 @@ namespace MeowEngine::Editor {
         stream.Flush();
         stream.Close();
 
-        AssetManagerTemp().GetResolver().Add(uuid, saveFilePath.GetRawString());
+        GetAssetManager().GetResolver().Add(uuid, Asset::AssetEntry{type,saveFilePath.CStr()});
+        Asset::Serializer::AssetRegistrySerializer::Serialize(
+            GetProject().ProjectSettings.GetAssetResolverPath(),
+            GetAssetManager().GetResolver()
+        );
     }
 
 }

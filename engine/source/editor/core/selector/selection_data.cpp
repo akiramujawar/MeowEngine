@@ -4,11 +4,11 @@
 
 #include "selection_data.hpp"
 #include "IO.hpp"
-#include "ProjectSettings.hpp"
+#include <Core.hpp>
 
 namespace MeowEngine {
     SelectionData::SelectionData() {
-        FileSystem::Path projectPath(Settings::ProjectSettings::GetProjectPath());
+        FileSystem::Path projectPath(GetProject().ProjectSettings.GetProjectPath());
         auto assetPath = projectPath + "source";
         
         SelectedDirectoryPath = assetPath.GetRawString();

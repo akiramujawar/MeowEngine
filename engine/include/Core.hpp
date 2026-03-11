@@ -21,8 +21,12 @@ namespace MeowEngine {
     using Core::Types::Name;
     using Core::Types::WebAddress;
 
-    inline Runtime::Asset::AssetManager& AssetManagerTemp() {
+    inline Runtime::Asset::AssetManager& GetAssetManager() {
         return Engine::Get().GetAssetManager();
+    }
+
+    inline Runtime::Project& GetProject() {
+        return Engine::Get().GetProject();
     }
 
 }

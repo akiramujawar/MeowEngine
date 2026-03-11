@@ -13,10 +13,10 @@
 - [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
 - [x] File Manager (show directories, files, rename, move & delete & import)
 - [ ] Creating support for multi-scene compilation
-- [ ] Simple tool for importing files like textures/meshes
+- [x] Simple tool for importing files like textures/meshes
 - [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
 - [ ] Implement Tracy throughout engine especially for tracking memory allocations
-- [ ] Create Unique ID generator for items
+- [x] Create Unique ID generator for items
 - [ ] Documenting done items and different approaches and used libraries
 - [x] Hierarchy for entities
 - [ ] Reworking asset loading pipeline & render loading pipeline (shaders, textures, meshes)

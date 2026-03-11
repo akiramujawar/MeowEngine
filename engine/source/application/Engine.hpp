@@ -7,31 +7,39 @@
 
 #pragma once
 
+#include <Project.hpp>
 #include <AssetManager.hpp>
 
 using namespace std;
 
 namespace MeowEngine {
     struct Engine {
-        Engine() = default;
-        virtual ~Engine() = default;
-
-        virtual void CreateApplication() {
+        Engine() {
             AppInstance = this;
         };
 
-        static Engine& Get() {
-            return *AppInstance;
-        }
+        virtual ~Engine() = default;
+
+        virtual void CreateApplication() = 0;
 
         Runtime::Asset::AssetManager& GetAssetManager() {
             return AssetManager;
         }
 
+        Runtime::Project& GetProject() {
+            return Project;
+        }
+
     private:
         inline static Engine* AppInstance;
 
+        Runtime::Project Project;
         Runtime::Asset::AssetManager AssetManager;
+
+    public:
+        static Engine& Get() {
+            return *AppInstance;
+        }
     };
 } // namespace MeowEngine
 

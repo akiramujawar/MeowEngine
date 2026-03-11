@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_ASSETMANAGER_HPP
 #define MEOWENGINE_ASSETMANAGER_HPP
 
-#include <AssetResolver.hpp>
+#include <AssetRegistry.hpp>
 
 namespace MeowEngine::Runtime::Asset {
     class AssetManager {
@@ -13,10 +13,12 @@ namespace MeowEngine::Runtime::Asset {
         AssetManager();
         ~AssetManager();
 
-        AssetResolver& GetResolver();
+        void Init();
+
+        AssetRegistry& GetResolver();
 
     private:
-        AssetResolver Resolver;
+        AssetRegistry Resolver;
     };
 }
 

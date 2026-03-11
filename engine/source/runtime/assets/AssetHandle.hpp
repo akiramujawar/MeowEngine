@@ -5,11 +5,26 @@
 #ifndef MEOWENGINETEST2_ASSETHANDLE_HPP
 #define MEOWENGINETEST2_ASSETHANDLE_HPP
 
+#include <cstdlib>
+
 namespace MeowEngine::Runtime::Asset {
     /**
-     * Container for to handle uuid of asset and its loaded object
+     * Container for UUID
      */
-    class AssetHandle {};
+    class AssetHandle {
+    public:
+        AssetHandle();
+        ~AssetHandle();
+
+        bool IsValid();
+        uint64_t GetUUID();
+
+        bool operator==(const AssetHandle& handle) const;
+        bool operator!=(const AssetHandle& handle) const;
+
+    private:
+        uint64_t UUID;
+    };
 }
 
 

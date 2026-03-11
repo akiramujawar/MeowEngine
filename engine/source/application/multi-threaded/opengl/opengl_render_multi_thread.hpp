@@ -28,8 +28,10 @@ namespace MeowEngine {
         void SetScene(std::shared_ptr<MeowEngine::SceneMultiThread> inScene);
         void StartThread();
         void EndThread();
-        
-        void ShowImportPopup(std::vector<std::string>& selectedFiles);
+
+        void ShowPickFolderPopup(std::string& selectedDirectory) const;
+        void ShowImportPopup(std::string& selectedFile) const;
+        void ShowImportPopup(std::vector<std::string>& selectedFiles) const;
 
         // TODO: When we plan to handle multi-scene we look into this, make this private
         // we decouple window / context into a class
