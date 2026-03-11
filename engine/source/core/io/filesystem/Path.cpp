@@ -111,6 +111,16 @@ namespace MeowEngine::Core::IO::FileSystem {
         return Path { currentPath.extension().string() };
     }
 
+    void Path::ReplaceName(const std::string& name) {
+        filesystem::path currentPath { CurrentPath };
+        filesystem::path extension = currentPath.extension();
+
+        currentPath.replace_filename(name);
+        CurrentPath = currentPath.string();
+
+        ReplaceExtension(extension);
+    }
+
     void Path::ReplaceExtension(const std::string& extension) {
         filesystem::path currentPath { CurrentPath };
         currentPath.replace_extension(extension);

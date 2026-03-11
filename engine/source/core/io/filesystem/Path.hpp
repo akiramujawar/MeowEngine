@@ -48,6 +48,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         [[nodiscard]] Path GetName() const;
         [[nodiscard]] Path GetExtension() const;
 
+        void ReplaceName(const std::string& name);
         void ReplaceExtension(const std::string& extension);
         void ReplaceExtension(const Types::String& extension);
 

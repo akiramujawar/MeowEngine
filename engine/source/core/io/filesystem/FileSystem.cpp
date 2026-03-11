@@ -51,7 +51,22 @@ namespace MeowEngine::Core::IO::FileSystem {
         
         return true;
     }
-    
+
+    bool FileSystem::Replace(const Path& a, const Path& b) {
+        Remove(a);
+
+        std::error_code errorCode;
+        filesystem::rename(b.GetRawString(), a.GetRawString(), errorCode);
+
+        if(errorCode) {
+            MeowEngine::Log("Move", {a.GetRawString(), b.GetRawString(), errorCode.message()}, LogType::ERROR);
+
+            return false;
+        }
+
+        return true;
+    }
+
     bool FileSystem::Rename(const Path& path, const std::string_view & name) {
         std::error_code errorCode;
         

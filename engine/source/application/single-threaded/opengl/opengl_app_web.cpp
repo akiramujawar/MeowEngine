@@ -22,6 +22,8 @@ namespace {
 } // namespace
 namespace MeowEngine {
     void OpenGLAppWeb::CreateApplication() {
+        Engine::CreateApplication();
+
         MeowEngine::Log("Application", "Creating Object");
 
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);

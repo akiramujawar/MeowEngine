@@ -18,6 +18,8 @@ namespace MeowEngine {
 //    }
 
     void OpenGLAppMultiThread::CreateApplication() {
+        Engine::CreateApplication();
+
         // Initialize Shared State
         SharedState.IsAppRunning = true;
         SharedState.SyncPointStartRenderBarrier = std::make_shared<ThreadBarrier>(2);
