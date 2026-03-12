@@ -8,6 +8,8 @@
 #include "Math.hpp"
 #include <SDL_events.h>
 
+#include "UserEventType.hpp"
+
 namespace MeowEngine::Runtime {
 
     ImGuiWorldViewPanel::ImGuiWorldViewPanel()
@@ -32,7 +34,7 @@ namespace MeowEngine::Runtime {
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = 3;
+                event.user.code = UserEventType::WORLD_VIEW_FOCUS;
                 event.user.data1 = &IsFocused;
 
                 SDL_PushEvent(&event);
@@ -49,7 +51,7 @@ namespace MeowEngine::Runtime {
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = 2;
+                event.user.code = UserEventType::VIEW_PORT_RESIZE;
                 event.user.data1 = &SceneViewportSize;
 
                 SDL_PushEvent(&event);

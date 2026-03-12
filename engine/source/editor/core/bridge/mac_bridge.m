@@ -9,116 +9,85 @@ void createMacMenu() {
     @autoreleasepool {
 //        NSApplication *app = [NSApplication sharedApplication];
         // Initialize menu bar
-        NSMenu *mainMenu = [[NSMenu alloc] init];
+        NSMenu *menuContainer = [[NSMenu alloc] init];
 
         // Allocate menu bar items
-        NSMenuItem *appMenuItem = [[NSMenuItem alloc] init];
-        NSMenuItem *appMenuItem2 = [[NSMenuItem alloc] init];
-        [mainMenu addItem:appMenuItem];
-        [mainMenu addItem:appMenuItem2];
 
-        NSApp.mainMenu = mainMenu;
+
+
+        NSApp.mainMenu = menuContainer;
 
         // Initialize menu bar items
-        NSMenu *appMenu = [[NSMenu alloc] initWithTitle:@"Application"];
-        NSMenu *appMenu2 = [[NSMenu alloc] initWithTitle:@"Window"];
 
-        // Create menu bar options for menu bar 1
+
+
+
+        // ------- MeowEngine
+        // Item in main bar
+        NSMenuItem *engineApplicationMenuItem = [[NSMenuItem alloc] init];
+        [menuContainer addItem:engineApplicationMenuItem];
+
+        // Init menu item in main bar
+        NSMenu *engineApplicationMenu = [[NSMenu alloc] initWithTitle:@"Engine Application"];
+        [engineApplicationMenuItem setSubmenu:engineApplicationMenu];
+
+        // Add options in menu items
         NSString *appName = [[NSProcessInfo processInfo] processName];
         NSString *quitTitle = [NSString stringWithFormat:@"Quit %@", appName];
         NSMenuItem *quitMenuItem = [[NSMenuItem alloc] initWithTitle:quitTitle action:@selector(terminate:) keyEquivalent:@"q"];
+        [engineApplicationMenu addItem:quitMenuItem];
 
-        // Add menu sub-items for menu item 1
-        [appMenu addItem:quitMenuItem];
-        [appMenuItem setSubmenu:appMenu];
+        // ------ File
+        // Item in main bar
+        NSMenuItem *fileMenuItem = [[NSMenuItem alloc] init];
+        [menuContainer addItem:fileMenuItem];
 
-        // Create menu bar options for menu bar 2
-        NSMenuItem *option1 = [[NSMenuItem alloc] initWithTitle:@"Open Tracy Profiler" action:@selector(optionOpenTracyProfilerAction:) keyEquivalent:@"1"];
+        // Init menu item in main bar
+        NSMenu *fileMenu = [[NSMenu alloc] initWithTitle:@"File"];
+        [fileMenuItem setSubmenu:fileMenu];
 
-        // Add menu sub-items for menu item 2
-        [appMenu2 addItem:option1];
-        [appMenuItem2 setSubmenu:appMenu2];
+        // Add options in menu items
+        NSMenuItem *saveWorldItem = [[NSMenuItem alloc] initWithTitle:@"Save World" action:@selector(optionSaveWorldAction:) keyEquivalent:@"s"];
+        [fileMenu addItem:saveWorldItem];
 
-//        [option1 setTarget:NSApp];
-//        [mainMenu addItem:option1];
-//        NSMenu *appMenu2 = [[NSMenu alloc] initWithTitle:@"File"];
-//        [appMenu2 addItem:option1];
-//        [appMenuItem setSubmenu:appMenu2];
 
-//        NSMenuItem *option2 = [[NSMenuItem alloc] initWithTitle:@"Option 2"
-//                                                         action:@selector(option2Action:)
-//                                                  keyEquivalent:@"2"];
-//        [option2 setTarget:NSApp];
-//        [mainMenu addItem:option2];
+        // ------ Tools
+        // Item in main bar
+        NSMenuItem *toolsMenuItem = [[NSMenuItem alloc] init];
+        [menuContainer addItem:toolsMenuItem];
 
-//        NSMenuItem *option3 = [[NSMenuItem alloc] initWithTitle:@"Option 3"
-//                                                         action:@selector(option3Action:)
-//                                                  keyEquivalent:@"3"];
-//        [option3 setTarget:NSApp];
-//        [mainMenu addItem:option3];
-//        [app run];
+        // Init menu item in main bar
+        NSMenu *toolsMenu = [[NSMenu alloc] initWithTitle:@"Tools"];
+        [toolsMenuItem setSubmenu:toolsMenu];
+
+        // Add options in menu items
+        NSMenuItem *openTracyItem = [[NSMenuItem alloc] initWithTitle:@"Open Tracy Profiler" action:@selector(optionOpenTracyProfilerAction:) keyEquivalent:@"1"];
+        [toolsMenu addItem:openTracyItem];
+
     }
     NSLog(@"macOS menu created.");
 }
 
 @implementation NSApplication (MenuActions)
+
 - (void)optionOpenTracyProfilerAction:(id)sender {
     NSLog(@"Opening Tracy Profiler");
 
     SDL_Event event;
     SDL_zero(event);
     event.type = SDL_USEREVENT;
-    event.user.code = 1;
+    event.user.code = 1; // UserEventType::OPEN_TRACY
     SDL_PushEvent(&event);
-
-//    NSFileManager *filemgr;
-//    NSString *currentpath;
-//
-//    filemgr = [[NSFileManager alloc] init];
-//    currentpath = [filemgr currentDirectoryPath];
-//    NSLog (@"Tracy Profiler Path: \n%@", [NSString stringWithFormat:@"%@/%@", currentpath, @"unix/Tracy-release"]);
-//
-//    NSTask *task = [[NSTask alloc] init];
-//    [task setLaunchPath:[NSString stringWithFormat:@"%@/%@", currentpath, @"build/unix/Tracy-release"]];
-//    [task setArguments: @[]];
-//
-//    NSPipe *pipe = [NSPipe pipe];
-//    [task setStandardOutput:pipe];
-//    [task setStandardError:pipe];
-//
-//    NSFileHandle *file = [pipe fileHandleForReading];
-//
-//    [task launch];
-    // below code freezes the main window
-//    [task waitUntilExit];
-
-   // NSData *data = [file readDataToEndOfFile];
-   // NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-   // NSLog(@"Output:\n%@", output);
-
-//    int pid = [[NSProcessInfo processInfo] processIdentifier];
-//    NSPipe *pipe = [NSPipe pipe];
-//    NSFileHandle *file = pipe.fileHandleForReading;
-//
-//    NSTask *task = [[NSTask alloc] init];
-//    task.launchPath = @"/usr/bin/grep";
-//    task.arguments = @[@"foo", [NSString stringWithFormat:@"%@/%@", currentpath, @"bar.txt"]];
-//    task.standardOutput = pipe;
-//
-//    [task launch];
-//
-//    NSData *data = [file readDataToEndOfFile];
-//    [file closeFile];
-//
-//    NSString *grepOutput = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-//    NSLog (@"grep returned:\n%@", grepOutput);
 }
 
-//- (void)option2Action:(id)sender {
-//    NSLog(@"Option 2 selected");
-//}
-//
-//- (void)option3Action:(id)sender {
-//    NSLog(@"Option 3 selected");
-//}
+- (void)optionSaveWorldAction:(id)sender {
+    NSLog(@"Saving World");
+
+    SDL_Event event;
+    SDL_zero(event);
+    event.type = SDL_USEREVENT;
+    event.user.code = 5; // UserEventType::SAVE_PROJECT
+    SDL_PushEvent(&event);
+}
+
 @end

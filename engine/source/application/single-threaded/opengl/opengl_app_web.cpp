@@ -4,6 +4,8 @@
 
 #include "opengl_app_web.hpp"
 
+#include "UserEventType.hpp"
+
 //#include "scene_single_thread.hpp"
 
 // creation management
@@ -130,7 +132,7 @@ namespace MeowEngine {
 
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                        case 2: {
+                        case UserEventType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
 
                             glViewport(0, 0, size.Width, size.Height);
@@ -138,7 +140,7 @@ namespace MeowEngine {
                             Scene->OnWindowResized(size);
                             break;
                         }
-                        case 3: {
+                        case UserEventType::WORLD_VIEW_FOCUS: {
                             InputManager->isActive = *(bool *) event.user.data1;
                             break;
                         }

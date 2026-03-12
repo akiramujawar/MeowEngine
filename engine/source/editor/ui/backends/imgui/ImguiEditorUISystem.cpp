@@ -13,6 +13,7 @@
 #include "ImguiAPI.hpp"
 #include "ImguiEditorUISystem.hpp"
 #include "PlatformBridgeAPI.hpp"
+#include "UserEventType.hpp"
 
 namespace {
     pid_t tracy_profiler_pid = -1;
@@ -129,7 +130,7 @@ namespace MeowEngine::Runtime {
 #ifdef __APPLE__
         if (event.type == SDL_USEREVENT) {
             switch (event.user.code) {
-                case 1:
+                case UserEventType::OPEN_TRACY:
                     OpenTracyProfiler();
                     break;
             }

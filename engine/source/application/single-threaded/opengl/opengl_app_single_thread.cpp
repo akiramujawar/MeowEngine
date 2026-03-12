@@ -19,6 +19,8 @@
 #include <frame_rate_counter.hpp>
 #include <string>
 
+#include "UserEventType.hpp"
+
 using MeowEngine::OpenGLAppSingleThread;
 
 namespace {
@@ -170,12 +172,12 @@ struct OpenGLAppSingleThread::Internal {
 
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                        case 2: {
+                    case UserEventType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
                             OnViewportResize(size);
                             break;
                         }
-                        case 3: {
+                    case UserEventType::WORLD_VIEW_FOCUS: {
                             InputManager.isActive = *(bool *) event.user.data1;
                             break;
                         }

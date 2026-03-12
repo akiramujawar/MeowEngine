@@ -17,6 +17,8 @@
 #include "ImguiAssetDragDrop.hpp"
 #include "CreateAssetType.hpp"
 
+#include <UserEventType.hpp>
+
 namespace MeowEngine::Editor::UI {
     ImguiAssetPanel::ImguiAssetPanel()
         : WindowFlags(ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing)
@@ -112,7 +114,7 @@ namespace MeowEngine::Editor::UI {
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = 4;
+                event.user.code = UserEventType::IMPORT_FILE;
                 event.user.data1 = &selectionData.SelectedDirectoryPath;
     
                 SDL_PushEvent(&event);

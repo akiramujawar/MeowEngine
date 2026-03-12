@@ -6,6 +6,7 @@
 
 #include "AssetImporter.hpp"
 #include "scene_multi_thread.hpp"
+#include <UserEventType.hpp>
 
 namespace MeowEngine {
     OpenGLAppMultiThread::OpenGLAppMultiThread()
@@ -153,7 +154,7 @@ namespace MeowEngine {
 
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                        case 2: {
+                        case UserEventType::VIEW_PORT_RESIZE: {
                             MeowEngine::Log("Main Thread", "Rescaled Window");
 
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
@@ -161,11 +162,11 @@ namespace MeowEngine {
 
                             break;
                         }
-                        case 3: {
+                        case UserEventType::WORLD_VIEW_FOCUS: {
                             InputManager->isActive = *(bool *) event.user.data1;
                             break;
                         }
-                        case 4: {
+                        case UserEventType::IMPORT_FILE: {
                             std::vector<std::string> selectedFiles;
                             RenderThread->ShowImportPopup(selectedFiles);
 
@@ -176,6 +177,10 @@ namespace MeowEngine {
 
                             break;
                         }
+                        case UserEventType::SAVE_PROJECT: {
+
+                        }
+
                         default: ;
                     }
                 default:

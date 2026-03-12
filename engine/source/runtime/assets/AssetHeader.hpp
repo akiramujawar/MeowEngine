@@ -5,6 +5,8 @@
 #ifndef MEOWENGINE_MEOWASSETHEADER_HPP
 #define MEOWENGINE_MEOWASSETHEADER_HPP
 
+#include <cstdint>
+
 namespace MeowEngine::Runtime::Asset {
 
 // pack results in placement of the members one after another in memory

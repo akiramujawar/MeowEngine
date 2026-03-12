@@ -6,6 +6,7 @@
 
 #include "shared_thread_state.hpp"
 #include "SDL_NativeFileDialog.hpp"
+#include "UserEventType.hpp"
 
 namespace MeowEngine {
     OpenGLRenderMultiThread::OpenGLRenderMultiThread(MeowEngine::SharedThreadState& inState)
@@ -117,7 +118,7 @@ namespace MeowEngine {
             switch (event.type) {
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                        case 2: {
+                        case UserEventType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
 
                             glViewport(0, 0, size.Width, size.Height);
