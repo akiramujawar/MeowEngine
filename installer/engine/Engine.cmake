@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.1)
-#project(MeowEngineTest2)
+#project(MeowEngine)
 
 #set(CMAKE_OSX_ARCHITECTURES "x86_64")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fexceptions")
@@ -122,14 +122,14 @@ foreach(DIR ${ALL_EXAMPLE_DIRECTORIES})
 endforeach()
 
 #target_include_directories(
-#    MeowEngineTest2 PUBLIC
+#    MeowEngine PUBLIC
 #    ${CMAKE_SOURCE_DIR}/core
 #)
 message("ds")
 message(${PROJECT_SOURCE_DIR})
 
 add_executable(
-    MeowEngineTest2
+    MeowEngine
 
     ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
     ${THIRD_PARTY_DIR}/concurrentqueue/concurrentqueue.h
@@ -161,10 +161,10 @@ add_executable(
     ${MAIN_SOURCE_DIR}/application/main.mm
 )
 
-target_compile_definitions(MeowEngineTest2 PUBLIC __ENABLE_TRACY__)
-target_compile_definitions(MeowEngineTest2 PUBLIC __MULTI_THREAD__)
+target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
+target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
 
-#target_link_libraries(MeowEngineTest2 PRIVATE nfd)
+#target_link_libraries(MeowEngine PRIVATE nfd)
 
 # Link profiler with console executable
 add_library(
@@ -175,13 +175,13 @@ add_library(
 )
 #target_include_directories(TracyClient PUBLIC ../../public/tracy)
 target_compile_definitions(TracyClient PUBLIC TRACY_ENABLE=1)
-target_link_libraries(MeowEngineTest2 PUBLIC OpenCL::OpenCL TracyClient ${CMAKE_DL_LIBS})
-#target_link_libraries(MeowEngineTest2 PUBLIC OpenGL::OpenGL TracyClient ${CMAKE_DL_LIBS})
+target_link_libraries(MeowEngine PUBLIC OpenCL::OpenCL TracyClient ${CMAKE_DL_LIBS})
+#target_link_libraries(MeowEngine PUBLIC OpenGL::OpenGL TracyClient ${CMAKE_DL_LIBS})
 
 # Link native menu option for mac
 #include_directories(${SDL2_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIR})
 
-target_link_libraries(MeowEngineTest2 PUBLIC
+target_link_libraries(MeowEngine PUBLIC
     ${SDL2_LIBRARIES}
     ${OPENGL_LIBRARIES}
 )
@@ -199,10 +199,10 @@ add_subdirectory(
     ${CMAKE_BINARY_DIR}/nativefiledialog-build
 )
 
-target_link_libraries(MeowEngineTest2 PRIVATE nfd)
+target_link_libraries(MeowEngine PRIVATE nfd)
 
 if(APPLE)
-    target_link_libraries(MeowEngineTest2 PRIVATE
+    target_link_libraries(MeowEngine PRIVATE
         "-framework AppKit"
         "-framework Foundation"
         "-framework UniformTypeIdentifiers"
@@ -210,7 +210,7 @@ if(APPLE)
     )
 endif()
 
-target_link_libraries(MeowEngineTest2 PUBLIC
+target_link_libraries(MeowEngine PUBLIC
     ${PHYSX_LIBRARY}
     ${PHYSX_COMMON_LIB}
     ${PHYSX_FOUNDATION_LIB}
@@ -219,7 +219,7 @@ target_link_libraries(MeowEngineTest2 PUBLIC
 
 # This is to ensure executable knows how to attach frameworks or other things to itself
 set_target_properties(
-    MeowEngineTest2
+    MeowEngine
     PROPERTIES
     LINK_FLAGS
     "-F${LIBRARY_DIR}/Frameworks -framework SDL2 -framework SDL2_image -framework OpenGL"
@@ -229,7 +229,7 @@ set_target_properties(
 
 # Executes after build to properly link sdk framework in executable file
 add_custom_command(
-    TARGET MeowEngineTest2
+    TARGET MeowEngine
     POST_BUILD
     WORKING_DIRECTORY ${INSTALLER_DIR}
     COMMAND ./cmake-post-build.sh -p console
