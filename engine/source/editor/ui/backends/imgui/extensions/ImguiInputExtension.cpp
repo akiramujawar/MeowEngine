@@ -75,8 +75,7 @@ namespace MeowEngine::Runtime {
             void* value = inProperty.Get(inObject);
             int changeHolder = *static_cast<int*>(value);
 
-            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
-                                                    dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.data(), dataObject->GetClassName().data());
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -95,8 +94,7 @@ namespace MeowEngine::Runtime {
             void* value = inProperty.Get(inObject);
             float changeHolder = *static_cast<float*>(value);
 
-            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
-                                                    dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.data(), dataObject->GetClassName().data());
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -150,7 +148,7 @@ namespace MeowEngine::Runtime {
         // data* -> **pointer -> *object
         Object* valueObject = *static_cast<Object**>(value);
 
-        auto displayLabel = String::Format("%s%s", inProperty.Name.c_str(), "*");
+        auto displayLabel = String::Format("%s%s", inProperty.Name.data(), "*");
 
         if (inProperty.IsMObject) {
             // show a tree and node and pass dereference of the data which is dataObject for populating further
@@ -205,8 +203,11 @@ namespace MeowEngine::Runtime {
 
         // this ensures a unique id for each type of input item displayed,
         // helps us to capture changes (tracked internally by imgui)
-        std::string nameId = String::Format("##%s%s", inProperty.Name.c_str(),
-                                            dataObject->GetClassName().c_str());
+        std::string nameId = String::Format(
+            "##%s%s",
+            inProperty.Name.data(),
+            dataObject->GetClassName().data()
+        );
 
         // show name of item
         ImGui::AlignTextToFramePadding();
@@ -259,8 +260,7 @@ namespace MeowEngine::Runtime {
             void* value = inProperty.Get(inObject);
             String changeHolder = *static_cast<String*>(value);
 
-            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
-                                                    dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.data(), dataObject->GetClassName().data());
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -291,8 +291,11 @@ namespace MeowEngine::Runtime {
             void* value = inProperty.Get(inObject);
             Vector3 changeHolder = *static_cast<Vector3*>(value);
 
-            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
-                                                    dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format(
+                "##%s%s",
+                inProperty.Name.data(),
+                dataObject->GetClassName().data()
+            );
 
             // show name of item
             ImGui::AlignTextToFramePadding();
@@ -322,8 +325,11 @@ namespace MeowEngine::Runtime {
             void* value = inProperty.Get(inObject);
             Quaternion changeHolder = *static_cast<Quaternion*>(value);
 
-            std::string uniqueName = String::Format("##%s%s", inProperty.Name.c_str(),
-                                                    dataObject->GetClassName().c_str());
+            std::string uniqueName = String::Format(
+                "##%s%s",
+                inProperty.Name.data(),
+                dataObject->GetClassName().data()
+            );
 
             // show name of item
             ImGui::AlignTextToFramePadding();

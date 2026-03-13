@@ -40,14 +40,27 @@ namespace MeowEngine::Core::Types {
         static std::string Format(const char* fmt, Args... args);
     };
 
+    /**
+     *
+     * @tparam Args
+     * @param fmt
+     * @param args Pass char* not const char* (if using std::string, use string.data() instead of string.c_str()
+     * @return
+     */
     template <typename ... Args>
     std::string String::Format(const char* fmt, Args... args) {
-        size_t size = snprintf(nullptr, 0, fmt, args...);
-        std::string buf;
-        buf.reserve(size + 1);
-        buf.resize(size);
-        snprintf(&buf[0], size + 1, fmt, args...);
-        return buf;
+        const int32_t size = std::snprintf(nullptr, 0, fmt, args...);
+        if (size < 0) {
+            throw std::runtime_error("String::Format, std::snprintf() failed");
+        }
+
+        std::string buffer;
+
+        buffer.resize(size + 1);
+        snprintf(buffer.data(), size + 1, fmt, args...);
+        buffer.pop_back();
+
+        return buffer;
     }
 }
 
