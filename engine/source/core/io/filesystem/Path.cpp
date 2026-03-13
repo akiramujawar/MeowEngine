@@ -28,7 +28,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         return CurrentPath.c_str();
     }
 
-    const std::string_view& Path::GetStringView() const {
+    std::string_view Path::GetStringView() const {
         return CurrentPath;
     }
 
@@ -63,15 +63,24 @@ namespace MeowEngine::Core::IO::FileSystem {
     }
 
     Path Path::operator+=(const char* path) const {
-        return {""};
+        const filesystem::path currentPath(CurrentPath);
+        const filesystem::path newPath = currentPath / path;
+
+        return Path { newPath.string() };
     }
 
     Path Path::operator+=(const std::string_view& path) const {
-        return {""};
+        const filesystem::path currentPath(CurrentPath);
+        const filesystem::path newPath = currentPath / path;
+
+        return Path { newPath.string() };
     }
 
     Path Path::operator+=(const Path& path) const {
-        return {""};
+        const filesystem::path currentPath(CurrentPath);
+        const filesystem::path newPath = currentPath / path.CurrentPath;
+
+        return Path { newPath.string() };
     }
 
     bool Path::IsAbsolute() const {
@@ -131,7 +140,7 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     void Path::ReplaceExtension(const Types::String& extension) {
         filesystem::path currentPath { CurrentPath };
-        currentPath.replace_extension(extension.c_str());
+        currentPath.replace_extension(extension.CStr());
 
         CurrentPath = currentPath.string();
         // return Path { currentPath.filename().string() };

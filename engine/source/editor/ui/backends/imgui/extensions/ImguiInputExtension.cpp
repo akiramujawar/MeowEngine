@@ -274,7 +274,7 @@ namespace MeowEngine::Runtime {
                 ImGui::BeginDisabled(true);
             }
 
-            if (ImGui::InputText(uniqueName.c_str(), changeHolder.data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
+            if (ImGui::InputText(uniqueName.c_str(), changeHolder.Data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
                 change = new MeowEngine::ReflectionPropertyChange(
                     inProperty.Name,
                     new String(changeHolder),

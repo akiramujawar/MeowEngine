@@ -71,7 +71,7 @@ namespace MeowEngine::Runtime {
             (void *) (intptr_t) id,
             flags,
             "%s",
-            lifeObjectComponent.Name.c_str()
+            lifeObjectComponent.Name.CStr()
         );
 
 

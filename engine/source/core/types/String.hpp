@@ -5,58 +5,50 @@
 #ifndef MEOWENGINE_STRING_HPP
 #define MEOWENGINE_STRING_HPP
 
-#include "string"
-#include "Object.hpp"
+#include <reflection_macro_wrapper.hpp>
+#include <string>
 
 namespace MeowEngine::Core::Types {
-    class String : public std::string {
+    /**
+     * Custom string representation for our engine to handle reflection and add functionality
+     * NOTE: Avoiding inheritance from stl lib to avoid implicit conversions and no virtual destructor
+     */
+    struct String {
 
     public:
         REFLECT_VALUE(String)
-        static void Reflect() {}
+        static void Reflect();
 
         String();
-        String(std::string inString);
-
-        template<typename... Args>
-        static std::string Format(const char* fmt, Args... args)
-        {
-            size_t size = snprintf(nullptr, 0, fmt, args...);
-            std::string buf;
-            buf.reserve(size + 1);
-            buf.resize(size);
-            snprintf(&buf[0], size + 1, fmt, args...);
-            return buf;
-        }
+        explicit String(const std::string& string);
 
         /**
          * Split from end to start
          * @param pDelimiter
          * @return
          */
-        std::vector<std::string> SplitR(const std::string& pDelimiter) {
-            size_t nextIndex = 0;
-            std::vector<std::string> names;
-            size_t lastIndex = size()- 1;
+        [[nodiscard]] std::vector<std::string> SplitR(const std::string& pDelimiter) const;
 
-            while(true) {
-                nextIndex = rfind(pDelimiter, lastIndex);
+        [[nodiscard]] const char* CStr() const;
+        char* Data();
 
-                if(nextIndex == std::string::npos) {
-                    names.push_back(substr(0, lastIndex));
-                    break;
-                }
+    private:
+        std::string Value;
 
-                names.push_back(substr(nextIndex + 1, lastIndex - nextIndex + 1));
-
-                if(nextIndex == 0) {
-                    break;
-                }
-
-                lastIndex = nextIndex - pDelimiter.size();
-            }
-        }
+    public:
+        template<typename... Args>
+        static std::string Format(const char* fmt, Args... args);
     };
+
+    template <typename ... Args>
+    std::string String::Format(const char* fmt, Args... args) {
+        size_t size = snprintf(nullptr, 0, fmt, args...);
+        std::string buf;
+        buf.reserve(size + 1);
+        buf.resize(size);
+        snprintf(&buf[0], size + 1, fmt, args...);
+        return buf;
+    }
 }
 
 #endif //MEOWENGINE_STRING_HPP

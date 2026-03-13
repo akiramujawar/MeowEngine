@@ -37,11 +37,13 @@ namespace MeowEngine::Runtime {
 
                         // Display Component Name
                         if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-                            if (
-                                MeowEngine::ReflectionPropertyChange* change = ImGuiInputExtension::ShowProperty(
-                                    componentName, componentObject, true);
-                                change != nullptr
-                                ) {
+                            MeowEngine::ReflectionPropertyChange* change = ImGuiInputExtension::ShowProperty(
+                                componentName,
+                                componentObject,
+                                true
+                            );
+
+                            if (change != nullptr){
                                 change->EntityId = static_cast<int>(pSelection.SelectedEntity);
                                 change->ComponentType = type;
 

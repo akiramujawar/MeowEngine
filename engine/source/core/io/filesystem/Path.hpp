@@ -17,7 +17,7 @@ namespace MeowEngine::Core::IO::FileSystem {
 //        Path(const Types::String& path);
 
         [[nodiscard]] const char* CStr() const;
-        [[nodiscard]] const std::string_view& GetStringView() const;
+        [[nodiscard]] std::string_view GetStringView() const;
         [[nodiscard]] const std::string& GetRawString() const;
         [[nodiscard]] const Types::String& GetString() const;
         
