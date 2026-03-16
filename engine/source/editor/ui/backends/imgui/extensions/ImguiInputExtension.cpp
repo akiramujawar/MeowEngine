@@ -65,6 +65,12 @@ namespace MeowEngine::Runtime {
         MeowEngine::ReflectionPropertyChange* change = nullptr;
 
         // NOTE: The parent class has to be derived from MObject
+        // dataObject is parent of value holder.
+        // remember, we consider int, float, double as primitives
+        // where as, vector3, string, or anything which is class/struct are by definition considered as struct/class
+        // to superseed, we give out a custom implementation for few engine primitives like Vector3 or string
+        // TODO: hence forth, define it to understand Vector3 is a engine primitive not any ordinary class/struct
+
         auto dataObject = static_cast<Object*>(inObject);
 
         if (!(pIsEditable & inProperty.IsEditable)) {

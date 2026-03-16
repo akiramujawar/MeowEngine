@@ -8,20 +8,30 @@
 #include <entt.hpp>
 
 namespace MeowEngine::Runtime {
-    class World {
+    struct  World {
     public:
+        World(entt::registry* registry) {
+            Registry = registry;
+        }
+        ~World() {}
+
         void AddEntity();
         void AddComponent();
         void RemoveComponent();
 
         entt::registry& GetRegistry() {
-            return Registry;
+            return *Registry;
+        }
+
+        [[nodiscard]]
+        const entt::registry& GetRegistry() const {
+            return *Registry;
         }
 
     private:
-        entt::registry Registry;
+        // TODO: this is temporary until serialization & it's implementation is achieved for dynamic worlds
+        entt::registry* Registry;
     };
 }
-
 
 #endif //MEOWENGINETEST2_WORLD_HPP

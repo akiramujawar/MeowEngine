@@ -6,14 +6,24 @@
 #include <log.hpp>
 #include "reflection_macro_wrapper.hpp"
 
-void MeowEngine::entity::InfoComponent::Reflect() {
-    REGISTER_PROPERTY(InfoComponent, Name, String, true, true);
-}
+namespace MeowEngine::entity {
+    void MeowEngine::entity::InfoComponent::Reflect() {
+        REGISTER_PROPERTY(InfoComponent, Name, String, true, true);
+    }
 
-MeowEngine::entity::InfoComponent::InfoComponent(std::string name)
-: Name(name)
-//, Id(MeowEngine::entity::InfoComponent::s_GetNewId())
-{}
+    MeowEngine::entity::InfoComponent::InfoComponent() {}
+
+    MeowEngine::entity::InfoComponent::InfoComponent(std::string name)
+    : Name(name) {}
+
+    void InfoComponent::SetName(const String& name) {
+        Name = name;
+    }
+
+    String InfoComponent::GetName() const {
+        return Name;
+    }
+}
 
 //int MeowEngine::entity::InfoComponent::s_GetNewId() {
 //    return s_IdCounter++;

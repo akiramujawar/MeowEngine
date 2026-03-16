@@ -12,8 +12,11 @@
 #include <Directory.hpp>
 #include <FileSystem.hpp>
 
+#include <Serializer.hpp>
+
 namespace MeowEngine {
     namespace FileSystem = Core::IO::FileSystem;
+    namespace Serialization = Core::IO::Serialization;
 }
 
 #endif //MEOWENGINE_IO_HPP

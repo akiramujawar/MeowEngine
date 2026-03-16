@@ -48,4 +48,8 @@ namespace MeowEngine::Core::Types {
     char* String::Data() {
         return Value.data();
     }
+
+    std::string String::GetRawString() {
+        return { Value };
+    }
 }

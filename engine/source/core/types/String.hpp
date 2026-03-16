@@ -31,6 +31,7 @@ namespace MeowEngine::Core::Types {
 
         [[nodiscard]] const char* CStr() const;
         char* Data();
+        std::string GetRawString();
 
     private:
         std::string Value;

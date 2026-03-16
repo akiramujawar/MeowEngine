@@ -5,8 +5,8 @@
 #ifndef MEOWENGINE_INFO_COMPONENT_HPP
 #define MEOWENGINE_INFO_COMPONENT_HPP
 
-#include "String.hpp"
-#include "component_base.hpp"
+#include <String.hpp>
+#include <component_base.hpp>
 
 namespace MeowEngine::entity {
     struct InfoComponent : public MeowEngine::entity::ComponentBase {
@@ -14,7 +14,11 @@ namespace MeowEngine::entity {
         REFLECT_COMPONENT(InfoComponent)
         static void Reflect();
 
+        InfoComponent();
         InfoComponent(std::string name);
+
+        void SetName(const String& name);
+        [[nodiscard]] String GetName() const;
 
         String Name;
     };
