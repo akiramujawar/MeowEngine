@@ -149,7 +149,7 @@ namespace MeowEngine::Runtime::Window {
         switch (res) {
             case NFD_OKAY:
                 path.assign(nfdPath);
-                ShowMessage(nfdPath, window);
+                // ShowMessage(nfdPath, window);
                 NFD_FreePathU8(nfdPath);
                 break;
             case NFD_ERROR:
