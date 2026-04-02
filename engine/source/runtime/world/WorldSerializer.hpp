@@ -2,23 +2,26 @@
 // Created by Akira Mujawar on 11/03/26.
 //
 
-#ifndef MEOWENGINETEST2_WORLDSERIALIZER_HPP
-#define MEOWENGINETEST2_WORLDSERIALIZER_HPP
+#ifndef MEOWENGINE_WORLDSERIALIZER_HPP
+#define MEOWENGINE_WORLDSERIALIZER_HPP
 
-#include <IO.hpp>
+// #include <IO.hpp>
 #include <World.hpp>
 
+namespace MeowEngine::Core::IO::FileSystem {
+    class Path;
+}
 
 namespace MeowEngine::Runtime {
+    namespace FileSystem = Core::IO::FileSystem;
+
     class WorldSerializer {
     public:
-        void Serialize(const FileSystem::Path path, const World& world) {
+        static void Serialize(const FileSystem::Path path, World& world);
 
-        }
-
-        void Deserialize(const FileSystem::Path path, World& world);
+        static void Deserialize(const FileSystem::Path path, World& world);
     };
 }
 
 
-#endif //MEOWENGINETEST2_WORLDSERIALIZER_HPP
+#endif //MEOWENGINE_WORLDSERIALIZER_HPP

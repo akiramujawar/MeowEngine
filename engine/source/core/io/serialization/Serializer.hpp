@@ -16,6 +16,7 @@ namespace MeowEngine::Core::IO::Serialization {
 
         void WriteSize(size_t size) const;
         void WriteInt(int value) const;
+        void WriteUInt16(uint16_t value);
         void WriteUInt32(uint32_t value) const;
         void WriteUInt64(uint64_t value) const;
         void WriteFloat(float value) const;
