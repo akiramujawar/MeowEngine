@@ -111,9 +111,8 @@ namespace MeowEngine::Runtime {
         MeowEngine::Log("WorldSerializer", "Serialize");
 
         // template world data for testing
-        entt::registry newRegistry;;
-        auto testWorld = World(&newRegistry);
-        auto& registry = testWorld.GetRegistry();
+        auto testWorld = World();
+        auto& registry = testWorld.GetBuffer().GetCurrent();
 
         entt::entity testEntity = registry.create();
         auto identityComponent = registry.emplace<IdentityComponent>(testEntity);
@@ -122,12 +121,9 @@ namespace MeowEngine::Runtime {
         identityComponent.SetGUID(5556);
         infoComponent.SetName(String("testEntity"));
 
-        // temp world path
-        FileSystem::Path worldPath = GetProject().ProjectSettings.GetProjectPath() + "world.meowdata";
-
         // serialization ahead
         FileSystem::FileStream stream;
-        stream.Open(worldPath, FileSystem::FileMode::WRITE);
+        stream.Open(path, FileSystem::FileMode::WRITE);
         Serialization::Serializer serializer {stream};
 
         // save entity count
@@ -191,9 +187,8 @@ namespace MeowEngine::Runtime {
 
         // AddComponentMap["InfoComponent"](registry, entity, test1);
 
-        entt::registry newRegistry;;
-        auto testWorld = World(&newRegistry);
-        auto& registry = testWorld.GetRegistry();
+        // auto testWorld = World();
+        auto& registry = world.GetBuffer().GetCurrent();
 
         FileSystem::Path worldPath = GetProject().ProjectSettings.GetProjectPath() + "world.meowdata";
         FileSystem::FileStream stream;

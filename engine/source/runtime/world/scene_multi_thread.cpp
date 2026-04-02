@@ -32,6 +32,8 @@
 #include "reflection_macro_wrapper.hpp"
 
 #include "physx_physics_system.hpp"
+#include "WorldSerializer.hpp"
+#include <World.hpp>
 
 using MeowEngine::SceneMultiThread;
 
@@ -54,7 +56,8 @@ struct SceneMultiThread::Internal {
     MeowEngine::CameraController CameraController;
     MeowEngine::SelectionData SelectionData; // later we will have some type of unified system for selection system
 
-    EnttTripleBuffer RegistryBuffer;
+    // EnttTripleBuffer RegistryBuffer;
+    Runtime::World World;
 
     // User Input Events
     const uint8_t* KeyboardState; // SDL owns the object & will manage the lifecycle. We just keep a pointer.
@@ -63,7 +66,7 @@ struct SceneMultiThread::Internal {
         : Camera(::CreateCamera(size))
         , CameraController({glm::vec3(0.0f, 2.0f , -10.0f)})
         , KeyboardState(SDL_GetKeyboardState(nullptr))
-        , RegistryBuffer() {
+        , World() {
         MeowEngine::Log("MainScene", "Scene Created");
     }
 
@@ -99,31 +102,37 @@ struct SceneMultiThread::Internal {
         // this helps to dynamically manage add/remove components at runtime
         // considering & respects all threads.
 #ifdef __MULTI_THREAD__
-        MeowEngine::GetReflection().InitialiseComponents(RegistryBuffer);
+        MeowEngine::GetReflection().InitialiseComponents(World.GetBuffer());
 #endif
     }
 
     bool AddEntitiesOnPhysicsThread(MeowEngine::simulator::PhysicsSystem* inPhysics) {
-        return RegistryBuffer.ApplyAddRemoveOnStaging(inPhysics);
+        return World.GetBuffer().ApplyAddRemoveOnStaging(inPhysics);
     }
 
     void CreateSceneOnMainThread() {
-        auto torus = RegistryBuffer.AddEntity();
+        // auto path = GetProject().ProjectSettings.GetProjectPath();
+        // path += "world.meowdata";
+        //
+        // Runtime::WorldSerializer::Deserialize(path,World);
+
+
+        auto torus = World.GetBuffer().AddEntity();
 
         // this is for demo purpose :p
         // TODO: Need to find a better alternative since adding components is multi-threaded.
         // TODO: We dont get the structure right away.
         // TODO: Preventing us to do create commands like SetParent on Hierarchy component.
-        auto torusChildTransform = RegistryBuffer.AddEntity();
-        auto torusChildTransformChildTransform = RegistryBuffer.AddEntity();
-        auto torusChildTransformChildHierarchy = RegistryBuffer.AddEntity();
-        auto torusChildHierarchy = RegistryBuffer.AddEntity();
-        auto torusChildHierarchyChildHierarchy = RegistryBuffer.AddEntity();
-        auto torusChildHierarchyTransformHierarchy = RegistryBuffer.AddEntity();
+        auto torusChildTransform = World.GetBuffer().AddEntity();
+        auto torusChildTransformChildTransform = World.GetBuffer().AddEntity();
+        auto torusChildTransformChildHierarchy = World.GetBuffer().AddEntity();
+        auto torusChildHierarchy = World.GetBuffer().AddEntity();
+        auto torusChildHierarchyChildHierarchy = World.GetBuffer().AddEntity();
+        auto torusChildHierarchyTransformHierarchy = World.GetBuffer().AddEntity();
 
-        RegistryBuffer.AddComponent<component::HierarchyComponent>(torus, torus, entt::null, torusChildTransform, entt::null, entt::null);
-        RegistryBuffer.AddComponent<entity::InfoComponent>(torus, "Torus");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+        World.GetBuffer().AddComponent<component::HierarchyComponent>(torus, torus, entt::null, torusChildTransform, entt::null, entt::null);
+        World.GetBuffer().AddComponent<entity::InfoComponent>(torus, "Torus");
+        World.GetBuffer().AddComponent<entity::Transform3DComponent>(
             torus,
                 Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
                 Vector3{5, 5, 5},
@@ -131,7 +140,7 @@ struct SceneMultiThread::Internal {
                 glm::vec3{0.0f, 1.0f, 0.0f},
                 12.0f
         );
-        RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
+        World.GetBuffer().AddComponent<entity::MeshRenderComponent>(
             torus,
                 assets::ShaderPipelineType::Default,
                 new MeowEngine::StaticMeshInstance{
@@ -139,13 +148,13 @@ struct SceneMultiThread::Internal {
                         assets::TextureType::Pattern
                 }
         );
-        RegistryBuffer.AddComponent<entity::ReflectionTestComponent>(
+        World.GetBuffer().AddComponent<entity::ReflectionTestComponent>(
             torus
         );
 
-        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildTransform, torusChildTransform, torus, torusChildTransformChildTransform, torusChildHierarchy, entt::null);
-        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildTransform, "1 (transform)");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+        World.GetBuffer().AddComponent<component::HierarchyComponent>(torusChildTransform, torusChildTransform, torus, torusChildTransformChildTransform, torusChildHierarchy, entt::null);
+        World.GetBuffer().AddComponent<entity::InfoComponent>(torusChildTransform, "1 (transform)");
+        World.GetBuffer().AddComponent<entity::Transform3DComponent>(
             torusChildTransform,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
             Vector3{5, 5, 5},
@@ -154,9 +163,9 @@ struct SceneMultiThread::Internal {
             12.0f
         );
 
-        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildTransformChildTransform, torusChildTransformChildTransform, torusChildTransform, entt::null, torusChildTransformChildHierarchy, entt::null);
-        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildTransformChildTransform, "1-1 (transform)");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+        World.GetBuffer().AddComponent<component::HierarchyComponent>(torusChildTransformChildTransform, torusChildTransformChildTransform, torusChildTransform, entt::null, torusChildTransformChildHierarchy, entt::null);
+        World.GetBuffer().AddComponent<entity::InfoComponent>(torusChildTransformChildTransform, "1-1 (transform)");
+        World.GetBuffer().AddComponent<entity::Transform3DComponent>(
             torusChildTransformChildTransform,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
             Vector3{5, 5, 5},
@@ -165,18 +174,18 @@ struct SceneMultiThread::Internal {
             12.0f
         );
 
-        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildTransformChildHierarchy, torusChildTransformChildHierarchy, torusChildTransform, entt::null, entt::null, torusChildTransformChildTransform);
-        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildTransformChildHierarchy, "1-2");
+        World.GetBuffer().AddComponent<component::HierarchyComponent>(torusChildTransformChildHierarchy, torusChildTransformChildHierarchy, torusChildTransform, entt::null, entt::null, torusChildTransformChildTransform);
+        World.GetBuffer().AddComponent<entity::InfoComponent>(torusChildTransformChildHierarchy, "1-2");
 
-        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildHierarchy, torusChildHierarchy, torus, torusChildHierarchyChildHierarchy, entt::null, torusChildTransform);
-        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildHierarchy, "2");
+        World.GetBuffer().AddComponent<component::HierarchyComponent>(torusChildHierarchy, torusChildHierarchy, torus, torusChildHierarchyChildHierarchy, entt::null, torusChildTransform);
+        World.GetBuffer().AddComponent<entity::InfoComponent>(torusChildHierarchy, "2");
 
-        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildHierarchyChildHierarchy, torusChildHierarchyChildHierarchy, torusChildHierarchy, torusChildHierarchyTransformHierarchy, entt::null, entt::null);
-        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildHierarchyChildHierarchy, "2-1");
+        World.GetBuffer().AddComponent<component::HierarchyComponent>(torusChildHierarchyChildHierarchy, torusChildHierarchyChildHierarchy, torusChildHierarchy, torusChildHierarchyTransformHierarchy, entt::null, entt::null);
+        World.GetBuffer().AddComponent<entity::InfoComponent>(torusChildHierarchyChildHierarchy, "2-1");
 
-        RegistryBuffer.AddComponent<component::HierarchyComponent>(torusChildHierarchyTransformHierarchy, torusChildHierarchyTransformHierarchy, torusChildHierarchyChildHierarchy, entt::null, entt::null, entt::null);
-        RegistryBuffer.AddComponent<entity::InfoComponent>(torusChildHierarchyTransformHierarchy, "2-1-1 (transform)");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+        World.GetBuffer().AddComponent<component::HierarchyComponent>(torusChildHierarchyTransformHierarchy, torusChildHierarchyTransformHierarchy, torusChildHierarchyChildHierarchy, entt::null, entt::null, entt::null);
+        World.GetBuffer().AddComponent<entity::InfoComponent>(torusChildHierarchyTransformHierarchy, "2-1-1 (transform)");
+        World.GetBuffer().AddComponent<entity::Transform3DComponent>(
             torusChildHierarchyTransformHierarchy,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
             Vector3{5, 5, 5},
@@ -186,10 +195,10 @@ struct SceneMultiThread::Internal {
         );
 
         for(int i = 0 ; i < 10; i++){
-            const auto cubeTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<component::HierarchyComponent>(cubeTest, cubeTest, entt::null, entt::null, entt::null, entt::null);
-            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeTest, "Cube (" + std::to_string(i) + ")");
-            RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            const auto cubeTest = World.GetBuffer().AddEntity();
+            World.GetBuffer().AddComponent<component::HierarchyComponent>(cubeTest, cubeTest, entt::null, entt::null, entt::null, entt::null);
+            World.GetBuffer().AddComponent<entity::InfoComponent>(cubeTest, "Cube (" + std::to_string(i) + ")");
+            World.GetBuffer().AddComponent<entity::Transform3DComponent>(
                     cubeTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
                     Vector3{0.0f, 5.0f + i * 3, 2},
@@ -197,7 +206,7 @@ struct SceneMultiThread::Internal {
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
-            RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
+            World.GetBuffer().AddComponent<entity::MeshRenderComponent>(
                     cubeTest,
                     assets::ShaderPipelineType::Default,
                     new MeowEngine::StaticMeshInstance{
@@ -206,20 +215,20 @@ struct SceneMultiThread::Internal {
                     }
             );
             MeowEngine::entity::BoxColliderShape colliderData {Vector3(1, 1, 1)};
-            RegistryBuffer.AddComponent<entity::ColliderComponent>(
+            World.GetBuffer().AddComponent<entity::ColliderComponent>(
                     cubeTest,
                     colliderData
             );
-            RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
+            World.GetBuffer().AddComponent<entity::RigidbodyComponent>(
                     cubeTest
             );
         }
 
         for(int i = 0 ; i < 10; i++){
-            const auto sphereTest = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<component::HierarchyComponent>(sphereTest, sphereTest, entt::null, entt::null, entt::null, entt::null);
-            RegistryBuffer.AddComponent<entity::InfoComponent>(sphereTest, "Sphere (" + std::to_string(i) + ")");
-            RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            const auto sphereTest = World.GetBuffer().AddEntity();
+            World.GetBuffer().AddComponent<component::HierarchyComponent>(sphereTest, sphereTest, entt::null, entt::null, entt::null, entt::null);
+            World.GetBuffer().AddComponent<entity::InfoComponent>(sphereTest, "Sphere (" + std::to_string(i) + ")");
+            World.GetBuffer().AddComponent<entity::Transform3DComponent>(
                     sphereTest,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
                     Vector3{0.0f, 20.0f + i * 3, 2},
@@ -227,7 +236,7 @@ struct SceneMultiThread::Internal {
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
-            RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
+            World.GetBuffer().AddComponent<entity::MeshRenderComponent>(
                     sphereTest,
                     assets::ShaderPipelineType::Default,
                     new MeowEngine::StaticMeshInstance{
@@ -237,18 +246,18 @@ struct SceneMultiThread::Internal {
             );
 
             MeowEngine::entity::SphereColliderShape colliderData {0.5f};
-            RegistryBuffer.AddComponent<entity::ColliderComponent>(
+            World.GetBuffer().AddComponent<entity::ColliderComponent>(
                     sphereTest,
                     colliderData
             );
-            RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
+            World.GetBuffer().AddComponent<entity::RigidbodyComponent>(
                     sphereTest
             );
         }
 
-        const auto cameraEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::InfoComponent>(cameraEntity, "Camera");
-        RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+        const auto cameraEntity = World.GetBuffer().AddEntity();
+        World.GetBuffer().AddComponent<entity::InfoComponent>(cameraEntity, "Camera");
+        World.GetBuffer().AddComponent<entity::Transform3DComponent>(
             cameraEntity,
             Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
             Vector3{0, 0, 0},
@@ -256,27 +265,27 @@ struct SceneMultiThread::Internal {
             glm::vec3{0.0f, 1.0f, 0.0f},
             0.0f
         );
-        RegistryBuffer.AddComponent<entity::CameraComponent>(
+        World.GetBuffer().AddComponent<entity::CameraComponent>(
             cameraEntity
         );
 
-        const auto transformHandleEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::InfoComponent>(transformHandleEntity, "Transform Handle");
-        RegistryBuffer.AddComponent<entity::TransformHandleComponent>(
+        const auto transformHandleEntity = World.GetBuffer().AddEntity();
+        World.GetBuffer().AddComponent<entity::InfoComponent>(transformHandleEntity, "Transform Handle");
+        World.GetBuffer().AddComponent<entity::TransformHandleComponent>(
             transformHandleEntity,
             assets::ShaderPipelineType::TRANSFORM_HANDLE
         );
 
-        const auto gridEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::InfoComponent>(gridEntity, "Grid");
-        RegistryBuffer.AddComponent<component::GridComponent>(
+        const auto gridEntity = World.GetBuffer().AddEntity();
+        World.GetBuffer().AddComponent<entity::InfoComponent>(gridEntity, "Grid");
+        World.GetBuffer().AddComponent<component::GridComponent>(
             gridEntity,
             assets::ShaderPipelineType::Grid
         );
 
-        const auto skyEntity = RegistryBuffer.AddEntity();
-        RegistryBuffer.AddComponent<entity::InfoComponent>(skyEntity, "Sky Box");
-        RegistryBuffer.AddComponent<entity::SkyBoxComponent>(
+        const auto skyEntity = World.GetBuffer().AddEntity();
+        World.GetBuffer().AddComponent<entity::InfoComponent>(skyEntity, "Sky Box");
+        World.GetBuffer().AddComponent<entity::SkyBoxComponent>(
                 skyEntity,
                 assets::ShaderPipelineType::Sky
         );
@@ -285,7 +294,7 @@ struct SceneMultiThread::Internal {
     }
 
     bool AddRemoveEntitiesOnMainThread() {
-        return RegistryBuffer.ApplyAddRemoveOnCurrentFinal();
+        return World.GetBuffer().ApplyAddRemoveOnCurrentFinal();
     }
 
     void Input(const float& delta, const MeowEngine::input::InputManager& inputManager) {
@@ -298,10 +307,10 @@ struct SceneMultiThread::Internal {
         }
 
         if(inputManager.isMouseDown && (inputManager.mouseState & SDL_BUTTON_RMASK)) {
-            const auto cubeEntity = RegistryBuffer.AddEntity();
-            RegistryBuffer.AddComponent<entity::InfoComponent>(cubeEntity, "Cube");
-            RegistryBuffer.AddComponent<component::HierarchyComponent>(cubeEntity, cubeEntity, entt::null, entt::null, entt::null, entt::null);
-            RegistryBuffer.AddComponent<entity::Transform3DComponent>(
+            const auto cubeEntity = World.GetBuffer().AddEntity();
+            World.GetBuffer().AddComponent<entity::InfoComponent>(cubeEntity, "Cube");
+            World.GetBuffer().AddComponent<component::HierarchyComponent>(cubeEntity, cubeEntity, entt::null, entt::null, entt::null, entt::null);
+            World.GetBuffer().AddComponent<entity::Transform3DComponent>(
                     cubeEntity,
                     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
                     Vector3{0.0f, 20.0f, 2},
@@ -309,7 +318,7 @@ struct SceneMultiThread::Internal {
                     glm::vec3{0.0f, 1.0f, 0.0f},
                     0
             );
-            RegistryBuffer.AddComponent<entity::MeshRenderComponent>(
+            World.GetBuffer().AddComponent<entity::MeshRenderComponent>(
                     cubeEntity,
                     assets::ShaderPipelineType::Default,
                     new MeowEngine::StaticMeshInstance{
@@ -317,11 +326,11 @@ struct SceneMultiThread::Internal {
                             assets::TextureType::Pattern
                     }
             );
-            RegistryBuffer.AddComponent<entity::ColliderComponent>(
+            World.GetBuffer().AddComponent<entity::ColliderComponent>(
                     cubeEntity,
                     entity::BoxColliderShape {}
             );
-            RegistryBuffer.AddComponent<entity::RigidbodyComponent>(
+            World.GetBuffer().AddComponent<entity::RigidbodyComponent>(
                     cubeEntity
             );
         }
@@ -366,7 +375,7 @@ struct SceneMultiThread::Internal {
 
 //        MeowEngine::Log("Camera", std::to_string(Camera.GetPosition().z));
 
-        auto view = RegistryBuffer.GetCurrent().view<entity::Transform3DComponent>();
+        auto view = World.GetBuffer().GetCurrent().view<entity::Transform3DComponent>();
         for(auto entity: view) {
             auto& transform = view.get<entity::Transform3DComponent>(entity);
             transform.Update(deltaTime);
@@ -448,22 +457,22 @@ struct SceneMultiThread::Internal {
 //        for(auto& lifeObject : LifeObjects) {
 //            renderer.Render(&Camera, &lifeObject);
 //        }
-        renderer.RenderGameView(&Camera, RegistryBuffer.GetFinal(), SelectionData);
-        renderer.RenderPhysics(&Camera, RegistryBuffer.GetFinal());
+        renderer.RenderGameView(&Camera, World.GetBuffer().GetFinal(), SelectionData);
+        renderer.RenderPhysics(&Camera, World.GetBuffer().GetFinal());
     }
 
     void RenderUserInterface(MeowEngine::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
-        renderer.RenderUserInterface(RegistryBuffer.GetFinal(), RegistryBuffer.GetPropertyChangeQueue(), SelectionData , frameBufferId, fps);
+        renderer.RenderUserInterface(World.GetBuffer().GetFinal(), World.GetBuffer().GetPropertyChangeQueue(), SelectionData , frameBufferId, fps);
     }
 
     void SwapMainAndRenderBufferOnMainThread() {
-        RegistryBuffer.SwapBuffer();
+        World.GetBuffer().SwapBuffer();
     }
 
     void SyncPhysicsBufferOnMainThread(bool inIsPhysicsThreadWorking) {
-        auto currentView = RegistryBuffer.GetCurrent().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
-        auto stagingView = RegistryBuffer.GetStaging().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
-        auto finalView = RegistryBuffer.GetFinal().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
+        auto currentView = World.GetBuffer().GetCurrent().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
+        auto stagingView = World.GetBuffer().GetStaging().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
+        auto finalView = World.GetBuffer().GetFinal().view<MeowEngine::entity::Transform3DComponent, MeowEngine::entity::RigidbodyComponent>();
 
         // the bool is atomic and results in locking mechanism to make sure sync is done
         // in order to prevent bad memory data reads
@@ -516,8 +525,8 @@ struct SceneMultiThread::Internal {
         // Data will always my permanant with no apply data method
         // Components will always have apply method
         // Sync Transform Component
-        auto currentView = RegistryBuffer.GetCurrent().view<MeowEngine::entity::Transform3DComponent>();
-        auto finalView = RegistryBuffer.GetFinal().view<MeowEngine::entity::Transform3DComponent>();
+        auto currentView = World.GetBuffer().GetCurrent().view<MeowEngine::entity::Transform3DComponent>();
+        auto finalView = World.GetBuffer().GetFinal().view<MeowEngine::entity::Transform3DComponent>();
 
         for(entt::entity entity : currentView) {
             auto current = currentView.get<MeowEngine::entity::Transform3DComponent>(entity);
@@ -534,12 +543,12 @@ struct SceneMultiThread::Internal {
 
         // Apply UI inputs to render and main buffers
         // Push UI inputs for physics buffer (which gets processed in physics thread)
-        RegistryBuffer.ApplyPropertyChange();
+        World.GetBuffer().ApplyPropertyChange();
     }
 
     void SyncPhysicsBufferOnPhysicsThread(MeowEngine::simulator::PhysicsSystem* inPhysics) {
         // Apply update physics transform to entities
-        auto view = RegistryBuffer.GetStaging().view<entity::Transform3DComponent, entity::RigidbodyComponent>();
+        auto view = World.GetBuffer().GetStaging().view<entity::Transform3DComponent, entity::RigidbodyComponent>();
         for(auto entity: view)
         {
             auto& transform = view.get<entity::Transform3DComponent>(entity);
@@ -549,7 +558,7 @@ struct SceneMultiThread::Internal {
         }
 
         // Apply UI inputs to physics components
-        RegistryBuffer.ApplyPropertyChangeOnStaging(inPhysics);
+        World.GetBuffer().ApplyPropertyChangeOnStaging(inPhysics);
     }
 };
 

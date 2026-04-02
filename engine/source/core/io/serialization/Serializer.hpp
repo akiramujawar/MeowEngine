@@ -20,16 +20,17 @@ namespace MeowEngine::Core::IO::Serialization {
         void WriteUInt32(uint32_t value) const;
         void WriteUInt64(uint64_t value) const;
         void WriteFloat(float value) const;
-        void WriteString(const std::string& value) const;
         void WriteBool(bool value) const;
+        void WriteString(const std::string& value) const;
 
-        size_t ReadSize();
-        int ReadInt();
-        uint32_t ReadUInt32();
-        uint64_t ReadUInt64();
-        float ReadFloat();
-        std::string& ReadString();
-        bool ReadBool();
+        [[nodiscard]] size_t ReadSize() const;
+        [[nodiscard]] int ReadInt() const;
+        [[nodiscard]] uint16_t ReadUInt16() const;
+        [[nodiscard]] uint32_t ReadUInt32() const;
+        [[nodiscard]] uint64_t ReadUInt64() const;
+        [[nodiscard]] float ReadFloat() const;
+        [[nodiscard]] bool ReadBool() const;
+        [[nodiscard]] std::string ReadString() const;
 
     private:
         FileSystem::FileStream& Stream;
