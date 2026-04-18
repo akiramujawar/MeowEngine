@@ -6,7 +6,7 @@
 #define MEOWENGINE_WORLDSERIALIZER_HPP
 
 // #include <IO.hpp>
-#include <World.hpp>
+#include <../main/core/World.hpp>
 
 namespace MeowEngine::Core::IO::FileSystem {
     class Path;

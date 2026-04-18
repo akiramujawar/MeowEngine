@@ -6,7 +6,7 @@
 #define MEOWENGINE_OPENGL_RENDER_SYSTEM_HPP
 
 #include "internal_ptr.hpp"
-#include "render_system.hpp"
+#include "RenderSystem.hpp"
 
 #include "opengl_asset_manager.hpp"
 #include "ImguiEditorUISystem.hpp"

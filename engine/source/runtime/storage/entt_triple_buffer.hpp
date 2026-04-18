@@ -11,7 +11,7 @@
 #include "concurrentqueue.h"
 
 #include "reflection_property_change.hpp"
-#include "physics_system.hpp"
+#include "PhysicsSystem.hpp"
 
 #include "entt_buffer_base.hpp"
 

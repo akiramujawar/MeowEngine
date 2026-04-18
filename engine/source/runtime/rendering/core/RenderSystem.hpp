@@ -13,19 +13,19 @@
 #include "reflection_property_change.hpp"
 #include "queue"
 
-namespace MeowEngine {
-    struct RenderSystem {
+namespace MeowEngine::Runtime::System {
+    class RenderSystem {
         virtual void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject,
                                     entt::registry& registry,
-                                    MeowEngine::SelectionData& pSelection) = 0;
+                                    MeowEngine::SelectionData& pSelection) {};
 
         virtual void RenderUserInterface(entt::registry& registry,
                                          std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
                                          MeowEngine::SelectionData& pSelection,
                                          unsigned int frameBufferId,
-                                         const double fps) = 0;
+                                         const double fps) {};
 
-        virtual void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) = 0;
+        virtual void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) {};
     };
 }
 

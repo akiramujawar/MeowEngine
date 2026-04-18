@@ -7,30 +7,36 @@
 
 #include <entt.hpp>
 
+#include "entt_triple_buffer.hpp"
+
 namespace MeowEngine::Runtime {
     struct  World {
     public:
-        World(entt::registry* registry) {
-            Registry = registry;
-        }
+        World() : Buffer() {}
+
         ~World() {}
 
         void AddEntity();
         void AddComponent();
         void RemoveComponent();
 
-        entt::registry& GetRegistry() {
-            return *Registry;
-        }
+        // entt::registry& GetRegistry() {
+        //     return *Registry;
+        // }
+        //
+        // [[nodiscard]]
+        // const entt::registry& GetRegistry() const {
+        //     return *Registry;
+        // }
 
-        [[nodiscard]]
-        const entt::registry& GetRegistry() const {
-            return *Registry;
+        EnttTripleBuffer& GetBuffer() {
+            return Buffer;
         }
 
     private:
         // TODO: this is temporary until serialization & it's implementation is achieved for dynamic worlds
-        entt::registry* Registry;
+        // entt::registry* Registry;
+        EnttTripleBuffer Buffer;
     };
 }
 

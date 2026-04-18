@@ -8,8 +8,8 @@
 #include "scene.hpp"
 #include "asset_manager.hpp"
 #include "input_manager.hpp"
-#include "render_system.hpp"
-#include "physics_system.hpp"
+#include "RenderSystem.hpp"
+#include "PhysicsSystem.hpp"
 
 #include "Math.hpp"
 

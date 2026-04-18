@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 11/03/26.
 //
 
-#include "WorldSerializer.hpp"
+#include "../../world/WorldSerializer.hpp"
 
 // #include "hierarchy_component.hpp"
 #include "info_component.hpp"
@@ -97,8 +97,18 @@ namespace {
 
                     break;
                 }
-                case MeowEngine::POINTER: {}
-                case MeowEngine::ENUM: {}
+                case MeowEngine::POINTER: {
+
+                }
+                case MeowEngine::ENUM: {
+                    auto data = property.Get(instance);
+                    // MeowEngine::Object* dataObject = static_cast<MeowEngine::Object*>(data);
+                    std::string name = property.Name;
+                    int value = *static_cast<int*>(data);
+
+                    serializer.WriteString(name);
+                    serializer.WriteInt(value);
+                }
                 case MeowEngine::ARRAY: {}
                 case MeowEngine::NOT_DEFINED: {}
             }
@@ -194,15 +204,25 @@ namespace MeowEngine::Runtime {
         FileSystem::FileStream stream;
         stream.Open(worldPath, FileSystem::FileMode::READ);
 
+        Serialization::Serializer serializer {stream};
+
         size_t entityCount;
-        stream.Read(&entityCount, sizeof(size_t));
+        entityCount = serializer.ReadSize();
+        // stream.Read(&entityCount, sizeof(size_t));
+        MeowEngine::Log("Deserialize", (int)entityCount);
 
         for (auto i = 0; i < entityCount; i++) {
-            auto entity = registry.create();
-            uint32_t guid;
-            stream.Read(&guid, sizeof(uint32_t));
+            auto entity = world.GetBuffer().AddEntity();
+            world.GetBuffer().AddComponent<IdentityComponent>(entity);
+            // add component - multithread
+            // set data for a component - multithread
+            // through component->method->(dyanmic args)
 
-            AddComponentMap["IdentityComponent"](registry, entity);
+            // auto entity = registry.create();
+            // uint32_t guid;
+            // stream.Read(&guid, sizeof(uint32_t));
+
+            // AddComponentMap["IdentityComponent"](registry, entity);
 
             // first read counts of entity
             // read the guid's and assign for that count
