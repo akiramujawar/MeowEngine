@@ -15,7 +15,8 @@
 - [ ] Creating support for multi-scene compilation
 - [x] Simple tool for importing files like textures/meshes
 - [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
-- [ ] Implement Tracy throughout engine especially for tracking memory allocations
+- [ ] Implement Tracy throughout engine for performance profiling
+- [ ] For memory error detector: valgrind / address sanitizer
 - [x] Create Unique ID generator for items
 - [ ] Documenting done items and different approaches and used libraries
 - [x] Hierarchy for entities

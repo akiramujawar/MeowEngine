@@ -2,10 +2,19 @@
 // Created by Akira Mujawar on 06/07/22.
 //
 
-#ifndef VULKAN_ENGINE_ENGINE_HPP
-#define VULKAN_ENGINE_ENGINE_HPP
+#ifndef MEOWENGINE_ENGINE_ENGINE_HPP
+#define MEOWENGINE_ENGINE_ENGINE_HPP
 
 #pragma once
+
+#include <Threading.hpp>
+#include <Timing.hpp>
+
+#include <IExecutor.hpp>
+
+#include <MainSystem.hpp>
+#include <RenderSystem.hpp>
+#include <PhysicsSystem.hpp>
 
 #include <Project.hpp>
 #include <AssetManager.hpp>
@@ -14,34 +23,60 @@ using namespace std;
 
 namespace MeowEngine {
     struct Engine {
-        Engine() {
-            AppInstance = this;
-        };
-
-        virtual ~Engine() = default;
-
-        virtual void CreateApplication() = 0;
-
-        Runtime::Asset::AssetManager& GetAssetManager() {
-            return AssetManager;
-        }
-
-        Runtime::Project& GetProject() {
-            return Project;
+    public:
+        static Engine& Get() {
+            return *AppInstance;
         }
 
     private:
         inline static Engine* AppInstance;
 
+    public:
+        Engine();
+        virtual ~Engine();
+
+        /**
+         * remove
+         */
+        virtual void CreateApplication() {};
+
+        void Run();
+
+        /**
+         * Returns stack instance of asset manager
+         * @return
+         */
+        Runtime::Asset::AssetManager& GetAssetManager() {
+            return AssetManager;
+        }
+
+        /**
+         * Returns stack instance of project (which includes asset registry, settings)
+         * @return
+         */
+        Runtime::Project& GetProject() {
+            return Project;
+        }
+
+    private:
+        // threading
+        Threading::Scheduler Scheduler;
+        Threading::JobSystem JobSystem;
+        Core::Timing Timing;
+
+        // execution logic for single/multi thread
+        std::unique_ptr<Application::IExecutor> Executor;
+
+        // essentials
         Runtime::Project Project;
         Runtime::Asset::AssetManager AssetManager;
 
-    public:
-        static Engine& Get() {
-            return *AppInstance;
-        }
+        // systems
+        Runtime::Systems::MainSystem MainSystem;
+        Runtime::Systems::PhysicsSystem PhysicsSystem;
+        Runtime::Systems::RenderSystem RenderSystem;
     };
 } // namespace MeowEngine
 
 
-#endif //VULKAN_ENGINE_ENGINE_HPP
+#endif //MEOWENGINE_ENGINE_ENGINE_HPP

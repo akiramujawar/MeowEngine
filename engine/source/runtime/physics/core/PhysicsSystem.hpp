@@ -7,8 +7,25 @@
 
 #include "entt.hpp"
 
-namespace MeowEngine::Runtime::System {
+#include <double_buffer.hpp>
+
+#include <PhysicsWorld.hpp>
+#include <PhysicsResult.hpp>
+
+
+namespace MeowEngine::Runtime::Systems {
+    /**
+     * Reads from main system physics snapshot
+     * Prepares physics results (to be utilised by main system)
+     * Emits events like collisions
+     */
     struct PhysicsSystem {
+        PhysicsWorld World;
+        DoubleBuffer<PhysicsResult> Result;
+
+        void Step();
+
+
         virtual void Create() {};
         virtual void Update(float inFixedDeltaTime) {};
 

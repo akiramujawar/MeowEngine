@@ -6,7 +6,21 @@
 #define MEOWENGINE_TIMING_HPP
 
 namespace MeowEngine::Core {
-    class Timing {};
+    class Timing {
+    public:
+        Timing();
+
+        void Update();
+
+        float GetDeltaTime();
+        float GetFixedDeltaTime();
+        double GetFrameRate();
+
+        int GetPhysicsSteps();
+
+    private:
+        float Accumulator;
+    };
 }
 
 

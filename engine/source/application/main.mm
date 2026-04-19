@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 05/07/22.
 //
 
-#include "Application.hpp"
+#include <Engine.hpp>
 
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
@@ -10,9 +10,8 @@
 
 #import <log.hpp>
 
-int main(int, char* []) {
-
-#ifdef __APPLE__
+void SetApplicationIcon() {
+    #ifdef __APPLE__
     @autoreleasepool {
         NSApplication *app = [NSApplication sharedApplication];
 
@@ -28,10 +27,11 @@ int main(int, char* []) {
         [app finishLaunching];
     }
 #endif
+}
 
-    MeowEngine::Log("Main", "Starting Engine");
-    MeowEngine::Application().Run();
-    
-    //WriteMeowAsset("project/source/Texture.meow", GetMetadata(), ReadTexture());
+int main(int, char* []) {
+    SetApplicationIcon();
+    MeowEngine::Engine();
+
     return 0;
 }

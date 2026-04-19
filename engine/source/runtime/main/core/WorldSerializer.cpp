@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 11/03/26.
 //
 
-#include "../../world/WorldSerializer.hpp"
+#include <WorldSerializer.hpp>
 
 // #include "hierarchy_component.hpp"
 #include "info_component.hpp"

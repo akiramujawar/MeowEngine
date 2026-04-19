@@ -5,8 +5,12 @@
 #ifndef MEOWENGINE_JOB_HPP
 #define MEOWENGINE_JOB_HPP
 
+#include <functional>
+
 namespace MeowEngine::Core::Threading {
-    class Job {};
+    struct Job {
+        std::function<void()> Task;
+    };
 }
 
 

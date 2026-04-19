@@ -13,8 +13,16 @@
 #include "reflection_property_change.hpp"
 #include "queue"
 
-namespace MeowEngine::Runtime::System {
-    class RenderSystem {
+namespace MeowEngine::Runtime::Systems {
+    /**
+     * Reads & Renders render snapshot from main system
+     * Emits events like input, debug, ui interactions
+     */
+    struct RenderSystem {
+    private:
+        void Render();
+
+    public:
         virtual void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject,
                                     entt::registry& registry,
                                     MeowEngine::SelectionData& pSelection) {};

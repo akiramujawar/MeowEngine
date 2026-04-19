@@ -7,8 +7,11 @@
 
 #include <IExecutor.hpp>
 
-namespace MeowEngine {
-    class SingleThreadExecutor : public IExecutor {};
+namespace MeowEngine::Application {
+    class SingleThreadExecutor : public IExecutor {
+    public:
+        void Execute(Scheduler& scheduler) override;
+    };
 }
 
 

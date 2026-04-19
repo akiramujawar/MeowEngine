@@ -2,7 +2,43 @@
 // Created by Akira Mujawar on 06/07/22.
 //
 
-#include "Engine.hpp"
+#include <Engine.hpp>
+
+#include <MultiThreadExecutor.hpp>
+#include <SingleThreadExecutor.hpp>
+
+namespace MeowEngine {
+    Engine::Engine() {
+        MeowEngine::Log("Engine", "Initializing Engine...");
+
+        AppInstance = this;
+
+        try {
+#ifdef __MULTI_THREAD__
+            MeowEngine::Log("Engine", "Creating MultiThread Engine...");
+            Executor = std::make_unique<Application::MultiThreadExecutor>(JobSystem);
+#else
+            MeowEngine::Log("Engine", "Creating SingleThread Engine...");
+            Executor = std::make_unique<Application::SingleThreadExecutor>();
+#endif
+        }
+        catch (std::exception& exception) {
+            MeowEngine::Log("Engine", "Application failed to initialized", exception);
+        }
+    }
+
+    Engine::~Engine() {
+
+    }
+
+    void Engine::Run() {
+        // while running
+        // - update time
+        // - scheduler build graph using time
+        // - executor exectue using scheduler
+    }
+}
+
 
 //
 //using MeowEngine::Application;

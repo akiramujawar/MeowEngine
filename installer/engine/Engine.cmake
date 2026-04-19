@@ -161,8 +161,8 @@ add_executable(
     ${MAIN_SOURCE_DIR}/application/main.mm
 )
 
-target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
-target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
+#target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
+#target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
 
 #target_link_libraries(MeowEngine PRIVATE nfd)
 

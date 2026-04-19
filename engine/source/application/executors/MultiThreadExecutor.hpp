@@ -6,9 +6,26 @@
 #define MEOWENGINE_MULTITHREADEXECUTOR_HPP
 
 #include <IExecutor.hpp>
+#include <Threading.hpp>
 
-namespace MeowEngine {
-    class MultiThreadExecutor : public IExecutor {};
+#include <MainThread.hpp>
+#include <RenderThread.hpp>
+#include <PhysicsThread.hpp>
+
+namespace MeowEngine::Application {
+    class MultiThreadExecutor : public IExecutor {
+    public:
+        explicit MultiThreadExecutor(Threading::JobSystem& jobSystem);
+
+        void Execute(Scheduler& scheduler) override;
+
+    private:
+        JobSystem& JobSystem;
+
+        MainThread MainThread;
+        RenderThread RenderThread;
+        PhysicsThread PhysicsThread;
+    };
 }
 
 

@@ -5,8 +5,14 @@
 #ifndef MEOWENGINE_IEXECUTOR_HPP
 #define MEOWENGINE_IEXECUTOR_HPP
 
-namespace MeowEngine {
-    class IExecutor {};
+#include <Threading.hpp>
+
+namespace MeowEngine::Application {
+    class IExecutor {
+    public:
+        virtual void Execute(Scheduler& scheduler) = 0;
+        virtual ~IExecutor() = default;
+    };
 }
 
 

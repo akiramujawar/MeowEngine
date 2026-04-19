@@ -5,9 +5,27 @@
 #ifndef MEOWENGINE_MAINSYSTEM_HPP
 #define MEOWENGINE_MAINSYSTEM_HPP
 
-namespace MeowEngine::Runtime::System {
+#include <double_buffer.hpp>
 
-    class MainSystem {};
+#include <PhysicsSnapshot.hpp>
+#include <RenderSnapshot.hpp>
+#include <World.hpp>
+
+namespace MeowEngine::Runtime::Systems {
+    /**
+     * Reads physics snapshot from physics system & applies to World
+     * Prepares render & physics snapshot (to be utilised by respective systems)
+     * Emits commands if required for physics / render systems
+     */
+    struct MainSystem {
+        DoubleBuffer<RenderSnapshot> RenderSnapshot;
+        DoubleBuffer<PhysicsSnapshot> PhysicsSnapshot;
+
+        World World;
+
+    private:
+        void Update();
+    };
 
 }
 
