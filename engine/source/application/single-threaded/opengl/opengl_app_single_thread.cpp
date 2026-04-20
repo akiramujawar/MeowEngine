@@ -5,7 +5,7 @@
 #include "opengl_app_single_thread.hpp"
 
 #include "OpenGLAPI.hpp"
-#include "SDLEngineWindow.hpp"
+#include "SDL_EngineWindow.hpp"
 #include "log.hpp"
 
 #include "opengl_render_system.hpp"
@@ -94,18 +94,18 @@ namespace {
         return MeowEngine::OpenGLRenderSystem(assetManager, pUISystem);
     }
 
-    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::SDLEngineWindow& pWindow) {
+    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::SDL_EngineWindow& pWindow) {
         return std::make_shared<MeowEngine::Runtime::ImGuiUISystem>(pWindow);
     }
 
-    std::shared_ptr<MeowEngine::simulator::PhysicsSystem> CreatePhysics() {
+    std::shared_ptr<MeowEngine::Runtime::Systems::PhysicsSystem> CreatePhysics() {
         return std::make_shared<MeowEngine::simulator::PhysXPhysicsSystem>();
     }
 
 } // namespace
 
 struct OpenGLAppSingleThread::Internal {
-    SDLEngineWindow Window;
+    SDL_EngineWindow Window;
     std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> UI;
     MeowEngine::graphics::OpenGLFrameBuffer FrameBuffer;
     MeowEngine::input::InputManager InputManager;
@@ -113,7 +113,7 @@ struct OpenGLAppSingleThread::Internal {
     const std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;
     MeowEngine::OpenGLRenderSystem Renderer;
 //    std::unique_ptr<MeowEngine::Scene> Scene;
-    std::shared_ptr<MeowEngine::simulator::PhysicsSystem> Physics;
+    std::shared_ptr<MeowEngine::Runtime::Systems::PhysicsSystem> Physics;
 
     Internal() : Window() ,
                  AssetManager(::CreateAssetManager()),

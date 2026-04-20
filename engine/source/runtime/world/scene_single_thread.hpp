@@ -26,12 +26,12 @@ namespace MeowEngine {
 
         void OnWindowResized(const Vector2Int& size);
         void LoadOnRenderSystem(std::shared_ptr<MeowEngine::AssetManager> assetManager);
-        void CreateSceneOnMainSystem(MeowEngine::simulator::PhysicsSystem* inPhysics);
+        void CreateSceneOnMainSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics);
 
         void Input(const float& deltaTime, const MeowEngine::input::InputManager& inputManager);
         void Update(const float& deltaTime);
-        void RenderGameView(MeowEngine::RenderSystem& renderer);
-        void RenderUserInterface(MeowEngine::RenderSystem& renderer, unsigned int frameBufferId, const double fps);
+        void RenderGameView(MeowEngine::Runtime::Systems::RenderSystem& renderer);
+        void RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem& renderer, unsigned int frameBufferId, const double fps);
 
         /**
         * Sync updates from rigidbody to transform component & apply UI inputs to staging(physics) buffer

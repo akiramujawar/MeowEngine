@@ -4,7 +4,7 @@
 
 #include "SDL_NativeFileDialog.hpp"
 
-#include "SDLAPI.hpp"
+#include "SDL_API.hpp"
 #include "NFD_API.hpp"
 
 #include "log.hpp"

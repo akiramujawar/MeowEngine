@@ -6,7 +6,7 @@
 #define MEOWENGINE_FPS_COUNTER_HPP
 
 #include "vector"
-#include "SDLAPI.hpp"
+#include "SDL_API.hpp"
 #include "log.hpp"
 
 namespace MeowEngine {

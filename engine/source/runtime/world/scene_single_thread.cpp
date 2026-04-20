@@ -97,7 +97,7 @@ namespace MeowEngine {
         }
 
 
-        void Create(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+        void Create(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
             auto entity = RegistryBuffer.AddEntity();
             RegistryBuffer.AddComponent<entity::InfoComponent>(entity, "torus");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
@@ -316,11 +316,11 @@ namespace MeowEngine {
 
         }
 
-        void RenderGameView(MeowEngine::RenderSystem& renderer) {
+        void RenderGameView(MeowEngine::Runtime::Systems::RenderSystem& renderer) {
             renderer.RenderGameView(&Camera, RegistryBuffer.GetCurrent(), SelectionData);
         }
 
-        void RenderUserInterface(MeowEngine::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
+        void RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
             renderer.RenderUserInterface(RegistryBuffer.GetCurrent(), RegistryBuffer.GetPropertyChangeQueue(), SelectionData, frameBufferId, fps);
         }
 
@@ -352,7 +352,7 @@ namespace MeowEngine {
     void SceneSingleThread::LoadOnRenderSystem(std::shared_ptr<MeowEngine::AssetManager> assetManager) {
         InternalPointer->Load(assetManager);
     }
-    void SceneSingleThread::CreateSceneOnMainSystem(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+    void SceneSingleThread::CreateSceneOnMainSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
         InternalPointer->Create(inPhysics);
     }
 
@@ -364,11 +364,11 @@ namespace MeowEngine {
         InternalPointer->Update(deltaTime);
     }
 
-    void SceneSingleThread::RenderGameView(MeowEngine::RenderSystem &renderer) {
+    void SceneSingleThread::RenderGameView(MeowEngine::Runtime::Systems::RenderSystem &renderer) {
         InternalPointer->RenderGameView(renderer);
     }
 
-    void SceneSingleThread::RenderUserInterface(MeowEngine::RenderSystem &renderer, unsigned int frameBufferId, const double fps) {
+    void SceneSingleThread::RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem &renderer, unsigned int frameBufferId, const double fps) {
         InternalPointer->RenderUserInterface(renderer, frameBufferId, fps);
     }
 

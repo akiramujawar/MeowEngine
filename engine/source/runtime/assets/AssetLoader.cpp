@@ -5,7 +5,7 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 
 #include "AssetLoader.hpp"
-#include "SDLAPI.hpp"
+#include "SDL_API.hpp"
 #include "vertex.hpp"
 //#include "sstream"
 #include "tiny_obj_loader.h"

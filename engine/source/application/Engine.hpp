@@ -12,6 +12,10 @@
 
 #include <IExecutor.hpp>
 
+#include <CommandQueue.hpp>
+#include <EventBus.hpp>
+#include <RequestQueue.hpp>
+
 #include <MainSystem.hpp>
 #include <RenderSystem.hpp>
 #include <PhysicsSystem.hpp>
@@ -36,7 +40,7 @@ namespace MeowEngine {
         virtual ~Engine();
 
         /**
-         * remove
+         * TODO: remove
          */
         virtual void CreateApplication() {};
 
@@ -70,6 +74,11 @@ namespace MeowEngine {
         // essentials
         Runtime::Project Project;
         Runtime::Asset::AssetManager AssetManager;
+
+        // messaging
+        Runtime::Messaging::CommandQueue CommandQueue;
+        Runtime::Messaging::EventBus EventBus;
+        Runtime::Messaging::RequestQueue RequestQueue;
 
         // systems
         Runtime::Systems::MainSystem MainSystem;

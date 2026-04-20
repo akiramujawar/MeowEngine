@@ -41,7 +41,7 @@ void MeowEngine::EnttTripleBuffer::RemoveEntity(const entt::entity &inEntity) {
     EntityToRemoveOnMainRenderQueue.push(inEntity);
 }
 
-bool MeowEngine::EnttTripleBuffer::ApplyAddRemoveOnStaging(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+bool MeowEngine::EnttTripleBuffer::ApplyAddRemoveOnStaging(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
     bool isEntityOrComponentChanged = false;
 
     // If we have anything to dequeue from concurrent queue, we replicate and add in staging buffer
@@ -54,7 +54,7 @@ bool MeowEngine::EnttTripleBuffer::ApplyAddRemoveOnStaging(MeowEngine::simulator
 
     // Adds components with dynamic data parameter passed down from main thread
     // Add / Remove components from staging (physics) buffer - from physics thread
-    std::function<void(MeowEngine::simulator::PhysicsSystem*)> method;
+    std::function<void(MeowEngine::Runtime::Systems::PhysicsSystem*)> method;
     while(ComponentToAddOnStagingQueue.try_dequeue(method)) {
         isEntityOrComponentChanged = true;
         method(inPhysics);
@@ -115,7 +115,7 @@ void MeowEngine::EnttTripleBuffer::ApplyPropertyChange() {
     }
 }
 
-void MeowEngine::EnttTripleBuffer::ApplyPropertyChangeOnStaging(MeowEngine::simulator::PhysicsSystem* pPhysics) {
+void MeowEngine::EnttTripleBuffer::ApplyPropertyChangeOnStaging(MeowEngine::Runtime::Systems::PhysicsSystem* pPhysics) {
     // Apply UI inputs to physics components
     std::shared_ptr<MeowEngine::ReflectionPropertyChange> change;
     while(PhysicsUiInputPropertyChangesQueue.try_dequeue(change)) {

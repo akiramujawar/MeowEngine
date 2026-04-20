@@ -14,7 +14,7 @@
 #include <memory>
 
 namespace MeowEngine {
-    struct OpenGLRenderSystem : public MeowEngine::RenderSystem {
+    struct OpenGLRenderSystem : public MeowEngine::Runtime::Systems::RenderSystem {
         OpenGLRenderSystem(const std::shared_ptr<MeowEngine::OpenGLAssetManager>& assetManager,
                            const std::shared_ptr<Runtime::ImGuiUISystem>& uiRenderer);
 

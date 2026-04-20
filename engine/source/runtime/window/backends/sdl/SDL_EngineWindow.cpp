@@ -1,7 +1,7 @@
 //
 // Created by Akira Mujawar on 22/10/24.
 //
-#include "SDLEngineWindow.hpp"
+#include "SDL_EngineWindow.hpp"
 
 #include "OpenGLAPI.hpp"
 
@@ -10,11 +10,11 @@
 
 namespace MeowEngine {
 
-    SDLEngineWindow::SDLEngineWindow()
+    SDL_EngineWindow::SDL_EngineWindow()
         : window(CreateWindow(SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI)),
           context(CreateContext()) {}
 
-    SDLEngineWindow::~SDLEngineWindow() {
+    SDL_EngineWindow::~SDL_EngineWindow() {
         MeowEngine::Log("Window", "Destroyed");
         
         Runtime::Window::SDL_NativeFileDialog::Quit();
@@ -25,11 +25,11 @@ namespace MeowEngine {
         SDL_Quit();
     }
 
-    void SDLEngineWindow::SwapWindow() const {
+    void SDL_EngineWindow::SwapWindow() const {
         SDL_GL_SwapWindow(window);
     }
 
-    Vector2Int SDLEngineWindow::GetWindowSize() {
+    Vector2Int SDL_EngineWindow::GetWindowSize() {
         uint32_t displayWidth{0};
         uint32_t displayHeight{0};
 
@@ -59,23 +59,23 @@ namespace MeowEngine {
 #endif
     }
 
-    void SDLEngineWindow::ClearContext() const {
+    void SDL_EngineWindow::ClearContext() const {
         SDL_GL_MakeCurrent(window, nullptr);
     }
 
-    void SDLEngineWindow::MakeCurrent() const {
+    void SDL_EngineWindow::MakeCurrent() const {
         SDL_GL_MakeCurrent(window, context);
     }
 
-    SDL_Window* SDLEngineWindow::GetWindow() const {
+    SDL_Window* SDL_EngineWindow::GetWindow() const {
         return window;
     }
 
-    SDL_GLContext SDLEngineWindow::GetContext() const {
+    SDL_GLContext SDL_EngineWindow::GetContext() const {
         return context;
     }
 
-    SDL_Window* SDLEngineWindow::CreateWindow(const uint32_t& windowFlags){
+    SDL_Window* SDL_EngineWindow::CreateWindow(const uint32_t& windowFlags){
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
             throw std::runtime_error("Main Thread:: Could not initialize SDL2_image");
         }
@@ -132,7 +132,7 @@ namespace MeowEngine {
         return window;
     }
 
-    SDL_GLContext SDLEngineWindow::CreateContext() {
+    SDL_GLContext SDL_EngineWindow::CreateContext() {
         static const std::string logTag("MeowEngine::OpenGLApplication::CreateContext");
 
         SDL_GLContext context {SDL_GL_CreateContext(window)};
@@ -163,7 +163,7 @@ namespace MeowEngine {
         return context;
     }
 
-    bool SDLEngineWindow::ShouldDisplayFullScreen() {
+    bool SDL_EngineWindow::ShouldDisplayFullScreen() {
         switch (MeowEngine::GetCurrentPlatform()) {
             case MeowEngine::Platform::ios:
                 return true;
@@ -178,7 +178,7 @@ namespace MeowEngine {
         }
     }
 
-    Vector2Int SDLEngineWindow::GetInitialWindowSize() {
+    Vector2Int SDL_EngineWindow::GetInitialWindowSize() {
 #ifdef __EMSCRIPTEN__
         return GetWindowSize();
 #else

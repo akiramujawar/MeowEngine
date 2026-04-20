@@ -51,7 +51,7 @@ namespace {
 
 namespace MeowEngine::Runtime {
 
-    ImGuiUISystem::ImGuiUISystem(const SDLEngineWindow& pWindow)
+    ImGuiUISystem::ImGuiUISystem(const SDL_EngineWindow& pWindow)
         : WorldInspectorPanel()
         , WorldTreePanel()
         , WorldViewPanel()

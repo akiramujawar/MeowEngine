@@ -41,7 +41,7 @@ namespace MeowEngine {
 
         std::thread PhysicsThread;
 
-        std::shared_ptr<MeowEngine::simulator::PhysicsSystem> Physics;
+        std::shared_ptr<MeowEngine::Runtime::Systems::PhysicsSystem> Physics;
         std::unique_ptr<MeowEngine::FrameRateCounter> FrameRateCounter;
 
         MeowEngine::SharedThreadState& SharedState;

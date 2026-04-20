@@ -106,7 +106,7 @@ struct SceneMultiThread::Internal {
 #endif
     }
 
-    bool AddEntitiesOnPhysicsThread(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+    bool AddEntitiesOnPhysicsThread(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
         return World.GetBuffer().ApplyAddRemoveOnStaging(inPhysics);
     }
 
@@ -450,7 +450,7 @@ struct SceneMultiThread::Internal {
 //        }
     }
 
-    void RenderGameView(MeowEngine::RenderSystem& renderer) {
+    void RenderGameView(MeowEngine::Runtime::Systems::RenderSystem& renderer) {
         // This is important for now - we can come to this later for optimization
         // Current goal is to have full control on render as individual objects
         // as we will have elements like UI, Static Meshes, Post Processing, Camera Culling, Editor Tools
@@ -461,7 +461,7 @@ struct SceneMultiThread::Internal {
         renderer.RenderPhysics(&Camera, World.GetBuffer().GetFinal());
     }
 
-    void RenderUserInterface(MeowEngine::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
+    void RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
         renderer.RenderUserInterface(World.GetBuffer().GetFinal(), World.GetBuffer().GetPropertyChangeQueue(), SelectionData , frameBufferId, fps);
     }
 
@@ -546,7 +546,7 @@ struct SceneMultiThread::Internal {
         World.GetBuffer().ApplyPropertyChange();
     }
 
-    void SyncPhysicsBufferOnPhysicsThread(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+    void SyncPhysicsBufferOnPhysicsThread(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
         // Apply update physics transform to entities
         auto view = World.GetBuffer().GetStaging().view<entity::Transform3DComponent, entity::RigidbodyComponent>();
         for(auto entity: view)
@@ -580,7 +580,7 @@ bool SceneMultiThread::AddRemoveEntitiesOnMainThread() {
     return InternalPointer->AddRemoveEntitiesOnMainThread();
 }
 
-bool SceneMultiThread::AddEntitiesOnPhysicsSystem(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+bool SceneMultiThread::AddEntitiesOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
     return InternalPointer->AddEntitiesOnPhysicsThread(inPhysics);
 }
 
@@ -592,11 +592,11 @@ void SceneMultiThread::Update(const float &deltaTime) {
     InternalPointer->Update(deltaTime);
 }
 
-void SceneMultiThread::RenderGameView(MeowEngine::RenderSystem &renderer) {
+void SceneMultiThread::RenderGameView(MeowEngine::Runtime::Systems::RenderSystem &renderer) {
     InternalPointer->RenderGameView(renderer);
 }
 
-void SceneMultiThread::RenderUserInterface(MeowEngine::RenderSystem &renderer, unsigned int frameBufferId, const double fps) {
+void SceneMultiThread::RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem &renderer, unsigned int frameBufferId, const double fps) {
     InternalPointer->RenderUserInterface(renderer, frameBufferId, fps);
 }
 
@@ -612,7 +612,7 @@ void SceneMultiThread::SyncRenderBufferOnMainThread() {
     InternalPointer->SyncRenderBufferOnMainThread();
 }
 
-void SceneMultiThread::SyncPhysicsBufferOnPhysicsSystem(MeowEngine::simulator::PhysicsSystem* inPhysics) {
+void SceneMultiThread::SyncPhysicsBufferOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
     InternalPointer->SyncPhysicsBufferOnPhysicsThread(inPhysics);
 }
 

@@ -12,7 +12,7 @@
 
 
 namespace MeowEngine::simulator {
-    struct PhysXPhysicsSystem : MeowEngine::simulator::PhysicsSystem {
+    struct PhysXPhysicsSystem : MeowEngine::Runtime::Systems::PhysicsSystem {
         PhysXPhysicsSystem();
         ~PhysXPhysicsSystem();
 

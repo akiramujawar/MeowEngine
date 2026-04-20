@@ -5,23 +5,23 @@
 #ifndef MEOWENGINE_WINDOW_HPP
 #define MEOWENGINE_WINDOW_HPP
 
-#include "SDLAPI.hpp"
+#include "SDL_API.hpp"
 
 #include "Math.hpp"
 #include "log.hpp"
 
 namespace MeowEngine {
-    struct SDLEngineWindow {
-        SDLEngineWindow();
-        ~SDLEngineWindow();
+    struct SDL_EngineWindow {
+        SDL_EngineWindow();
+        ~SDL_EngineWindow();
 
         void SwapWindow() const;
         Vector2Int GetWindowSize();
         void ClearContext() const;
         void MakeCurrent() const;
 
-        SDL_Window* GetWindow() const;
-        SDL_GLContext GetContext() const;
+        [[nodiscard]] SDL_Window* GetWindow() const;
+        [[nodiscard]] SDL_GLContext GetContext() const;
 
     private:
         SDL_Window* CreateWindow(const uint32_t& windowFlags);

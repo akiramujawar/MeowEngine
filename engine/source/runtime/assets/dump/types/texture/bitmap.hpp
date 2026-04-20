@@ -8,7 +8,7 @@
 #pragma once
 
 #include "internal_ptr.hpp"
-#include "SDLAPI.hpp"
+#include "SDL_API.hpp"
 
 namespace MeowEngine {
     struct Bitmap {

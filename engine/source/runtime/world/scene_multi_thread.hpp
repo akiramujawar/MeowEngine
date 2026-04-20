@@ -37,7 +37,7 @@ namespace MeowEngine {
         * and adds to staging(physics) buffer
         * @param inPhysics
         */
-        bool AddEntitiesOnPhysicsSystem(MeowEngine::simulator::PhysicsSystem* inPhysics);
+        bool AddEntitiesOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics);
 
         // -----------------------------
         void Input(const float &deltaTime, const MeowEngine::input::InputManager& inputManager);
@@ -46,8 +46,8 @@ namespace MeowEngine {
         virtual void Update(const float& deltaTime);
 
         // -----------------------------
-        void RenderGameView(MeowEngine::RenderSystem& renderer);
-        void RenderUserInterface(MeowEngine::RenderSystem& renderer, unsigned int frameBufferId, const double fps);
+        void RenderGameView(MeowEngine::Runtime::Systems::RenderSystem& renderer);
+        void RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem& renderer, unsigned int frameBufferId, const double fps);
 
         // -----------------------------
 
@@ -75,7 +75,7 @@ namespace MeowEngine {
         /**
          * Push rigidbody updates to transform & apply UI inputs to staging(physics) buffer
          */
-        void SyncPhysicsBufferOnPhysicsSystem(MeowEngine::simulator::PhysicsSystem* inPhysics);
+        void SyncPhysicsBufferOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics);
 
         // -----------------------------
 
