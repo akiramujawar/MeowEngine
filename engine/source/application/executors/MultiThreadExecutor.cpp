@@ -10,11 +10,11 @@ namespace MeowEngine::Application {
         : JobSystem(jobSystem) {}
 
     void MultiThreadExecutor::Execute(Scheduler& scheduler) {
-        for (const Job& job : scheduler.GetJobs()) {
-            job.Task();
-        }
+        auto jobs = scheduler.GetMainJobs();
 
-        JobSystem.Wait();
+        for (auto it = jobs.begin(); it != jobs.end(); ++it) {
+            it->Execute();
+        }
     }
 
 }

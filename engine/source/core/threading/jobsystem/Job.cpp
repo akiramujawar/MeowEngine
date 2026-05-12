@@ -3,3 +3,11 @@
 //
 
 #include <Job.hpp>
+
+
+namespace MeowEngine::Core::Threading {
+    Job::Job(std::function<void()> task)
+        : Task(std::move(task)){
+
+    }
+}

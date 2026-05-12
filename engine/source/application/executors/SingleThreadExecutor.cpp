@@ -7,8 +7,20 @@
 namespace MeowEngine::Application {
 
     void SingleThreadExecutor::Execute(Scheduler& scheduler) {
-        for (const Job& job : scheduler.GetJobs()) {
-            job.Task();
+        auto mainJobs = scheduler.GetMainJobs();
+        auto renderJobs = scheduler.GetMainJobs();
+        auto physicsJobs = scheduler.GetMainJobs();
+
+        for (auto it = mainJobs.begin(); it != mainJobs.end(); ++it) {
+            it->Execute();
+        }
+
+        for (auto it = renderJobs.begin(); it != renderJobs.end(); ++it) {
+            it->Execute();
+        }
+
+        for (auto it = physicsJobs.begin(); it != physicsJobs.end(); ++it) {
+            it->Execute();
         }
     }
 

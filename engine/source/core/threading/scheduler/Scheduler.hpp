@@ -6,19 +6,37 @@
 #define MEOWENGINE_SCHEDULER_HPP
 
 #include <vector>
+#include <functional>
 
 #include <Job.hpp>
 #include <Timing.hpp>
 
 namespace MeowEngine::Core::Threading {
+    /**
+     * Decides jobs to run each frame (engine brain)
+     */
     class Scheduler {
     public:
+        Scheduler();
+        ~Scheduler();
+
         void BuildFrameGraph(const Timing& timing);
 
-        const std::vector<Job>& GetJobs() const;
+        std::vector<Job>& GetMainJobs();
+        std::vector<Job>& GetRenderJobs();
+        std::vector<Job>& GetPhysicsJobs();
 
     private:
-        std::vector<Job> Jobs;
+        Job CreateJob(const std::function<void()>& method);
+
+        void BuildMainJobs();
+        void BuildRenderJobs();
+        void BuildPhysicsJobs();
+
+    private:
+        std::vector<Job> MainJobs;
+        std::vector<Job> RenderJobs;
+        std::vector<Job> PhysicsJobs;
     };
 }
 

@@ -3,3 +3,13 @@
 //
 
 #include "Project.hpp"
+
+namespace MeowEngine::Runtime {
+    Project::Project() : ProjectSettings() {
+        MeowEngine::Log("Project", "Constructed");
+    }
+
+    Project::~Project() {
+        MeowEngine::Log("Project", "Destructed");
+    }
+}

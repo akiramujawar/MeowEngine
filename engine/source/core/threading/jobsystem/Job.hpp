@@ -9,6 +9,15 @@
 
 namespace MeowEngine::Core::Threading {
     struct Job {
+        Job() = default;
+        Job(std::function<void()> task);
+
+        inline void Execute() const {
+            if (Task) {
+                Task();
+            }
+        }
+
         std::function<void()> Task;
     };
 }

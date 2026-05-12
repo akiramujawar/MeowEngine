@@ -63,6 +63,9 @@ namespace MeowEngine {
         }
 
     private:
+        //
+        bool IsRunning;
+
         // threading
         Threading::Scheduler Scheduler;
         Threading::JobSystem JobSystem;

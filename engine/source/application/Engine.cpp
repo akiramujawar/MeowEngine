@@ -32,10 +32,11 @@ namespace MeowEngine {
     }
 
     void Engine::Run() {
-        // while running
-        // - update time
-        // - scheduler build graph using time
-        // - executor exectue using scheduler
+        while (IsRunning) {
+            Timing.Update();
+            Scheduler.BuildFrameGraph(Timing);
+            Executor->Execute(Scheduler);
+        }
     }
 }
 
