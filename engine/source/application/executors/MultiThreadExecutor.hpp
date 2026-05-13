@@ -17,7 +17,7 @@ namespace MeowEngine::Application {
     public:
         explicit MultiThreadExecutor(Threading::JobSystem& jobSystem);
 
-        void Execute(Shared::Scheduler& scheduler) override;
+        void Execute(Threading::Scheduler& scheduler) override;
 
     private:
         JobSystem& JobSystem;

@@ -52,14 +52,14 @@ namespace MeowEngine {
         std::shared_ptr<MeowEngine::SceneMultiThread> Scene;
 
         // render
-        std::unique_ptr<MeowEngine::Runtime::SDL_EngineWindow> Window;
+        std::unique_ptr<MeowEngine::Platform::SDL_EngineWindow> Window;
         std::shared_ptr<Runtime::ImGuiUISystem> UserInterface;
         std::unique_ptr<MeowEngine::OpenGLRenderSystem> GameView;
 
         /**
          * Draws our game view onto a ui panel (which is a framebuffer)
          */
-        std::unique_ptr<MeowEngine::Runtime::OpenGLFrameBuffer> FrameBuffer;
+        std::unique_ptr<MeowEngine::Graphics::GLFrameBuffer> FrameBuffer;
 
         /**
          * this is shared because even main thread will access asset manager and sometimes physics

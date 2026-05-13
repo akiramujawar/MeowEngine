@@ -6,7 +6,7 @@
 
 namespace MeowEngine::Application {
 
-    void SingleThreadExecutor::Execute(Shared::Scheduler& scheduler) {
+    void SingleThreadExecutor::Execute(Threading::Scheduler& scheduler) {
         auto mainJobs = scheduler.GetMainJobs();
         auto renderJobs = scheduler.GetMainJobs();
         auto physicsJobs = scheduler.GetMainJobs();

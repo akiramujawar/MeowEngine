@@ -29,9 +29,9 @@ namespace MeowEngine {
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);
         InputManager = std::make_unique<MeowEngine::Runtime::InputManager>();
 
-        Window = std::make_unique<MeowEngine::Runtime::SDL_EngineWindow>();
+        Window = std::make_unique<MeowEngine::Platform::SDL_EngineWindow>();
         AssetManager = std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
-        FrameBuffer = std::make_unique<MeowEngine::Runtime::OpenGLFrameBuffer>(1000,500);
+        FrameBuffer = std::make_unique<MeowEngine::Graphics::GLFrameBuffer>(1000,500);
 
         UserInterface = std::make_shared<Runtime::ImGuiUISystem>(*Window.get());
         GameView = std::make_unique<MeowEngine::OpenGLRenderSystem>(AssetManager, UserInterface);

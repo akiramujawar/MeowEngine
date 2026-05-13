@@ -10,7 +10,7 @@
 namespace MeowEngine::Application {
     class SingleThreadExecutor : public IExecutor {
     public:
-        void Execute(Shared::Scheduler& scheduler) override;
+        void Execute(Threading::Scheduler& scheduler) override;
     };
 }
 

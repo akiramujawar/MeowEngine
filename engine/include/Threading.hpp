@@ -7,6 +7,7 @@
 
 #include <Job.hpp>
 #include <JobSystem.hpp>
+#include <Scheduler.hpp>
 
 #include <double_buffer.hpp>
 #include <triple_buffer.hpp>
@@ -21,6 +22,7 @@ namespace MeowEngine {
 
     using Core::Threading::Job;
     using Core::Threading::JobSystem;
+    using Core::Threading::Scheduler;
 
 }
 

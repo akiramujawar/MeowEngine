@@ -2,15 +2,13 @@
 // Created by Akira Mujawar on 06/07/22.
 //
 
-#ifndef MEOWENGINE_ENGINE_ENGINE_HPP
-#define MEOWENGINE_ENGINE_ENGINE_HPP
+#ifndef MEOWENGINE_ENGINE_HPP
+#define MEOWENGINE_ENGINE_HPP
 
 #pragma once
 
 #include <Threading.hpp>
-
 #include <Scheduler.hpp>
-#include <RenderGraph.hpp>
 #include <Timing.hpp>
 
 #include <IExecutor.hpp>
@@ -19,15 +17,16 @@
 #include <EventBus.hpp>
 #include <RequestQueue.hpp>
 
+#include <GraphicsDevice.hpp>
+
 #include <MainSystem.hpp>
-#include <RenderSystem.hpp>
 #include <PhysicsSystem.hpp>
+#include <RenderSystem.hpp>
 
 #include <Project.hpp>
 #include <AssetManager.hpp>
 #include <InputManager.hpp>
 
-#include <EditorUISystem.hpp>
 
 using namespace std;
 
@@ -80,10 +79,9 @@ namespace MeowEngine {
         // TODO: needs to be atomic
         bool IsRunning;
 
-        // logic & threading
+        // threading
         Threading::JobSystem JobSystem;
-        Shared::Scheduler Scheduler;
-        Shared::RenderGraph RenderGraph;
+        Threading::Scheduler Scheduler;
 
         Core::Timing Timing;
 
@@ -100,14 +98,18 @@ namespace MeowEngine {
         Runtime::Messaging::EventBus EventBus;
         Runtime::Messaging::RequestQueue RequestQueue;
 
+        // graphics
+        Graphics::GraphicsDevice GraphicsDevice;
+
         // systems
         Runtime::Systems::MainSystem MainSystem;
         Runtime::Systems::PhysicsSystem PhysicsSystem;
-        Runtime::Systems::RenderSystem RenderSystem;
-
-        Editor::Systems::EditorUISystem EditorUI;
+        Rendering::RenderSystem RenderSystem;
     };
 } // namespace MeowEngine
 
+// engine -> systems(scheduler) -> executor(scheduler)
+// single thread executor -> execute jobs sequentially
+// multi thread executor -> dispatch the jobs to job system for execution
 
-#endif //MEOWENGINE_ENGINE_ENGINE_HPP
+#endif //MEOWENGINE_ENGINE_HPP

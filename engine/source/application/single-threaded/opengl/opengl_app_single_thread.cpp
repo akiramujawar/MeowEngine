@@ -11,7 +11,7 @@
 #include "opengl_render_system.hpp"
 #include "ImguiEditorUISystem.hpp"
 
-#include "opengl_framebuffer.hpp"
+#include "GLFrameBuffer.hpp"
 #include "opengl_asset_manager.hpp"
 #include "InputManager.hpp"
 #include "scene_multi_thread.hpp"
@@ -78,9 +78,9 @@ namespace {
 //        return context;
 //    }
 
-    MeowEngine::Runtime::OpenGLFrameBuffer CreateFrameBuffer() {
+    MeowEngine::Graphics::GLFrameBuffer CreateFrameBuffer() {
         // NOTE: we launch this needs to be init properly
-        return MeowEngine::Runtime::OpenGLFrameBuffer(1000,500);
+        return MeowEngine::Graphics::GLFrameBuffer(1000,500);
     }
 
     std::shared_ptr<MeowEngine::OpenGLAssetManager> CreateAssetManager() {
@@ -94,7 +94,7 @@ namespace {
         return MeowEngine::OpenGLRenderSystem(assetManager, pUISystem);
     }
 
-    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::Runtime::SDL_EngineWindow& pWindow) {
+    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::Platform::SDL_EngineWindow& pWindow) {
         return std::make_shared<MeowEngine::Runtime::ImGuiUISystem>(pWindow);
     }
 
@@ -105,9 +105,9 @@ namespace {
 } // namespace
 
 struct OpenGLAppSingleThread::Internal {
-    Runtime::SDL_EngineWindow Window;
+    Platform::SDL_EngineWindow Window;
     std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> UI;
-    MeowEngine::Runtime::OpenGLFrameBuffer FrameBuffer;
+    MeowEngine::Graphics::GLFrameBuffer FrameBuffer;
     MeowEngine::Runtime::InputManager InputManager;
 
     const std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;

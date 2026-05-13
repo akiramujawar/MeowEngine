@@ -11,7 +11,7 @@ namespace MeowEngine::Application {
     class IExecutor {
     public:
         // we might pass engine or each systems & similar old syncstate (something new to contain messaging system as well)
-        virtual void Execute(Shared::Scheduler& scheduler) = 0;
+        virtual void Execute(Threading::Scheduler& scheduler) = 0;
         virtual ~IExecutor() = default;
     };
 }

@@ -12,8 +12,7 @@
 #include <UserEventType.hpp>
 
 namespace MeowEngine {
-    Engine::Engine()
-    : RenderSystem(RenderGraph) {
+    Engine::Engine() {
         MeowEngine::Log("Engine", "Initializing Engine...");
 
         AppInstance = this;
@@ -49,13 +48,13 @@ namespace MeowEngine {
             }
 
             Timing.Update();
-            Scheduler.BuildFrameGraph(Timing);
-            Executor->Execute(Scheduler);
 
-            // update timing
-            // update gameplay system
-            // process device events
-            // sync
+            // main schedule
+            // physics schedule
+            // render schedule
+            RenderSystem.Schedule(Scheduler);
+
+            Executor->Execute(Scheduler);
         }
 
         ShutDown();
