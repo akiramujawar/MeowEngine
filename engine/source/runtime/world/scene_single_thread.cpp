@@ -239,7 +239,7 @@ namespace MeowEngine {
             MeowEngine::Log("Creating", "Created");
         }
 
-        void Input(const float& delta, const MeowEngine::input::InputManager& inputManager) {
+        void Input(const float& delta, const MeowEngine::Runtime::InputManager& inputManager) {
             if(!inputManager.isActive) {
                 return;
             }
@@ -316,11 +316,11 @@ namespace MeowEngine {
 
         }
 
-        void RenderGameView(MeowEngine::Runtime::Systems::RenderSystem& renderer) {
+        void RenderGameView(MeowEngine::OpenGLRenderSystem& renderer) {
             renderer.RenderGameView(&Camera, RegistryBuffer.GetCurrent(), SelectionData);
         }
 
-        void RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
+        void RenderUserInterface(MeowEngine::OpenGLRenderSystem& renderer, unsigned int frameBufferId, const double fps) {
             renderer.RenderUserInterface(RegistryBuffer.GetCurrent(), RegistryBuffer.GetPropertyChangeQueue(), SelectionData, frameBufferId, fps);
         }
 
@@ -356,7 +356,7 @@ namespace MeowEngine {
         InternalPointer->Create(inPhysics);
     }
 
-    void SceneSingleThread::Input(const float &deltaTime, const MeowEngine::input::InputManager& inputManager) {
+    void SceneSingleThread::Input(const float &deltaTime, const MeowEngine::Runtime::InputManager& inputManager) {
         InternalPointer->Input(deltaTime, inputManager);
     }
 
@@ -364,11 +364,11 @@ namespace MeowEngine {
         InternalPointer->Update(deltaTime);
     }
 
-    void SceneSingleThread::RenderGameView(MeowEngine::Runtime::Systems::RenderSystem &renderer) {
+    void SceneSingleThread::RenderGameView(MeowEngine::OpenGLRenderSystem& renderer) {
         InternalPointer->RenderGameView(renderer);
     }
 
-    void SceneSingleThread::RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem &renderer, unsigned int frameBufferId, const double fps) {
+    void SceneSingleThread::RenderUserInterface(MeowEngine::OpenGLRenderSystem& renderer, unsigned int frameBufferId, const double fps) {
         InternalPointer->RenderUserInterface(renderer, frameBufferId, fps);
     }
 

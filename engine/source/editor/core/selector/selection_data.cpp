@@ -3,8 +3,9 @@
 //
 
 #include "selection_data.hpp"
-#include "IO.hpp"
-#include <Core.hpp>
+
+#include <CoreEngine.hpp>
+#include <IO.hpp>
 
 namespace MeowEngine {
     SelectionData::SelectionData() {

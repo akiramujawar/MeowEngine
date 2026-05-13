@@ -8,7 +8,7 @@
 #include <AssetEntry.hpp>
 
 #include <IO.hpp>
-#include <Core.hpp>
+#include <CoreEngine.hpp>
 #include <UUID.hpp>
 
 #include <AssetRegistrySerializer.hpp>

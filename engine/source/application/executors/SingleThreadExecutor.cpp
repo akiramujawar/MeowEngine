@@ -6,7 +6,7 @@
 
 namespace MeowEngine::Application {
 
-    void SingleThreadExecutor::Execute(Scheduler& scheduler) {
+    void SingleThreadExecutor::Execute(Shared::Scheduler& scheduler) {
         auto mainJobs = scheduler.GetMainJobs();
         auto renderJobs = scheduler.GetMainJobs();
         auto physicsJobs = scheduler.GetMainJobs();
@@ -15,11 +15,11 @@ namespace MeowEngine::Application {
             it->Execute();
         }
 
-        for (auto it = renderJobs.begin(); it != renderJobs.end(); ++it) {
+        for (auto it = physicsJobs.begin(); it != physicsJobs.end(); ++it) {
             it->Execute();
         }
 
-        for (auto it = physicsJobs.begin(); it != physicsJobs.end(); ++it) {
+        for (auto it = renderJobs.begin(); it != renderJobs.end(); ++it) {
             it->Execute();
         }
     }

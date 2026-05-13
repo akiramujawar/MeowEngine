@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-namespace MeowEngine::input {
+namespace MeowEngine::Runtime {
     struct InputManager {
     public:
         void ProcessInput();

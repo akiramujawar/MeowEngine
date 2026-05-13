@@ -5,12 +5,12 @@
 #ifndef MEOWENGINE_WINDOW_HPP
 #define MEOWENGINE_WINDOW_HPP
 
-#include "SDL_API.hpp"
+#include <SDL_API.hpp>
 
-#include "Math.hpp"
-#include "log.hpp"
+#include <Math.hpp>
+#include <log.hpp>
 
-namespace MeowEngine {
+namespace MeowEngine::Runtime {
     struct SDL_EngineWindow {
         SDL_EngineWindow();
         ~SDL_EngineWindow();

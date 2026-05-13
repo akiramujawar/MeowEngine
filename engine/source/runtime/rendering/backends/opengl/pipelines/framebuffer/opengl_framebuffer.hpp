@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_OPENGL_FRAMEBUFFER_HPP
 #define MEOWENGINE_OPENGL_FRAMEBUFFER_HPP
 
-namespace MeowEngine::graphics {
+namespace MeowEngine::Runtime {
     struct OpenGLFrameBuffer {
         OpenGLFrameBuffer(const float& width, const float& height);
         ~OpenGLFrameBuffer();

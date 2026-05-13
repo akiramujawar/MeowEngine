@@ -13,7 +13,7 @@
 
 #include "opengl_framebuffer.hpp"
 #include "opengl_asset_manager.hpp"
-#include "input_manager.hpp"
+#include "InputManager.hpp"
 #include "scene_multi_thread.hpp"
 #include "physx_physics_system.hpp"
 #include <frame_rate_counter.hpp>
@@ -78,9 +78,9 @@ namespace {
 //        return context;
 //    }
 
-    MeowEngine::graphics::OpenGLFrameBuffer CreateFrameBuffer() {
+    MeowEngine::Runtime::OpenGLFrameBuffer CreateFrameBuffer() {
         // NOTE: we launch this needs to be init properly
-        return MeowEngine::graphics::OpenGLFrameBuffer(1000,500);
+        return MeowEngine::Runtime::OpenGLFrameBuffer(1000,500);
     }
 
     std::shared_ptr<MeowEngine::OpenGLAssetManager> CreateAssetManager() {
@@ -94,7 +94,7 @@ namespace {
         return MeowEngine::OpenGLRenderSystem(assetManager, pUISystem);
     }
 
-    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::SDL_EngineWindow& pWindow) {
+    std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> CreateUI(MeowEngine::Runtime::SDL_EngineWindow& pWindow) {
         return std::make_shared<MeowEngine::Runtime::ImGuiUISystem>(pWindow);
     }
 
@@ -105,10 +105,10 @@ namespace {
 } // namespace
 
 struct OpenGLAppSingleThread::Internal {
-    SDL_EngineWindow Window;
+    Runtime::SDL_EngineWindow Window;
     std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> UI;
-    MeowEngine::graphics::OpenGLFrameBuffer FrameBuffer;
-    MeowEngine::input::InputManager InputManager;
+    MeowEngine::Runtime::OpenGLFrameBuffer FrameBuffer;
+    MeowEngine::Runtime::InputManager InputManager;
 
     const std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;
     MeowEngine::OpenGLRenderSystem Renderer;

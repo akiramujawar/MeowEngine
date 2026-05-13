@@ -41,7 +41,7 @@ namespace MeowEngine {
 
         // Create Scene & Setup Main thread
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 1); // 60 frames per second
-        InputManager = std::make_unique<MeowEngine::input::InputManager>();
+        InputManager = std::make_unique<MeowEngine::Runtime::InputManager>();
         Scene = std::make_shared<MeowEngine::SceneMultiThread>(
             RenderThread->Window->GetWindowSize()
         );

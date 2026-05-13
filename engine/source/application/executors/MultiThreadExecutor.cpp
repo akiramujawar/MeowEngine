@@ -9,7 +9,7 @@ namespace MeowEngine::Application {
     MultiThreadExecutor::MultiThreadExecutor(Threading::JobSystem& jobSystem)
         : JobSystem(jobSystem) {}
 
-    void MultiThreadExecutor::Execute(Scheduler& scheduler) {
+    void MultiThreadExecutor::Execute(Shared::Scheduler& scheduler) {
         auto jobs = scheduler.GetMainJobs();
 
         for (auto it = jobs.begin(); it != jobs.end(); ++it) {

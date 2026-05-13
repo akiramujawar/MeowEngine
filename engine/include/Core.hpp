@@ -10,9 +10,6 @@
 #include "Name.hpp"
 #include "WebAddress.hpp"
 
-#include <Engine.hpp>
-#include <AssetManager.hpp>
-
 namespace MeowEngine {
     namespace Types = Core::Types;
 
@@ -20,15 +17,6 @@ namespace MeowEngine {
     using Core::Types::String;
     using Core::Types::Name;
     using Core::Types::WebAddress;
-
-    inline Runtime::Asset::AssetManager& GetAssetManager() {
-        return Engine::Get().GetAssetManager();
-    }
-
-    inline Runtime::Project& GetProject() {
-        return Engine::Get().GetProject();
-    }
-
 }
 
 #endif //MEOWENGINE_CORE_HPP

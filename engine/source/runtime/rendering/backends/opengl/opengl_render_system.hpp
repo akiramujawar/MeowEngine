@@ -10,22 +10,23 @@
 
 #include "opengl_asset_manager.hpp"
 #include "ImguiEditorUISystem.hpp"
+#include "perspective_camera.hpp"
 
 #include <memory>
 
 namespace MeowEngine {
-    struct OpenGLRenderSystem : public MeowEngine::Runtime::Systems::RenderSystem {
+    struct OpenGLRenderSystem  {
         OpenGLRenderSystem(const std::shared_ptr<MeowEngine::OpenGLAssetManager>& assetManager,
                            const std::shared_ptr<Runtime::ImGuiUISystem>& uiRenderer);
 
-        void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, MeowEngine::SelectionData& pSelection) override;
+        void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, MeowEngine::SelectionData& pSelection);
         void RenderUserInterface(entt::registry& registry,
                                  std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
                                  MeowEngine::SelectionData& pSelection,
                                  unsigned int frameBufferId,
-                                 const double fps) override;
+                                 const double fps);
 
-        void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) override;
+        void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry);
 
     private:
         struct Internal;

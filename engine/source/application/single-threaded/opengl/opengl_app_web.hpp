@@ -10,7 +10,7 @@
 #include "memory"
 
 #include "frame_rate_counter.hpp"
-#include "input_manager.hpp"
+#include "InputManager.hpp"
 //#include "scene_single_thread.hpp"
 #include "SDL_EngineWindow.hpp"
 #include "ImguiEditorUISystem.hpp"
@@ -46,20 +46,20 @@ namespace MeowEngine {
 
         // main
         std::unique_ptr<MeowEngine::FrameRateCounter> FrameRateCounter;
-        std::unique_ptr<MeowEngine::input::InputManager> InputManager;
+        std::unique_ptr<MeowEngine::Runtime::InputManager> InputManager;
 
         // shared
         std::shared_ptr<MeowEngine::SceneMultiThread> Scene;
 
         // render
-        std::unique_ptr<MeowEngine::SDL_EngineWindow> Window;
+        std::unique_ptr<MeowEngine::Runtime::SDL_EngineWindow> Window;
         std::shared_ptr<Runtime::ImGuiUISystem> UserInterface;
         std::unique_ptr<MeowEngine::OpenGLRenderSystem> GameView;
 
         /**
          * Draws our game view onto a ui panel (which is a framebuffer)
          */
-        std::unique_ptr<MeowEngine::graphics::OpenGLFrameBuffer> FrameBuffer;
+        std::unique_ptr<MeowEngine::Runtime::OpenGLFrameBuffer> FrameBuffer;
 
         /**
          * this is shared because even main thread will access asset manager and sometimes physics

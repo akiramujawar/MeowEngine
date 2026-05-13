@@ -7,7 +7,7 @@
 
 #include "Engine.hpp"
 
-#include "input_manager.hpp"
+#include "InputManager.hpp"
 #include "frame_rate_counter.hpp"
 #include "shared_thread_state.hpp"
 
@@ -54,7 +54,7 @@ namespace MeowEngine {
         /**
          * Manages Device Inputs
          */
-        std::unique_ptr<MeowEngine::input::InputManager> InputManager;
+        std::unique_ptr<MeowEngine::Runtime::InputManager> InputManager;
 
         /**
          * Active Scene in engine

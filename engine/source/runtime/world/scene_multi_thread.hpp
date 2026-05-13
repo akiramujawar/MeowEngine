@@ -8,8 +8,8 @@
 #include "internal_ptr.hpp"
 
 #include "asset_manager.hpp"
-#include "input_manager.hpp"
-#include "RenderSystem.hpp"
+#include "InputManager.hpp"
+#include <opengl_render_system.hpp>
 #include "PhysicsSystem.hpp"
 
 #include "Math.hpp"
@@ -19,6 +19,7 @@ namespace MeowEngine {
         SceneMultiThread(const Vector2Int& frameSize);
 
         void OnWindowResized(const Vector2Int& size);
+        void Save();
 
         // -----------------------------------------------------------------------
 
@@ -40,14 +41,14 @@ namespace MeowEngine {
         bool AddEntitiesOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics);
 
         // -----------------------------
-        void Input(const float &deltaTime, const MeowEngine::input::InputManager& inputManager);
+        void Input(const float &deltaTime, const MeowEngine::Runtime::InputManager& inputManager);
 
         // -----------------------------
         virtual void Update(const float& deltaTime);
 
         // -----------------------------
-        void RenderGameView(MeowEngine::Runtime::Systems::RenderSystem& renderer);
-        void RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem& renderer, unsigned int frameBufferId, const double fps);
+        void RenderGameView(MeowEngine::OpenGLRenderSystem& renderer);
+        void RenderUserInterface(MeowEngine::OpenGLRenderSystem& renderer, unsigned int frameBufferId, const double fps);
 
         // -----------------------------
 

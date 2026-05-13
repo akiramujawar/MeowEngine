@@ -2,11 +2,11 @@
 // Created by Akira Mujawar on 17/04/26.
 //
 
-#include "Scheduler.hpp"
+#include <Scheduler.hpp>
 
 #include <log.hpp>
 
-namespace MeowEngine::Core::Threading {
+namespace MeowEngine::Shared {
     Scheduler::Scheduler() {
         MeowEngine::Log("Scheduler", "Constructed");
     }
@@ -15,7 +15,7 @@ namespace MeowEngine::Core::Threading {
         MeowEngine::Log("Scheduler", "Destructed");
     }
 
-    void Scheduler::BuildFrameGraph(const Timing& timing) {
+    void Scheduler::BuildFrameGraph(const Core::Timing& timing) {
         MainJobs.clear();
         RenderJobs.clear();
         PhysicsJobs.clear();

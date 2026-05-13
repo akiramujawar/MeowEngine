@@ -6,8 +6,8 @@
 #include "ImguiAPI.hpp"
 #include "reflection_macro_wrapper.hpp"
 
-#include "String.hpp"
-#include "Math.hpp"
+#include <Core.hpp>
+#include <Math.hpp>
 
 namespace MeowEngine::Runtime {
 

@@ -5,8 +5,6 @@
 #ifndef MEOWENGINE_THREADING_HPP
 #define MEOWENGINE_THREADING_HPP
 
-#include <Scheduler.hpp>
-
 #include <Job.hpp>
 #include <JobSystem.hpp>
 
@@ -21,7 +19,6 @@
 namespace MeowEngine {
     namespace Threading = Core::Threading;
 
-    using Core::Threading::Scheduler;
     using Core::Threading::Job;
     using Core::Threading::JobSystem;
 

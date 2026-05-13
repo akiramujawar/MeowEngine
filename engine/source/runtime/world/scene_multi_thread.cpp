@@ -4,6 +4,8 @@
 
 #include "scene_multi_thread.hpp"
 
+#include <CoreEngine.hpp>
+
 #include "camera_controller.hpp"
 #include "perspective_camera.hpp"
 #include "static_mesh_instance.hpp"
@@ -72,6 +74,15 @@ struct SceneMultiThread::Internal {
 
     void OnWindowResized(const Vector2Int& size) {
         Camera = ::CreateCamera(size);
+    }
+
+    void Save() {
+        // RegistryBuffer.GetCurrent();
+        auto path = GetProject().ProjectSettings.GetProjectPath();
+        path += "world.meowdata";
+        // Runtime::World world(&RegistryBuffer.GetCurrent());
+
+        Runtime::WorldSerializer::Serialize(path, World);
     }
 
     void LoadOnRenderThread(std::shared_ptr<MeowEngine::AssetManager> assetManager) {
@@ -297,7 +308,7 @@ struct SceneMultiThread::Internal {
         return World.GetBuffer().ApplyAddRemoveOnCurrentFinal();
     }
 
-    void Input(const float& delta, const MeowEngine::input::InputManager& inputManager) {
+    void Input(const float& delta, const MeowEngine::Runtime::InputManager& inputManager) {
         if(!inputManager.isActive) {
             return;
         }
@@ -450,7 +461,7 @@ struct SceneMultiThread::Internal {
 //        }
     }
 
-    void RenderGameView(MeowEngine::Runtime::Systems::RenderSystem& renderer) {
+    void RenderGameView(MeowEngine::OpenGLRenderSystem& renderer) {
         // This is important for now - we can come to this later for optimization
         // Current goal is to have full control on render as individual objects
         // as we will have elements like UI, Static Meshes, Post Processing, Camera Culling, Editor Tools
@@ -461,7 +472,7 @@ struct SceneMultiThread::Internal {
         renderer.RenderPhysics(&Camera, World.GetBuffer().GetFinal());
     }
 
-    void RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem& renderer, unsigned int frameBufferId, const double fps) {
+    void RenderUserInterface(MeowEngine::OpenGLRenderSystem& renderer, unsigned int frameBufferId, const double fps) {
         renderer.RenderUserInterface(World.GetBuffer().GetFinal(), World.GetBuffer().GetPropertyChangeQueue(), SelectionData , frameBufferId, fps);
     }
 
@@ -569,6 +580,10 @@ void SceneMultiThread::OnWindowResized(const Vector2Int &size) {
     InternalPointer->OnWindowResized(size);
 }
 
+void SceneMultiThread::Save() {
+    InternalPointer->Save();
+}
+
 void SceneMultiThread::LoadOnRenderSystem(std::shared_ptr<MeowEngine::AssetManager> assetManager) {
     InternalPointer->LoadOnRenderThread(assetManager);
 }
@@ -584,7 +599,7 @@ bool SceneMultiThread::AddEntitiesOnPhysicsSystem(MeowEngine::Runtime::Systems::
     return InternalPointer->AddEntitiesOnPhysicsThread(inPhysics);
 }
 
-void SceneMultiThread::Input(const float &deltaTime, const MeowEngine::input::InputManager& inputManager) {
+void SceneMultiThread::Input(const float &deltaTime, const MeowEngine::Runtime::InputManager& inputManager) {
     InternalPointer->Input(deltaTime, inputManager);
 }
 
@@ -592,11 +607,11 @@ void SceneMultiThread::Update(const float &deltaTime) {
     InternalPointer->Update(deltaTime);
 }
 
-void SceneMultiThread::RenderGameView(MeowEngine::Runtime::Systems::RenderSystem &renderer) {
+void SceneMultiThread::RenderGameView(MeowEngine::OpenGLRenderSystem& renderer) {
     InternalPointer->RenderGameView(renderer);
 }
 
-void SceneMultiThread::RenderUserInterface(MeowEngine::Runtime::Systems::RenderSystem &renderer, unsigned int frameBufferId, const double fps) {
+void SceneMultiThread::RenderUserInterface(MeowEngine::OpenGLRenderSystem& renderer, unsigned int frameBufferId, const double fps) {
     InternalPointer->RenderUserInterface(renderer, frameBufferId, fps);
 }
 

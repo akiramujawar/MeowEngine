@@ -5,10 +5,11 @@
 #ifndef MEOWENGINE_IEDITORUISYSTEM_HPP
 #define MEOWENGINE_IEDITORUISYSTEM_HPP
 
+namespace MeowEngine::Editor::Systems {
+    class EditorUISystem {
 
-class IEditorUISystem {
-
-};
+    };
+}
 
 
 #endif //MEOWENGINE_IEDITORUISYSTEM_HPP

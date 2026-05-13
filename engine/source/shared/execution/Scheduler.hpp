@@ -8,10 +8,10 @@
 #include <vector>
 #include <functional>
 
-#include <Job.hpp>
+#include <Threading.hpp>
 #include <Timing.hpp>
 
-namespace MeowEngine::Core::Threading {
+namespace MeowEngine::Shared {
     /**
      * Decides jobs to run each frame (engine brain)
      */
@@ -20,7 +20,7 @@ namespace MeowEngine::Core::Threading {
         Scheduler();
         ~Scheduler();
 
-        void BuildFrameGraph(const Timing& timing);
+        void BuildFrameGraph(const Core::Timing& timing);
 
         std::vector<Job>& GetMainJobs();
         std::vector<Job>& GetRenderJobs();

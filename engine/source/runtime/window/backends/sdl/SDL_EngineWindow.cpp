@@ -8,7 +8,7 @@
 #include "SDL_NativeFileDialog.hpp"
 #include "platform.hpp"
 
-namespace MeowEngine {
+namespace MeowEngine::Runtime {
 
     SDL_EngineWindow::SDL_EngineWindow()
         : window(CreateWindow(SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI)),

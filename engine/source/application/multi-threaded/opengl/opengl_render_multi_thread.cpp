@@ -13,11 +13,11 @@ namespace MeowEngine {
     : SharedState(inState) {
         MeowEngine::Log("Render", "Creating Object");
 
-        Window = std::make_unique<MeowEngine::SDL_EngineWindow>();
+        Window = std::make_unique<Runtime::SDL_EngineWindow>();
         AssetManager = std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
         UserInterface = std::make_shared<Runtime::ImGuiUISystem>(*Window.get());
         GameView = std::make_unique<MeowEngine::OpenGLRenderSystem>(AssetManager, UserInterface);
-        FrameBuffer = std::make_unique<MeowEngine::graphics::OpenGLFrameBuffer>(1000,500);
+        FrameBuffer = std::make_unique<MeowEngine::Runtime::OpenGLFrameBuffer>(1000,500);
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);
     }
 

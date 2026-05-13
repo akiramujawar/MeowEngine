@@ -6,7 +6,7 @@
 #include "log.hpp"
 
 #include <IO.hpp>
-#include <Core.hpp>
+#include <CoreEngine.hpp>
 
 #include "AssetLoader.hpp"
 
