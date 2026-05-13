@@ -7,11 +7,14 @@
 
 #pragma once
 
-#include "entt.hpp"
-#include "perspective_camera.hpp"
-#include "selection_data.hpp"
-#include "reflection_property_change.hpp"
-#include "queue"
+// TODO: make it abstract
+#include <SDL_EngineWindow.hpp>
+#include <opengl_framebuffer.hpp>
+
+namespace MeowEngine::Shared {
+    class RenderGraph;
+}
+
 
 namespace MeowEngine::Runtime::Systems {
     /**
@@ -19,23 +22,29 @@ namespace MeowEngine::Runtime::Systems {
      * Emits events like input, debug, ui interactions
      */
     struct RenderSystem {
+        explicit RenderSystem(Shared::RenderGraph&);
+        ~RenderSystem();
+
     private:
         void Render();
 
-    public:
-        virtual void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject,
-                                    entt::registry& registry,
-                                    MeowEngine::SelectionData& pSelection) {};
+    private:
+        /*
+         * TODO: When we plan to handle multi-scene we look into this, make this private
+         * we decouple window / context into a class
+         */
+        SDL_EngineWindow Window;
 
-        virtual void RenderUserInterface(entt::registry& registry,
-                                         std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-                                         MeowEngine::SelectionData& pSelection,
-                                         unsigned int frameBufferId,
-                                         const double fps) {};
+        /**
+         * Draws our game view onto a ui panel (which is a framebuffer)
+         */
+        OpenGLFrameBuffer FrameBuffer;
 
-        virtual void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) {};
+        /**
+         * Accesses various render passes and draws them
+         */
+        Shared::RenderGraph& Graph;
     };
 }
-
 
 #endif //MEOWENGINE_RENDER_SYSTEM_HPP

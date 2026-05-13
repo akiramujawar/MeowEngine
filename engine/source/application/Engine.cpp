@@ -4,11 +4,16 @@
 
 #include <Engine.hpp>
 
+#include <SDL_API.hpp>
+
 #include <MultiThreadExecutor.hpp>
 #include <SingleThreadExecutor.hpp>
 
+#include <UserEventType.hpp>
+
 namespace MeowEngine {
-    Engine::Engine() {
+    Engine::Engine()
+    : RenderSystem(RenderGraph) {
         MeowEngine::Log("Engine", "Initializing Engine...");
 
         AppInstance = this;
@@ -28,16 +33,123 @@ namespace MeowEngine {
     }
 
     Engine::~Engine() {
+        MeowEngine::Log("Engine", "Closing Engine...");
+        Executor.reset();
+    }
 
+    void Engine::Open() {
+        IsRunning = true;
+        Run();
     }
 
     void Engine::Run() {
         while (IsRunning) {
+            if (!ProcessDeviceInput()) {
+                break;
+            }
+
             Timing.Update();
             Scheduler.BuildFrameGraph(Timing);
             Executor->Execute(Scheduler);
+
+            // update timing
+            // update gameplay system
+            // process device events
+            // sync
         }
+
+        ShutDown();
     }
+
+    void Engine::ShutDown() {
+        IsRunning = false;
+    }
+
+    bool Engine::ProcessDeviceInput() {
+        PT_PROFILE_SCOPE;
+
+//            while(!InputBuffer.GetCurrent().empty())
+//            {
+//                event = InputBuffer.GetCurrent().front();
+//                InputBuffer.GetCurrent().pop();
+//
+//                // perform the task
+//                MeowEngine::Log("InputBuffer", "Event");
+//            }
+
+        // Reset
+        InputManager.isMouseDown = false;
+
+        // Each loop we will process any events that are waiting for us.
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            // SharedState.SDLEventBuffer.GetCurrent().push(event);
+
+            switch (event.type) {
+                case SDL_MOUSEBUTTONDOWN:
+                    InputManager.SetMouseDown();
+                    break;
+
+                case SDL_QUIT:
+                    // If we get a quit signal, we will return that we don't want to keep looping.
+                    // RenderThread->UserInterface->ClosePIDs();
+                    return false;
+
+                case SDL_KEYDOWN:
+                    // If we get a key down event for the ESC key, we also don't want to keep looping.
+                    if (event.key.keysym.sym == SDLK_ESCAPE) {
+                        // RenderThread->UserInterface->ClosePIDs();
+
+                        // App should close
+                        return false;
+                    }
+                    break;
+
+                case SDL_USEREVENT:
+                    switch (event.user.code) {
+                        case UserEventType::VIEW_PORT_RESIZE: {
+                            MeowEngine::Log("Main Thread", "Rescaled Window");
+
+                            // const Vector2Int size = *(Vector2Int *) event.user.data1;
+                            // Scene->OnWindowResized(size);
+
+                            break;
+                        }
+                        case UserEventType::WORLD_VIEW_FOCUS: {
+                            InputManager.isActive = *(bool *) event.user.data1;
+                            break;
+                        }
+                        case UserEventType::IMPORT_FILE: {
+                            // std::vector<std::string> selectedFiles;
+                            // RenderThread->ShowImportPopup(selectedFiles);
+                            //
+                            // for (auto& importFilePath : selectedFiles) {
+                            //     std::string saveToDirectoryPath = *static_cast<std::string*>(event.user.data1);
+                            //     Editor::AssetImporter::Import(importFilePath, saveToDirectoryPath);
+                            // }
+
+                            break;
+                        }
+                        case UserEventType::SAVE_PROJECT: {
+                            // Scene->Save();
+                        }
+
+                        default: ;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        // TODO: Build a input system
+        // Track keyboard and mouse clicks/hold/drag/position
+        InputManager.ProcessInput();
+        // Scene->Input(deltaTime, *InputManager);
+
+        // should app continue?
+        return true;
+    }
+
 }
 
 

@@ -31,7 +31,7 @@ void SetApplicationIcon() {
 
 int main(int, char* []) {
     SetApplicationIcon();
-    MeowEngine::Engine();
+    MeowEngine::Engine().Open();
 
     return 0;
 }

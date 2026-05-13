@@ -8,6 +8,9 @@
 #pragma once
 
 #include <Threading.hpp>
+
+#include <Scheduler.hpp>
+#include <RenderGraph.hpp>
 #include <Timing.hpp>
 
 #include <IExecutor.hpp>
@@ -22,10 +25,16 @@
 
 #include <Project.hpp>
 #include <AssetManager.hpp>
+#include <InputManager.hpp>
+
+#include <EditorUISystem.hpp>
 
 using namespace std;
 
 namespace MeowEngine {
+    /**
+     * TODO: Implemented PIMPL pattern
+     */
     struct Engine {
     public:
         static Engine& Get() {
@@ -43,8 +52,7 @@ namespace MeowEngine {
          * TODO: remove
          */
         virtual void CreateApplication() {};
-
-        void Run();
+        void Open();
 
         /**
          * Returns stack instance of asset manager
@@ -63,12 +71,20 @@ namespace MeowEngine {
         }
 
     private:
-        //
+        void Run();
+        void ShutDown();
+
+        bool ProcessDeviceInput();
+
+    private:
+        // TODO: needs to be atomic
         bool IsRunning;
 
-        // threading
-        Threading::Scheduler Scheduler;
+        // logic & threading
         Threading::JobSystem JobSystem;
+        Shared::Scheduler Scheduler;
+        Shared::RenderGraph RenderGraph;
+
         Core::Timing Timing;
 
         // execution logic for single/multi thread
@@ -77,6 +93,7 @@ namespace MeowEngine {
         // essentials
         Runtime::Project Project;
         Runtime::Asset::AssetManager AssetManager;
+        Runtime::InputManager InputManager;
 
         // messaging
         Runtime::Messaging::CommandQueue CommandQueue;
@@ -87,6 +104,8 @@ namespace MeowEngine {
         Runtime::Systems::MainSystem MainSystem;
         Runtime::Systems::PhysicsSystem PhysicsSystem;
         Runtime::Systems::RenderSystem RenderSystem;
+
+        Editor::Systems::EditorUISystem EditorUI;
     };
 } // namespace MeowEngine
 
