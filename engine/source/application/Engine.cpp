@@ -10,6 +10,7 @@
 #include <SingleThreadExecutor.hpp>
 
 #include <UserEventType.hpp>
+#include <RenderCommand.hpp>
 
 namespace MeowEngine {
     Engine::Engine()
@@ -55,6 +56,8 @@ namespace MeowEngine {
         // - transfer window for new context - graphics
         // - select project path - project settings
         // - update current directory - editor selector
+
+        Rendering::RenderCommand::Init(Rendering::GraphicsAPI::OPENGL);
 
         // Select and set project path
         // std::string projectPath;

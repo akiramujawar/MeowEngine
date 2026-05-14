@@ -6,7 +6,8 @@
 
 #include <Public/Threading/Include.hpp>
 
-#include "GraphicsDevice.hpp"
+#include <GraphicsDevice.hpp>
+#include <RenderCommand.hpp>
 
 
 namespace MeowEngine::Rendering {
@@ -22,10 +23,37 @@ namespace MeowEngine::Rendering {
     }
 
     void RenderSystem::Schedule(Threading::Scheduler& scheduler, Graphics::GraphicsDevice& device) {
-        WorldViewFrameBuffer.Bind();
+        scheduler.AddTask(
+            [this]() {
+                WorldViewFrameBuffer.Bind();
+            }
+        );
+
+        scheduler.AddTask(
+            []() {
+                RenderCommand::Clear();
+            }
+        );
+
         RuntimeRenderPipeline.BuildGraph(RenderGraph);
-        WorldViewFrameBuffer.Unbind();
-        EditorRenderPipeline.BuildGraph(RenderGraph);
+
+        scheduler.AddTask(
+            [this]() {
+                WorldViewFrameBuffer.Unbind();
+            }
+        );
+
+        scheduler.AddTask(
+            []() {
+                RenderCommand::Clear();
+            }
+        );
+
+        scheduler.AddTask(
+            [this]() {
+                EditorRenderPipeline.BuildGraph(RenderGraph);
+            }
+        );
 
         scheduler.AddTask(
             [&window = device.GetWindow()]() {
@@ -33,17 +61,16 @@ namespace MeowEngine::Rendering {
             }
         );
 
-
         // on update
-        // - world view framebuffer bind - renderer
-        // - clear gl - renderer
-        // - render game view - renderer
-        //  - render game view - renderer
-        //  - render physics debug - renderer
-        // - world view framebuffer unbind - renderer
-
-        // - render editor ui - renderer
-        // - clear gl - renderer
+        // - world view framebuffer bind - root - done
+        // - clear gl - root - done
+        // - render game - runtime renderer
+        //    - render game view - runtime renderer
+        //    - render physics debug - runtime renderer
+        //    - render game ui - runtime renderer
+        // - world view framebuffer unbind - root - done
+        // - render editor ui - editor renderer - done
+        // - clear gl - root - done
 
         // - window swap - graphics
     }
