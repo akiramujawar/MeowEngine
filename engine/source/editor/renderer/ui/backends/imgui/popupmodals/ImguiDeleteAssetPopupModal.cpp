@@ -5,9 +5,9 @@
 #include "ImguiDeleteAssetPopupModal.hpp"
 #include "ImguiAPI.hpp"
 #include "log.hpp"
-#include "IO.hpp"
+#include <Public/IO.hpp>
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     ImguiDeleteAssetPopupModal::ImguiDeleteAssetPopupModal(const std::string_view& assetPath)
     : AssetPath(assetPath){
         FileSystem::Path path(assetPath);

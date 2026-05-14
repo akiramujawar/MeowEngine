@@ -15,6 +15,10 @@ namespace MeowEngine::Core::Threading {
         MeowEngine::Log("Scheduler", "Destructed");
     }
 
+    void Scheduler::Clear() {
+        MainJobs.clear();
+    }
+
     std::vector<Job>& Scheduler::GetMainJobs() {
         return MainJobs;
     }
@@ -29,6 +33,8 @@ namespace MeowEngine::Core::Threading {
 
     void Scheduler::AddTask(const std::function<void()>& method) {
         Job job(method);
+
+        MainJobs.push_back(job);
     }
 
 }

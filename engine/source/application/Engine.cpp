@@ -12,7 +12,10 @@
 #include <UserEventType.hpp>
 
 namespace MeowEngine {
-    Engine::Engine() {
+    Engine::Engine()
+        : IsRunning(false)
+        , RenderSystem(GraphicsDevice)
+    {
         MeowEngine::Log("Engine", "Initializing Engine...");
 
         AppInstance = this;
@@ -38,10 +41,35 @@ namespace MeowEngine {
 
     void Engine::Open() {
         IsRunning = true;
-        Run();
+
+        Init();
+        Loop();
     }
 
-    void Engine::Run() {
+    void Engine::Init() {
+        // on create
+        // - create window - graphics
+        // - create context - graphics
+        // - init opengl - renderer
+        // - window clear context - graphics
+        // - transfer window for new context - graphics
+        // - select project path - project settings
+        // - update current directory - editor selector
+
+        // Select and set project path
+        // std::string projectPath;
+        // RenderThread->ShowPickFolderPopup(projectPath);
+        // Project.ProjectSettings.SetProjectPath(projectPath);
+
+        EditorModule.Init();
+
+        // Initialise
+        // TODO: later we will include everything here (like InputManager etc...)
+        // AssetManager.Init();
+
+    }
+
+    void Engine::Loop() {
         while (IsRunning) {
             if (!ProcessDeviceInput()) {
                 break;
@@ -52,7 +80,18 @@ namespace MeowEngine {
             // main schedule
             // physics schedule
             // render schedule
-            RenderSystem.Schedule(Scheduler);
+            RenderSystem.Schedule(Scheduler, GraphicsDevice);
+
+            // on update
+            // - world view framebuffer bind - renderer
+            // - clear gl - renderer
+            // - render game view - renderer
+            //  - render game view - renderer
+            //  - render physics debug - renderer
+            // - world view framebuffer unbind - renderer
+            // - render editor ui - renderer
+            // - clear gl - renderer
+            // - window swap - graphics
 
             Executor->Execute(Scheduler);
         }

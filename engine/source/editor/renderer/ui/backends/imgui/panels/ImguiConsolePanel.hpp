@@ -7,7 +7,7 @@
 
 #include "ImguiAPI.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
     struct ImGuiConsolePanel {
         ImGuiConsolePanel();
         ~ImGuiConsolePanel();

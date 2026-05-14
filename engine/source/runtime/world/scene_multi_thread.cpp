@@ -4,12 +4,12 @@
 
 #include "scene_multi_thread.hpp"
 
-#include <CoreEngine.hpp>
+#include <Public/MeowEngine.hpp>
 
 #include "camera_controller.hpp"
 #include "perspective_camera.hpp"
 #include "static_mesh_instance.hpp"
-#include "selection_data.hpp"
+#include "Selector.hpp"
 
 #include "log.hpp"
 #include "opengl_line_pipeline.hpp"
@@ -56,7 +56,7 @@ namespace {
 struct SceneMultiThread::Internal {
     MeowEngine::PerspectiveCamera Camera;
     MeowEngine::CameraController CameraController;
-    MeowEngine::SelectionData SelectionData; // later we will have some type of unified system for selection system
+    MeowEngine::Selector SelectionData; // later we will have some type of unified system for selection system
 
     // EnttTripleBuffer RegistryBuffer;
     Runtime::World World;
@@ -78,7 +78,7 @@ struct SceneMultiThread::Internal {
 
     void Save() {
         // RegistryBuffer.GetCurrent();
-        auto path = GetProject().ProjectSettings.GetProjectPath();
+        auto path = Runtime::GetProject().ProjectSettings.GetProjectPath();
         path += "world.meowdata";
         // Runtime::World world(&RegistryBuffer.GetCurrent());
 

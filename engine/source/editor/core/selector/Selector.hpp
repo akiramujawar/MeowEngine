@@ -6,10 +6,13 @@
 #define MEOWENGINE_SELECTION_DATA_HPP
 
 #include "entt.hpp"
+#include <Public/IO.hpp>
 
 namespace MeowEngine {
-    struct SelectionData {
-        SelectionData();
+    struct Selector {
+        Selector();
+
+        void Init(const Core::IO::FileSystem::Path& path);
         
         entt::entity SelectedEntity;
         std::string SelectedDirectoryPath;

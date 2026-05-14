@@ -7,8 +7,7 @@
 
 #pragma once
 
-#include <Threading.hpp>
-#include <Scheduler.hpp>
+#include <Public/Threading/Forward.hpp>
 #include <Timing.hpp>
 
 #include <IExecutor.hpp>
@@ -16,6 +15,8 @@
 #include <CommandQueue.hpp>
 #include <EventBus.hpp>
 #include <RequestQueue.hpp>
+
+#include <EditorModule.hpp>
 
 #include <GraphicsDevice.hpp>
 
@@ -69,8 +70,14 @@ namespace MeowEngine {
             return Project;
         }
 
+        Editor::EditorModule& GetEditorModule() {
+            return EditorModule;
+        }
+
+
     private:
-        void Run();
+        void Init();
+        void Loop();
         void ShutDown();
 
         bool ProcessDeviceInput();
@@ -83,8 +90,6 @@ namespace MeowEngine {
         Threading::JobSystem JobSystem;
         Threading::Scheduler Scheduler;
 
-        Core::Timing Timing;
-
         // execution logic for single/multi thread
         std::unique_ptr<Application::IExecutor> Executor;
 
@@ -92,11 +97,15 @@ namespace MeowEngine {
         Runtime::Project Project;
         Runtime::Asset::AssetManager AssetManager;
         Runtime::InputManager InputManager;
+        Core::Timing Timing;
 
         // messaging
         Runtime::Messaging::CommandQueue CommandQueue;
         Runtime::Messaging::EventBus EventBus;
         Runtime::Messaging::RequestQueue RequestQueue;
+
+        // modules
+        Editor::EditorModule EditorModule;
 
         // graphics
         Graphics::GraphicsDevice GraphicsDevice;

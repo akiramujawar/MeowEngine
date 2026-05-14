@@ -12,17 +12,17 @@
 #include "entt.hpp"
 
 #include "hierarchy_component.hpp"
-#include "selection_data.hpp"
+#include "Selector.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
     struct ImGuiWorldTreePanel {
         ImGuiWorldTreePanel();
         ~ImGuiWorldTreePanel();
 
-        void Draw(entt::registry& registry, MeowEngine::SelectionData& pSelection);
+        void Draw(entt::registry& registry, MeowEngine::Selector& pSelection);
         void CreateSelectableItem(
                 entt::registry& registry,
-                MeowEngine::SelectionData& pSelection,
+                MeowEngine::Selector& pSelection,
                 component::HierarchyComponent& pHierarchyComponent,
                 bool& pIsItemClicked);
 

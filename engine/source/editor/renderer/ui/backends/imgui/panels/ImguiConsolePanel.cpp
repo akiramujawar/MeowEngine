@@ -5,7 +5,7 @@
 #include "ImguiConsolePanel.hpp"
 #include "log.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
     ImGuiConsolePanel::ImGuiConsolePanel()
         : WindowFlags(ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing), IsActive(false) {
         PT_PROFILE_ALLOC("ImGuiLogPanel", sizeof(ImGuiConsolePanel))

@@ -7,8 +7,8 @@
 #include <AssetType.hpp>
 #include <AssetEntry.hpp>
 
-#include <IO.hpp>
-#include <CoreEngine.hpp>
+#include <Public/IO.hpp>
+#include <Public/MeowEngine.hpp>
 #include <UUID.hpp>
 
 #include <AssetRegistrySerializer.hpp>

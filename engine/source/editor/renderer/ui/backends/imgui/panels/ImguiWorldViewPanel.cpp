@@ -5,12 +5,12 @@
 #include "ImguiWorldViewPanel.hpp"
 
 #include "log.hpp"
-#include "Math.hpp"
+#include "Public/Math.hpp"
 #include <SDL_events.h>
 
 #include "UserEventType.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
 
     ImGuiWorldViewPanel::ImGuiWorldViewPanel()
         : WindowFlags(ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_UnsavedDocument), IsActive(false),

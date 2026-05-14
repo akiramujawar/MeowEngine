@@ -2,17 +2,21 @@
 // Created by Akira Mujawar on 08/07/24.
 //
 
+#include <ImguiEditorUISystem.hpp>
+
+#include <ImguiAPI.hpp>
+#include <PlatformBridgeAPI.hpp>
+
 #include <SDL_video.h>
 #include <SDL_events.h>
+
+#include <log.hpp>
 
 #include <sys/wait.h> // For waitpid()
 #include <unistd.h> // For fork(), exec()
 #include <csignal> // For signal handling
 
-#include <log.hpp>
-#include "ImguiAPI.hpp"
-#include "ImguiEditorUISystem.hpp"
-#include "PlatformBridgeAPI.hpp"
+#include "GraphicsDevice.hpp"
 #include "UserEventType.hpp"
 
 namespace {
@@ -49,9 +53,9 @@ namespace {
     }
 }
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
 
-    ImGuiUISystem::ImGuiUISystem(const Platform::SDL_EngineWindow& pWindow)
+    ImGuiEditorUISystem::ImGuiEditorUISystem(Graphics::GraphicsDevice& graphicsDevice)
         : WorldInspectorPanel()
         , WorldTreePanel()
         , WorldViewPanel()
@@ -88,7 +92,7 @@ namespace MeowEngine::Runtime {
         ImGui::StyleColorsDark();
 
         // Setup Platform/Renderer backends
-        ImGui_ImplSDL2_InitForOpenGL(pWindow.GetWindow(), pWindow.GetContext());
+        ImGui_ImplSDL2_InitForOpenGL(graphicsDevice.GetWindow().GetHandle(), graphicsDevice.GetWindow().GetContext());
         ImGui_ImplOpenGL3_Init(glsl_version);
 
 #ifdef __APPLE__
@@ -101,7 +105,7 @@ namespace MeowEngine::Runtime {
 #endif
     }
 
-    ImGuiUISystem::~ImGuiUISystem() {
+    ImGuiEditorUISystem::~ImGuiEditorUISystem() {
         MeowEngine::Log("ImGuiRenderer", "Destroying...");
 
         ImGui_ImplOpenGL3_Shutdown();
@@ -109,7 +113,7 @@ namespace MeowEngine::Runtime {
         ImGui::DestroyContext();
     }
 
-    void ImGuiUISystem::Input(const SDL_Event& event) {
+    void ImGuiEditorUISystem::Input(const SDL_Event& event) {
         PT_PROFILE_SCOPE_N("UI Input");;
 
         ImGui_ImplSDL2_ProcessEvent(&event);
@@ -138,16 +142,16 @@ namespace MeowEngine::Runtime {
 #endif
     }
 
-    void ImGuiUISystem::Render(entt::registry& registry,
+    void ImGuiEditorUISystem::Render(entt::registry& registry,
                                std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-                               MeowEngine::SelectionData& pSelection,
+                               MeowEngine::Selector& pSelection,
                                unsigned int frameBufferId, const double fps) {
         CreateNewFrame();
         DrawFrame(registry, inUIInputQueue, pSelection, frameBufferId, fps);
         RenderFrame();
     }
 
-    void ImGuiUISystem::ClosePIDs() {
+    void ImGuiEditorUISystem::ClosePIDs() {
         ::HandleTracyProfilerSignal(SIGQUIT);
     }
 
@@ -159,7 +163,7 @@ namespace MeowEngine::Runtime {
 //    return SceneViewportSize;
 //}
 
-    void ImGuiUISystem::OpenTracyProfiler() {
+    void ImGuiEditorUISystem::OpenTracyProfiler() {
         // Register signal handlers to clean up child process on exit
         signal(SIGINT, &::HandleTracyProfilerSignal);  // Handle Ctrl+C
         signal(SIGTERM, &::HandleTracyProfilerSignal); // Handle termination signals
@@ -182,15 +186,15 @@ namespace MeowEngine::Runtime {
         }
     }
 
-    void ImGuiUISystem::CreateNewFrame() {
+    void ImGuiEditorUISystem::CreateNewFrame() {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
     }
 
-    void ImGuiUISystem::DrawFrame(entt::registry& registry,
+    void ImGuiEditorUISystem::DrawFrame(entt::registry& registry,
                                   std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-                                  MeowEngine::SelectionData& pSelection,
+                                  MeowEngine::Selector& pSelection,
                                   uint32_t frameBufferId, const double fps) {
         CreateDockingSpace();
 
@@ -206,12 +210,12 @@ namespace MeowEngine::Runtime {
         ImGui::ShowDemoWindow(&IsRendering);
     }
 
-    void ImGuiUISystem::RenderFrame() {
+    void ImGuiEditorUISystem::RenderFrame() {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void ImGuiUISystem::CreateDockingSpace() {
+    void ImGuiEditorUISystem::CreateDockingSpace() {
         ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 

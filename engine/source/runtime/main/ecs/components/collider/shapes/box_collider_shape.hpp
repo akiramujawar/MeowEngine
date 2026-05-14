@@ -6,7 +6,7 @@
 #define MEOWENGINE_BOX_COLLIDER_SHAPE_HPP
 
 #include "collider_shape_base.hpp"
-#include "Math.hpp"
+#include "Public/Math.hpp"
 
 namespace MeowEngine::entity {
     class BoxColliderShape : public entity::ColliderShapeBase {

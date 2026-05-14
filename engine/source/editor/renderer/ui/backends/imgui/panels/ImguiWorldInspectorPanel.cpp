@@ -9,7 +9,7 @@
 #include "reflection_macro_wrapper.hpp"
 #include "ImguiInputExtension.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
     ImGuiWorldInspectorPanel::ImGuiWorldInspectorPanel() {
 
     }
@@ -20,7 +20,7 @@ namespace MeowEngine::Runtime {
 
     void ImGuiWorldInspectorPanel::Draw(entt::registry& registry,
                                         std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-                                        MeowEngine::SelectionData& pSelection) {
+                                        MeowEngine::Selector& pSelection) {
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoCollapse;
 

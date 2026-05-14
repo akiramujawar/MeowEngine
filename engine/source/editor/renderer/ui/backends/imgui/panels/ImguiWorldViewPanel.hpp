@@ -6,9 +6,9 @@
 #define MEOWENGINE_IMGUIWORLDVIEWPANEL_HPP
 
 #include "ImguiAPI.hpp"
-#include "Math.hpp"
+#include "Public/Math.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
 
     struct ImGuiWorldViewPanel {
         ImGuiWorldViewPanel();

@@ -6,7 +6,7 @@
 
 #include <log.hpp>
 #include <AssetRegistrySerializer.hpp>
-#include <CoreEngine.hpp>
+#include <Public/MeowEngine.hpp>
 
 
 namespace MeowEngine::Runtime::Asset {

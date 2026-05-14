@@ -11,22 +11,22 @@
 namespace MeowEngine::Platform {
 
     SDL_EngineWindow::SDL_EngineWindow()
-        : window(CreateWindow(SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI)),
-          context(CreateContext()) {}
+        : Handle(CreateHandle(SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI)),
+          Context(CreateContext()) {}
 
     SDL_EngineWindow::~SDL_EngineWindow() {
         MeowEngine::Log("Window", "Destroyed");
         
         Runtime::Window::SDL_NativeFileDialog::Quit();
 
-        SDL_GL_DeleteContext(context);
-        SDL_DestroyWindow(window);
+        SDL_GL_DeleteContext(Context);
+        SDL_DestroyWindow(Handle);
 
         SDL_Quit();
     }
 
     void SDL_EngineWindow::SwapWindow() const {
-        SDL_GL_SwapWindow(window);
+        SDL_GL_SwapWindow(Handle);
     }
 
     Vector2Int SDL_EngineWindow::GetWindowSize() {
@@ -53,29 +53,29 @@ namespace MeowEngine::Platform {
         int width {0};
         int height {0};
 
-        SDL_GetWindowSize(window, &width, &height);
+        SDL_GetWindowSize(Handle, &width, &height);
         return Vector2Int{width, height};
 
 #endif
     }
 
     void SDL_EngineWindow::ClearContext() const {
-        SDL_GL_MakeCurrent(window, nullptr);
+        SDL_GL_MakeCurrent(Handle, nullptr);
     }
 
     void SDL_EngineWindow::MakeCurrent() const {
-        SDL_GL_MakeCurrent(window, context);
+        SDL_GL_MakeCurrent(Handle, Context);
     }
 
-    SDL_Window* SDL_EngineWindow::GetWindow() const {
-        return window;
+    SDL_Window* SDL_EngineWindow::GetHandle() const {
+        return Handle;
     }
 
     SDL_GLContext SDL_EngineWindow::GetContext() const {
-        return context;
+        return Context;
     }
 
-    SDL_Window* SDL_EngineWindow::CreateWindow(const uint32_t& windowFlags){
+    SDL_Window* SDL_EngineWindow::CreateHandle(const uint32_t& windowFlags){
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
             throw std::runtime_error("Main Thread:: Could not initialize SDL2_image");
         }
@@ -135,9 +135,9 @@ namespace MeowEngine::Platform {
     SDL_GLContext SDL_EngineWindow::CreateContext() {
         static const std::string logTag("MeowEngine::OpenGLApplication::CreateContext");
 
-        SDL_GLContext context {SDL_GL_CreateContext(window)};
+        SDL_GLContext context {SDL_GL_CreateContext(Handle)};
         SDL_GL_SetSwapInterval(1);// wth si this lol? from 100-450 to 1700 fps?
-        SDL_GL_MakeCurrent(window, context);
+        SDL_GL_MakeCurrent(Handle, context);
 
         // TODO: This is opengl specific move it outside
 #ifdef WIN32

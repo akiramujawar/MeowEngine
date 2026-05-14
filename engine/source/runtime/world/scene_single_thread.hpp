@@ -11,7 +11,7 @@
 #include "opengl_render_system.hpp"
 #include "PhysicsSystem.hpp"
 
-#include "Math.hpp"
+#include "Public/Math.hpp"
 
 // main update - creates something for both physics and main
 // apply

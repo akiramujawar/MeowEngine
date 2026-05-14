@@ -7,7 +7,7 @@
 
 #include "string"
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     class ImguiAssetRenamePopupModal {
     public:
         ImguiAssetRenamePopupModal(float x, float y, float width, float height, const std::string_view& assetPath);

@@ -2,14 +2,14 @@
 // Created by Akira Mujawar on 10/07/24.
 //
 
-#include "GLFrameBuffer.hpp"
+#include "GLWorldViewFrameBuffer.hpp"
 
 #include "OpenGLAPI.hpp"
 #include "log.hpp"
 
 namespace MeowEngine::Graphics {
 
-    GLFrameBuffer::GLFrameBuffer(const float &width, const float &height)
+    GLWorldViewFrameBuffer::GLWorldViewFrameBuffer(const float &width, const float &height)
         : frameBufferId(0)
         , textureId(0)
         , renderBufferId(0) {
@@ -38,17 +38,17 @@ namespace MeowEngine::Graphics {
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
 
-    GLFrameBuffer::~GLFrameBuffer() {
+    GLWorldViewFrameBuffer::~GLWorldViewFrameBuffer() {
         glDeleteFramebuffers(1, &frameBufferId);
         glDeleteTextures(1, &textureId);
         glDeleteRenderbuffers(1, &renderBufferId);
     }
 
-    unsigned int GLFrameBuffer::GetFrameTexture() {
+    unsigned int GLWorldViewFrameBuffer::GetFrameTexture() {
         return textureId;
     }
 
-    void GLFrameBuffer::RescaleFrameBuffer(const float &width, const float &height) {
+    void GLWorldViewFrameBuffer::RescaleFrameBuffer(const float &width, const float &height) {
         glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
 
         glBindTexture(GL_TEXTURE_2D, textureId);
@@ -66,11 +66,11 @@ namespace MeowEngine::Graphics {
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
 
-    void GLFrameBuffer::Bind() const {
+    void GLWorldViewFrameBuffer::Bind() const {
         glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
     }
 
-    void GLFrameBuffer::Unbind() const {
+    void GLWorldViewFrameBuffer::Unbind() const {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 

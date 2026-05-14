@@ -4,9 +4,9 @@
 
 #include "ImguiAssetDragDrop.hpp"
 #include "ImguiAPI.hpp"
-#include "IO.hpp"
+#include <Public/IO.hpp>
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     void ImguiAssetDragDrop::DragAsset(const std::string& path, const std::string& name, void* imagePtr) {
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
             // NOTE: remember memory layout for char is ['a','b','c',...,'\0']

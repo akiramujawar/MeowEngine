@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_VECTOR3_HPP
 #define MEOWENGINE_VECTOR3_HPP
 
-#include <Reflection.hpp>
+#include <Public/Reflection.hpp>
 
 namespace MeowEngine::Core::Math {
 

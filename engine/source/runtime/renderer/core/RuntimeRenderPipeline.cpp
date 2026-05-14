@@ -5,7 +5,7 @@
 #include <RuntimeRenderPipeline.hpp>
 #include <log.hpp>
 
-#include "RenderGraph.hpp"
+#include <RenderGraph.hpp>
 
 namespace MeowEngine::Runtime {
     RenderPipeline::RenderPipeline() {
@@ -16,8 +16,5 @@ namespace MeowEngine::Runtime {
         MeowEngine::Log("Runtime RenderPipeline", "Destructed");
     }
 
-    void RenderPipeline::Render() {
-
-    }
-
+    void RenderPipeline::BuildGraph(Rendering::RenderGraph& graph) {}
 }

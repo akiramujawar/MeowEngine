@@ -22,7 +22,7 @@
 
 #include "rigidbody_component.hpp"
 
-#include "selection_data.hpp"
+#include "Selector.hpp"
 
 #include "reflection_macro_wrapper.hpp"
 #include "entt_single_buffer.hpp"
@@ -38,7 +38,7 @@ namespace MeowEngine {
         MeowEngine::PerspectiveCamera Camera;
         MeowEngine::CameraController CameraController;
 
-        MeowEngine::SelectionData SelectionData;
+        MeowEngine::Selector SelectionData;
         MeowEngine::EnttSingleBuffer RegistryBuffer;
 
         // User Input Events

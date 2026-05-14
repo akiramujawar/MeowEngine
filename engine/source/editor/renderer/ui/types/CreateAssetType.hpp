@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_CREATEASSETTYPE_HPP
 #define MEOWENGINE_CREATEASSETTYPE_HPP
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     enum class AssetCreateType {
         NONE,
         FOLDER,

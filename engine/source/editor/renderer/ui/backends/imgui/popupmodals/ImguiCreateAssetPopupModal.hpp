@@ -11,10 +11,10 @@
 //struct ImGuiInputTextCallbackData;
 
 namespace MeowEngine {
-    struct SelectionData;
+    struct Selector;
 }
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     class ImguiCreateAssetPopupModal {
     public:
         ImguiCreateAssetPopupModal(const std::string_view& title, const AssetCreateType& createType);
@@ -25,7 +25,7 @@ namespace MeowEngine::Editor::UI {
          * NOTE: Force close can be added if required otherwise self contained is good
          * @return
          */
-        bool Draw(const SelectionData& selectionData);
+        bool Draw(const Selector& selectionData);
         
     private:
         std::string TitleText;

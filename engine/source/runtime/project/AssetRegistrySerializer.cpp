@@ -4,7 +4,7 @@
 
 #include <AssetRegistrySerializer.hpp>
 
-#include <IO.hpp>
+#include <Public/IO.hpp>
 #include <AssetRegistry.hpp>
 #include <AssetHeader.hpp>
 #include <AssetType.hpp>

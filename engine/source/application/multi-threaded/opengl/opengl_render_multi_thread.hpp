@@ -13,7 +13,7 @@
 #include "asset_manager.hpp"
 #include "opengl_render_system.hpp"
 #include <SDL_EngineWindow.hpp>
-#include <GLFrameBuffer.hpp>
+#include <GLWorldViewFrameBuffer.hpp>
 
 #include "scene_multi_thread.hpp"
 
@@ -38,7 +38,7 @@ namespace MeowEngine {
         // TODO: When we plan to handle multi-scene we look into this, make this private
         // we decouple window / context into a class
         std::unique_ptr<Platform::SDL_EngineWindow> Window;
-        std::shared_ptr<Runtime::ImGuiUISystem> UserInterface;
+        std::shared_ptr<Editor::ImGuiEditorUISystem> UserInterface;
 
     private:
         void RenderThreadLoop();
@@ -60,7 +60,7 @@ namespace MeowEngine {
         /**
          * Draws our game view onto a ui panel (which is a framebuffer)
          */
-        std::unique_ptr<MeowEngine::Graphics::GLFrameBuffer> FrameBuffer;
+        std::unique_ptr<MeowEngine::Graphics::GLWorldViewFrameBuffer> FrameBuffer;
 
         /**
          * this is shared because even main thread will access asset manager and sometimes physics

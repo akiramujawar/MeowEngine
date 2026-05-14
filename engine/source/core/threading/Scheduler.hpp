@@ -8,7 +8,7 @@
 #include <vector>
 #include <functional>
 
-#include <Threading.hpp>
+#include <Public/Threading/Include.hpp>
 #include <Timing.hpp>
 
 namespace MeowEngine::Core::Threading {
@@ -20,6 +20,8 @@ namespace MeowEngine::Core::Threading {
         Scheduler();
         ~Scheduler();
 
+        void Clear();
+
         std::vector<Job>& GetMainJobs();
         std::vector<Job>& GetRenderJobs();
         std::vector<Job>& GetPhysicsJobs();
@@ -28,6 +30,7 @@ namespace MeowEngine::Core::Threading {
 
     private:
         std::vector<Job> MainJobs;
+        std::vector<Job> GameplayJobs;
         std::vector<Job> RenderJobs;
         std::vector<Job> PhysicsJobs;
     };

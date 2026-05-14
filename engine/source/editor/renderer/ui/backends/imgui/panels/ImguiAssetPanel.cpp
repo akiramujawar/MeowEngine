@@ -5,8 +5,8 @@
 #include "ImguiAssetPanel.hpp"
 #include "log.hpp"
 
-#include <IO.hpp>
-#include <CoreEngine.hpp>
+#include <Public/IO.hpp>
+#include <Public/MeowEngine.hpp>
 
 #include "AssetLoader.hpp"
 
@@ -19,7 +19,7 @@
 
 #include <UserEventType.hpp>
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     ImguiAssetPanel::ImguiAssetPanel()
         : WindowFlags(ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing)
         , DefaultSelectableFlags(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth)
@@ -35,7 +35,7 @@ namespace MeowEngine::Editor::UI {
         PT_PROFILE_FREE("ImguiAssetPanel")
     }
 
-    void ImguiAssetPanel::Draw(MeowEngine::SelectionData& selectionData) {
+    void ImguiAssetPanel::Draw(MeowEngine::Selector& selectionData) {
         
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -79,7 +79,7 @@ namespace MeowEngine::Editor::UI {
         
     }
     
-    void ImguiAssetPanel::ShowTableHeaders(MeowEngine::SelectionData& selectionData) {
+    void ImguiAssetPanel::ShowTableHeaders(MeowEngine::Selector& selectionData) {
         ImGui::TableSetupColumn("Directory");
         ImGui::TableSetupColumn("FolderView"); // folder view
     
@@ -134,7 +134,7 @@ namespace MeowEngine::Editor::UI {
         }
     }
     
-    void ImguiAssetPanel::ShowTableContents(MeowEngine::SelectionData& selectionData) {
+    void ImguiAssetPanel::ShowTableContents(MeowEngine::Selector& selectionData) {
         // folder view (tree)
         ImGui::TableNextRow(ImGuiTableRowFlags_None, ImGui::GetContentRegionAvail().y);
         ImGui::TableNextColumn() ;
@@ -143,7 +143,7 @@ namespace MeowEngine::Editor::UI {
         ImGui::BeginChild("##AssetsScrollableView", ImVec2(0,0), true, flags);
         // show open project assets
         {
-            auto projectPath = GetProject().ProjectSettings.GetProjectPath();
+            auto projectPath = Runtime::GetProject().ProjectSettings.GetProjectPath();
             auto assetPath = projectPath + "source";
         
             ShowDirectory(selectionData, assetPath.GetRawString(), "Project");
@@ -151,7 +151,7 @@ namespace MeowEngine::Editor::UI {
     
         // show internal engine assets
         {
-            auto enginePath = GetProject().ProjectSettings.GetEnginePath();
+            auto enginePath = Runtime::GetProject().ProjectSettings.GetEnginePath();
             auto assetPath = enginePath + "assets";
         
             ShowDirectory(selectionData, assetPath.GetRawString(), "Engine");
@@ -168,7 +168,7 @@ namespace MeowEngine::Editor::UI {
         ImGui::EndChild();
     }
 
-    void ImguiAssetPanel::ShowDirectory(MeowEngine::SelectionData& selectionData,
+    void ImguiAssetPanel::ShowDirectory(MeowEngine::Selector& selectionData,
                                                const std::string& pathString,
                                                const std::string& pathName) {
         FileSystem::Path path { pathString };
@@ -211,7 +211,7 @@ namespace MeowEngine::Editor::UI {
         }
     }
 
-    void ImguiAssetPanel::ShowSelectedDirectoryFiles(MeowEngine::SelectionData& selectionData) {
+    void ImguiAssetPanel::ShowSelectedDirectoryFiles(MeowEngine::Selector& selectionData) {
         FileSystem::Path path { selectionData.SelectedDirectoryPath };
         FileSystem::Directory directory { path };
         std::vector<FileSystem::Path> assetPaths = directory.GetAll(false);
@@ -222,7 +222,7 @@ namespace MeowEngine::Editor::UI {
         }
     }
 
-    void ImguiAssetPanel::ShowThumbnail(SelectionData& selectionData,
+    void ImguiAssetPanel::ShowThumbnail(Selector& selectionData,
                                         const FileSystem::Path& path) {
         FileSystem::Path name = path.GetName();
         
@@ -323,7 +323,7 @@ namespace MeowEngine::Editor::UI {
         ImGui::PopID();
     }
 
-    void ImguiAssetPanel::ShowCreateAssetPopupMenu(MeowEngine::SelectionData& selectionData) {
+    void ImguiAssetPanel::ShowCreateAssetPopupMenu(MeowEngine::Selector& selectionData) {
         std::string titleText;
         AssetCreateType createType = AssetCreateType::NONE;
         

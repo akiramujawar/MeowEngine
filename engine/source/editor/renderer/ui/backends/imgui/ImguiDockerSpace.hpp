@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_IMGUIDOCKERSPACE_HPP
 #define MEOWENGINE_IMGUIDOCKERSPACE_HPP
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
     struct ImGuiDockerSpace {
         ImGuiDockerSpace();
 

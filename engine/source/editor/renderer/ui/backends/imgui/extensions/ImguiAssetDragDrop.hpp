@@ -7,7 +7,7 @@
 
 #include "string"
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     class ImguiAssetDragDrop {
     public:
         // TODO: later change this to uuid

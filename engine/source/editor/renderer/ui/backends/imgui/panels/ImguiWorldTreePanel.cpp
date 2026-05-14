@@ -17,7 +17,7 @@
 //#include "bridge_wrapper.hpp"
 
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
 
     ImGuiWorldTreePanel::ImGuiWorldTreePanel()
         : DefaultSelectableFlags(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth)
@@ -27,7 +27,7 @@ namespace MeowEngine::Runtime {
 
     ImGuiWorldTreePanel::~ImGuiWorldTreePanel() {}
 
-    void ImGuiWorldTreePanel::Draw(entt::registry &registry, MeowEngine::SelectionData &pSelection) {
+    void ImGuiWorldTreePanel::Draw(entt::registry &registry, MeowEngine::Selector &pSelection) {
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 
         ImGui::Begin("World Tree", &IsActive); {
@@ -49,7 +49,7 @@ namespace MeowEngine::Runtime {
     }
 
     void ImGuiWorldTreePanel::CreateSelectableItem(entt::registry& registry,
-                                                   MeowEngine::SelectionData& pSelection,
+                                                   MeowEngine::Selector& pSelection,
                                                    component::HierarchyComponent& pHierarchyComponent,
                                                    bool& pIsItemClicked) {
         const int id = static_cast<int>(pHierarchyComponent.Self);

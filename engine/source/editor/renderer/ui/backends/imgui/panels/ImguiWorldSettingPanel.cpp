@@ -5,7 +5,7 @@
 #include "ImguiWorldSettingPanel.hpp"
 #include "log.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
     ImguiWorldSettingPanel::ImguiWorldSettingPanel()
         : WindowFlags(ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing), IsActive(false) {
         PT_PROFILE_ALLOC("ImguiWorldSettingPanel", sizeof(ImguiWorldSettingPanel))

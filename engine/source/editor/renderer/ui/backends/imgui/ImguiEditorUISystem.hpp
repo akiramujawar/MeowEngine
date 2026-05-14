@@ -6,8 +6,9 @@
 #define MEOWENGINE_IMGUIEDITORUISYSTEM_HPP
 
 //#include <scene.hpp>
-#include "GLFrameBuffer.hpp"
-#include "Math.hpp"
+// #include "GLWorldViewFrameBuffer.hpp"
+// #include "Math.hpp"
+
 
 #include "ImguiWorldTreePanel.hpp"
 #include "ImguiWorldInspectorPanel.hpp"
@@ -20,16 +21,19 @@
 
 #include "entt.hpp"
 #include "queue"
-#include "selection_data.hpp"
-#include "SDL_EngineWindow.hpp"
+#include "Selector.hpp"
 
-namespace MeowEngine::Runtime {
-    struct ImGuiUISystem {
-        ImGuiUISystem(const Platform::SDL_EngineWindow& pWindow);
-        ~ImGuiUISystem();
+namespace MeowEngine::Graphics {
+    class GraphicsDevice;
+}
+
+namespace MeowEngine::Editor {
+    struct ImGuiEditorUISystem {
+        explicit ImGuiEditorUISystem(Graphics::GraphicsDevice& graphicsDevice);
+        ~ImGuiEditorUISystem();
 
         void Input(const SDL_Event& event);
-        void Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection, unsigned int frameBufferId, const double fps);
+        void Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps);
 
         // Closes any child processes like tracy
         void ClosePIDs();
@@ -41,7 +45,7 @@ namespace MeowEngine::Runtime {
         void OpenTracyProfiler();
 
         void CreateNewFrame();
-        void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::SelectionData& pSelection, uint32_t frameBufferId, const double fps);
+        void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, uint32_t frameBufferId, const double fps);
         void RenderFrame();
 
         void CreateDockingSpace();
@@ -64,7 +68,7 @@ namespace MeowEngine::Runtime {
         ImGuiWorldInspectorPanel WorldInspectorPanel;
         ImGuiWorldViewPanel WorldViewPanel;
         ImGuiConsolePanel ConsolePanel;
-        Editor::UI::ImguiAssetPanel AssetPanel;
+        ImguiAssetPanel AssetPanel;
         ImguiWorldSettingPanel WorldSettingPanel;
         ImguiProjectSettingPanel ProjectSettingPanel;
         ImguiEditorSettingPanel EditorSettingPanel;

@@ -5,9 +5,9 @@
 #include "ImguiAssetRenamePopupModal.hpp"
 #include "ImguiAPI.hpp"
 #include "log.hpp"
-#include "IO.hpp"
+#include "Public/IO.hpp"
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     ImguiAssetRenamePopupModal::ImguiAssetRenamePopupModal(float x, float y, float width, float height, const std::string_view& assetPath)
     : X(x)
     , Y(y)

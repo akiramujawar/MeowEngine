@@ -5,7 +5,7 @@
 #include "ImguiProjectSettingPanel.hpp"
 #include "log.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
     ImguiProjectSettingPanel::ImguiProjectSettingPanel()
         : WindowFlags(ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing), IsActive(true) {
         PT_PROFILE_ALLOC("ImguiProjectSettingPanel", sizeof(ImguiProjectSettingPanel))

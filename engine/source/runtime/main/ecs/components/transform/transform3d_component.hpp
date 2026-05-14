@@ -6,7 +6,7 @@
 #define MEOWENGINE_TRANSFORM3D_COMPONENT_HPP
 
 #include "transform_component_base.hpp"
-#include "Math.hpp"
+#include "Public/Math.hpp"
 
 namespace MeowEngine::entity {
     class Transform3DComponent : public MeowEngine::entity::TransformComponentBase {

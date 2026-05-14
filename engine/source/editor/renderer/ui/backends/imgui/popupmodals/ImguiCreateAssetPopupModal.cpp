@@ -5,8 +5,8 @@
 #include "ImguiCreateAssetPopupModal.hpp"
 #include "ImguiAPI.hpp"
 #include "log.hpp"
-#include "IO.hpp"
-#include "selection_data.hpp"
+#include <Public/IO.hpp>
+#include <Selector.hpp>
 
 namespace {
     /**
@@ -29,7 +29,7 @@ namespace {
     }
 }
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     
     ImguiCreateAssetPopupModal::ImguiCreateAssetPopupModal(const std::string_view& title, const AssetCreateType& createType)
             : TitleText(title)
@@ -45,7 +45,7 @@ namespace MeowEngine::Editor::UI {
         MeowEngine::Log("ImguiCreateAssetPopup", "Destroyed");
     }
     
-    bool ImguiCreateAssetPopupModal::Draw(const SelectionData& selectionData) {
+    bool ImguiCreateAssetPopupModal::Draw(const Selector& selectionData) {
         // ideally on construction this should be called for renaming
         // since its inside popup menu we bring it outside when rendering and open popup
         if(!ImGui::IsPopupOpen(TitleText.c_str())) {

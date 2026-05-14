@@ -6,7 +6,7 @@
 #define MEOWENGINE_PROJECTSETTINGS_HPP
 
 #include <string>
-#include <IO.hpp>
+#include <Public/IO.hpp>
 
 namespace MeowEngine::Settings {
     class ProjectSettings {

@@ -7,7 +7,7 @@
 
 #include <SDL_API.hpp>
 
-#include <Math.hpp>
+#include <Public/Math.hpp>
 #include <log.hpp>
 
 namespace MeowEngine::Platform {
@@ -20,19 +20,19 @@ namespace MeowEngine::Platform {
         void ClearContext() const;
         void MakeCurrent() const;
 
-        [[nodiscard]] SDL_Window* GetWindow() const;
+        [[nodiscard]] SDL_Window* GetHandle() const;
         [[nodiscard]] SDL_GLContext GetContext() const;
 
     private:
-        SDL_Window* CreateWindow(const uint32_t& windowFlags);
+        SDL_Window* CreateHandle(const uint32_t& windowFlags);
         SDL_GLContext CreateContext();
 
         bool ShouldDisplayFullScreen();
         Vector2Int GetInitialWindowSize();
 
     private:
-        SDL_Window* window;
-        SDL_GLContext context;
+        SDL_Window* Handle;
+        SDL_GLContext Context;
     };
 }
 

@@ -6,9 +6,9 @@
 #define MEOWENGINE_OPENGL_FRAMEBUFFER_HPP
 
 namespace MeowEngine::Graphics {
-    struct GLFrameBuffer {
-        GLFrameBuffer(const float& width, const float& height);
-        ~GLFrameBuffer();
+    struct GLWorldViewFrameBuffer {
+        GLWorldViewFrameBuffer(const float& width, const float& height);
+        ~GLWorldViewFrameBuffer();
 
         unsigned  int GetFrameTexture();
         void RescaleFrameBuffer(const float& width, const float& height);

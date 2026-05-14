@@ -15,9 +15,9 @@ namespace MeowEngine {
 
         Window = std::make_unique<Platform::SDL_EngineWindow>();
         AssetManager = std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
-        UserInterface = std::make_shared<Runtime::ImGuiUISystem>(*Window.get());
+        // UserInterface = std::make_shared<Editor::ImGuiEditorUISystem>(*Window.get());
         GameView = std::make_unique<MeowEngine::OpenGLRenderSystem>(AssetManager, UserInterface);
-        FrameBuffer = std::make_unique<MeowEngine::Graphics::GLFrameBuffer>(1000,500);
+        FrameBuffer = std::make_unique<MeowEngine::Graphics::GLWorldViewFrameBuffer>(1000,500);
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);
     }
 
@@ -49,15 +49,15 @@ namespace MeowEngine {
     }
 
     void OpenGLRenderMultiThread::ShowPickFolderPopup(std::string& selectedDirectory) const {
-        Runtime::Window::SDL_NativeFileDialog::PickFolder(Window->GetWindow(), selectedDirectory);
+        Runtime::Window::SDL_NativeFileDialog::PickFolder(Window->GetHandle(), selectedDirectory);
     }
 
     void OpenGLRenderMultiThread::ShowImportPopup(std::string& selectedFile) const {
-        Runtime::Window::SDL_NativeFileDialog::OpenDialog(Window->GetWindow(), selectedFile);
+        Runtime::Window::SDL_NativeFileDialog::OpenDialog(Window->GetHandle(), selectedFile);
     }
 
     void OpenGLRenderMultiThread::ShowImportPopup(std::vector<std::string>& selectedFiles) const {
-        Runtime::Window::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetWindow(), selectedFiles);
+        Runtime::Window::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetHandle(), selectedFiles);
     }
 
     void OpenGLRenderMultiThread::RenderThreadLoop() {

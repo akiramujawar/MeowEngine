@@ -6,10 +6,10 @@
 #include "ImguiAPI.hpp"
 #include "reflection_macro_wrapper.hpp"
 
-#include <Core.hpp>
-#include <Math.hpp>
+#include <Public/Core.hpp>
+#include <Public/Math.hpp>
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Editor {
 
     MeowEngine::ReflectionPropertyChange* ImGuiInputExtension::ShowProperty(const std::string& inClassName, void* inObject, bool pIsEditable) {
         std::vector<MeowEngine::ReflectionProperty> properties = MeowEngine::GetReflection().GetProperties(inClassName);

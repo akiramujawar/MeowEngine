@@ -11,14 +11,14 @@
 #include "string_view"
 #include "string"
 
-#include "selection_data.hpp"
+#include "Selector.hpp"
 #include "opengl_thumbnail.hpp"
 
 namespace MeowEngine::Core::IO::FileSystem {
     class Path;
 }
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     class ImguiCreateAssetPopupModal;
     class ImguiDeleteAssetPopupModal;
     class ImguiAssetRenamePopupModal;
@@ -27,24 +27,24 @@ namespace MeowEngine::Editor::UI {
         ImguiAssetPanel();
         ~ImguiAssetPanel();
 
-        void Draw(MeowEngine::SelectionData& selectionData);
+        void Draw(MeowEngine::Selector& selectionData);
 
     private:
-        void ShowTableHeaders(MeowEngine::SelectionData& selectionData);
-        void ShowTableContents(MeowEngine::SelectionData& selectionData);
-        void ShowDirectory(MeowEngine::SelectionData& selectionData,
+        void ShowTableHeaders(MeowEngine::Selector& selectionData);
+        void ShowTableContents(MeowEngine::Selector& selectionData);
+        void ShowDirectory(MeowEngine::Selector& selectionData,
                            const std::string& pathString,
                            const std::string& pathName);
 
-        void ShowSelectedDirectoryFiles(SelectionData& selectionData);
+        void ShowSelectedDirectoryFiles(Selector& selectionData);
 
         /**
          * We can move this into a thumbnail renderer or something similir
          * @param selectionData
          * @param path
          */
-        void ShowThumbnail(SelectionData& selectionData, const Core::IO::FileSystem::Path& path);
-        void ShowCreateAssetPopupMenu(MeowEngine::SelectionData& selectionData);
+        void ShowThumbnail(Selector& selectionData, const Core::IO::FileSystem::Path& path);
+        void ShowCreateAssetPopupMenu(MeowEngine::Selector& selectionData);
         
     private:
         bool IsActive;

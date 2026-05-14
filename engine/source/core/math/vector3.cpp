@@ -4,7 +4,7 @@
 
 #include "vector3.hpp"
 #include "reflection_macro_wrapper.hpp"
-#include "Math.hpp"
+#include "Public/Math.hpp"
 
 namespace MeowEngine::Core::Math {
 

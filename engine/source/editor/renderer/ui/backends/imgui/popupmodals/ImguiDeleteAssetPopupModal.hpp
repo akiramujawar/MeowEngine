@@ -8,10 +8,10 @@
 #include "string"
 
 namespace MeowEngine {
-    struct SelectionData;
+    struct Selector;
 }
 
-namespace MeowEngine::Editor::UI {
+namespace MeowEngine::Editor {
     class ImguiDeleteAssetPopupModal {
     public:
         ImguiDeleteAssetPopupModal(const std::string_view& assetPath);

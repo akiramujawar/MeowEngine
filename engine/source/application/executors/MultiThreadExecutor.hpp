@@ -6,7 +6,7 @@
 #define MEOWENGINE_MULTITHREADEXECUTOR_HPP
 
 #include <IExecutor.hpp>
-#include <Threading.hpp>
+#include <Public/Threading/Forward.hpp>
 
 #include <MainThread.hpp>
 #include <RenderThread.hpp>
@@ -20,7 +20,7 @@ namespace MeowEngine::Application {
         void Execute(Threading::Scheduler& scheduler) override;
 
     private:
-        JobSystem& JobSystem;
+        Threading::JobSystem& JobSystem;
 
         MainThread MainThread;
         RenderThread RenderThread;

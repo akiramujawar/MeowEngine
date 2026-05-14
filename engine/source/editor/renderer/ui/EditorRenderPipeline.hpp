@@ -5,6 +5,12 @@
 #ifndef MEOWENGINE_IEDITORUISYSTEM_HPP
 #define MEOWENGINE_IEDITORUISYSTEM_HPP
 
+#include <ImguiEditorUISystem.hpp>
+
+namespace MeowEngine::Graphics {
+    class GraphicsDevice;
+}
+
 namespace MeowEngine::Rendering {
     class RenderGraph;
 }
@@ -12,10 +18,13 @@ namespace MeowEngine::Rendering {
 namespace MeowEngine::Editor {
     class RenderPipeline {
     public:
-        RenderPipeline();
+        explicit RenderPipeline(Graphics::GraphicsDevice& device);
         ~RenderPipeline();
 
         void BuildGraph(Rendering::RenderGraph& graph);
+
+    private:
+        ImGuiEditorUISystem UI;
     };
 }
 

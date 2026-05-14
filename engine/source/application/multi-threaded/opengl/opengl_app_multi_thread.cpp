@@ -178,7 +178,7 @@ namespace MeowEngine {
                             break;
                         }
                         case UserEventType::SAVE_PROJECT: {
-
+                            Scene->Save();
                         }
 
                         default: ;
