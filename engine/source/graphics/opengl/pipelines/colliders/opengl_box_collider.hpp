@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_OPENGL_BOX_COLLIDER_HPP
 #define MEOWENGINE_OPENGL_BOX_COLLIDER_HPP
 
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 #include "GLMAPI.hpp"
 #include "vector"
 

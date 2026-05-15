@@ -16,6 +16,9 @@ namespace MeowEngine::Rendering {
 }
 
 namespace MeowEngine::Editor {
+    /**
+     * Handles editor specific rendering like editor ui, gizmos and rendering order
+     */
     class RenderPipeline {
     public:
         explicit RenderPipeline(Graphics::GraphicsDevice& device);

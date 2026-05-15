@@ -19,6 +19,7 @@
 #include <EditorModule.hpp>
 
 #include <GraphicsDevice.hpp>
+#include <Renderer.hpp>
 
 #include <MainSystem.hpp>
 #include <PhysicsSystem.hpp>
@@ -70,6 +71,10 @@ namespace MeowEngine {
             return Project;
         }
 
+        /**
+         * Returns stack instance of editor engine (which includes Selector, Reflection, Importer etc...)
+         * @return
+         */
         Editor::EditorModule& GetEditorModule() {
             return EditorModule;
         }
@@ -113,12 +118,20 @@ namespace MeowEngine {
         // systems
         Runtime::Systems::MainSystem MainSystem;
         Runtime::Systems::PhysicsSystem PhysicsSystem;
-        Rendering::RenderSystem RenderSystem;
+        Runtime::RenderSystem RenderSystem;
+
+        Rendering::Renderer Renderer;
     };
 } // namespace MeowEngine
 
 // engine -> systems(scheduler) -> executor(scheduler)
 // single thread executor -> execute jobs sequentially
 // multi thread executor -> dispatch the jobs to job system for execution
+
+// main thread
+// gameplay thread
+// render thread
+// physics thread
+// workers
 
 #endif //MEOWENGINE_ENGINE_HPP

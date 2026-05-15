@@ -15,7 +15,7 @@
 namespace MeowEngine {
     Engine::Engine()
         : IsRunning(false)
-        , RenderSystem(GraphicsDevice)
+        , Renderer(GraphicsDevice)
     {
         MeowEngine::Log("Engine", "Initializing Engine...");
 
@@ -57,7 +57,7 @@ namespace MeowEngine {
         // - select project path - project settings
         // - update current directory - editor selector
 
-        Rendering::RenderCommand::Init(Rendering::GraphicsAPI::OPENGL);
+        Rendering::RenderCommand::Init(Rendering::GraphicsType::OPENGL);
 
         // Select and set project path
         // std::string projectPath;
@@ -83,7 +83,7 @@ namespace MeowEngine {
             // main schedule
             // physics schedule
             // render schedule
-            RenderSystem.Schedule(Scheduler, GraphicsDevice);
+            Renderer.Schedule(Scheduler, GraphicsDevice);
 
             // on update
             // - world view framebuffer bind - renderer
@@ -121,6 +121,7 @@ namespace MeowEngine {
         // Reset
         InputManager.isMouseDown = false;
 
+        // TODO: migrate to sdl
         // Each loop we will process any events that are waiting for us.
         SDL_Event event;
         while (SDL_PollEvent(&event)) {

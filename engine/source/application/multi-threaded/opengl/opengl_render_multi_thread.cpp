@@ -49,15 +49,15 @@ namespace MeowEngine {
     }
 
     void OpenGLRenderMultiThread::ShowPickFolderPopup(std::string& selectedDirectory) const {
-        Runtime::Window::SDL_NativeFileDialog::PickFolder(Window->GetHandle(), selectedDirectory);
+        Platform::SDL_NativeFileDialog::PickFolder(Window->GetHandle(), selectedDirectory);
     }
 
     void OpenGLRenderMultiThread::ShowImportPopup(std::string& selectedFile) const {
-        Runtime::Window::SDL_NativeFileDialog::OpenDialog(Window->GetHandle(), selectedFile);
+        Platform::SDL_NativeFileDialog::OpenDialog(Window->GetHandle(), selectedFile);
     }
 
     void OpenGLRenderMultiThread::ShowImportPopup(std::vector<std::string>& selectedFiles) const {
-        Runtime::Window::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetHandle(), selectedFiles);
+        Platform::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetHandle(), selectedFiles);
     }
 
     void OpenGLRenderMultiThread::RenderThreadLoop() {

@@ -4,7 +4,7 @@
 
 #include "GLWorldViewFrameBuffer.hpp"
 
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 #include "log.hpp"
 
 namespace MeowEngine::Graphics {

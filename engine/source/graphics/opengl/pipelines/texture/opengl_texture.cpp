@@ -3,7 +3,7 @@
 //
 
 #include "opengl_texture.hpp"
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 
 using MeowEngine::OpenGLTexture;
 

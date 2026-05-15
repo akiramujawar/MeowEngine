@@ -7,7 +7,7 @@
 
 #include <opengl_box_collider.hpp>
 #include <opengl_sphere_collider.hpp>
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 
 #include "opengl_pipeline_base.hpp"
 #include "perspective_camera.hpp"

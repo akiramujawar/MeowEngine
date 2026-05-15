@@ -6,6 +6,14 @@
 
 namespace MeowEngine::Application {
 
+    SingleThreadExecutor::SingleThreadExecutor() {
+        MeowEngine::Log("SingleThreadExecutor", "Constructed");
+    }
+
+    SingleThreadExecutor::~SingleThreadExecutor() {
+        MeowEngine::Log("SingleThreadExecutor", "Destructed");
+    }
+
     void SingleThreadExecutor::Execute(Threading::Scheduler& scheduler) {
         auto mainJobs = scheduler.GetMainJobs();
         auto renderJobs = scheduler.GetMainJobs();

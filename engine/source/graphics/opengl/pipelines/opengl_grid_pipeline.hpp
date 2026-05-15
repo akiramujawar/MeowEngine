@@ -6,7 +6,7 @@
 #define MEOWENGINE_OPENGL_GRID_PIPELINE_HPP
 
 #include "GLMAPI.hpp"
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 
 #include "opengl_pipeline_base.hpp"
 #include "render_component_base.hpp"

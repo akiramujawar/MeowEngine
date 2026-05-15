@@ -10,6 +10,8 @@
 #include "log.hpp"
 
 namespace {
+    using MeowEngine::Platform::SDL_NativeFileDialog;
+
     void SetNativeWindow(SDL_Window* sdlWindow, nfdwindowhandle_t* nativeWindow) {
         if (!NFD_GetNativeWindowFromSDLWindow(sdlWindow, nativeWindow)) {
             printf("NFD_GetNativeWindowFromSDLWindow failed: %s\n", SDL_GetError());
@@ -22,7 +24,7 @@ namespace {
         nfdpathsetsize_t num_paths;
         if (NFD_PathSet_GetCount(paths, &num_paths) != NFD_OKAY) {
             MeowEngine::Log("NFD_PathSet_GetCount failed", NFD_GetError());
-            MeowEngine::Runtime::Window::SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
+            SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
 
             return pathsSelected;
         }
@@ -32,7 +34,7 @@ namespace {
             char* path;
             if (NFD_PathSet_GetPathU8(paths, i, &path) != NFD_OKAY) {
                 MeowEngine::Log("NFD_PathSet_GetPathU8 failed", NFD_GetError());
-                MeowEngine::Runtime::Window::SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
+                SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
 
                 return pathsSelected;
             }
@@ -51,7 +53,7 @@ namespace {
             
             if (NFD_PathSet_GetPathU8(paths, i, &path) != NFD_OKAY) {
                 MeowEngine::Log("NFD Error", NFD_GetError());
-                MeowEngine::Runtime::Window::SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
+                SDL_NativeFileDialog::ShowMessage(NFD_GetError(), window);
 
                 return pathsSelected;
             }
@@ -65,7 +67,7 @@ namespace {
     }
 }
 
-namespace MeowEngine::Runtime::Window {
+namespace MeowEngine::Platform {
     void SDL_NativeFileDialog::Init() {
         if (NFD_Init() != NFD_OKAY) {
             throw std::runtime_error("Main Thread:: Could not initialize NFD");

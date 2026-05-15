@@ -3,7 +3,7 @@
 //
 
 #include "opengl_thumbnail.hpp"
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 #include "log.hpp"
 
 namespace {

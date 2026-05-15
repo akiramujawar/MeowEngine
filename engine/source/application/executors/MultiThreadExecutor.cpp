@@ -7,7 +7,14 @@
 namespace MeowEngine::Application {
 
     MultiThreadExecutor::MultiThreadExecutor(Threading::JobSystem& jobSystem)
-        : JobSystem(jobSystem) {}
+        : JobSystem(jobSystem)
+    {
+        MeowEngine::Log("MultiThreadExecutor", "Constructed");
+    }
+
+    MultiThreadExecutor::~MultiThreadExecutor() {
+        MeowEngine::Log("MultiThreadExecutor", "Destructed");
+    }
 
     void MultiThreadExecutor::Execute(Threading::Scheduler& scheduler) {
         // NOTE: use job system to dispatch the scheduled tasks

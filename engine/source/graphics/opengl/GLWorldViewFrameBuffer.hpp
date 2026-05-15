@@ -6,6 +6,10 @@
 #define MEOWENGINE_OPENGL_FRAMEBUFFER_HPP
 
 namespace MeowEngine::Graphics {
+    /**
+     * Renders world on a viewport (ui panel / texture)
+     * TODO: this needs to be migrated/rewritten at the time of using RenderCommand
+     */
     struct GLWorldViewFrameBuffer {
         GLWorldViewFrameBuffer(const float& width, const float& height);
         ~GLWorldViewFrameBuffer();

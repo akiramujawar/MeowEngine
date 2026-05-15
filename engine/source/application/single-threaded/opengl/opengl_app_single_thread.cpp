@@ -4,7 +4,7 @@
 
 #include "opengl_app_single_thread.hpp"
 
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 #include "SDL_EngineWindow.hpp"
 #include "log.hpp"
 

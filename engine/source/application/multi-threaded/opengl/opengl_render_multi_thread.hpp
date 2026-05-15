@@ -8,7 +8,7 @@
 #include "thread"
 
 #include "frame_rate_counter.hpp"
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 #include "SDL_EngineWindow.hpp"
 #include "asset_manager.hpp"
 #include "opengl_render_system.hpp"

@@ -8,12 +8,15 @@
 #include <memory>
 
 #include <IRenderAPI.hpp>
-#include <GraphicsAPI.hpp>
+#include <GraphicsType.hpp>
 
 namespace MeowEngine::Rendering {
+    /**
+     * Used to execute render command on device (like clear, draw and other render commands)
+     */
     class RenderCommand {
     public:
-        static void Init(GraphicsAPI type);
+        static void Init(GraphicsType type);
         static void Clear();
 
     private:

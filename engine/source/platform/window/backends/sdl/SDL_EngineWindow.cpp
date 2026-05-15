@@ -3,7 +3,7 @@
 //
 #include "SDL_EngineWindow.hpp"
 
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 
 #include "SDL_NativeFileDialog.hpp"
 #include "PlatformType.hpp"
@@ -17,7 +17,7 @@ namespace MeowEngine::Platform {
     SDL_EngineWindow::~SDL_EngineWindow() {
         MeowEngine::Log("Window", "Destroyed");
         
-        Runtime::Window::SDL_NativeFileDialog::Quit();
+        SDL_NativeFileDialog::Quit();
 
         SDL_GL_DeleteContext(Context);
         SDL_DestroyWindow(Handle);
@@ -84,7 +84,7 @@ namespace MeowEngine::Platform {
             throw std::runtime_error("Main Thread:: Could not initialize SDL2_image");
         }
     
-        Runtime::Window::SDL_NativeFileDialog::Init();
+        SDL_NativeFileDialog::Init();
 
         MeowEngine::Log("Main Thread", "SDL2 Initialized");
 

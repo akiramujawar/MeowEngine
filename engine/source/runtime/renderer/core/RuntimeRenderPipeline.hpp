@@ -15,6 +15,7 @@ namespace MeowEngine::Runtime {
     /**
      * Reads & Renders render snapshot from main system
      * Emits events like input, debug, ui interactions
+     * Handles the rendering order
      */
     struct RenderPipeline {
         explicit RenderPipeline();

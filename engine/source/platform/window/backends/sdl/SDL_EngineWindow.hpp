@@ -11,6 +11,9 @@
 #include <log.hpp>
 
 namespace MeowEngine::Platform {
+    /**
+     * TODO: Decouple sdl and opengl
+     */
     struct SDL_EngineWindow {
         SDL_EngineWindow();
         ~SDL_EngineWindow();

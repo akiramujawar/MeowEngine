@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_OPENGL_MESH_HPP
 #define MEOWENGINE_OPENGL_MESH_HPP
 
-#include "OpenGLAPI.hpp"
+#include "GL_API.hpp"
 #include "mesh.hpp"
 #include "internal_ptr.hpp"
 

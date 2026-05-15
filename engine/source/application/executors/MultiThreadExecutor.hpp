@@ -13,10 +13,19 @@
 #include <PhysicsThread.hpp>
 
 namespace MeowEngine::Application {
+    /**
+     * Runs the jobs parallelly using JobSystem
+     * e.g. used for macOS, windows builds etc...
+     */
     class MultiThreadExecutor : public IExecutor {
     public:
         explicit MultiThreadExecutor(Threading::JobSystem& jobSystem);
+        ~MultiThreadExecutor();
 
+        /**
+         * Called every frame from Engine to run jobs
+         * @param scheduler
+         */
         void Execute(Threading::Scheduler& scheduler) override;
 
     private:

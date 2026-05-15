@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 13/05/26.
 //
 
-#ifndef MEOWENGINE_RENDERSYSTEM_HPP
-#define MEOWENGINE_RENDERSYSTEM_HPP
+#ifndef MEOWENGINE_RENDERER_HPP
+#define MEOWENGINE_RENDERER_HPP
 
 #include <RenderGraph.hpp>
 #include <GLWorldViewFrameBuffer.hpp>
@@ -18,10 +18,13 @@ namespace MeowEngine::Graphics {
 }
 
 namespace MeowEngine::Rendering {
-    class RenderSystem {
+    /**
+     * Handles the various render pipelines, passes, graphs
+     */
+    class Renderer {
     public:
-        RenderSystem(Graphics::GraphicsDevice& device);
-        ~RenderSystem();
+        Renderer(Graphics::GraphicsDevice& device);
+        ~Renderer();
 
         void Schedule(Threading::Scheduler& scheduler, Graphics::GraphicsDevice& device);
 
@@ -29,7 +32,6 @@ namespace MeowEngine::Rendering {
         RenderGraph RenderGraph;
 
         /**
-         * TODO: this is part of renderer (not graphics)
          * Draws our game view onto a ui panel (which is a framebuffer)
          */
         Graphics::GLWorldViewFrameBuffer WorldViewFrameBuffer;
@@ -40,4 +42,4 @@ namespace MeowEngine::Rendering {
 }
 
 
-#endif //MEOWENGINE_RENDERSYSTEM_HPP
+#endif //MEOWENGINE_RENDERER_HPP

@@ -6,9 +6,16 @@
 #define MEOWENGINE_IRENDERAPI_HPP
 
 namespace MeowEngine::Rendering {
+    /**
+     * Abstract functionality which needs to be implemented by Graphics API
+     */
     class IRenderAPI {
     public:
         virtual ~IRenderAPI() = default;
+
+        /**
+         * Clears screen space
+         */
         virtual void Clear() = 0;
     };
 }

@@ -4,7 +4,7 @@
 
 #include <GLRenderAPI.hpp>
 
-#include <OpenGLAPI.hpp>
+#include <GL_API.hpp>
 
 namespace MeowEngine::Rendering {
 

@@ -9,6 +9,10 @@
 #include <SDL_EngineWindow.hpp>
 
 namespace MeowEngine::Graphics {
+    /**
+     * Handles low level GPU api for opengl / vulkan
+     * e.g. Creation of a sdl window
+     */
     class GraphicsDevice {
     public:
         GraphicsDevice();

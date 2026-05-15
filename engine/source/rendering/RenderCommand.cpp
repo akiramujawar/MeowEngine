@@ -7,14 +7,14 @@
 #include <GLRenderAPI.hpp>
 
 namespace MeowEngine::Rendering {
-    void RenderCommand::Init(const GraphicsAPI type) {
+    void RenderCommand::Init(const GraphicsType type) {
         switch (type) {
-            case GraphicsAPI::None:
+            case GraphicsType::None:
                 break;
-            case GraphicsAPI::OPENGL:
+            case GraphicsType::OPENGL:
                 Command = std::make_unique<GLRenderAPI>();
                 break;
-            case GraphicsAPI::VULKAN:
+            case GraphicsType::VULKAN:
                 break;
         }
     }

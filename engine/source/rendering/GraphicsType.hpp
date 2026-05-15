@@ -6,7 +6,7 @@
 #define MEOWENGINE_GRAPHICSAPI_HPP
 
 namespace MeowEngine::Rendering {
-    enum class GraphicsAPI {
+    enum class GraphicsType {
         None = 0,
         OPENGL = 1,
         VULKAN = 2

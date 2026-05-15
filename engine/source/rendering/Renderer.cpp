@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 13/05/26.
 //
 
-#include <RenderSystem.hpp>
+#include <Renderer.hpp>
 
 #include <Public/Threading/Include.hpp>
 
@@ -11,18 +11,18 @@
 
 
 namespace MeowEngine::Rendering {
-    RenderSystem::RenderSystem(Graphics::GraphicsDevice& device)
+    Renderer::Renderer(Graphics::GraphicsDevice& device)
         : WorldViewFrameBuffer(Graphics::GLWorldViewFrameBuffer(1000, 500))
         , EditorRenderPipeline(device)
     {
-        MeowEngine::Log("RenderSystem", "Constructed");
+        MeowEngine::Log("Renderer", "Constructed");
     }
 
-    RenderSystem::~RenderSystem() {
-        MeowEngine::Log("RenderSystem", "Destructed");
+    Renderer::~Renderer() {
+        MeowEngine::Log("Renderer", "Destructed");
     }
 
-    void RenderSystem::Schedule(Threading::Scheduler& scheduler, Graphics::GraphicsDevice& device) {
+    void Renderer::Schedule(Threading::Scheduler& scheduler, Graphics::GraphicsDevice& device) {
         scheduler.AddTask(
             [this]() {
                 WorldViewFrameBuffer.Bind();

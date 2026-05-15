@@ -10,7 +10,7 @@
 
 struct SDL_Window;
 
-namespace MeowEngine::Runtime::Window {
+namespace MeowEngine::Platform {
     class SDL_NativeFileDialog {
     public:
         static void Init();
