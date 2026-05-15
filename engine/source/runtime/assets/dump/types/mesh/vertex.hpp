@@ -23,7 +23,7 @@ namespace std {
     // this gives a unique hash for our Vertex
     template <>
     struct hash<MeowEngine::Vertex> {
-        size_t operator()(const MeowEngine::Vertex& vertex) const {
+        size_t operator()(const MeowEngine::Vertex& vertex) const noexcept {
             return (
                     (hash<glm::vec3>()(vertex.Position) ^
                      (hash<glm::vec2>()(vertex.TextureCoord) << 1))

@@ -10,7 +10,10 @@
 #include "entt_triple_buffer.hpp"
 
 namespace MeowEngine::Runtime {
-    struct  World {
+    /**
+     * Represents ECS & actions which can be performed on world entities
+     */
+    struct World {
     public:
         World() : Buffer() {}
 
@@ -20,14 +23,14 @@ namespace MeowEngine::Runtime {
         void AddComponent();
         void RemoveComponent();
 
-        // entt::registry& GetRegistry() {
-        //     return *Registry;
-        // }
-        //
-        // [[nodiscard]]
-        // const entt::registry& GetRegistry() const {
-        //     return *Registry;
-        // }
+        entt::registry& GetRegistry() {
+            return Registry;
+        }
+
+        [[nodiscard]]
+        const entt::registry& GetRegistry() const {
+            return Registry;
+        }
 
         EnttTripleBuffer& GetBuffer() {
             return Buffer;
@@ -35,7 +38,7 @@ namespace MeowEngine::Runtime {
 
     private:
         // TODO: this is temporary until serialization & it's implementation is achieved for dynamic worlds
-        // entt::registry* Registry;
+        entt::registry Registry;
         EnttTripleBuffer Buffer;
     };
 }

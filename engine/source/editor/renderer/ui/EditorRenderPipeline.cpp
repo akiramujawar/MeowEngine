@@ -11,10 +11,13 @@
 namespace MeowEngine::Editor {
 
     RenderPipeline::RenderPipeline(Graphics::GraphicsDevice& device)
-    : UI(device)
-    {}
+    : UI(device) {
+        MeowEngine::Log("RenderPipeline", "Constructed");
+    }
 
-    RenderPipeline::~RenderPipeline() {}
+    RenderPipeline::~RenderPipeline() {
+        MeowEngine::Log("RenderPipeline", "Destructed");
+    }
 
     void RenderPipeline::BuildGraph(Rendering::RenderGraph& graph) {
         // TODO: we remove this dependency

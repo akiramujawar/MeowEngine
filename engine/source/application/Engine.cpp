@@ -70,6 +70,7 @@ namespace MeowEngine {
         // TODO: later we will include everything here (like InputManager etc...)
         // AssetManager.Init();
 
+        Runtime.Init();
     }
 
     void Engine::Loop() {
@@ -83,6 +84,7 @@ namespace MeowEngine {
             // main schedule
             // physics schedule
             // render schedule
+            Runtime.Schedule(Scheduler);
             Renderer.Schedule(Scheduler, GraphicsDevice);
 
             // on update

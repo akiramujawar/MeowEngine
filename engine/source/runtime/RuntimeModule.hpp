@@ -5,17 +5,23 @@
 #ifndef MEOWENGINE_RUNTIMEMODULE_HPP
 #define MEOWENGINE_RUNTIMEMODULE_HPP
 
+#include <Public/Threading/Include.hpp>
+
+#include <WorldManager.hpp>
 #include <GameplaySystem.hpp>
-// #include <PhysicsSystem.hpp>
-// #include <RenderSystem.hpp>
 
 namespace MeowEngine::Runtime {
     class RuntimeModule {
     public:
-        // systems
-        Runtime::GameplaySystem Gameplay;
-        // Runtime::PhysicsSystem PhysicsSystem;
-        // Runtime::RenderSystem RenderSystem;
+        RuntimeModule();
+        ~RuntimeModule();
+
+        void Init();
+        void Schedule(Threading::Scheduler& scheduler);
+
+    private:
+        WorldManager WorldManager;
+        GameplaySystem Gameplay;
     };
 }
 
