@@ -4,7 +4,7 @@
 
 #include <RenderCommand.hpp>
 
-#include <GLRenderAPI.hpp>
+#include <GLRender.hpp>
 
 namespace MeowEngine::Rendering {
     void RenderCommand::Init(const GraphicsType type) {
@@ -12,7 +12,7 @@ namespace MeowEngine::Rendering {
             case GraphicsType::None:
                 break;
             case GraphicsType::OPENGL:
-                Command = std::make_unique<GLRenderAPI>();
+                Command = std::make_unique<GLRender>();
                 break;
             case GraphicsType::VULKAN:
                 break;

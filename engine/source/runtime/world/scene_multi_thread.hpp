@@ -38,7 +38,7 @@ namespace MeowEngine {
         * and adds to staging(physics) buffer
         * @param inPhysics
         */
-        bool AddEntitiesOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics);
+        bool AddEntitiesOnPhysicsSystem(MeowEngine::Physics::PhysicsSystem* inPhysics);
 
         // -----------------------------
         void Input(const float &deltaTime, const MeowEngine::Runtime::InputManager& inputManager);
@@ -76,7 +76,7 @@ namespace MeowEngine {
         /**
          * Push rigidbody updates to transform & apply UI inputs to staging(physics) buffer
          */
-        void SyncPhysicsBufferOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics);
+        void SyncPhysicsBufferOnPhysicsSystem(MeowEngine::Physics::PhysicsSystem* inPhysics);
 
         // -----------------------------
 

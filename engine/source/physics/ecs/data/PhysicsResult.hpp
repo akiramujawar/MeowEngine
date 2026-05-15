@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_PHYSICSRESULT_HPP
 #define MEOWENGINE_PHYSICSRESULT_HPP
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Physics {
     struct PhysicsResult {};
 }
 

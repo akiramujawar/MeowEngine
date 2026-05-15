@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <Rigidbody.hpp>
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Physics {
     struct PhysicsWorld {
         std::unordered_map<uint32_t, Rigidbody> RigidBodies;
 

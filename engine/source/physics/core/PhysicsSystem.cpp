@@ -3,3 +3,7 @@
 //
 
 #include <PhysicsSystem.hpp>
+
+namespace MeowEngine::Physics {
+
+}

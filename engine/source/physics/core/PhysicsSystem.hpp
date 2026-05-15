@@ -10,10 +10,11 @@
 #include <double_buffer.hpp>
 
 #include <PhysicsWorld.hpp>
+#include <PhysicsSnapshot.hpp>
 #include <PhysicsResult.hpp>
 
 
-namespace MeowEngine::Runtime::Systems {
+namespace MeowEngine::Physics {
     /**
      * Reads from main system physics snapshot
      * Prepares physics results (to be utilised by main system)
@@ -21,6 +22,8 @@ namespace MeowEngine::Runtime::Systems {
      */
     struct PhysicsSystem {
         PhysicsWorld World;
+
+        DoubleBuffer<PhysicsSnapshot> PhysicsSnapshot;
         DoubleBuffer<PhysicsResult> Result;
 
         void Step();

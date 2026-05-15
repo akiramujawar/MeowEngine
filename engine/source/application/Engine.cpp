@@ -64,7 +64,7 @@ namespace MeowEngine {
         // RenderThread->ShowPickFolderPopup(projectPath);
         // Project.ProjectSettings.SetProjectPath(projectPath);
 
-        EditorModule.Init();
+        Editor.Init();
 
         // Initialise
         // TODO: later we will include everything here (like InputManager etc...)

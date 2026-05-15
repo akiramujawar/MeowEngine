@@ -99,7 +99,7 @@ namespace {
         return nullptr;
     }
 
-    std::shared_ptr<MeowEngine::Runtime::Systems::PhysicsSystem> CreatePhysics() {
+    std::shared_ptr<MeowEngine::Physics::PhysicsSystem> CreatePhysics() {
         return std::make_shared<MeowEngine::simulator::PhysXPhysicsSystem>();
     }
 
@@ -114,7 +114,7 @@ struct OpenGLAppSingleThread::Internal {
     const std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;
     MeowEngine::OpenGLRenderSystem Renderer;
 //    std::unique_ptr<MeowEngine::Scene> Scene;
-    std::shared_ptr<MeowEngine::Runtime::Systems::PhysicsSystem> Physics;
+    std::shared_ptr<MeowEngine::Physics::PhysicsSystem> Physics;
 
     Internal() : Window() ,
                  AssetManager(::CreateAssetManager()),

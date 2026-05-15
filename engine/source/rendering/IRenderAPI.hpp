@@ -7,7 +7,7 @@
 
 namespace MeowEngine::Rendering {
     /**
-     * Abstract functionality which needs to be implemented by Graphics API
+     * Abstract functionality which needs to be implemented by Graphics API like opengl or vulkan
      */
     class IRenderAPI {
     public:

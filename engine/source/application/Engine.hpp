@@ -16,14 +16,11 @@
 #include <EventBus.hpp>
 #include <RequestQueue.hpp>
 
-#include <EditorModule.hpp>
-
 #include <GraphicsDevice.hpp>
 #include <Renderer.hpp>
-
-#include <MainSystem.hpp>
-#include <PhysicsSystem.hpp>
-#include <RenderSystem.hpp>
+#include <EditorModule.hpp>
+#include <RuntimeModule.hpp>
+#include <PhysicsModule.hpp>
 
 #include <Project.hpp>
 #include <AssetManager.hpp>
@@ -76,7 +73,7 @@ namespace MeowEngine {
          * @return
          */
         Editor::EditorModule& GetEditorModule() {
-            return EditorModule;
+            return Editor;
         }
 
 
@@ -110,17 +107,12 @@ namespace MeowEngine {
         Runtime::Messaging::RequestQueue RequestQueue;
 
         // modules
-        Editor::EditorModule EditorModule;
-
-        // graphics
         Graphics::GraphicsDevice GraphicsDevice;
-
-        // systems
-        Runtime::Systems::MainSystem MainSystem;
-        Runtime::Systems::PhysicsSystem PhysicsSystem;
-        Runtime::RenderSystem RenderSystem;
-
         Rendering::Renderer Renderer;
+        Editor::EditorModule Editor;
+        Runtime::RuntimeModule Runtime;
+        Physics::PhysicsModule Physics;
+
     };
 } // namespace MeowEngine
 

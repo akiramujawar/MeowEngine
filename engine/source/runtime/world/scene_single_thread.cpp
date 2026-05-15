@@ -97,7 +97,7 @@ namespace MeowEngine {
         }
 
 
-        void Create(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
+        void Create(MeowEngine::Physics::PhysicsSystem* inPhysics) {
             auto entity = RegistryBuffer.AddEntity();
             RegistryBuffer.AddComponent<entity::InfoComponent>(entity, "torus");
             RegistryBuffer.AddComponent<entity::Transform3DComponent>(
@@ -352,7 +352,7 @@ namespace MeowEngine {
     void SceneSingleThread::LoadOnRenderSystem(std::shared_ptr<MeowEngine::AssetManager> assetManager) {
         InternalPointer->Load(assetManager);
     }
-    void SceneSingleThread::CreateSceneOnMainSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
+    void SceneSingleThread::CreateSceneOnMainSystem(MeowEngine::Physics::PhysicsSystem* inPhysics) {
         InternalPointer->Create(inPhysics);
     }
 

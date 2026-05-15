@@ -8,7 +8,7 @@
 #include <vector>
 #include <Rigidbody.hpp>
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Physics {
     struct PhysicsSnapshot {
         std::vector<int32_t> Added;
         std::vector<int32_t> Removed;

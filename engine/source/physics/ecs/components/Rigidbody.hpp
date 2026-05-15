@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_RIGIDBODY_HPP
 #define MEOWENGINE_RIGIDBODY_HPP
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Physics {
     class Rigidbody {};
 }
 

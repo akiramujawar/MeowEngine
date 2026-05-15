@@ -8,10 +8,10 @@
 #include <IRenderAPI.hpp>
 
 namespace MeowEngine::Rendering {
-    class GLRenderAPI : public IRenderAPI {
+    class GLRender : public IRenderAPI {
     public:
-        GLRenderAPI();
-        ~GLRenderAPI() override;
+        GLRender();
+        ~GLRender() override;
 
         void Clear() override;
     };

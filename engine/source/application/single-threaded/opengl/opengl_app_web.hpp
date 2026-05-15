@@ -68,7 +68,7 @@ namespace MeowEngine {
         std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;
 
         // physics
-        std::shared_ptr<MeowEngine::Runtime::Systems::PhysicsSystem> Physics;
+        std::shared_ptr<MeowEngine::Physics::PhysicsSystem> Physics;
 
     };
 

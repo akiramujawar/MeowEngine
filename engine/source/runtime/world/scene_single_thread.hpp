@@ -26,7 +26,7 @@ namespace MeowEngine {
 
         void OnWindowResized(const Vector2Int& size);
         void LoadOnRenderSystem(std::shared_ptr<MeowEngine::AssetManager> assetManager);
-        void CreateSceneOnMainSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics);
+        void CreateSceneOnMainSystem(MeowEngine::Physics::PhysicsSystem* inPhysics);
 
         void Input(const float& deltaTime, const MeowEngine::Runtime::InputManager& inputManager);
         void Update(const float& deltaTime);

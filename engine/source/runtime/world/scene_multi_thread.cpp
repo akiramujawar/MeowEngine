@@ -117,7 +117,7 @@ struct SceneMultiThread::Internal {
 #endif
     }
 
-    bool AddEntitiesOnPhysicsThread(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
+    bool AddEntitiesOnPhysicsThread(MeowEngine::Physics::PhysicsSystem* inPhysics) {
         return World.GetBuffer().ApplyAddRemoveOnStaging(inPhysics);
     }
 
@@ -557,7 +557,7 @@ struct SceneMultiThread::Internal {
         World.GetBuffer().ApplyPropertyChange();
     }
 
-    void SyncPhysicsBufferOnPhysicsThread(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
+    void SyncPhysicsBufferOnPhysicsThread(MeowEngine::Physics::PhysicsSystem* inPhysics) {
         // Apply update physics transform to entities
         auto view = World.GetBuffer().GetStaging().view<entity::Transform3DComponent, entity::RigidbodyComponent>();
         for(auto entity: view)
@@ -595,7 +595,7 @@ bool SceneMultiThread::AddRemoveEntitiesOnMainThread() {
     return InternalPointer->AddRemoveEntitiesOnMainThread();
 }
 
-bool SceneMultiThread::AddEntitiesOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
+bool SceneMultiThread::AddEntitiesOnPhysicsSystem(MeowEngine::Physics::PhysicsSystem* inPhysics) {
     return InternalPointer->AddEntitiesOnPhysicsThread(inPhysics);
 }
 
@@ -627,7 +627,7 @@ void SceneMultiThread::SyncRenderBufferOnMainThread() {
     InternalPointer->SyncRenderBufferOnMainThread();
 }
 
-void SceneMultiThread::SyncPhysicsBufferOnPhysicsSystem(MeowEngine::Runtime::Systems::PhysicsSystem* inPhysics) {
+void SceneMultiThread::SyncPhysicsBufferOnPhysicsSystem(MeowEngine::Physics::PhysicsSystem* inPhysics) {
     InternalPointer->SyncPhysicsBufferOnPhysicsThread(inPhysics);
 }
 
