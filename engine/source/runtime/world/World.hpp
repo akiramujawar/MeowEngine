@@ -19,9 +19,17 @@ namespace MeowEngine::Runtime {
 
         ~World() {}
 
-        void AddEntity();
-        void AddComponent();
-        void RemoveComponent();
+        entt::entity AddEntity();
+        void RemoveEntity(entt::entity entity);
+
+        template<typename Type>
+        Type& AddComponent(const entt::entity& entity);
+
+        template<typename Type>
+        void RemoveComponent(entt::entity entity);
+
+        template<typename Type>
+        void GetComponent(entt::entity entity);
 
         entt::registry& GetRegistry() {
             return Registry;
@@ -37,10 +45,16 @@ namespace MeowEngine::Runtime {
         }
 
     private:
-        // TODO: this is temporary until serialization & it's implementation is achieved for dynamic worlds
         entt::registry Registry;
+
+        // TODO: this is temporary until serialization & it's implementation is achieved for dynamic worlds
         EnttTripleBuffer Buffer;
     };
+
+    template <typename Type>
+    Type& MeowEngine::Runtime::World::AddComponent(const entt::entity& entity) {
+        return Registry.emplace<Type>(entity);
+    }
 }
 
 #endif //MEOWENGINETEST2_WORLD_HPP

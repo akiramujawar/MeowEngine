@@ -3,3 +3,9 @@
 //
 
 #include <World.hpp>
+
+namespace MeowEngine::Runtime {
+    entt::entity World::AddEntity() {
+        return Registry.create();
+    }
+}

@@ -16,9 +16,12 @@ namespace MeowEngine::Runtime {
     void RuntimeModule::Init() {
         WorldManager::Setup(&WorldManager, &Gameplay);
 
-        // auto world = WorldManager.Load();
+        // // TODO: come back when setting up AssetSystem
+        // // Load & Switch to the world
+        // WorldManager.Load();
+        // WorldManager.Switch();
 
-        // Gameplay.SetWorld(world);
+
     }
 
     void RuntimeModule::Schedule(Threading::Scheduler& scheduler) {
