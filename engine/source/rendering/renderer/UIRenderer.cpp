@@ -12,13 +12,13 @@
 #include <EditorModule.hpp>
 #include <Public/MeowEditor.hpp>
 
-#include <RendererContext.hpp>
+#include <RendererInitData.hpp>
 
 namespace MeowEngine::Rendering {
     UIRenderer::UIRenderer() = default;
     UIRenderer::~UIRenderer() = default;
 
-    void UIRenderer::Init(RendererContext& context) {
+    void UIRenderer::Init(RendererInitData& context) {
         Backend = std::make_unique<ImGuiRender>(*context.Device);
 
         RuntimeBuilder.Init();

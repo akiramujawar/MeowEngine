@@ -9,6 +9,7 @@ namespace MeowEngine::Rendering {
     /**
      * Builds the render order for execution of render commands
      * e.g. clear -> draw editor -> then game give -> then editor gizmos etc...
+     * essentially the order of execution for the passes
      */
     class RenderGraph {
     public:

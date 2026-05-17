@@ -12,14 +12,14 @@
 #include <RuntimeUIBuilder.hpp>
 
 namespace MeowEngine::Rendering {
-    struct RendererContext;
+    struct RendererInitData;
 
     class UIRenderer {
     public:
         UIRenderer();
         ~UIRenderer();
 
-        void Init(RendererContext& context);
+        void Init(RendererInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
 
     private:

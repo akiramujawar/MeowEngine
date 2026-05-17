@@ -6,7 +6,7 @@
 #define MEOWENGINE_WORLDRENDERER_HPP
 
 #include <RenderGraph.hpp>
-#include <GLWorldViewFrameBuffer.hpp>
+#include <GLWorldViewBuffer.hpp>
 
 #include <RuntimeWorldBuilder.hpp>
 #include <EditorWorldBuilder.hpp>
@@ -14,7 +14,7 @@
 #include <Public/Threading/Forward.hpp>
 
 namespace MeowEngine::Rendering {
-    struct RendererContext;
+    struct RendererInitData;
 
     /**
      * Handles the various render pipelines, passes, graphs
@@ -24,7 +24,7 @@ namespace MeowEngine::Rendering {
         WorldRenderer();
         ~WorldRenderer();
 
-        void Init(RendererContext& context);
+        void Init(RendererInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
 
     private:
@@ -33,7 +33,7 @@ namespace MeowEngine::Rendering {
         /**
          * Draws our game view onto a ui panel (which is a framebuffer)
          */
-        Graphics::GLWorldViewFrameBuffer WorldViewFrameBuffer;
+        Graphics::GLWorldViewBuffer WorldViewFrameBuffer;
 
         Runtime::RuntimeWorldBuilder RuntimeBuilder;
         Editor::EditorWorldBuilder EditorBuilder;

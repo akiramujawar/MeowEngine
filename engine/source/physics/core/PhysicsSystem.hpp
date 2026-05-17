@@ -6,13 +6,7 @@
 #define MEOWENGINE_PHYSICS_SYSTEM_HPP
 
 #include "entt.hpp"
-
-#include <double_buffer.hpp>
-
 #include <PhysicsWorld.hpp>
-#include <PhysicsSnapshot.hpp>
-#include <PhysicsResult.hpp>
-
 
 namespace MeowEngine::Physics {
     /**
@@ -22,9 +16,6 @@ namespace MeowEngine::Physics {
      */
     struct PhysicsSystem {
         PhysicsWorld World;
-
-        DoubleBuffer<PhysicsSnapshot> PhysicsSnapshot;
-        DoubleBuffer<PhysicsResult> Result;
 
         void Step();
 

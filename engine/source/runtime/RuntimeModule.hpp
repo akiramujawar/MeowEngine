@@ -5,10 +5,13 @@
 #ifndef MEOWENGINE_RUNTIMEMODULE_HPP
 #define MEOWENGINE_RUNTIMEMODULE_HPP
 
-#include <Public/Threading/Include.hpp>
+#include <Public/Threading/Forward.hpp>
 
 #include <WorldManager.hpp>
 #include <GameplaySystem.hpp>
+
+#include <RenderSnapshot.hpp>
+#include <PhysicsCommand.hpp>
 
 namespace MeowEngine::Runtime {
     class RuntimeModule {

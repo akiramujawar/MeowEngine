@@ -11,7 +11,7 @@ namespace MeowEngine::Rendering {
 
 namespace MeowEngine::Editor {
     /**
-     * Handles editor specific rendering like editor ui, gizmos and rendering order
+     * Handles editor specific rendering like lines, gizmos in world view and rendering order
      */
     class EditorWorldBuilder {
     public:

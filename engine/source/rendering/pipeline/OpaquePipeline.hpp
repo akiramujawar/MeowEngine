@@ -1,0 +1,8 @@
+//
+// Created by Akira Mujawar on 17/05/26.
+//
+
+#ifndef MEOWENGINE_OPAQUEPIPELINE_HPP
+#define MEOWENGINE_OPAQUEPIPELINE_HPP
+
+#endif //MEOWENGINE_OPAQUEPIPELINE_HPP

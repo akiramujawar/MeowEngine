@@ -1,0 +1,8 @@
+//
+// Created by Akira Mujawar on 17/05/26.
+//
+
+#ifndef MEOWENGINE_GEOMETRYPASS_HPP
+#define MEOWENGINE_GEOMETRYPASS_HPP
+
+#endif //MEOWENGINE_GEOMETRYPASS_HPP

@@ -9,12 +9,12 @@
 #include <GraphicsDevice.hpp>
 #include <RenderCommand.hpp>
 
-#include "RendererContext.hpp"
+#include "RendererInitData.hpp"
 
 
 namespace MeowEngine::Rendering {
     WorldRenderer::WorldRenderer()
-        : WorldViewFrameBuffer(Graphics::GLWorldViewFrameBuffer(1000, 500))
+        : WorldViewFrameBuffer(Graphics::GLWorldViewBuffer(1000, 500))
     {
         MeowEngine::Log("Renderer", "Constructed");
     }
@@ -23,7 +23,7 @@ namespace MeowEngine::Rendering {
         MeowEngine::Log("Renderer", "Destructed");
     }
 
-    void WorldRenderer::Init(RendererContext& context) {
+    void WorldRenderer::Init(RendererInitData& context) {
         RuntimeBuilder.Init();
         EditorBuilder.Init();
     }

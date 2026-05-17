@@ -5,6 +5,9 @@
 #ifndef MEOWENGINE_THREADINGFWD_HPP
 #define MEOWENGINE_THREADINGFWD_HPP
 
+#include <double_buffer.hpp>
+#include <triple_buffer.hpp>
+
 namespace MeowEngine::Core::Threading {
     class Job;
     class JobSystem;

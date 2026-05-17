@@ -9,7 +9,7 @@
 #include <GameplaySystem.hpp>
 
 namespace MeowEngine::Rendering {
-    struct RendererContext {
+    struct RendererInitData {
         Graphics::GraphicsDevice* Device;
         Runtime::GameplaySystem* Gameplay;
 

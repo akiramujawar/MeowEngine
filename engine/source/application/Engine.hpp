@@ -111,17 +111,8 @@ namespace MeowEngine {
         Graphics::GraphicsDevice GraphicsDevice;
         Rendering::Renderer Renderer;
 
-
-        // Runtime::RuntimeModule
-        // Editor::EditourModule
-        // Renderer::UIRender => screen space ui (uses imgui)
-        // Renderer::WorldRender => gizmos, handles, mesh, world space text etc...
-
-
-
         Editor::EditorModule Editor;
         Runtime::RuntimeModule Runtime;
-
         Physics::PhysicsModule Physics;
 
     };

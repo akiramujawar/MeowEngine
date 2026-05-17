@@ -86,59 +86,24 @@ namespace MeowEngine {
 
             Timing.Update();
 
-            // main schedule
-            // physics schedule
-            // render schedule
+            // -- runs on main thread
+            // apply physics result => runtime
             Runtime.Schedule(Scheduler);
+            // create render snapshot => runtime
+            // queue physics command => runtime
+
+            // -- runs on physics thread
+            // process physics command => physics
+            Physics.Schedule(Scheduler);
+            // create physics result => physics
+
+            // -- runs on main thread
             Editor.Schedule(Scheduler);
+            // create render snapshot => editor
+
+            // -- runs on render thread
+            // consume render snapshot => render
             Renderer.Schedule(Scheduler);
-
-            // ui - imgui or something else
-            // inside imgui
-            // opengl or vulkan, sdl or somethingelse
-
-            // imgui or custom
-            // sdl or glfw
-            // opengl or vulkan
-
-            // engine/graphics device (sdl/glfw)
-            // - sdl_window
-            // - glfw_window
-            // engine/rendering/ render_command - (opengl/vulkan) - handles anything from world include game ui (world/screen space) like drawmesh, drawtext
-            // - glrender
-            // - vulkanrender
-            // engine/editor/ui(imgui/custom, renderer, device) - handles everything to do with editor / debug (limited to screen space)
-            // - imgui_gl
-            // - imgui_vulkan
-            // - custom_gl
-            // - custom_vulkan
-            // engine/editor/editormodule
-            // engine/editor/render
-            // engine/runtime/runtimemodule
-            // engine/runtime/render
-
-            // runtime update
-            // editor update
-            // ui update
-
-            // ui start frame
-            // editor ui render prepare data
-            // editor view render prepare data
-            // ui end frame
-
-            // renderer render view
-            // renderer render ui
-
-            // on update
-            // - world view framebuffer bind - renderer
-            // - clear gl - renderer
-            // - render game view - renderer
-            //  - render game view - renderer
-            //  - render physics debug - renderer
-            // - world view framebuffer unbind - renderer
-            // - render editor ui - renderer
-            // - clear gl - renderer
-            // - window swap - graphics
 
             Executor->Execute(Scheduler);
         }

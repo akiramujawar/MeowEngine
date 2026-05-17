@@ -15,7 +15,7 @@ namespace MeowEngine::Runtime {
         MeowEngine::Log("WorldManager", "Destructed");
     }
 
-    void WorldManager::Setup(WorldManager* manager, GameplaySystem* gameplay) {
+    void WorldManager::Init(WorldManager* manager, GameplaySystem* gameplay) {
         Instance = manager;
         Instance->Gameplay = gameplay;
     }

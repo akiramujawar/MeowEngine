@@ -133,7 +133,7 @@ namespace {
 struct OpenGLAssetManager::Internal {
     // cache and store using enums
     std::unordered_map<MeowEngine::assets::ShaderPipelineType, MeowEngine::pipeline::OpenGLPipelineBase*> shaderPipelineCache;
-    std::unordered_map<MeowEngine::assets::StaticMeshType, MeowEngine::OpenGLMesh> staticMeshCache;
+    std::unordered_map<MeowEngine::assets::StaticMeshType, MeowEngine::GLMeshResource> staticMeshCache;
     std::unordered_map<MeowEngine::assets::TextureType, MeowEngine::OpenGLTexture> textureCache;
 
     Internal() {}
@@ -157,7 +157,7 @@ struct OpenGLAssetManager::Internal {
                 staticMeshCache.insert(
                     std::make_pair(
                         staticMesh,
-                        MeowEngine::OpenGLMesh(MeowEngine::assets::LoadObjFile(MeowEngine::assets::ResolveStaticMeshPath(staticMesh)))
+                        MeowEngine::GLMeshResource(MeowEngine::assets::LoadObjFile(MeowEngine::assets::ResolveStaticMeshPath(staticMesh)))
                     )
                 );
             }
@@ -218,7 +218,7 @@ template OpenGLTransformHandlePipeline* OpenGLAssetManager::GetShaderPipeline<Op
 template MeowEngine::OpenGLColliderPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::OpenGLColliderPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 
 
-const MeowEngine::OpenGLMesh& OpenGLAssetManager::GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const {
+const MeowEngine::GLMeshResource& OpenGLAssetManager::GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const {
     return InternalPointer->staticMeshCache.at(staticMesh);
 }
 

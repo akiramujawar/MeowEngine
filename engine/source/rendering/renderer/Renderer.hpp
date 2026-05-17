@@ -14,14 +14,14 @@ namespace MeowEngine::Graphics {
 }
 
 namespace MeowEngine::Rendering {
-    struct RendererContext;
+    struct RendererInitData;
 
     class Renderer {
     public:
         Renderer();
         ~Renderer();
 
-        void Init(RendererContext& context);
+        void Init(RendererInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
 
     private:

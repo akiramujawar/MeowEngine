@@ -9,7 +9,7 @@
 #include "internal_ptr.hpp"
 //#include "opengl_pipeline_base.hpp"
 //#include "opengl_mesh_pipeline.hpp"
-#include "opengl_mesh.hpp"
+#include "GLMeshResource.hpp"
 #include "opengl_texture.hpp"
 
 namespace MeowEngine {
@@ -25,7 +25,7 @@ namespace MeowEngine {
 
         template<typename T>
         T* GetShaderPipeline(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
-        const MeowEngine::OpenGLMesh& GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const;
+        const MeowEngine::GLMeshResource& GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const;
         const MeowEngine::OpenGLTexture& GetTexture(const MeowEngine::assets::TextureType& texture) const;
 
     private:

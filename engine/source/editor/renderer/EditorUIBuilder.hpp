@@ -6,7 +6,7 @@
 #define MEOWENGINE_IMGUIEDITORUISYSTEM_HPP
 
 //#include <scene.hpp>
-// #include "GLWorldViewFrameBuffer.hpp"
+// #include "GLWorldViewBuffer.hpp"
 // #include "Math.hpp"
 
 
@@ -24,6 +24,9 @@
 #include "Selector.hpp"
 
 namespace MeowEngine::Editor {
+    /**
+     * Screen space UI (tied to imgui) for editor windows, buttons, panels, debugs
+     */
     struct EditorUIBuilder {
         EditorUIBuilder();
         ~EditorUIBuilder();

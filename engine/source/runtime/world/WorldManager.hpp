@@ -24,7 +24,7 @@ namespace MeowEngine::Runtime {
         WorldManager();
         ~WorldManager();
 
-        static void Setup(WorldManager* manager, GameplaySystem* gameplay);
+        static void Init(WorldManager* manager, GameplaySystem* gameplay);
 
     public:
         /**

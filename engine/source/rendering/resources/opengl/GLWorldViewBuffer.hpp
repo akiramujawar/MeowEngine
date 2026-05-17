@@ -2,17 +2,17 @@
 // Created by Akira Mujawar on 10/07/24.
 //
 
-#ifndef MEOWENGINE_OPENGL_FRAMEBUFFER_HPP
-#define MEOWENGINE_OPENGL_FRAMEBUFFER_HPP
+#ifndef MEOWENGINE_GLWORLDVIEWBUFFER_HPP
+#define MEOWENGINE_GLWORLDVIEWBUFFER_HPP
 
 namespace MeowEngine::Graphics {
     /**
      * Renders world on a viewport (ui panel / texture)
      * TODO: this needs to be migrated/rewritten at the time of using RenderCommand
      */
-    struct GLWorldViewFrameBuffer {
-        GLWorldViewFrameBuffer(const float& width, const float& height);
-        ~GLWorldViewFrameBuffer();
+    struct GLWorldViewBuffer {
+        GLWorldViewBuffer(const float& width, const float& height);
+        ~GLWorldViewBuffer();
 
         unsigned  int GetFrameTexture();
         void RescaleFrameBuffer(const float& width, const float& height);
@@ -27,4 +27,4 @@ namespace MeowEngine::Graphics {
 }
 
 
-#endif //MEOWENGINE_OPENGL_FRAMEBUFFER_HPP
+#endif //MEOWENGINE_GLWORLDVIEWBUFFER_HPP

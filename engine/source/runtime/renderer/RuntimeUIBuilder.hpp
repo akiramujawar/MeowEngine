@@ -6,6 +6,9 @@
 #define MEOWENGINE_IMGUIUISYSTEM_HPP
 
 namespace MeowEngine::Runtime {
+    /**
+     * Screen space UI (tied to imgui) like buttons, panels, runtime debug, etc...
+     */
     class RuntimeUIBuilder {
         public:
         RuntimeUIBuilder();

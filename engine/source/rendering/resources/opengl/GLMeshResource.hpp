@@ -2,16 +2,16 @@
 // Created by Akira Mujawar on 12/09/22.
 //
 
-#ifndef MEOWENGINE_OPENGL_MESH_HPP
-#define MEOWENGINE_OPENGL_MESH_HPP
+#ifndef MEOWENGINE_GLMESHRESOURCE_HPP
+#define MEOWENGINE_GLMESHRESOURCE_HPP
 
 #include "GL_API.hpp"
 #include "mesh.hpp"
 #include "internal_ptr.hpp"
 
 namespace MeowEngine {
-    struct OpenGLMesh {
-        explicit OpenGLMesh(const MeowEngine::Mesh& mesh);
+    struct GLMeshResource {
+        explicit GLMeshResource(const MeowEngine::Mesh& mesh);
 
         const GLuint & GetVertexArrayId() const;
         const GLuint& GetVertexBufferId() const;
@@ -26,4 +26,4 @@ namespace MeowEngine {
 } // namespace MeowEngine
 
 
-#endif //MEOWENGINE_OPENGL_MESH_HPP
+#endif //MEOWENGINE_GLMESHRESOURCE_HPP

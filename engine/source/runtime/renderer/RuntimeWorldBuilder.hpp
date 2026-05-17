@@ -16,6 +16,7 @@ namespace MeowEngine::Runtime {
      * Reads & Renders render snapshot from main system
      * Emits events like input, debug, ui interactions
      * Handles the rendering order
+     * Anything from world view like mesh, textures, world space text etc...
      */
     struct RuntimeWorldBuilder {
         explicit RuntimeWorldBuilder();

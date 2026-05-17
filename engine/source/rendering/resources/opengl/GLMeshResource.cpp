@@ -2,10 +2,10 @@
 // Created by Akira Mujawar on 12/09/22.
 //
 
-#include "opengl_mesh.hpp"
+#include "GLMeshResource.hpp"
 #include "GLM_API.hpp"
 
-using MeowEngine::OpenGLMesh;
+using MeowEngine::GLMeshResource;
 
 namespace {
     // Refer: https://registry.khronos.org/OpenGL-Refpages/es1.1/xhtml/glBindBuffer.xml for buffer types
@@ -54,7 +54,7 @@ namespace {
     }
 } // namespace
 
-struct OpenGLMesh::Internal {
+struct GLMeshResource::Internal {
     const GLuint BufferIdVertices;
     const GLuint BufferIdIndices;
     const uint32_t IndicesCount;
@@ -74,21 +74,21 @@ struct OpenGLMesh::Internal {
     }
 };
 
-MeowEngine::OpenGLMesh::OpenGLMesh(const MeowEngine::Mesh &mesh)
+MeowEngine::GLMeshResource::GLMeshResource(const MeowEngine::Mesh &mesh)
 : InternalPointer(MeowEngine::make_internal_ptr<Internal>(mesh)) {}
 
-const GLuint &MeowEngine::OpenGLMesh::GetVertexArrayId() const {
+const GLuint &MeowEngine::GLMeshResource::GetVertexArrayId() const {
     return InternalPointer->VertexArrayID;
 }
 
-const GLuint &MeowEngine::OpenGLMesh::GetVertexBufferId() const {
+const GLuint &MeowEngine::GLMeshResource::GetVertexBufferId() const {
     return InternalPointer->BufferIdVertices;
 }
 
-const GLuint &MeowEngine::OpenGLMesh::GetIndexBufferId() const {
+const GLuint &MeowEngine::GLMeshResource::GetIndexBufferId() const {
     return InternalPointer->BufferIdIndices;
 }
 
-const uint32_t &MeowEngine::OpenGLMesh::GetNumIndices() const {
+const uint32_t &MeowEngine::GLMeshResource::GetNumIndices() const {
     return InternalPointer->IndicesCount;
 }

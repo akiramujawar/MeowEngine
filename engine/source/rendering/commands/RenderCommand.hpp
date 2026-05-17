@@ -18,10 +18,8 @@ namespace MeowEngine::Rendering {
     public:
         static void Init(GraphicsType type);
 
+        // frame buffer stuff
         static void Clear();
-        // void DrawMesh
-        // void DrawTexture
-        // void DrawGrid
 
     private:
         static std::unique_ptr<IRenderAPI> Command;

@@ -5,8 +5,10 @@
 #ifndef MEOWENGINE_RENDERSNAPSHOT_HPP
 #define MEOWENGINE_RENDERSNAPSHOT_HPP
 
-namespace MeowEngine::Runtime {
-    struct RenderSnapshot {};
+namespace MeowEngine::Rendering {
+    struct RenderSnapshot {
+
+    };
 }
 
 #endif //MEOWENGINE_RENDERSNAPSHOT_HPP

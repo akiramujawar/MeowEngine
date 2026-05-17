@@ -11,7 +11,7 @@
 #include "opengl_render_system.hpp"
 #include "EditorUIBuilder.hpp"
 
-#include "GLWorldViewFrameBuffer.hpp"
+#include "GLWorldViewBuffer.hpp"
 #include "opengl_asset_manager.hpp"
 #include "InputManager.hpp"
 #include "scene_multi_thread.hpp"
@@ -78,9 +78,9 @@ namespace {
 //        return context;
 //    }
 
-    MeowEngine::Graphics::GLWorldViewFrameBuffer CreateFrameBuffer() {
+    MeowEngine::Graphics::GLWorldViewBuffer CreateFrameBuffer() {
         // NOTE: we launch this needs to be init properly
-        return MeowEngine::Graphics::GLWorldViewFrameBuffer(1000,500);
+        return MeowEngine::Graphics::GLWorldViewBuffer(1000,500);
     }
 
     std::shared_ptr<MeowEngine::OpenGLAssetManager> CreateAssetManager() {
@@ -108,7 +108,7 @@ namespace {
 struct OpenGLAppSingleThread::Internal {
     Platform::SDL_EngineWindow Window;
     std::shared_ptr<MeowEngine::Editor::EditorUIBuilder> UI;
-    MeowEngine::Graphics::GLWorldViewFrameBuffer FrameBuffer;
+    MeowEngine::Graphics::GLWorldViewBuffer FrameBuffer;
     MeowEngine::Runtime::InputManager InputManager;
 
     const std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;

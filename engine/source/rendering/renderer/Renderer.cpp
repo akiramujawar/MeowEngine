@@ -4,12 +4,12 @@
 
 #include "Renderer.hpp"
 
-#include <RendererContext.hpp>
+#include <RendererInitData.hpp>
 
 namespace MeowEngine::Rendering {
     Renderer::Renderer() {}
     Renderer::~Renderer() {}
-    void Renderer::Init(RendererContext& context) {
+    void Renderer::Init(RendererInitData& context) {
         World.Init(context);
         UI.Init(context);
 

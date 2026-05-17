@@ -30,6 +30,12 @@ namespace MeowEngine::Runtime {
                 Gameplay.Update();
             }
         );
+
+        // build render snapshot
+
     }
 
+    GameplaySystem& RuntimeModule::GetGameplay() {
+        return Gameplay;
+    }
 }

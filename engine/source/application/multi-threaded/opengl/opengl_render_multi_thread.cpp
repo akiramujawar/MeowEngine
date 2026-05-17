@@ -17,7 +17,7 @@ namespace MeowEngine {
         AssetManager = std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
         // UserInterface = std::make_shared<Editor::ImGuiEditorUISystem>(*Window.get());
         GameView = std::make_unique<MeowEngine::OpenGLRenderSystem>(AssetManager, UserInterface);
-        FrameBuffer = std::make_unique<MeowEngine::Graphics::GLWorldViewFrameBuffer>(1000,500);
+        FrameBuffer = std::make_unique<MeowEngine::Graphics::GLWorldViewBuffer>(1000,500);
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);
     }
 

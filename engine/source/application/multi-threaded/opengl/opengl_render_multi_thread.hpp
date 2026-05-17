@@ -13,7 +13,7 @@
 #include "asset_manager.hpp"
 #include "opengl_render_system.hpp"
 #include <SDL_EngineWindow.hpp>
-#include <GLWorldViewFrameBuffer.hpp>
+#include <GLWorldViewBuffer.hpp>
 
 #include "scene_multi_thread.hpp"
 
@@ -60,7 +60,7 @@ namespace MeowEngine {
         /**
          * Draws our game view onto a ui panel (which is a framebuffer)
          */
-        std::unique_ptr<MeowEngine::Graphics::GLWorldViewFrameBuffer> FrameBuffer;
+        std::unique_ptr<MeowEngine::Graphics::GLWorldViewBuffer> FrameBuffer;
 
         /**
          * this is shared because even main thread will access asset manager and sometimes physics
