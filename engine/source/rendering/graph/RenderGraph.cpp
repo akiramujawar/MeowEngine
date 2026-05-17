@@ -9,6 +9,7 @@ namespace MeowEngine::Rendering {
     RenderGraph::RenderGraph() {}
 
     RenderGraph::~RenderGraph() {}
+    void RenderGraph::Clear() {}
 
     void RenderGraph::Build() {
 

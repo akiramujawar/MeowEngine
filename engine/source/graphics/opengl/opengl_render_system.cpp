@@ -25,10 +25,10 @@ using MeowEngine::assets::ShaderPipelineType;
 
 struct OpenGLRenderSystem::Internal {
     const std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;
-    const std::shared_ptr<MeowEngine::Editor::ImGuiEditorUISystem> UI;
+    const std::shared_ptr<MeowEngine::Editor::EditorUIBuilder> UI;
 
     Internal(std::shared_ptr<MeowEngine::OpenGLAssetManager> assetManager,
-             std::shared_ptr<MeowEngine::Editor::ImGuiEditorUISystem> inUIRenderer)
+             std::shared_ptr<MeowEngine::Editor::EditorUIBuilder> inUIRenderer)
     : AssetManager(assetManager)
     , UI(inUIRenderer){}
 
@@ -97,7 +97,7 @@ struct OpenGLRenderSystem::Internal {
     }
 
     void RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps) {
-        UI.get()->Render(registry, inUIInputQueue, pSelection, frameBufferId, fps);
+        UI.get()->BuildDrawData(registry, inUIInputQueue, pSelection, frameBufferId, fps);
     }
 
     void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) {
@@ -106,7 +106,7 @@ struct OpenGLRenderSystem::Internal {
 };
 
 OpenGLRenderSystem::OpenGLRenderSystem(const std::shared_ptr<MeowEngine::OpenGLAssetManager>& assetManager,
-                                       const std::shared_ptr<MeowEngine::Editor::ImGuiEditorUISystem>& uiRenderer)
+                                       const std::shared_ptr<MeowEngine::Editor::EditorUIBuilder>& uiRenderer)
     : InternalPointer(MeowEngine::make_internal_ptr<Internal>(assetManager, uiRenderer)) {}
 
 

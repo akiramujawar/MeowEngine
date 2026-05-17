@@ -13,9 +13,12 @@
 //
 #include <log.hpp>
 #include "info_component.hpp"
+// #include <GameplaySystem.hpp>
+// #include <World.hpp>
 //#include "imgui_renderer.hpp"
 //#include "bridge_wrapper.hpp"
 
+#include <GameplaySystem.hpp>
 
 namespace MeowEngine::Editor {
 
@@ -27,7 +30,13 @@ namespace MeowEngine::Editor {
 
     ImGuiWorldTreePanel::~ImGuiWorldTreePanel() {}
 
-    void ImGuiWorldTreePanel::Draw(entt::registry &registry, MeowEngine::Selector &pSelection) {
+    void ImGuiWorldTreePanel::Init(Runtime::GameplaySystem& gameplay) {
+        Gameplay = &gameplay;
+    }
+
+    void ImGuiWorldTreePanel::Draw(entt::registry &registry1, MeowEngine::Selector &pSelection) {
+        auto& registry = Gameplay->GetWorld()->GetRegistry();
+
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 
         ImGui::Begin("World Tree", &IsActive); {

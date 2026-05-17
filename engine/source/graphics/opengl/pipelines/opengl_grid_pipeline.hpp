@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_OPENGL_GRID_PIPELINE_HPP
 #define MEOWENGINE_OPENGL_GRID_PIPELINE_HPP
 
-#include "GLMAPI.hpp"
+#include "GLM_API.hpp"
 #include "GL_API.hpp"
 
 #include "opengl_pipeline_base.hpp"

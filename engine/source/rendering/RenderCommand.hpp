@@ -12,12 +12,16 @@
 
 namespace MeowEngine::Rendering {
     /**
-     * Used to execute render command on device (like clear, draw and other render commands)
+     * Used to execute render command on device (like clear, draw mesh, etc...)
      */
     class RenderCommand {
     public:
         static void Init(GraphicsType type);
+
         static void Clear();
+        // void DrawMesh
+        // void DrawTexture
+        // void DrawGrid
 
     private:
         static std::unique_ptr<IRenderAPI> Command;

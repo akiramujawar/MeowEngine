@@ -5,6 +5,10 @@
 #ifndef MEOWENGINE_IRENDERAPI_HPP
 #define MEOWENGINE_IRENDERAPI_HPP
 
+namespace MeowEngine::Graphics {
+    class GraphicsDevice;
+}
+
 namespace MeowEngine::Rendering {
     /**
      * Abstract functionality which needs to be implemented by Graphics API like opengl or vulkan

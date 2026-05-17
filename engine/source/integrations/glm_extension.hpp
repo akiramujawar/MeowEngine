@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_GLM_EXTENSION_HPP
 #define MEOWENGINE_GLM_EXTENSION_HPP
 
-#include "GLMAPI.hpp"
+#include "GLM_API.hpp"
 #include "Public/Math.hpp"
 
 namespace MeowEngine {

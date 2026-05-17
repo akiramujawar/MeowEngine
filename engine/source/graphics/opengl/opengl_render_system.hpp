@@ -8,7 +8,7 @@
 #include "internal_ptr.hpp"
 
 #include "opengl_asset_manager.hpp"
-#include "ImguiEditorUISystem.hpp"
+#include "EditorUIBuilder.hpp"
 #include "perspective_camera.hpp"
 
 #include <memory>
@@ -16,7 +16,7 @@
 namespace MeowEngine {
     struct OpenGLRenderSystem  {
         OpenGLRenderSystem(const std::shared_ptr<MeowEngine::OpenGLAssetManager>& assetManager,
-                           const std::shared_ptr<Editor::ImGuiEditorUISystem>& uiRenderer);
+                           const std::shared_ptr<Editor::EditorUIBuilder>& uiRenderer);
 
         void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, MeowEngine::Selector& pSelection);
         void RenderUserInterface(entt::registry& registry,

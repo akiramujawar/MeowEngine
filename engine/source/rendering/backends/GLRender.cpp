@@ -8,7 +8,9 @@
 
 namespace MeowEngine::Rendering {
 
-    GLRender::GLRender() {}
+    GLRender::GLRender() {
+
+    }
 
     GLRender::~GLRender() {}
 
@@ -16,5 +18,4 @@ namespace MeowEngine::Rendering {
         glClearColor(38 / 255.0f, 38 / 255.0f, 38 / 255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
-
 }

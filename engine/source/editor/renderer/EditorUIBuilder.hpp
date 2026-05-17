@@ -23,17 +23,14 @@
 #include "queue"
 #include "Selector.hpp"
 
-namespace MeowEngine::Graphics {
-    class GraphicsDevice;
-}
-
 namespace MeowEngine::Editor {
-    struct ImGuiEditorUISystem {
-        explicit ImGuiEditorUISystem(Graphics::GraphicsDevice& graphicsDevice);
-        ~ImGuiEditorUISystem();
+    struct EditorUIBuilder {
+        EditorUIBuilder();
+        ~EditorUIBuilder();
 
+        void Init(Runtime::GameplaySystem& gameplay);
         void Input(const SDL_Event& event);
-        void Render(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps);
+        void BuildDrawData(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps);
 
         // Closes any child processes like tracy
         void ClosePIDs();
@@ -44,9 +41,9 @@ namespace MeowEngine::Editor {
     private:
         void OpenTracyProfiler();
 
-        void CreateNewFrame();
+        // void CreateNewFrame();
         void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, uint32_t frameBufferId, const double fps);
-        void RenderFrame();
+        // void RenderFrame();
 
         void CreateDockingSpace();
 

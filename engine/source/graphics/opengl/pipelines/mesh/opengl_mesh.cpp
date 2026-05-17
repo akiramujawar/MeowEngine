@@ -3,7 +3,7 @@
 //
 
 #include "opengl_mesh.hpp"
-#include "GLMAPI.hpp"
+#include "GLM_API.hpp"
 
 using MeowEngine::OpenGLMesh;
 

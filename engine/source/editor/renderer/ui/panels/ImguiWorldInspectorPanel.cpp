@@ -18,6 +18,10 @@ namespace MeowEngine::Editor {
 
     }
 
+    void ImGuiWorldInspectorPanel::Init(Runtime::GameplaySystem& gameplay) {
+
+    }
+
     void ImGuiWorldInspectorPanel::Draw(entt::registry& registry,
                                         std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
                                         MeowEngine::Selector& pSelection) {

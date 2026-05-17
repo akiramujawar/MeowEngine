@@ -22,6 +22,8 @@ namespace MeowEngine::Editor {
         PT_PROFILE_FREE("ImGuiWorldRenderPanel");
     }
 
+    void ImGuiWorldViewPanel::Init() {}
+
     void ImGuiWorldViewPanel::Draw(void* frameBufferId, const float& inFps) {
 
         ImGui::Begin("World View", &IsActive, WindowFlags);

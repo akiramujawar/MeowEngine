@@ -14,11 +14,17 @@
 #include "hierarchy_component.hpp"
 #include "Selector.hpp"
 
+namespace MeowEngine::Runtime {
+    class GameplaySystem;
+}
+
+
 namespace MeowEngine::Editor {
     struct ImGuiWorldTreePanel {
         ImGuiWorldTreePanel();
         ~ImGuiWorldTreePanel();
 
+        void Init(Runtime::GameplaySystem& gameplay);
         void Draw(entt::registry& registry, MeowEngine::Selector& pSelection);
         void CreateSelectableItem(
                 entt::registry& registry,
@@ -33,6 +39,8 @@ namespace MeowEngine::Editor {
 
         bool IsActive;
         ImGuiWindowFlags WindowFlags;
+
+        Runtime::GameplaySystem* Gameplay;
     };
 }
 

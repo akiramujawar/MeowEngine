@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_CAMERA_CONTROLLER_HPP
 #define MEOWENGINE_CAMERA_CONTROLLER_HPP
 
-#include "GLMAPI.hpp"
+#include <GLM_API.hpp>
 #include "internal_ptr.hpp"
 
 namespace MeowEngine {

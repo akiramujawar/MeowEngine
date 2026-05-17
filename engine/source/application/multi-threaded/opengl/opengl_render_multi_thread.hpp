@@ -38,7 +38,7 @@ namespace MeowEngine {
         // TODO: When we plan to handle multi-scene we look into this, make this private
         // we decouple window / context into a class
         std::unique_ptr<Platform::SDL_EngineWindow> Window;
-        std::shared_ptr<Editor::ImGuiEditorUISystem> UserInterface;
+        std::shared_ptr<Editor::EditorUIBuilder> UserInterface;
 
     private:
         void RenderThreadLoop();

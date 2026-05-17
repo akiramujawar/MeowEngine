@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_VERTEX_HPP
 #define MEOWENGINE_VERTEX_HPP
 
-#include "GLMAPI.hpp"
+#include "GLM_API.hpp"
 
 namespace MeowEngine {
     struct Vertex {

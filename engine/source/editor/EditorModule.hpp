@@ -5,8 +5,11 @@
 #ifndef MEOWENGINE_EDITORMODULE_HPP
 #define MEOWENGINE_EDITORMODULE_HPP
 
-#include <Selector.hpp>
+#include <Public/Threading/Include.hpp>
+
 #include <entt_single_buffer.hpp>
+#include <Selector.hpp>
+
 
 namespace MeowEngine::Editor {
     /**
@@ -19,6 +22,7 @@ namespace MeowEngine::Editor {
         ~EditorModule();
 
         void Init();
+        void Schedule(Threading::Scheduler& scheduler);
 
         Selector& GetSelector();
         EnttBufferBase& GetInputBuffer();

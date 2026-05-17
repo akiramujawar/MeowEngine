@@ -12,11 +12,16 @@
 #include "reflection_property_change.hpp"
 #include "queue"
 
+namespace MeowEngine::Runtime {
+    class GameplaySystem;
+}
+
 namespace MeowEngine::Editor {
     struct ImGuiWorldInspectorPanel {
         ImGuiWorldInspectorPanel();
         ~ImGuiWorldInspectorPanel();
 
+        void Init(Runtime::GameplaySystem& gameplay);
         void Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection);
 
     private:

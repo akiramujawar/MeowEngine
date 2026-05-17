@@ -10,7 +10,7 @@
 namespace MeowEngine::Rendering {
     class GLRender : public IRenderAPI {
     public:
-        GLRender();
+        explicit GLRender();
         ~GLRender() override;
 
         void Clear() override;

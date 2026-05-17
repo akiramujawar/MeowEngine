@@ -11,11 +11,11 @@
 
 #include <UserEventType.hpp>
 #include <RenderCommand.hpp>
+#include <RendererContext.hpp>
 
 namespace MeowEngine {
     Engine::Engine()
         : IsRunning(false)
-        , Renderer(GraphicsDevice)
     {
         MeowEngine::Log("Engine", "Initializing Engine...");
 
@@ -56,7 +56,7 @@ namespace MeowEngine {
         // - transfer window for new context - graphics
         // - select project path - project settings
         // - update current directory - editor selector
-
+        // GraphicsDevice = Graphics::GraphicsDevice();
         Rendering::RenderCommand::Init(Rendering::GraphicsType::OPENGL);
 
         // Select and set project path
@@ -64,13 +64,18 @@ namespace MeowEngine {
         // RenderThread->ShowPickFolderPopup(projectPath);
         // Project.ProjectSettings.SetProjectPath(projectPath);
 
-        Editor.Init();
-
         // Initialise
         // TODO: later we will include everything here (like InputManager etc...)
         // AssetManager.Init();
 
         Runtime.Init();
+        Editor.Init();
+
+        Rendering::RendererContext context;
+        context.Device = &GraphicsDevice;
+        context.Gameplay = &Runtime.GetGameplay();
+
+        Renderer.Init(context);
     }
 
     void Engine::Loop() {
@@ -85,7 +90,44 @@ namespace MeowEngine {
             // physics schedule
             // render schedule
             Runtime.Schedule(Scheduler);
-            Renderer.Schedule(Scheduler, GraphicsDevice);
+            Editor.Schedule(Scheduler);
+            Renderer.Schedule(Scheduler);
+
+            // ui - imgui or something else
+            // inside imgui
+            // opengl or vulkan, sdl or somethingelse
+
+            // imgui or custom
+            // sdl or glfw
+            // opengl or vulkan
+
+            // engine/graphics device (sdl/glfw)
+            // - sdl_window
+            // - glfw_window
+            // engine/rendering/ render_command - (opengl/vulkan) - handles anything from world include game ui (world/screen space) like drawmesh, drawtext
+            // - glrender
+            // - vulkanrender
+            // engine/editor/ui(imgui/custom, renderer, device) - handles everything to do with editor / debug (limited to screen space)
+            // - imgui_gl
+            // - imgui_vulkan
+            // - custom_gl
+            // - custom_vulkan
+            // engine/editor/editormodule
+            // engine/editor/render
+            // engine/runtime/runtimemodule
+            // engine/runtime/render
+
+            // runtime update
+            // editor update
+            // ui update
+
+            // ui start frame
+            // editor ui render prepare data
+            // editor view render prepare data
+            // ui end frame
+
+            // renderer render view
+            // renderer render ui
 
             // on update
             // - world view framebuffer bind - renderer

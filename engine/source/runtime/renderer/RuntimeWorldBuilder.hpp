@@ -17,10 +17,11 @@ namespace MeowEngine::Runtime {
      * Emits events like input, debug, ui interactions
      * Handles the rendering order
      */
-    struct RenderPipeline {
-        explicit RenderPipeline();
-        ~RenderPipeline();
+    struct RuntimeWorldBuilder {
+        explicit RuntimeWorldBuilder();
+        ~RuntimeWorldBuilder();
 
+        void Init();
         void BuildGraph(Rendering::RenderGraph& graph);
     };
 }

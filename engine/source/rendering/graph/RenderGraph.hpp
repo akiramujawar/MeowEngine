@@ -15,6 +15,7 @@ namespace MeowEngine::Rendering {
         RenderGraph();
         ~RenderGraph();
 
+        void Clear();
         void Build();
         void Execute();
     };

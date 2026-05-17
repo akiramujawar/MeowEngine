@@ -8,12 +8,17 @@
 #include "ImguiAPI.hpp"
 #include "Public/Math.hpp"
 
+namespace MeowEngine::Runtime {
+    class GameplaySystem;
+}
+
 namespace MeowEngine::Editor {
 
     struct ImGuiWorldViewPanel {
         ImGuiWorldViewPanel();
         ~ImGuiWorldViewPanel();
 
+        void Init();
         void Draw(void* frameBufferId, const float& inFps);
 
     private:

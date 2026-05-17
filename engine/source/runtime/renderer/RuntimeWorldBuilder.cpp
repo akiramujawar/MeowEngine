@@ -2,19 +2,20 @@
 // Created by Akira Mujawar on 21/06/24.
 //
 
-#include <RuntimeRenderPipeline.hpp>
+#include <RuntimeWorldBuilder.hpp>
 #include <log.hpp>
 
 #include <RenderGraph.hpp>
 
 namespace MeowEngine::Runtime {
-    RenderPipeline::RenderPipeline() {
+    RuntimeWorldBuilder::RuntimeWorldBuilder() {
         MeowEngine::Log("Runtime RenderPipeline", "Constructed");
     }
 
-    RenderPipeline::~RenderPipeline() {
+    RuntimeWorldBuilder::~RuntimeWorldBuilder() {
         MeowEngine::Log("Runtime RenderPipeline", "Destructed");
     }
 
-    void RenderPipeline::BuildGraph(Rendering::RenderGraph& graph) {}
+    void RuntimeWorldBuilder::Init() {}
+    void RuntimeWorldBuilder::BuildGraph(Rendering::RenderGraph& graph) {}
 }

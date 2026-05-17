@@ -6,7 +6,7 @@
 #define MEOWENGINE_OPENGL_SPHERE_COLLIDER_HPP
 
 #include "GL_API.hpp"
-#include "GLMAPI.hpp"
+#include "GLM_API.hpp"
 #include "vector"
 
 namespace MeowEngine {

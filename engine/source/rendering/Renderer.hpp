@@ -1,43 +1,34 @@
 //
-// Created by Akira Mujawar on 13/05/26.
+// Created by Akira Mujawar on 17/05/26.
 //
 
 #ifndef MEOWENGINE_RENDERER_HPP
 #define MEOWENGINE_RENDERER_HPP
 
-#include <RenderGraph.hpp>
-#include <GLWorldViewFrameBuffer.hpp>
-
-#include <RuntimeRenderPipeline.hpp>
-#include <EditorRenderPipeline.hpp>
-
-#include <Public/Threading/Forward.hpp>
+#include <Public/Threading/Include.hpp>
+#include <WorldRenderer.hpp>
+#include <UIRenderer.hpp>
 
 namespace MeowEngine::Graphics {
     class GraphicsDevice;
 }
 
 namespace MeowEngine::Rendering {
-    /**
-     * Handles the various render pipelines, passes, graphs
-     */
+    struct RendererContext;
+
     class Renderer {
     public:
-        Renderer(Graphics::GraphicsDevice& device);
+        Renderer();
         ~Renderer();
 
-        void Schedule(Threading::Scheduler& scheduler, Graphics::GraphicsDevice& device);
+        void Init(RendererContext& context);
+        void Schedule(Threading::Scheduler& scheduler);
 
     private:
-        RenderGraph RenderGraph;
+        WorldRenderer World;
+        UIRenderer UI;
 
-        /**
-         * Draws our game view onto a ui panel (which is a framebuffer)
-         */
-        Graphics::GLWorldViewFrameBuffer WorldViewFrameBuffer;
-
-        Runtime::RenderPipeline RuntimeRenderPipeline;
-        Editor::RenderPipeline EditorRenderPipeline;
+        Graphics::GraphicsDevice* Device;
     };
 }
 

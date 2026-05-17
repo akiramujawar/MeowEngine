@@ -9,7 +9,7 @@
 #include "log.hpp"
 
 #include "opengl_render_system.hpp"
-#include "ImguiEditorUISystem.hpp"
+#include "EditorUIBuilder.hpp"
 
 #include "GLWorldViewFrameBuffer.hpp"
 #include "opengl_asset_manager.hpp"
@@ -87,14 +87,14 @@ namespace {
         return std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
     }
 
-    MeowEngine::OpenGLRenderSystem CreateRenderer(std::shared_ptr<MeowEngine::OpenGLAssetManager> assetManager, std::shared_ptr<MeowEngine::Editor::ImGuiEditorUISystem> pUISystem) {
+    MeowEngine::OpenGLRenderSystem CreateRenderer(std::shared_ptr<MeowEngine::OpenGLAssetManager> assetManager, std::shared_ptr<MeowEngine::Editor::EditorUIBuilder> pUISystem) {
 //        SDL_GLContext test;
 //        std::shared_ptr<MeowEngine::Runtime::ImGuiUISystem> test1;
 //        test1 = make_shared<MeowEngine::Runtime::ImGuiUISystem>(nullptr, test);
         return MeowEngine::OpenGLRenderSystem(assetManager, pUISystem);
     }
 
-    std::shared_ptr<MeowEngine::Editor::ImGuiEditorUISystem> CreateUI(MeowEngine::Platform::SDL_EngineWindow& pWindow) {
+    std::shared_ptr<MeowEngine::Editor::EditorUIBuilder> CreateUI(MeowEngine::Platform::SDL_EngineWindow& pWindow) {
         // return std::make_shared<MeowEngine::Editor::ImGuiEditorUISystem>(pWindow);
         return nullptr;
     }
@@ -107,7 +107,7 @@ namespace {
 
 struct OpenGLAppSingleThread::Internal {
     Platform::SDL_EngineWindow Window;
-    std::shared_ptr<MeowEngine::Editor::ImGuiEditorUISystem> UI;
+    std::shared_ptr<MeowEngine::Editor::EditorUIBuilder> UI;
     MeowEngine::Graphics::GLWorldViewFrameBuffer FrameBuffer;
     MeowEngine::Runtime::InputManager InputManager;
 
