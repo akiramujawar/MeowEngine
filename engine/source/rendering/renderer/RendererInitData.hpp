@@ -12,7 +12,6 @@ namespace MeowEngine::Rendering {
     struct RendererInitData {
         Graphics::GraphicsDevice* Device;
         Runtime::GameplaySystem* Gameplay;
-
     };
 }
 

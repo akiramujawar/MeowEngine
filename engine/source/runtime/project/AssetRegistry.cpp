@@ -6,15 +6,15 @@
 #include <log.hpp>
 
 namespace MeowEngine::Runtime::Asset {
-        void AssetRegistry::Add(const uint64_t uuid, const AssetEntry& entry) {
-            ResolverMap[uuid] = entry;
-        }
+    void AssetRegistry::Add(const uint64_t uuid, const AssetEntry& entry) {
+        ResolverMap[uuid] = entry;
+    }
 
-        void AssetRegistry::Remove(const uint64_t uuid) {
-            ResolverMap.erase(uuid);
-        }
+    void AssetRegistry::Remove(const uint64_t uuid) {
+        ResolverMap.erase(uuid);
+    }
 
-        void AssetRegistry::Resolve() {
-            MeowEngine::Log("AssetResolver", "Resolve: Not implemented", LogType::ERROR);
+    void AssetRegistry::Resolve() {
+        MeowEngine::Log("AssetResolver", "Resolve: Not implemented", LogType::ERROR);
         }
 }

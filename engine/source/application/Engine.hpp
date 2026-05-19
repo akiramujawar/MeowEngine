@@ -26,6 +26,7 @@
 #include <Project.hpp>
 #include <AssetManager.hpp>
 #include <InputManager.hpp>
+#include <RenderFrameExtractor.hpp>
 
 
 using namespace std;
@@ -110,10 +111,12 @@ namespace MeowEngine {
         // modules
         Graphics::GraphicsDevice GraphicsDevice;
         Rendering::Renderer Renderer;
+        Rendering::RenderFrameExtractor FrameExtractor;
 
         Editor::EditorModule Editor;
         Runtime::RuntimeModule Runtime;
         Physics::PhysicsModule Physics;
+
 
     };
 } // namespace MeowEngine

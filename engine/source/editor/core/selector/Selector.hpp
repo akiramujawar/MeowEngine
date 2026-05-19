@@ -8,13 +8,15 @@
 #include "entt.hpp"
 #include <Public/IO.hpp>
 
-namespace MeowEngine {
+namespace MeowEngine::Editor {
     struct Selector {
         Selector();
 
         void Init(const Core::IO::FileSystem::Path& path);
         
         entt::entity SelectedEntity;
+        std::vector<entt::entity> SelectedEntities;
+
         std::string SelectedDirectoryPath;
         std::string SelectedAssetPath;
     };

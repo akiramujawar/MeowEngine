@@ -35,7 +35,7 @@ namespace MeowEngine::Editor {
     }
 
     void ImGuiWorldTreePanel::Draw(entt::registry &registry1, MeowEngine::Selector &pSelection) {
-        auto& registry = Gameplay->GetWorld()->GetRegistry();
+        auto& registry = Gameplay->GetWorld().GetRegistry();
 
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 

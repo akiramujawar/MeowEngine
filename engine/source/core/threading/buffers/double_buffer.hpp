@@ -25,6 +25,7 @@ namespace MeowEngine {
             return Final;
         }
 
+        // TODO: rename this to try swap and lock the buffer
         void Swap() {
             PT_PROFILE_SCOPE;
             std::swap(Current, Final);

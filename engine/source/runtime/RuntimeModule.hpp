@@ -10,7 +10,7 @@
 #include <WorldManager.hpp>
 #include <GameplaySystem.hpp>
 
-#include <RenderSnapshot.hpp>
+#include <RenderFrame.hpp>
 #include <PhysicsCommand.hpp>
 
 namespace MeowEngine::Runtime {

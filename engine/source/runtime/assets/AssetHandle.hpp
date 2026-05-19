@@ -8,7 +8,7 @@
 // #include <cstdlib>
 #include <functional>
 
-namespace MeowEngine::Runtime::Asset {
+namespace MeowEngine::Asset {
     /**
      * Container for UUID
      * NOTE: Use instead of path or string
@@ -17,6 +17,10 @@ namespace MeowEngine::Runtime::Asset {
         AssetHandle();
         ~AssetHandle();
 
+        /**
+         * When a reference is not assigned
+         */
+        static AssetHandle Null;
         bool IsValid() const;
         uint64_t GetUUID() const;
 
@@ -30,8 +34,8 @@ namespace MeowEngine::Runtime::Asset {
 
 namespace std {
     template<>
-    struct std::hash<MeowEngine::Runtime::Asset::AssetHandle> {
-        std::size_t operator()(const MeowEngine::Runtime::Asset::AssetHandle& assetHandle) const noexcept {
+    struct std::hash<MeowEngine::Asset::AssetHandle> {
+        std::size_t operator()(const MeowEngine::Asset::AssetHandle& assetHandle) const noexcept {
             return std::hash<uint64_t>()(assetHandle.GetUUID());
         }
     };

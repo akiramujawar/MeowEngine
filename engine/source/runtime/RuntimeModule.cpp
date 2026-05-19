@@ -27,12 +27,15 @@ namespace MeowEngine::Runtime {
     void RuntimeModule::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(
             [this]() {
-                Gameplay.Update();
+                Gameplay.Input();
             }
         );
 
-        // build render snapshot
-
+        scheduler.AddTask(
+            [this]() {
+                Gameplay.Update();
+            }
+        );
     }
 
     GameplaySystem& RuntimeModule::GetGameplay() {

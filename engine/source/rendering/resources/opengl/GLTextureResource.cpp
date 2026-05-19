@@ -2,10 +2,10 @@
 // Created by Akira Mujawar on 20/06/24.
 //
 
-#include "opengl_texture.hpp"
+#include "GLTextureResource.hpp"
 #include "GL_API.hpp"
 
-using MeowEngine::OpenGLTexture;
+using MeowEngine::GLTextureResource;
 
 namespace {
     GLuint CreateTexture(const MeowEngine::Bitmap& bitmap) {
@@ -31,7 +31,7 @@ namespace {
     }
 } // namespace
 
-struct OpenGLTexture::Internal {
+struct GLTextureResource::Internal {
     const GLuint TextureID;
 
     Internal(const MeowEngine::Bitmap& bitmap)
@@ -42,9 +42,9 @@ struct OpenGLTexture::Internal {
     }
 };
 
-OpenGLTexture::OpenGLTexture(const MeowEngine::Bitmap &bitmap)
+GLTextureResource::GLTextureResource(const MeowEngine::Bitmap &bitmap)
     : InternalPointer(MeowEngine::make_internal_ptr<Internal>(bitmap)){}
 
-void OpenGLTexture::Bind() const {
+void GLTextureResource::Bind() const {
     glBindTexture(GL_TEXTURE_2D, InternalPointer->TextureID);
 }

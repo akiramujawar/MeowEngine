@@ -11,7 +11,9 @@
 
 #include <UserEventType.hpp>
 #include <RenderCommand.hpp>
-#include <RendererContext.hpp>
+#include <RendererInitData.hpp>
+
+#include <RenderFrameExtractorInitData.hpp>
 
 namespace MeowEngine {
     Engine::Engine()
@@ -71,11 +73,17 @@ namespace MeowEngine {
         Runtime.Init();
         Editor.Init();
 
-        Rendering::RendererContext context;
-        context.Device = &GraphicsDevice;
-        context.Gameplay = &Runtime.GetGameplay();
+        Rendering::RendererInitData renderInit {};
+        renderInit.Device = &GraphicsDevice;
+        renderInit.Gameplay = &Runtime.GetGameplay();
 
-        Renderer.Init(context);
+        Renderer.Init(renderInit);
+
+        Rendering::RenderFrameExtractorInitData frameExtractorInit {};
+        frameExtractorInit.Gameplay = &Runtime.GetGameplay();
+        frameExtractorInit.Selector = &Editor.GetSelector();
+
+        FrameExtractor.Init(frameExtractorInit);
     }
 
     void Engine::Loop() {
@@ -99,11 +107,11 @@ namespace MeowEngine {
 
             // -- runs on main thread
             Editor.Schedule(Scheduler);
-            // create render snapshot => editor
+            FrameExtractor.Schedule(Scheduler);
 
             // -- runs on render thread
             // consume render snapshot => render
-            Renderer.Schedule(Scheduler);
+            Renderer.Schedule(Scheduler, FrameExtractor);
 
             Executor->Execute(Scheduler);
         }

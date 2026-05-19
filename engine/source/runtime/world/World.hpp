@@ -44,6 +44,10 @@ namespace MeowEngine::Runtime {
             return Buffer;
         }
 
+    public:
+        entt::entity ActiveCamera;
+        entt::entity SkyBox;
+
     private:
         entt::registry Registry;
 

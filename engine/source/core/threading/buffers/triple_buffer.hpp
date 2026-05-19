@@ -28,6 +28,8 @@ namespace MeowEngine {
             return  Final;
         }
 
+        // TODO: rename this to try swap and lock the buffer
+        // and put it as read / write & free buffers for clear understanding
         void Swap() {
             std::swap(Current, Staging);
             std::swap(Current, Final);

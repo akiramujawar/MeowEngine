@@ -1,8 +1,0 @@
-//
-// Created by Akira Mujawar on 17/05/26.
-//
-
-#ifndef MEOWENGINE_SKYBOXDRAWDATA_HPP
-#define MEOWENGINE_SKYBOXDRAWDATA_HPP
-
-#endif //MEOWENGINE_SKYBOXDRAWDATA_HPP

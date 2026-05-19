@@ -1,8 +1,0 @@
-//
-// Created by Akira Mujawar on 17/05/26.
-//
-
-#ifndef MEOWENGINE_GRIDDRAWDATA_HPP
-#define MEOWENGINE_GRIDDRAWDATA_HPP
-
-#endif //MEOWENGINE_GRIDDRAWDATA_HPP

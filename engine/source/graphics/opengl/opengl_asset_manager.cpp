@@ -134,7 +134,7 @@ struct OpenGLAssetManager::Internal {
     // cache and store using enums
     std::unordered_map<MeowEngine::assets::ShaderPipelineType, MeowEngine::pipeline::OpenGLPipelineBase*> shaderPipelineCache;
     std::unordered_map<MeowEngine::assets::StaticMeshType, MeowEngine::GLMeshResource> staticMeshCache;
-    std::unordered_map<MeowEngine::assets::TextureType, MeowEngine::OpenGLTexture> textureCache;
+    std::unordered_map<MeowEngine::assets::TextureType, MeowEngine::GLTextureResource> textureCache;
 
     Internal() {}
 
@@ -170,7 +170,7 @@ struct OpenGLAssetManager::Internal {
                 textureCache.insert(
                     std::make_pair(
                         texture,
-                        MeowEngine::OpenGLTexture(MeowEngine::assets::LoadBitmap(MeowEngine::assets::ResolveTexturePath(texture)))
+                        MeowEngine::GLTextureResource(MeowEngine::assets::LoadBitmap(MeowEngine::assets::ResolveTexturePath(texture)))
                     )
                 );
             }
@@ -222,7 +222,7 @@ const MeowEngine::GLMeshResource& OpenGLAssetManager::GetStaticMesh(const MeowEn
     return InternalPointer->staticMeshCache.at(staticMesh);
 }
 
-const MeowEngine::OpenGLTexture& OpenGLAssetManager::GetTexture(const MeowEngine::assets::TextureType& texture) const {
+const MeowEngine::GLTextureResource& OpenGLAssetManager::GetTexture(const MeowEngine::assets::TextureType& texture) const {
     return InternalPointer->textureCache.at(texture);
 }
 

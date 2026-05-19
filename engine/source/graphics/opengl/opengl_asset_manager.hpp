@@ -10,7 +10,7 @@
 //#include "opengl_pipeline_base.hpp"
 //#include "opengl_mesh_pipeline.hpp"
 #include "GLMeshResource.hpp"
-#include "opengl_texture.hpp"
+#include "GLTextureResource.hpp"
 
 namespace MeowEngine {
     struct OpenGLAssetManager : public AssetManager {
@@ -26,7 +26,7 @@ namespace MeowEngine {
         template<typename T>
         T* GetShaderPipeline(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
         const MeowEngine::GLMeshResource& GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const;
-        const MeowEngine::OpenGLTexture& GetTexture(const MeowEngine::assets::TextureType& texture) const;
+        const MeowEngine::GLTextureResource& GetTexture(const MeowEngine::assets::TextureType& texture) const;
 
     private:
         // We are using this because we need to store the state in order to cache the assets

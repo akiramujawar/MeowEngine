@@ -20,6 +20,8 @@ namespace MeowEngine::Runtime {
         ~GameplaySystem();
 
         void SetWorld(World* world);
+        World& GetWorld();
+
         void Input();
         void Update();
         void Sync();

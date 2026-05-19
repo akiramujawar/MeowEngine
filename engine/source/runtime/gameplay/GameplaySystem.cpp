@@ -18,6 +18,10 @@ namespace MeowEngine::Runtime {
         World = world;
     }
 
+    World& GameplaySystem::GetWorld() {
+        return *World;
+    }
+
     void GameplaySystem::Input() {}
 
     void GameplaySystem::Update() {

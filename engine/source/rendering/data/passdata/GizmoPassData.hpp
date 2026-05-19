@@ -11,7 +11,6 @@
 #include <BoxColliderDrawData.hpp>
 #include <SphereColliderDrawData.hpp>
 
-
 namespace MeowEngine::Rendering {
     struct GizmoPassData {
         std::vector<LineDrawData> Lines;
