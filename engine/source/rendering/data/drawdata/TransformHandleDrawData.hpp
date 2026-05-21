@@ -5,10 +5,11 @@
 #ifndef MEOWENGINE_TRANSFORMHANDLEDRAWDATA_HPP
 #define MEOWENGINE_TRANSFORMHANDLEDRAWDATA_HPP
 
+#include <ShaderRenderHandle.hpp>
+
 namespace MeowEngine::Rendering {
     struct TransformHandleDrawData {
-        Asset::AssetHandle VertexShader;
-        Asset::AssetHandle FragmentShader;
+        ShaderRenderHandle Shader;
 
         glm::mat4 TransformMatrix;
     };

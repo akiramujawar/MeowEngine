@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 22/02/26.
 //
 
-#ifndef MEOWENGINE_IEDITORUISYSTEM_HPP
-#define MEOWENGINE_IEDITORUISYSTEM_HPP
+#ifndef MEOWENGINE_EDITORSCENEBUILDER_HPP
+#define MEOWENGINE_EDITORSCENEBUILDER_HPP
 
 namespace MeowEngine::Rendering {
     class RenderGraph;
@@ -13,17 +13,16 @@ namespace MeowEngine::Editor {
     /**
      * Handles editor specific rendering like lines, gizmos in world view and rendering order
      */
-    class EditorWorldBuilder {
+    class EditorSceneBuilder {
     public:
-        EditorWorldBuilder();
-        ~EditorWorldBuilder();
+        EditorSceneBuilder();
+        ~EditorSceneBuilder();
 
         void Init();
-        void BuildGraph(Rendering::RenderGraph& graph);
 
     private:
     };
 }
 
 
-#endif //MEOWENGINE_IEDITORUISYSTEM_HPP
+#endif //MEOWENGINE_EDITORSCENEBUILDER_HPP

@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 19/05/26.
 //
 
-#ifndef MEOWENGINE_RENDERFRAMEEXTRACTORINITDATA_HPP
-#define MEOWENGINE_RENDERFRAMEEXTRACTORINITDATA_HPP
+#ifndef MEOWENGINE_RENDERSCENEEXTRACTORINITDATA_HPP
+#define MEOWENGINE_RENDERSCENEEXTRACTORINITDATA_HPP
 
 // #include <GameplaySystem.hpp>
 // #include <Selector.hpp>
@@ -17,10 +17,10 @@ namespace MeowEngine::Editor {
 }
 
 namespace MeowEngine::Rendering {
-    struct RenderFrameExtractorInitData {
+    struct RenderSceneExtractorInitData {
         Runtime::GameplaySystem* Gameplay;
         Editor::Selector* Selector;
     };
 }
 
-#endif //MEOWENGINE_RENDERFRAMEEXTRACTORINITDATA_HPP
+#endif //MEOWENGINE_RENDERSCENEEXTRACTORINITDATA_HPP

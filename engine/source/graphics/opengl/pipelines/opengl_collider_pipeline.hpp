@@ -9,13 +9,13 @@
 #include <opengl_sphere_collider.hpp>
 #include "GL_API.hpp"
 
-#include "opengl_pipeline_base.hpp"
+#include "IRenderPipeline.hpp"
 #include "perspective_camera.hpp"
 #include "entt.hpp"
 
 namespace MeowEngine {
 
-    struct OpenGLColliderPipeline : public MeowEngine::pipeline::OpenGLPipelineBase {
+    struct OpenGLColliderPipeline : public MeowEngine::pipeline::IRenderPipeline {
         OpenGLColliderPipeline(const GLuint& inShaderProgramID);
         ~OpenGLColliderPipeline() override;
 

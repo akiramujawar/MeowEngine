@@ -5,4 +5,16 @@
 #ifndef MEOWENGINE_GEOMETRYPASS_HPP
 #define MEOWENGINE_GEOMETRYPASS_HPP
 
+#include <IRenderPass.hpp>
+
+namespace MeowEngine::Rendering {
+    class GeometryPass : IRenderPass {
+    public:
+        GeometryPass();
+        ~GeometryPass() override;
+
+        void Draw(RenderContext& context) override;
+    };
+}
+
 #endif //MEOWENGINE_GEOMETRYPASS_HPP

@@ -8,7 +8,7 @@
 #include "GLM_API.hpp"
 #include "GL_API.hpp"
 
-#include "opengl_pipeline_base.hpp"
+#include "IRenderPipeline.hpp"
 #include "line_render_component.hpp"
 #include "transform3d_component.hpp"
 #include "perspective_camera.hpp"
@@ -17,7 +17,7 @@ using namespace std;
 using namespace glm;
 
 namespace MeowEngine::pipeline {
-    struct OpenGLLinePipeline : public MeowEngine::pipeline::OpenGLPipelineBase {
+    struct OpenGLLinePipeline : public MeowEngine::pipeline::IRenderPipeline {
         OpenGLLinePipeline(const GLuint& shaderProgramID);
         ~OpenGLLinePipeline() override;
 

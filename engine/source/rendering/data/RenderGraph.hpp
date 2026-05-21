@@ -5,7 +5,13 @@
 #ifndef MEOWENGINE_RENDERGRAPH_HPP
 #define MEOWENGINE_RENDERGRAPH_HPP
 
+#include <vector>
+
 namespace MeowEngine::Rendering {
+    class RenderSceneData;
+    class IRenderPass;
+    struct RenderContext;
+
     /**
      * Builds the render order for execution of render commands
      * e.g. clear -> draw editor -> then game give -> then editor gizmos etc...
@@ -17,10 +23,13 @@ namespace MeowEngine::Rendering {
         ~RenderGraph();
 
         void Clear();
-        void Build();
-        void Execute();
+        template<typename PassType>
+        void Add();
+        void Execute(RenderContext& renderContext);
+
+    private:
+        std::vector<IRenderPass*> RenderPasses;
     };
 }
-
 
 #endif //MEOWENGINE_RENDERGRAPH_HPP

@@ -5,9 +5,11 @@
 #ifndef MEOWENGINE_LINEDRAWDATA_HPP
 #define MEOWENGINE_LINEDRAWDATA_HPP
 
+#include <ShaderRenderHandle.hpp>
+
 namespace MeowEngine::Rendering {
     struct LineDrawData {
-
+        ShaderRenderHandle Shader;
     };
 }
 

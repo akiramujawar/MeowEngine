@@ -13,4 +13,16 @@
 //
 // ColliderPass.End()
 
+#include <IRenderPass.hpp>
+
+namespace MeowEngine::Rendering {
+    class GizmoPass : IRenderPass {
+    public:
+        GizmoPass();
+        ~GizmoPass() override;
+
+        void Draw(RenderContext& context) override;
+    };
+}
+
 #endif //MEOWENGINE_GIZMOPASS_HPP

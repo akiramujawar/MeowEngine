@@ -13,7 +13,7 @@
 #include <RenderCommand.hpp>
 #include <RendererInitData.hpp>
 
-#include <RenderFrameExtractorInitData.hpp>
+#include <RenderSceneExtractorInitData.hpp>
 
 namespace MeowEngine {
     Engine::Engine()
@@ -79,15 +79,15 @@ namespace MeowEngine {
 
         Renderer.Init(renderInit);
 
-        Rendering::RenderFrameExtractorInitData frameExtractorInit {};
+        Rendering::RenderSceneExtractorInitData frameExtractorInit {};
         frameExtractorInit.Gameplay = &Runtime.GetGameplay();
         frameExtractorInit.Selector = &Editor.GetSelector();
 
-        FrameExtractor.Init(frameExtractorInit);
+        RenderSceneExtractor.Init(frameExtractorInit);
     }
 
     void Engine::Loop() {
-        while (IsRunning) {
+        while (true) {
             if (!ProcessDeviceInput()) {
                 break;
             }
@@ -97,7 +97,6 @@ namespace MeowEngine {
             // -- runs on main thread
             // apply physics result => runtime
             Runtime.Schedule(Scheduler);
-            // create render snapshot => runtime
             // queue physics command => runtime
 
             // -- runs on physics thread
@@ -107,11 +106,13 @@ namespace MeowEngine {
 
             // -- runs on main thread
             Editor.Schedule(Scheduler);
-            FrameExtractor.Schedule(Scheduler);
+            // can use the scene editor & runtime builder here
+            // same for ui (see if we can do the ui build data on main thread and render on render thread)
+            RenderSceneExtractor.Schedule(Scheduler, Renderer.GetResourceManager());
 
             // -- runs on render thread
             // consume render snapshot => render
-            Renderer.Schedule(Scheduler, FrameExtractor);
+            Renderer.Schedule(Scheduler, RenderSceneExtractor);
 
             Executor->Execute(Scheduler);
         }

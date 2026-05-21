@@ -26,7 +26,7 @@
 #include <Project.hpp>
 #include <AssetManager.hpp>
 #include <InputManager.hpp>
-#include <RenderFrameExtractor.hpp>
+#include <RenderSceneExtractor.hpp>
 
 
 using namespace std;
@@ -53,6 +53,7 @@ namespace MeowEngine {
          */
         virtual void CreateApplication() {};
         void Open();
+        void Close();
 
         /**
          * Returns stack instance of asset manager
@@ -111,7 +112,7 @@ namespace MeowEngine {
         // modules
         Graphics::GraphicsDevice GraphicsDevice;
         Rendering::Renderer Renderer;
-        Rendering::RenderFrameExtractor FrameExtractor;
+        Rendering::RenderSceneExtractor RenderSceneExtractor;
 
         Editor::EditorModule Editor;
         Runtime::RuntimeModule Runtime;

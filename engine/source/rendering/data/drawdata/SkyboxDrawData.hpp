@@ -5,10 +5,12 @@
 #ifndef MEOWENGINE_SKYBOXDRAWDATA_HPP
 #define MEOWENGINE_SKYBOXDRAWDATA_HPP
 
+#include <ShaderRenderHandle.hpp>
+#include <glm/glm.hpp>
+
 namespace MeowEngine::Rendering {
-    struct SkyBoxDrawData {
-        Asset::AssetHandle VertexShader;
-        Asset::AssetHandle FragmentShader;
+    struct SkyboxDrawData {
+        ShaderRenderHandle Shader;
 
         glm::mat4 TransformMatrix;
     };

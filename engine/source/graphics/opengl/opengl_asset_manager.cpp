@@ -4,7 +4,7 @@
 
 #include "opengl_asset_manager.hpp"
 
-#include "opengl_pipeline_base.hpp"
+#include "IRenderPipeline.hpp"
 #include "opengl_mesh_pipeline.hpp"
 #include "opengl_line_pipeline.hpp"
 #include "opengl_grid_pipeline.hpp"
@@ -106,7 +106,7 @@ namespace {
         return shaderProgramId;
     }
 
-    MeowEngine::pipeline::OpenGLPipelineBase* CreatePipeline(const ShaderPipelineType& shaderPipelineType) {
+    MeowEngine::pipeline::IRenderPipeline* CreatePipeline(const ShaderPipelineType& shaderPipelineType) {
         const std::string shaderPath = MeowEngine::assets::ResolveShaderPipelinePath(shaderPipelineType);
         GLuint shaderProgramID = CreateShaderProgram(shaderPath);
 
@@ -132,7 +132,7 @@ namespace {
 
 struct OpenGLAssetManager::Internal {
     // cache and store using enums
-    std::unordered_map<MeowEngine::assets::ShaderPipelineType, MeowEngine::pipeline::OpenGLPipelineBase*> shaderPipelineCache;
+    std::unordered_map<MeowEngine::assets::ShaderPipelineType, MeowEngine::pipeline::IRenderPipeline*> shaderPipelineCache;
     std::unordered_map<MeowEngine::assets::StaticMeshType, MeowEngine::GLMeshResource> staticMeshCache;
     std::unordered_map<MeowEngine::assets::TextureType, MeowEngine::GLTextureResource> textureCache;
 

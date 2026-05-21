@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 18/05/26.
+//
+
+#ifndef MEOWENGINE_PHYSICSCOMMANDHANDLER_HPP
+#define MEOWENGINE_PHYSICSCOMMANDHANDLER_HPP
+
+
+class PhysicsCommandHandler {};
+
+
+#endif //MEOWENGINE_PHYSICSCOMMANDHANDLER_HPP

@@ -2,38 +2,42 @@
 // Created by Akira Mujawar on 13/05/26.
 //
 
-#include <WorldRenderer.hpp>
+#include <SceneRenderer.hpp>
 
 #include <Public/Threading/Include.hpp>
 
+#include <RendererInitData.hpp>
 #include <GraphicsDevice.hpp>
 #include <RenderCommand.hpp>
 
-#include "RendererInitData.hpp"
-
+#include <SkyBoxPass.hpp>
+#include <EditorOverlayPass.hpp>
+#include <GeometryPass.hpp>
+#include <WorldUIPass.hpp>
+#include <DebugPass.hpp>
+#include <GizmoPass.hpp>
+#include <PostProcessPass.hpp>
 
 namespace MeowEngine::Rendering {
-    WorldRenderer::WorldRenderer()
-        : WorldViewFrameBuffer(Graphics::GLWorldViewBuffer(1000, 500))
+    SceneRenderer::SceneRenderer()
+        : SceneViewFrameBuffer(Graphics::GLWorldViewBuffer(1000, 500))
     {
         MeowEngine::Log("Renderer", "Constructed");
     }
 
-    WorldRenderer::~WorldRenderer() {
+    SceneRenderer::~SceneRenderer() {
         MeowEngine::Log("Renderer", "Destructed");
     }
 
-    void WorldRenderer::Init(RendererInitData& context) {
-        RuntimeBuilder.Init();
-        EditorBuilder.Init();
+    void SceneRenderer::Init(RendererInitData& context) {
+        RuntimeSceneBuilder.Init();
+        EditorSceneBuilder.Init();
     }
 
-    void WorldRenderer::Schedule(Threading::Scheduler& scheduler) {
-        RenderGraph.Clear();
-
+    void SceneRenderer::Schedule(Threading::Scheduler& scheduler, RenderContext& renderContext) {
         scheduler.AddTask(
             [this]() {
-                WorldViewFrameBuffer.Bind();
+                SceneViewFrameBuffer.Bind();
             }
         );
 
@@ -43,18 +47,23 @@ namespace MeowEngine::Rendering {
             }
         );
 
-        RuntimeBuilder.BuildGraph(RenderGraph);
-        EditorBuilder.BuildGraph(RenderGraph);
+        RenderGraph.Clear();
+        RenderGraph.Add<SkyboxPass>();
+        RenderGraph.Add<EditorOverlayPass>();
+        RenderGraph.Add<GeometryPass>();
+        RenderGraph.Add<DebugPass>();
+        RenderGraph.Add<PostProcessPass>();
+        RenderGraph.Add<GizmoPass>();
 
         scheduler.AddTask(
-            [this]() {
-                WorldViewFrameBuffer.Unbind();
+            [&]() {
+                RenderGraph.Execute(renderContext);
             }
         );
 
         scheduler.AddTask(
-            [&]() {
-                RenderGraph.Execute();
+            [this]() {
+                SceneViewFrameBuffer.Unbind();
             }
         );
 

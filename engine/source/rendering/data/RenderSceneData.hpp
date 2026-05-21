@@ -2,11 +2,11 @@
 // Created by Akira Mujawar on 18/04/26.
 //
 
-#ifndef MEOWENGINE_RENDERFRAMEDATA_HPP
-#define MEOWENGINE_RENDERFRAMEDATA_HPP
+#ifndef MEOWENGINE_RENDERSCENEDATA_HPP
+#define MEOWENGINE_RENDERSCENEDATA_HPP
 
 #include <GridDrawData.hpp>
-#include <SkyBoxDrawData.hpp>
+#include <SkyboxDrawData.hpp>
 #include <MeshDrawData.hpp>
 
 #include <BoxColliderDrawData.hpp>
@@ -14,11 +14,11 @@
 #include <LineDrawData.hpp>
 #include <TransformHandleDrawData.hpp>
 
-
+// TODO: rename to render scene data
 namespace MeowEngine::Rendering {
-    struct RenderFrameData {
+    struct RenderSceneData {
         GridDrawData Grid; // this goes to renderer pass config
-        SkyBoxDrawData SkyBox;
+        SkyboxDrawData Skybox;
         std::vector<MeshDrawData> Meshes;
         std::vector<BoxColliderDrawData> BoxColliders;
         std::vector<SphereColliderDrawData> SphereColliders;
@@ -27,4 +27,4 @@ namespace MeowEngine::Rendering {
     };
 }
 
-#endif //MEOWENGINE_RENDERFRAMEDATA_HPP
+#endif //MEOWENGINE_RENDERSCENEDATA_HPP

@@ -55,45 +55,45 @@ struct OpenGLRenderSystem::Internal {
         // Where-ever optimisation can be achieved remove it from such loop queries.
         // We know there's only one skybox or grid so no need to include that
 
-        for(auto &&[entity,renderComponent, transform]: registry.view<entity::MeshRenderComponent, entity::Transform3DComponent>().each()) {
-            AssetManager->GetShaderPipeline<OpenGLMeshPipeline>(ShaderPipelineType::Default)->Render(
-                    *AssetManager,
-                    &renderComponent,
-                    &transform
-            );
-        }
-
-        for(auto &&[entity,renderComponent]: registry.view<component::GridComponent>().each()) {
-                AssetManager->GetShaderPipeline<OpenGLGridPipeline>(ShaderPipelineType::Grid)->Render(
-                        *AssetManager,
-                        &renderComponent,
-                        cameraObject
-                );
-        }
-
-        for(auto &&[entity,renderComponent]: registry.view<entity::SkyBoxComponent>().each()) {
-                AssetManager->GetShaderPipeline<OpenGLSkyBoxPipeline>(ShaderPipelineType::Sky)->Render(
-                        *AssetManager,
-                        &renderComponent,
-                        cameraObject
-                );
-        }
-
-        if(registry.valid(pSelection.SelectedEntity)) {
-            auto selectedTransform = registry.try_get<entity::Transform3DComponent>(pSelection.SelectedEntity);
-
-            if(selectedTransform != nullptr) {
-                for (auto &&[entity, renderComponent]: registry.view<entity::TransformHandleComponent>().each()) {
-                    AssetManager->GetShaderPipeline<OpenGLTransformHandlePipeline>(
-                            ShaderPipelineType::TRANSFORM_HANDLE)->Render(
-                            *AssetManager,
-                            &renderComponent,
-                            selectedTransform,
-                            cameraObject
-                    );
-                }
-            }
-        }
+        // for(auto &&[entity,renderComponent, transform]: registry.view<entity::MeshRenderComponent, entity::Transform3DComponent>().each()) {
+        //     AssetManager->GetShaderPipeline<OpenGLMeshPipeline>(ShaderPipelineType::Default)->Render(
+        //             *AssetManager,
+        //             &renderComponent,
+        //             &transform
+        //     );
+        // }
+        //
+        // for(auto &&[entity,renderComponent]: registry.view<component::GridComponent>().each()) {
+        //         AssetManager->GetShaderPipeline<OpenGLGridPipeline>(ShaderPipelineType::Grid)->Render(
+        //                 *AssetManager,
+        //                 &renderComponent,
+        //                 cameraObject
+        //         );
+        // }
+        //
+        // for(auto &&[entity,renderComponent]: registry.view<entity::SkyBoxComponent>().each()) {
+        //         AssetManager->GetShaderPipeline<OpenGLSkyBoxPipeline>(ShaderPipelineType::Sky)->Render(
+        //                 *AssetManager,
+        //                 &renderComponent,
+        //                 cameraObject
+        //         );
+        // }
+        //
+        // if(registry.valid(pSelection.SelectedEntity)) {
+        //     auto selectedTransform = registry.try_get<entity::Transform3DComponent>(pSelection.SelectedEntity);
+        //
+        //     if(selectedTransform != nullptr) {
+        //         for (auto &&[entity, renderComponent]: registry.view<entity::TransformHandleComponent>().each()) {
+        //             AssetManager->GetShaderPipeline<OpenGLTransformHandlePipeline>(
+        //                     ShaderPipelineType::TRANSFORM_HANDLE)->Render(
+        //                     *AssetManager,
+        //                     &renderComponent,
+        //                     selectedTransform,
+        //                     cameraObject
+        //             );
+        //         }
+        //     }
+        // }
     }
 
     void RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps) {
@@ -101,7 +101,7 @@ struct OpenGLRenderSystem::Internal {
     }
 
     void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) {
-        AssetManager->GetShaderPipeline<OpenGLColliderPipeline>(ShaderPipelineType::PHYSICS_COLLIDER)->Render(cameraObject, registry);
+        // AssetManager->GetShaderPipeline<OpenGLColliderPipeline>(ShaderPipelineType::PHYSICS_COLLIDER)->Render(cameraObject, registry);
     }
 };
 

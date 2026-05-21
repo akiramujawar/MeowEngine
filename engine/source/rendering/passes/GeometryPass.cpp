@@ -1,0 +1,16 @@
+//
+// Created by Akira Mujawar on 20/05/26.
+//
+
+#include <GeometryPass.hpp>
+#include <RenderSceneData.hpp>
+
+namespace MeowEngine::Rendering {
+    GeometryPass::GeometryPass() {}
+
+    GeometryPass::~GeometryPass() {}
+
+    void GeometryPass::Draw(RenderSceneData& data) {
+
+    }
+}

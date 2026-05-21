@@ -5,14 +5,16 @@
 #ifndef MEOWENGINE_MESHDRAWDATA_HPP
 #define MEOWENGINE_MESHDRAWDATA_HPP
 
-#include <AssetHandle.hpp>
 #include <GLM_API.hpp>
+#include <ShaderRenderHandle.hpp>
+#include <MeshRenderHandle.hpp>
+#include <TextureRenderHandle.hpp>
 
 namespace MeowEngine::Rendering {
     struct MeshDrawData {
-        Asset::AssetHandle VertexShader;
-        Asset::AssetHandle FragmentShader;
-        Asset::AssetHandle Mesh;
+        ShaderRenderHandle Shader;
+        MeshRenderHandle Mesh;
+        TextureRenderHandle Texture;
 
         glm::mat4 TransformMatrix;
     };

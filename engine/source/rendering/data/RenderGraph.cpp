@@ -4,19 +4,21 @@
 
 #include <RenderGraph.hpp>
 
+#include <IRenderPass.hpp>
+
 namespace MeowEngine::Rendering {
 
     RenderGraph::RenderGraph() {}
 
     RenderGraph::~RenderGraph() {}
-    void RenderGraph::Clear() {}
 
-    void RenderGraph::Build() {
-
+    void RenderGraph::Clear() {
+        RenderPasses.clear();
     }
 
-    void RenderGraph::Execute() {
-
+    void RenderGraph::Execute(RenderContext& renderContext) {
+        for (auto pass : RenderPasses) {
+            pass->Draw(renderContext);
+        }
     }
-
 }

@@ -8,12 +8,12 @@
 #include "GLM_API.hpp"
 #include "GL_API.hpp"
 
-#include "opengl_pipeline_base.hpp"
+#include "IRenderPipeline.hpp"
 #include "mesh_render_component.hpp"
 #include "transform3d_component.hpp"
 
 namespace MeowEngine::pipeline {
-    struct OpenGLMeshPipeline : public MeowEngine::pipeline::OpenGLPipelineBase {
+    struct OpenGLMeshPipeline : public MeowEngine::pipeline::IRenderPipeline {
         OpenGLMeshPipeline(const GLuint& shaderProgramID);
         ~OpenGLMeshPipeline() override;
 

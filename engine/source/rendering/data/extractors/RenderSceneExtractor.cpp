@@ -2,10 +2,13 @@
 // Created by Akira Mujawar on 18/05/26.
 //
 
-#include <RenderFrameExtractor.hpp>
+#include <RenderSceneExtractor.hpp>
 
 // core
 #include <Public/Threading/Include.hpp>
+
+// rendering
+#include <RenderResourceManager.hpp>
 
 // runtime
 #include <GameplaySystem.hpp>
@@ -22,29 +25,29 @@
 #include "sky_box_component.hpp"
 
 namespace MeowEngine::Rendering {
-    void RenderFrameExtractor::Init(const RenderFrameExtractorInitData& data) {
+    void RenderSceneExtractor::Init(const RenderSceneExtractorInitData& data) {
         Gameplay = data.Gameplay;
         Selector = data.Selector;
     }
 
-    void RenderFrameExtractor::Schedule(Threading::Scheduler& scheduler) {
+    void RenderSceneExtractor::Schedule(Threading::Scheduler& scheduler, RenderResourceManager& resourceManager) {
         // extract draw data for later rendering
         scheduler.AddTask(
-            [this]() {
-                ExtractRuntime();
+            [this, &resourceManager]() {
+                ExtractRuntime(resourceManager);
             }
         );
 
         scheduler.AddTask(
-            [this]() {
-                ExtractEditor();
+            [this, &resourceManager]() {
+                ExtractEditor(resourceManager);
             }
         );
 
         // swap buffers (internally only swaps if buffers are not locked)
         scheduler.AddTask(
             [this]() {
-                RenderFrameData.Swap();
+                RenderSceneData.Swap();
             }
         );
     }
@@ -62,19 +65,19 @@ namespace MeowEngine::Rendering {
     //
 
 
-    void RenderFrameExtractor::ExtractRuntime() {
+    void RenderSceneExtractor::ExtractRuntime(RenderResourceManager& resourceManager) {
         auto& world = Gameplay->GetWorld();
         auto& ecs = world.GetRegistry();
-        auto& frame = RenderFrameData.GetCurrent();
+        auto& frame = RenderSceneData.GetCurrent();
 
         // meshes
         auto meshesView = ecs.view<entity::MeshRenderComponent, entity::Transform3DComponent>();
         for (auto &&entity : meshesView) {
             auto&& [mesh, transform] = meshesView.get(entity);
             Rendering::MeshDrawData data;
-            data.VertexShader = Asset::AssetHandle::Null;
-            data.FragmentShader = Asset::AssetHandle::Null;
-            data.Mesh = Asset::AssetHandle::Null; // this doesn't exist
+            data.Shader = resourceManager.ResolveShaderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+            data.Mesh = resourceManager.ResolveMeshHandle(Asset::AssetHandle::Null); // this doesn't exist
+            data.Texture = resourceManager.ResolveTextureHandle(Asset::AssetHandle::Null); // this doesn't exist
             data.TransformMatrix = transform.TransformMatrix; // this doesnt exist
 
             frame.Meshes.push_back(data);
@@ -83,12 +86,11 @@ namespace MeowEngine::Rendering {
         // sky box
         auto skyBox = ecs.try_get<entity::SkyBoxComponent>(world.SkyBox);
         if (skyBox != nullptr) {
-            SkyBoxDrawData data;
-            data.VertexShader = Asset::AssetHandle::Null;
-            data.FragmentShader = Asset::AssetHandle::Null;
+            SkyboxDrawData data;
+            data.Shader = resourceManager.ResolveShaderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
             data.TransformMatrix = glm::mat4(1.0f); // camera
 
-            frame.SkyBox = data;
+            frame.Skybox = data;
         }
 
         // -- gameplay
@@ -103,9 +105,9 @@ namespace MeowEngine::Rendering {
         // grid - do we need this as a entity to process? it is a pure shader and only requires camera projection etc...?
     }
 
-    void RenderFrameExtractor::ExtractEditor() {
+    void RenderSceneExtractor::ExtractEditor(RenderResourceManager& resourceManager) {
         auto& ecs = Gameplay->GetWorld().GetRegistry();
-        auto& frame = RenderFrameData.GetCurrent();
+        auto& frame = RenderSceneData.GetCurrent();
 
         // selected transform handles
         for (auto &&entity : Selector->SelectedEntities) {
@@ -121,8 +123,7 @@ namespace MeowEngine::Rendering {
         }
 
         // grid
-        frame.Grid.VertexShader = Asset::AssetHandle::Null;
-        frame.Grid.FragmentShader = Asset::AssetHandle::Null;
+        frame.Grid.Shader = resourceManager.ResolveShaderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
         frame.Grid.TransformMatrix = glm::mat4(1.0f); // camera mvp
 
         // physics colliders (box, sphere)
@@ -134,8 +135,7 @@ namespace MeowEngine::Rendering {
                 case entity::ColliderType::BOX: {
                     auto shape = collider.GetColliderData().Cast<entity::BoxColliderShape>();
                     BoxColliderDrawData data;
-                    data.VertexShader = Asset::AssetHandle::Null;
-                    data.FragmentShader = Asset::AssetHandle::Null;
+                    data.Shader = resourceManager.ResolveShaderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
                     data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.BoxColliders.push_back(data);
@@ -145,8 +145,7 @@ namespace MeowEngine::Rendering {
                 case entity::ColliderType::SPHERE: {
                     auto shape = collider.GetColliderData().Cast<entity::SphereColliderShape>();
                     SphereColliderDrawData data;
-                    data.VertexShader = Asset::AssetHandle::Null;
-                    data.FragmentShader = Asset::AssetHandle::Null;
+                    data.Shader = resourceManager.ResolveShaderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
                     data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.SphereColliders.push_back(data);

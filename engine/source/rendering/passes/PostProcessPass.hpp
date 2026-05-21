@@ -5,4 +5,16 @@
 #ifndef MEOWENGINE_POSTPROCESSPASS_HPP
 #define MEOWENGINE_POSTPROCESSPASS_HPP
 
+#include <IRenderPass.hpp>
+
+namespace MeowEngine::Rendering {
+    class PostProcessPass : IRenderPass {
+    public:
+        PostProcessPass();
+        ~PostProcessPass() override;
+
+        void Draw(RenderContext& context) override;
+    };
+}
+
 #endif //MEOWENGINE_POSTPROCESSPASS_HPP

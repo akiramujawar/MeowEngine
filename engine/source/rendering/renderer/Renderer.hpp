@@ -6,8 +6,11 @@
 #define MEOWENGINE_RENDERER_HPP
 
 #include <Public/Threading/Include.hpp>
-#include <WorldRenderer.hpp>
+
+#include <SceneRenderer.hpp>
 #include <UIRenderer.hpp>
+#include <RenderPipelineManager.hpp>
+#include <RenderResourceManager.hpp>
 
 namespace MeowEngine::Graphics {
     class GraphicsDevice;
@@ -15,6 +18,7 @@ namespace MeowEngine::Graphics {
 
 namespace MeowEngine::Rendering {
     struct RendererInitData;
+    class RenderSceneExtractor;
 
     class Renderer {
     public:
@@ -22,11 +26,18 @@ namespace MeowEngine::Rendering {
         ~Renderer();
 
         void Init(RendererInitData& context);
-        void Schedule(Threading::Scheduler& scheduler);
+        void Schedule(Threading::Scheduler& scheduler, RenderSceneExtractor& extractor);
+
+        RenderResourceManager& GetResourceManager() {
+            return ResourceManager;
+        }
 
     private:
-        WorldRenderer World;
+        SceneRenderer Scene;
         UIRenderer UI;
+
+        RenderPipelineManager PipelineManager;
+        RenderResourceManager ResourceManager;
 
         Graphics::GraphicsDevice* Device;
     };

@@ -5,12 +5,13 @@
 #ifndef MEOWENGINE_GRIDDRAWDATA_HPP
 #define MEOWENGINE_GRIDDRAWDATA_HPP
 
+#include <ShaderRenderHandle.hpp>
+
 namespace MeowEngine::Rendering {
     // NOTE: this goes to renderer pass config hence
     // NOTE: we don't need a component or entity or draw data for this
     struct GridDrawData {
-        Asset::AssetHandle VertexShader;
-        Asset::AssetHandle FragmentShader;
+        ShaderRenderHandle Shader;
 
         glm::mat4 TransformMatrix;
     };
