@@ -5,14 +5,14 @@
 #ifndef MEOWENGINE_SELECTION_DATA_HPP
 #define MEOWENGINE_SELECTION_DATA_HPP
 
-#include "entt.hpp"
-#include <Public/IO.hpp>
+#include <Public/IO/Forward.hpp>
+#include <entt.hpp>
 
 namespace MeowEngine::Editor {
     struct Selector {
         Selector();
 
-        void Init(const Core::IO::FileSystem::Path& path);
+        void Init(const FileSystem::Path& path);
         
         entt::entity SelectedEntity;
         std::vector<entt::entity> SelectedEntities;

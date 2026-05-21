@@ -6,6 +6,7 @@
 #define MEOWENGINE_GRIDDRAWDATA_HPP
 
 #include <ShaderRenderHandle.hpp>
+#include <GLM_API.hpp>
 
 namespace MeowEngine::Rendering {
     // NOTE: this goes to renderer pass config hence

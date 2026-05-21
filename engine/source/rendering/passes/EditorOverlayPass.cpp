@@ -10,7 +10,7 @@ namespace MeowEngine::Rendering {
 
     EditorOverlayPass::~EditorOverlayPass() {}
 
-    void EditorOverlayPass::Draw(RenderSceneData& data) {
+    void EditorOverlayPass::Draw(RenderContext& context) {
 
     }
 }

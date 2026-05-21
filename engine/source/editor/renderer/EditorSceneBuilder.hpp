@@ -5,13 +5,9 @@
 #ifndef MEOWENGINE_EDITORSCENEBUILDER_HPP
 #define MEOWENGINE_EDITORSCENEBUILDER_HPP
 
-namespace MeowEngine::Rendering {
-    class RenderGraph;
-}
-
 namespace MeowEngine::Editor {
     /**
-     * Handles editor specific rendering like lines, gizmos in world view and rendering order
+     * decide setup required for set pass calls
      */
     class EditorSceneBuilder {
     public:

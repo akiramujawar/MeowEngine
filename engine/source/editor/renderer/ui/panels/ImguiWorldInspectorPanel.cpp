@@ -24,7 +24,7 @@ namespace MeowEngine::Editor {
 
     void ImGuiWorldInspectorPanel::Draw(entt::registry& registry,
                                         std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-                                        MeowEngine::Selector& pSelection) {
+                                        Editor::Selector& pSelection) {
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoCollapse;
 

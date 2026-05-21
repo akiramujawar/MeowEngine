@@ -35,7 +35,7 @@ namespace MeowEngine::Editor {
         PT_PROFILE_FREE("ImguiAssetPanel")
     }
 
-    void ImguiAssetPanel::Draw(MeowEngine::Selector& selectionData) {
+    void ImguiAssetPanel::Draw(Editor::Selector& selectionData) {
         
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -79,7 +79,7 @@ namespace MeowEngine::Editor {
         
     }
     
-    void ImguiAssetPanel::ShowTableHeaders(MeowEngine::Selector& selectionData) {
+    void ImguiAssetPanel::ShowTableHeaders(Editor::Selector& selectionData) {
         ImGui::TableSetupColumn("Directory");
         ImGui::TableSetupColumn("FolderView"); // folder view
     
@@ -134,7 +134,7 @@ namespace MeowEngine::Editor {
         }
     }
     
-    void ImguiAssetPanel::ShowTableContents(MeowEngine::Selector& selectionData) {
+    void ImguiAssetPanel::ShowTableContents(Editor::Selector& selectionData) {
         // folder view (tree)
         ImGui::TableNextRow(ImGuiTableRowFlags_None, ImGui::GetContentRegionAvail().y);
         ImGui::TableNextColumn() ;
@@ -168,7 +168,7 @@ namespace MeowEngine::Editor {
         ImGui::EndChild();
     }
 
-    void ImguiAssetPanel::ShowDirectory(MeowEngine::Selector& selectionData,
+    void ImguiAssetPanel::ShowDirectory(Editor::Selector& selectionData,
                                                const std::string& pathString,
                                                const std::string& pathName) {
         FileSystem::Path path { pathString };
@@ -211,7 +211,7 @@ namespace MeowEngine::Editor {
         }
     }
 
-    void ImguiAssetPanel::ShowSelectedDirectoryFiles(MeowEngine::Selector& selectionData) {
+    void ImguiAssetPanel::ShowSelectedDirectoryFiles(Editor::Selector& selectionData) {
         FileSystem::Path path { selectionData.SelectedDirectoryPath };
         FileSystem::Directory directory { path };
         std::vector<FileSystem::Path> assetPaths = directory.GetAll(false);
@@ -323,7 +323,7 @@ namespace MeowEngine::Editor {
         ImGui::PopID();
     }
 
-    void ImguiAssetPanel::ShowCreateAssetPopupMenu(MeowEngine::Selector& selectionData) {
+    void ImguiAssetPanel::ShowCreateAssetPopupMenu(Editor::Selector& selectionData) {
         std::string titleText;
         AssetCreateType createType = AssetCreateType::NONE;
         

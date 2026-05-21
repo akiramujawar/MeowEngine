@@ -16,8 +16,12 @@
 using namespace std;
 using namespace glm;
 
+namespace MeowEngine {
+    class OpenGLAssetManager;
+}
+
 namespace MeowEngine::pipeline {
-    struct OpenGLGridPipeline : public MeowEngine::pipeline::IRenderPipeline {
+    struct OpenGLGridPipeline : public Rendering::IRenderPipeline {
         OpenGLGridPipeline(const GLuint& shaderProgramID);
         ~OpenGLGridPipeline() override;
 

@@ -6,13 +6,18 @@
 #define MEOWENGINE_IMGUIDOCKERSPACE_HPP
 
 namespace MeowEngine::Editor {
-    struct ImGuiDockerSpace {
+    class ImGuiDockerSpace {
+    public:
         ImGuiDockerSpace();
 
         ~ImGuiDockerSpace();
 
+        void SetupDockingSpace();
+
     private:
-        bool IsActive;
+        bool IsFullScreen;
+        int DockSpaceFlags;
+        int WindowFlags;
     };
 }
 

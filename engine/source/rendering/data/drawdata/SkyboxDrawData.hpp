@@ -6,7 +6,8 @@
 #define MEOWENGINE_SKYBOXDRAWDATA_HPP
 
 #include <ShaderRenderHandle.hpp>
-#include <glm/glm.hpp>
+#include <GLM_API.hpp>
+
 
 namespace MeowEngine::Rendering {
     struct SkyboxDrawData {

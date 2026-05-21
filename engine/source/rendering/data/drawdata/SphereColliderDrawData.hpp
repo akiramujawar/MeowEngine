@@ -6,6 +6,7 @@
 #define MEOWENGINE_SPHERECOLLIDERDRAWDATA_HPP
 
 #include <ShaderRenderHandle.hpp>
+#include <GLM_API.hpp>
 
 namespace MeowEngine::Rendering {
     struct SphereColliderDrawData {

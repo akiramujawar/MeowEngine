@@ -10,7 +10,7 @@ namespace MeowEngine::Rendering {
 
     PostProcessPass::~PostProcessPass() {}
 
-    void PostProcessPass::Draw(RenderSceneData& data) {
+    void PostProcessPass::Draw(RenderContext& context) {
 
     }
 }

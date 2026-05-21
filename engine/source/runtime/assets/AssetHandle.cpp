@@ -4,7 +4,7 @@
 
 #include <AssetHandle.hpp>
 
-namespace MeowEngine::Runtime::Asset {
+namespace MeowEngine::Asset {
 
     AssetHandle::AssetHandle() {}
 

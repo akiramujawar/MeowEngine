@@ -56,7 +56,7 @@ namespace {
 struct SceneMultiThread::Internal {
     MeowEngine::PerspectiveCamera Camera;
     MeowEngine::CameraController CameraController;
-    MeowEngine::Selector SelectionData; // later we will have some type of unified system for selection system
+    Editor::Selector SelectionData; // later we will have some type of unified system for selection system
 
     // EnttTripleBuffer RegistryBuffer;
     Runtime::World World;

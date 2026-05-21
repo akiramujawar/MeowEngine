@@ -10,7 +10,7 @@ namespace MeowEngine::Rendering {
 
     GeometryPass::~GeometryPass() {}
 
-    void GeometryPass::Draw(RenderSceneData& data) {
+    void GeometryPass::Draw(RenderContext& context) {
 
     }
 }

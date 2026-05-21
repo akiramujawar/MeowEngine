@@ -38,7 +38,7 @@ namespace MeowEngine {
         MeowEngine::PerspectiveCamera Camera;
         MeowEngine::CameraController CameraController;
 
-        MeowEngine::Selector SelectionData;
+        Editor::Selector SelectionData;
         MeowEngine::EnttSingleBuffer RegistryBuffer;
 
         // User Input Events

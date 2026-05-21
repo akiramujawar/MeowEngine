@@ -27,12 +27,12 @@ namespace MeowEngine::Editor {
         ImguiAssetPanel();
         ~ImguiAssetPanel();
 
-        void Draw(MeowEngine::Selector& selectionData);
+        void Draw(Editor::Selector& selectionData);
 
     private:
-        void ShowTableHeaders(MeowEngine::Selector& selectionData);
-        void ShowTableContents(MeowEngine::Selector& selectionData);
-        void ShowDirectory(MeowEngine::Selector& selectionData,
+        void ShowTableHeaders(Editor::Selector& selectionData);
+        void ShowTableContents(Editor::Selector& selectionData);
+        void ShowDirectory(Editor::Selector& selectionData,
                            const std::string& pathString,
                            const std::string& pathName);
 
@@ -44,7 +44,7 @@ namespace MeowEngine::Editor {
          * @param path
          */
         void ShowThumbnail(Selector& selectionData, const Core::IO::FileSystem::Path& path);
-        void ShowCreateAssetPopupMenu(MeowEngine::Selector& selectionData);
+        void ShowCreateAssetPopupMenu(Editor::Selector& selectionData);
         
     private:
         bool IsActive;

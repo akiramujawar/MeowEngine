@@ -6,6 +6,7 @@
 #define MEOWENGINE_TRANSFORMHANDLEDRAWDATA_HPP
 
 #include <ShaderRenderHandle.hpp>
+#include <GLM_API.hpp>
 
 namespace MeowEngine::Rendering {
     struct TransformHandleDrawData {

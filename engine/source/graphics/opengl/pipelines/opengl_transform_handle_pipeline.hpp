@@ -16,8 +16,12 @@
 
 using namespace glm;
 
+namespace MeowEngine {
+    class OpenGLAssetManager;
+}
+
 namespace MeowEngine::pipeline {
-    struct OpenGLTransformHandlePipeline : public MeowEngine::pipeline::IRenderPipeline {
+    struct OpenGLTransformHandlePipeline : public Rendering::IRenderPipeline {
         OpenGLTransformHandlePipeline(const GLuint& pShaderProgramID);
         ~OpenGLTransformHandlePipeline() override;
 

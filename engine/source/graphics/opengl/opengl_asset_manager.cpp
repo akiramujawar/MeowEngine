@@ -8,7 +8,7 @@
 #include "opengl_mesh_pipeline.hpp"
 #include "opengl_line_pipeline.hpp"
 #include "opengl_grid_pipeline.hpp"
-#include "opengl_sky_box_pipeline.hpp"
+#include <GLSkyboxPipeline.hpp>
 #include "opengl_collider_pipeline.hpp"
 #include "opengl_transform_handle_pipeline.hpp"
 
@@ -106,7 +106,7 @@ namespace {
         return shaderProgramId;
     }
 
-    MeowEngine::pipeline::IRenderPipeline* CreatePipeline(const ShaderPipelineType& shaderPipelineType) {
+    MeowEngine::Rendering::IRenderPipeline* CreatePipeline(const ShaderPipelineType& shaderPipelineType) {
         const std::string shaderPath = MeowEngine::assets::ResolveShaderPipelinePath(shaderPipelineType);
         GLuint shaderProgramID = CreateShaderProgram(shaderPath);
 
@@ -118,7 +118,7 @@ namespace {
             case ShaderPipelineType::Grid:
                 return new OpenGLGridPipeline(shaderProgramID);
             case ShaderPipelineType::Sky:
-                return new OpenGLSkyBoxPipeline(shaderProgramID);
+                return new MeowEngine::Rendering::GLSkyboxPipeline();
             case ShaderPipelineType::PHYSICS_COLLIDER:
                 return new MeowEngine::OpenGLColliderPipeline(shaderProgramID);
             case ShaderPipelineType::TRANSFORM_HANDLE:
@@ -132,7 +132,7 @@ namespace {
 
 struct OpenGLAssetManager::Internal {
     // cache and store using enums
-    std::unordered_map<MeowEngine::assets::ShaderPipelineType, MeowEngine::pipeline::IRenderPipeline*> shaderPipelineCache;
+    std::unordered_map<MeowEngine::assets::ShaderPipelineType, MeowEngine::Rendering::IRenderPipeline*> shaderPipelineCache;
     std::unordered_map<MeowEngine::assets::StaticMeshType, MeowEngine::GLMeshResource> staticMeshCache;
     std::unordered_map<MeowEngine::assets::TextureType, MeowEngine::GLTextureResource> textureCache;
 
@@ -213,7 +213,7 @@ T* OpenGLAssetManager::GetShaderPipeline(const MeowEngine::assets::ShaderPipelin
 template OpenGLMeshPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLMeshPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLLinePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLLinePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLGridPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLGridPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
-template OpenGLSkyBoxPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLSkyBoxPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
+template MeowEngine::Rendering::GLSkyboxPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::Rendering::GLSkyboxPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLTransformHandlePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLTransformHandlePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template MeowEngine::OpenGLColliderPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::OpenGLColliderPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 

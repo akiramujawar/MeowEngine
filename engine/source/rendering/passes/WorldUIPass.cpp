@@ -10,7 +10,7 @@ namespace MeowEngine::Rendering {
 
     WorldUIPass::~WorldUIPass() {}
 
-    void WorldUIPass::Draw(RenderSceneData& data) {
+    void WorldUIPass::Draw(RenderContext& context) {
 
     }
 }

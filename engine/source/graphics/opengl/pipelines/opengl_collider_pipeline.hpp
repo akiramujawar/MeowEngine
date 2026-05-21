@@ -15,7 +15,7 @@
 
 namespace MeowEngine {
 
-    struct OpenGLColliderPipeline : public MeowEngine::pipeline::IRenderPipeline {
+    struct OpenGLColliderPipeline : public Rendering::IRenderPipeline {
         OpenGLColliderPipeline(const GLuint& inShaderProgramID);
         ~OpenGLColliderPipeline() override;
 

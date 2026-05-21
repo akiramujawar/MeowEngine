@@ -34,7 +34,7 @@ namespace MeowEngine::Editor {
         Gameplay = &gameplay;
     }
 
-    void ImGuiWorldTreePanel::Draw(entt::registry &registry1, MeowEngine::Selector &pSelection) {
+    void ImGuiWorldTreePanel::Draw(entt::registry &registry1, Editor::Selector &pSelection) {
         auto& registry = Gameplay->GetWorld().GetRegistry();
 
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
@@ -58,7 +58,7 @@ namespace MeowEngine::Editor {
     }
 
     void ImGuiWorldTreePanel::CreateSelectableItem(entt::registry& registry,
-                                                   MeowEngine::Selector& pSelection,
+                                                   Editor::Selector& pSelection,
                                                    component::HierarchyComponent& pHierarchyComponent,
                                                    bool& pIsItemClicked) {
         const int id = static_cast<int>(pHierarchyComponent.Self);

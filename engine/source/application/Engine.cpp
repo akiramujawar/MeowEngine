@@ -111,7 +111,6 @@ namespace MeowEngine {
             RenderSceneExtractor.Schedule(Scheduler, Renderer.GetResourceManager());
 
             // -- runs on render thread
-            // consume render snapshot => render
             Renderer.Schedule(Scheduler, RenderSceneExtractor);
 
             Executor->Execute(Scheduler);

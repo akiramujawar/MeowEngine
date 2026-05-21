@@ -22,7 +22,7 @@ namespace MeowEngine::Editor {
         ~ImGuiWorldInspectorPanel();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection);
+        void Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection);
 
     private:
         bool CanDrawPanel;

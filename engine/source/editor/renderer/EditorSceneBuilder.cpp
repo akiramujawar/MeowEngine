@@ -5,11 +5,6 @@
 #include <EditorSceneBuilder.hpp>
 #include <log.hpp>
 
-#include <RenderGraph.hpp>
-#include <RenderSceneData.hpp>
-
-#include <GizmoPass.hpp>
-
 namespace MeowEngine::Editor {
 
     EditorSceneBuilder::EditorSceneBuilder() {
@@ -22,9 +17,6 @@ namespace MeowEngine::Editor {
 
     void EditorSceneBuilder::Init() {}
 
-    void EditorSceneBuilder::BuildGraph(Rendering::RenderGraph& graph) {
-        graph.Add<Rendering::GizmoPass>();
-    }
 }
 
 

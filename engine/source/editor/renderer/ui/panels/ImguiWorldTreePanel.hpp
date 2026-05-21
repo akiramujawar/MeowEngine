@@ -25,10 +25,10 @@ namespace MeowEngine::Editor {
         ~ImGuiWorldTreePanel();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void Draw(entt::registry& registry, MeowEngine::Selector& pSelection);
+        void Draw(entt::registry& registry, Editor::Selector& pSelection);
         void CreateSelectableItem(
                 entt::registry& registry,
-                MeowEngine::Selector& pSelection,
+                Editor::Selector& pSelection,
                 component::HierarchyComponent& pHierarchyComponent,
                 bool& pIsItemClicked);
 

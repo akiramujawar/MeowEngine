@@ -9,7 +9,7 @@
 // #include "GLWorldViewBuffer.hpp"
 // #include "Math.hpp"
 
-
+#include <ImguiDockerSpace.hpp>
 #include "ImguiWorldTreePanel.hpp"
 #include "ImguiWorldInspectorPanel.hpp"
 #include "ImguiWorldViewPanel.hpp"
@@ -33,7 +33,7 @@ namespace MeowEngine::Editor {
 
         void Init(Runtime::GameplaySystem& gameplay);
         void Input(const SDL_Event& event);
-        void BuildDrawData(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps);
+        void BuildDrawData(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps);
 
         // Closes any child processes like tracy
         void ClosePIDs();
@@ -45,10 +45,8 @@ namespace MeowEngine::Editor {
         void OpenTracyProfiler();
 
         // void CreateNewFrame();
-        void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, uint32_t frameBufferId, const double fps);
+        void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, uint32_t frameBufferId, const double fps);
         // void RenderFrame();
-
-        void CreateDockingSpace();
 
 //        void CreateRender3DPanel(unsigned int frameBufferId);
 //        bool isSceneViewportFocused; // soon come up with good naming conventions
@@ -64,6 +62,7 @@ namespace MeowEngine::Editor {
 
         bool IsRendering;
 
+        ImGuiDockerSpace DockerSpace;
         ImGuiWorldTreePanel WorldTreePanel;
         ImGuiWorldInspectorPanel WorldInspectorPanel;
         ImGuiWorldViewPanel WorldViewPanel;

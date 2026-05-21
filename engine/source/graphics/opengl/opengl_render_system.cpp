@@ -8,7 +8,7 @@
 #include "opengl_mesh_pipeline.hpp"
 #include "opengl_line_pipeline.hpp"
 #include "opengl_grid_pipeline.hpp"
-#include "opengl_sky_box_pipeline.hpp"
+// #include "opengl_sky_box_pipeline.hpp"
 #include "opengl_collider_pipeline.hpp"
 #include "opengl_transform_handle_pipeline.hpp"
 
@@ -32,7 +32,7 @@ struct OpenGLRenderSystem::Internal {
     : AssetManager(assetManager)
     , UI(inUIRenderer){}
 
-    void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, MeowEngine::Selector& pSelection)
+    void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, Editor::Selector& pSelection)
     {
 //        auto view = registry.view<MeowEngine::core::component::Transform3DComponent>();
 //        for(auto entity: view)
@@ -96,7 +96,7 @@ struct OpenGLRenderSystem::Internal {
         // }
     }
 
-    void RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps) {
+    void RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps) {
         UI.get()->BuildDrawData(registry, inUIInputQueue, pSelection, frameBufferId, fps);
     }
 
@@ -110,11 +110,11 @@ OpenGLRenderSystem::OpenGLRenderSystem(const std::shared_ptr<MeowEngine::OpenGLA
     : InternalPointer(MeowEngine::make_internal_ptr<Internal>(assetManager, uiRenderer)) {}
 
 
-void OpenGLRenderSystem::RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, MeowEngine::Selector& pSelection) {
+void OpenGLRenderSystem::RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, Editor::Selector& pSelection) {
     InternalPointer->RenderGameView(cameraObject, registry, pSelection);
 }
 
-void OpenGLRenderSystem::RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, MeowEngine::Selector& pSelection, unsigned int frameBufferId, const double fps) {
+void OpenGLRenderSystem::RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps) {
     InternalPointer->RenderUserInterface(registry, inUIInputQueue, pSelection, frameBufferId, fps);
 }
 

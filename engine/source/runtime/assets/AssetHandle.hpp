@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 11/03/26.
 //
 
-#ifndef MEOWENGINETEST2_ASSETHANDLE_HPP
-#define MEOWENGINETEST2_ASSETHANDLE_HPP
+#ifndef MEOWENGINE_ASSETHANDLE_HPP
+#define MEOWENGINE_ASSETHANDLE_HPP
 
 // #include <cstdlib>
 #include <functional>
@@ -41,4 +41,4 @@ namespace std {
     };
 }
 
-#endif //MEOWENGINETEST2_ASSETHANDLE_HPP
+#endif //MEOWENGINE_ASSETHANDLE_HPP

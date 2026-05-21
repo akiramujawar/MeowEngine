@@ -8,13 +8,9 @@
 #include "string"
 #include "CreateAssetType.hpp"
 
-//struct ImGuiInputTextCallbackData;
-
-namespace MeowEngine {
-    struct Selector;
-}
-
 namespace MeowEngine::Editor {
+    struct Selector;
+
     class ImguiCreateAssetPopupModal {
     public:
         ImguiCreateAssetPopupModal(const std::string_view& title, const AssetCreateType& createType);

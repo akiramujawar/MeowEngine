@@ -18,10 +18,10 @@ namespace MeowEngine {
         OpenGLRenderSystem(const std::shared_ptr<MeowEngine::OpenGLAssetManager>& assetManager,
                            const std::shared_ptr<Editor::EditorUIBuilder>& uiRenderer);
 
-        void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, MeowEngine::Selector& pSelection);
+        void RenderGameView(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry, Editor::Selector& pSelection);
         void RenderUserInterface(entt::registry& registry,
                                  std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-                                 MeowEngine::Selector& pSelection,
+                                 Editor::Selector& pSelection,
                                  unsigned int frameBufferId,
                                  const double fps);
 

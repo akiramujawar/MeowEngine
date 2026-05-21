@@ -10,7 +10,7 @@ namespace MeowEngine::Rendering {
 
     DebugPass::~DebugPass() {}
 
-    void DebugPass::Draw(RenderSceneData& data) {
+    void DebugPass::Draw(RenderContext& context) {
         // render.sendwireframe true
         // render.draw lines
         // render.setwireframe false

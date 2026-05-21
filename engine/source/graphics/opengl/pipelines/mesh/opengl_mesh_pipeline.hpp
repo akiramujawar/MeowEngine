@@ -12,8 +12,12 @@
 #include "mesh_render_component.hpp"
 #include "transform3d_component.hpp"
 
+namespace MeowEngine {
+    class OpenGLAssetManager;
+}
+
 namespace MeowEngine::pipeline {
-    struct OpenGLMeshPipeline : public MeowEngine::pipeline::IRenderPipeline {
+    struct OpenGLMeshPipeline : public Rendering::IRenderPipeline {
         OpenGLMeshPipeline(const GLuint& shaderProgramID);
         ~OpenGLMeshPipeline() override;
 

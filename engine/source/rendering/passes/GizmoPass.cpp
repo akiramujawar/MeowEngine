@@ -10,7 +10,7 @@ namespace MeowEngine::Rendering {
 
     GizmoPass::~GizmoPass() {}
 
-    void GizmoPass::Draw(RenderSceneData& data) {
+    void GizmoPass::Draw(RenderContext& context) {
         // get shader program
         // draw
         // data.Grid.VertexShader
