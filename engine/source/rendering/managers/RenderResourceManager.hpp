@@ -26,9 +26,9 @@ namespace MeowEngine::Rendering {
         RenderResourceManager();
         ~RenderResourceManager();
 
-        ShaderRenderHandle ResolveShaderHandle(Asset::AssetHandle vertex, Asset::AssetHandle fragment);
-        MeshRenderHandle ResolveMeshHandle(Asset::AssetHandle mesh);
-        TextureRenderHandle ResolveTextureHandle(Asset::AssetHandle bitmap);
+        // ShaderRenderHandle ResolveShaderHandle(Asset::AssetHandle vertex, Asset::AssetHandle fragment);
+        // MeshRenderHandle ResolveMeshHandle(Asset::AssetHandle mesh);
+        // TextureRenderHandle ResolveTextureHandle(Asset::AssetHandle bitmap);
 
         GLShaderResource& GetShaderResource(ShaderRenderHandle asset);
         GLMeshResource& GetMeshResource(MeshRenderHandle asset);

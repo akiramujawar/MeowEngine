@@ -11,9 +11,9 @@ namespace MeowEngine::Rendering {
     class RenderSceneData;
 
     struct RenderContext {
-        RenderPipelineManager& PipelineManager;
-        RenderResourceManager& ResourceManager;
-        RenderSceneData& SceneData;
+        RenderPipelineManager* PipelineManager;
+        RenderResourceManager* ResourceManager;
+        RenderSceneData* SceneData;
     };
 }
 

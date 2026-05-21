@@ -8,7 +8,7 @@
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
-    class DebugPass : IRenderPass{
+    class DebugPass : public IRenderPass {
     public:
         DebugPass();
         ~DebugPass() override;

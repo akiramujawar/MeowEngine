@@ -16,7 +16,7 @@
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
-    class GizmoPass : IRenderPass {
+    class GizmoPass : public IRenderPass {
     public:
         GizmoPass();
         ~GizmoPass() override;

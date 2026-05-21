@@ -4,10 +4,16 @@
 
 #ifndef MEOWENGINE_GLSHADERRESOURCE_HPP
 #define MEOWENGINE_GLSHADERRESOURCE_HPP
+
 #include <cstdint>
+#include <AssetHandle.hpp>
 
 namespace MeowEngine::Rendering {
     struct GLShaderResource {
+        GLShaderResource(Asset::AssetHandle vertex, Asset::AssetHandle fragment) {
+
+        }
+
         std::uint32_t ID;
     };
 }

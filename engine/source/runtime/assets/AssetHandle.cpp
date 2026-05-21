@@ -10,6 +10,8 @@ namespace MeowEngine::Asset {
 
     AssetHandle::~AssetHandle() {}
 
+    AssetHandle AssetHandle::Null = AssetHandle();
+
     bool AssetHandle::IsValid() const {
         return true;
     }

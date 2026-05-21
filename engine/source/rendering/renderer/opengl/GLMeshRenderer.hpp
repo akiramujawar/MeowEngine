@@ -1,8 +1,0 @@
-//
-// Created by Akira Mujawar on 18/05/26.
-//
-
-#ifndef MEOWENGINE_GLMESHRENDERER_HPP
-#define MEOWENGINE_GLMESHRENDERER_HPP
-
-#endif //MEOWENGINE_GLMESHRENDERER_HPP

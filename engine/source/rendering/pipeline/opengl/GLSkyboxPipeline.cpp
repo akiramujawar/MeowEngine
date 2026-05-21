@@ -4,6 +4,7 @@
 
 #include <GLSkyboxPipeline.hpp>
 
+#include <log.hpp>
 #include <GL_API.hpp>
 #include <RenderContext.hpp>
 #include <RenderResourceManager.hpp>
@@ -12,15 +13,19 @@
 
 namespace MeowEngine::Rendering {
     GLSkyboxPipeline::GLSkyboxPipeline() {
+        MeowEngine::Log("GLSkyboxPipeline", "Constructed");
+
         glGenVertexArrays(1, &VertexArrayID);
     }
 
     GLSkyboxPipeline::~GLSkyboxPipeline() {
+        MeowEngine::Log("GLSkyboxPipeline", "Constructed");
+
         glDeleteVertexArrays(1, &VertexArrayID);
     }
 
     void GLSkyboxPipeline::Draw(RenderContext& context, SkyboxDrawData& data) const {
-        const auto shader = context.ResourceManager.GetShaderResource(data.Shader);
+        const auto shader = context.ResourceManager->GetShaderResource(data.Shader);
 
         glUseProgram(shader.ID);
         glUniformMatrix4fv(glGetUniformLocation(shader.ID, "u_mvp"), 1, GL_FALSE, &data.TransformMatrix[0][0]);

@@ -25,11 +25,17 @@ namespace MeowEngine::Rendering {
         void Clear();
         template<typename PassType>
         void Add();
+
         void Execute(RenderContext& renderContext);
 
     private:
-        std::vector<IRenderPass*> RenderPasses;
+        std::vector<std::unique_ptr<IRenderPass>> RenderPasses;
     };
+
+    template <typename PassType>
+    void RenderGraph::Add() {
+        RenderPasses.emplace_back(std::make_unique<PassType>());
+    }
 }
 
 #endif //MEOWENGINE_RENDERGRAPH_HPP

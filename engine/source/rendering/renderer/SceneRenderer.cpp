@@ -18,6 +18,8 @@
 #include <GizmoPass.hpp>
 #include <PostProcessPass.hpp>
 
+#include "RenderContext.hpp"
+
 namespace MeowEngine::Rendering {
     SceneRenderer::SceneRenderer()
         : SceneViewFrameBuffer(Graphics::GLWorldViewBuffer(1000, 500))
@@ -47,16 +49,22 @@ namespace MeowEngine::Rendering {
             }
         );
 
-        RenderGraph.Clear();
-        RenderGraph.Add<SkyboxPass>();
-        RenderGraph.Add<EditorOverlayPass>();
-        RenderGraph.Add<GeometryPass>();
-        RenderGraph.Add<DebugPass>();
-        RenderGraph.Add<PostProcessPass>();
-        RenderGraph.Add<GizmoPass>();
+        // scheduler.AddTask({
+        //     [] {
+        //
+        //     }
+        // });
+
 
         scheduler.AddTask(
-            [&]() {
+            [this, &renderContext]() {
+                RenderGraph.Clear();
+                RenderGraph.Add<SkyboxPass>();
+                RenderGraph.Add<EditorOverlayPass>();
+                RenderGraph.Add<GeometryPass>();
+                RenderGraph.Add<DebugPass>();
+                RenderGraph.Add<PostProcessPass>();
+                RenderGraph.Add<GizmoPass>();
                 RenderGraph.Execute(renderContext);
             }
         );

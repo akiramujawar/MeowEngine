@@ -11,7 +11,7 @@
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
-    class EditorOverlayPass : IRenderPass {
+    class EditorOverlayPass : public IRenderPass {
     public:
         EditorOverlayPass();
         ~EditorOverlayPass() override;

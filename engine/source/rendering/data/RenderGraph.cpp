@@ -17,7 +17,7 @@ namespace MeowEngine::Rendering {
     }
 
     void RenderGraph::Execute(RenderContext& renderContext) {
-        for (auto pass : RenderPasses) {
+        for (auto& pass : RenderPasses) {
             pass->Draw(renderContext);
         }
     }

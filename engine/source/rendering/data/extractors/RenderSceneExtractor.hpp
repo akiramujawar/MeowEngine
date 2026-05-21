@@ -10,22 +10,20 @@
 #include <RenderSceneExtractorInitData.hpp>
 
 namespace MeowEngine::Rendering {
-    class RenderResourceManager;
-
     /**
      * Collects & prepares ECS world for rendering
      */
     class RenderSceneExtractor {
     public:
         void Init(const RenderSceneExtractorInitData& data);
-        void Schedule(Threading::Scheduler& scheduler, RenderResourceManager& resourceManager);
+        void Schedule(Threading::Scheduler& scheduler);
 
         DoubleBuffer<RenderSceneData>& GetRenderFrameData() {
             return RenderSceneData;
         }
     private:
-        void ExtractRuntime(RenderResourceManager& resourceManager);
-        void ExtractEditor(RenderResourceManager& resourceManager);
+        void ExtractRuntime();
+        void ExtractEditor();
 
         DoubleBuffer<RenderSceneData> RenderSceneData;
         Runtime::GameplaySystem* Gameplay;

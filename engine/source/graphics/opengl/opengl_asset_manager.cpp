@@ -133,8 +133,8 @@ namespace {
 struct OpenGLAssetManager::Internal {
     // cache and store using enums
     std::unordered_map<MeowEngine::assets::ShaderPipelineType, MeowEngine::Rendering::IRenderPipeline*> shaderPipelineCache;
-    std::unordered_map<MeowEngine::assets::StaticMeshType, MeowEngine::GLMeshResource> staticMeshCache;
-    std::unordered_map<MeowEngine::assets::TextureType, MeowEngine::GLTextureResource> textureCache;
+    std::unordered_map<MeowEngine::assets::StaticMeshType, Rendering::GLMeshResource> staticMeshCache;
+    std::unordered_map<MeowEngine::assets::TextureType, Rendering::GLTextureResource> textureCache;
 
     Internal() {}
 
@@ -154,12 +154,12 @@ struct OpenGLAssetManager::Internal {
     void LoadStaticMeshes(const std::vector<MeowEngine::assets::StaticMeshType>& staticMeshes) {
         for(const auto& staticMesh : staticMeshes) {
             if(staticMeshCache.count(staticMesh) == 0) {
-                staticMeshCache.insert(
-                    std::make_pair(
-                        staticMesh,
-                        MeowEngine::GLMeshResource(MeowEngine::assets::LoadObjFile(MeowEngine::assets::ResolveStaticMeshPath(staticMesh)))
-                    )
-                );
+                // staticMeshCache.insert(
+                //     std::make_pair(
+                //         staticMesh,
+                //         Rendering::GLMeshResource(MeowEngine::assets::LoadObjFile(MeowEngine::assets::ResolveStaticMeshPath(staticMesh)))
+                //     )
+                // );
             }
         }
     }
@@ -167,12 +167,12 @@ struct OpenGLAssetManager::Internal {
     void LoadTextures(const std::vector<MeowEngine::assets::TextureType>& textures) {
         for(const auto& texture : textures) {
             if(textureCache.count(texture) == 0) {
-                textureCache.insert(
-                    std::make_pair(
-                        texture,
-                        MeowEngine::GLTextureResource(MeowEngine::assets::LoadBitmap(MeowEngine::assets::ResolveTexturePath(texture)))
-                    )
-                );
+                // textureCache.insert(
+                //     std::make_pair(
+                //         texture,
+                //         Rendering::GLTextureResource(MeowEngine::assets::LoadBitmap(MeowEngine::assets::ResolveTexturePath(texture)))
+                //     )
+                // );
             }
         }
     }
@@ -218,11 +218,11 @@ template OpenGLTransformHandlePipeline* OpenGLAssetManager::GetShaderPipeline<Op
 template MeowEngine::OpenGLColliderPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::OpenGLColliderPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 
 
-const MeowEngine::GLMeshResource& OpenGLAssetManager::GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const {
+const MeowEngine::Rendering::GLMeshResource& OpenGLAssetManager::GetStaticMesh(const MeowEngine::assets::StaticMeshType& staticMesh) const {
     return InternalPointer->staticMeshCache.at(staticMesh);
 }
 
-const MeowEngine::GLTextureResource& OpenGLAssetManager::GetTexture(const MeowEngine::assets::TextureType& texture) const {
+const MeowEngine::Rendering::GLTextureResource& OpenGLAssetManager::GetTexture(const MeowEngine::assets::TextureType& texture) const {
     return InternalPointer->textureCache.at(texture);
 }
 

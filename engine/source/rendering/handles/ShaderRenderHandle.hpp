@@ -11,12 +11,36 @@
 
 namespace MeowEngine::Rendering {
     struct ShaderRenderHandle : IRenderHandle {
-        ShaderRenderHandle();
-        ~ShaderRenderHandle() override;
+        ShaderRenderHandle() = default;
+        ShaderRenderHandle(const Asset::AssetHandle& vertex, const Asset::AssetHandle& fragment) {
+            VertexAsset = vertex;
+            FragmentAsset = fragment;
+        }
 
-    private:
+        ~ShaderRenderHandle() override = default;
+
+        bool operator==(const ShaderRenderHandle& handle) const {
+            return VertexAsset == handle.VertexAsset && FragmentAsset == handle.FragmentAsset;
+        }
+
+        bool operator!=(const ShaderRenderHandle& handle) const {
+            return !(*this == handle);
+        }
+
         Asset::AssetHandle VertexAsset;
         Asset::AssetHandle FragmentAsset;
+    };
+}
+
+namespace std {
+    template<>
+    struct hash<MeowEngine::Rendering::ShaderRenderHandle> {
+        std::size_t operator()(const MeowEngine::Rendering::ShaderRenderHandle& handle) const noexcept {
+            auto const vertexHash = std::hash<uint64_t>()(handle.VertexAsset.GetUUID());
+            auto const fragmentHash = std::hash<uint64_t>()(handle.FragmentAsset.GetUUID());
+
+            return vertexHash ^ (fragmentHash << 1);
+        }
     };
 }
 

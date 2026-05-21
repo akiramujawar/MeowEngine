@@ -11,7 +11,7 @@ namespace MeowEngine::Rendering {
 
     class IRenderPass {
     public:
-        virtual ~IRenderPass() = 0;
+        virtual ~IRenderPass() = default;
         virtual void Draw(RenderContext& context) = 0;
     };
 }

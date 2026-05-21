@@ -8,7 +8,7 @@
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
-    class GeometryPass : IRenderPass {
+    class GeometryPass : public IRenderPass {
     public:
         GeometryPass();
         ~GeometryPass() override;

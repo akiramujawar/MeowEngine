@@ -7,6 +7,7 @@
 
 #include <Public/Threading/Include.hpp>
 
+#include <RenderContext.hpp>
 #include <SceneRenderer.hpp>
 #include <UIRenderer.hpp>
 #include <RenderPipelineManager.hpp>
@@ -33,6 +34,7 @@ namespace MeowEngine::Rendering {
         }
 
     private:
+        RenderContext Context;
         SceneRenderer Scene;
         UIRenderer UI;
 

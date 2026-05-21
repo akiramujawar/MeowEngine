@@ -7,6 +7,8 @@
 
 #include <typeindex>
 #include <unordered_map>
+#include <memory>
+#include <type_traits>
 
 #include <IRenderPipeline.hpp>
 
@@ -19,16 +21,25 @@ namespace MeowEngine::Rendering {
         template<typename Type>
         Type& GetPipeline();
 
+        int abc;
+
     private:
         std::unordered_map<std::type_index, std::unique_ptr<IRenderPipeline>> Pipelines;
     };
 
     template <typename Type>
     Type& RenderPipelineManager::GetPipeline() {
-        const auto typeID = std::type_index(typeid(Type));
-        const auto iterator = Pipelines.find(typeID);
+        auto typeID = std::type_index(typeid(Type));
 
-        return static_cast<Type&>(*iterator->second);
+        // if exists return
+        auto findIt = Pipelines.find(typeID);
+        if (findIt != Pipelines.end()) {
+            return static_cast<Type&>(*findIt->second);
+        }
+
+        // create and cache pipeline
+        auto [createIt, isCreated] = Pipelines.emplace(typeID, std::make_unique<Type>());
+        return static_cast<Type&>(*createIt->second);
     }
 }
 

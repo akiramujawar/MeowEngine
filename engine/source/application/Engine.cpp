@@ -108,7 +108,7 @@ namespace MeowEngine {
             Editor.Schedule(Scheduler);
             // can use the scene editor & runtime builder here
             // same for ui (see if we can do the ui build data on main thread and render on render thread)
-            RenderSceneExtractor.Schedule(Scheduler, Renderer.GetResourceManager());
+            RenderSceneExtractor.Schedule(Scheduler);
 
             // -- runs on render thread
             Renderer.Schedule(Scheduler, RenderSceneExtractor);

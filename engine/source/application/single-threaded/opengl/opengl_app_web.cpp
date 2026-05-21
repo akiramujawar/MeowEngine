@@ -135,7 +135,7 @@ namespace MeowEngine {
                         case UserEventType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
 
-                            glViewport(0, 0, size.Width, size.Height);
+                            // glViewport(0, 0, size.Width, size.Height);
                             FrameBuffer->RescaleFrameBuffer(size.Width, size.Height);
                             Scene->OnWindowResized(size);
                             break;
@@ -162,8 +162,8 @@ namespace MeowEngine {
         // We let opengl know that any after this will be drawn into custom frame buffer
         FrameBuffer->Bind();
 
-        glClearColor(50 / 255.0f, 50 / 255.0f, 50 / 255.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // glClearColor(50 / 255.0f, 50 / 255.0f, 50 / 255.0f, 1.0f);
+        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         Scene->RenderGameView(*GameView);
 
@@ -172,8 +172,8 @@ namespace MeowEngine {
     }
 
     void OpenGLAppWeb::RenderUserInterface() {
-        glClearColor(50 / 255.0f, 50 / 255.0f, 50 / 255.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // glClearColor(50 / 255.0f, 50 / 255.0f, 50 / 255.0f, 1.0f);
+        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         Scene->RenderUserInterface(*GameView, FrameBuffer->GetFrameTexture(), FrameRateCounter->GetFrameRate());
     }

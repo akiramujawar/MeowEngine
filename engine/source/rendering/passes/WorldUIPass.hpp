@@ -8,7 +8,7 @@
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
-    class WorldUIPass : IRenderPass {
+    class WorldUIPass : public IRenderPass {
     public:
         WorldUIPass();
         ~WorldUIPass() override;

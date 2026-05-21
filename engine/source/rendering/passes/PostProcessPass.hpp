@@ -8,7 +8,7 @@
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
-    class PostProcessPass : IRenderPass {
+    class PostProcessPass : public IRenderPass {
     public:
         PostProcessPass();
         ~PostProcessPass() override;

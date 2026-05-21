@@ -7,19 +7,24 @@
 
 #pragma once
 
-#include "bitmap.hpp"
-#include "internal_ptr.hpp"
+// #include "bitmap.hpp"
+// #include "internal_ptr.hpp"
 
-namespace MeowEngine {
+#include <AssetHandle.hpp>
+
+namespace MeowEngine::Rendering {
     struct GLTextureResource {
-        GLTextureResource(const MeowEngine::Bitmap& bitmap);
+        // GLTextureResource(const MeowEngine::Bitmap& bitmap);
+        GLTextureResource(Asset::AssetHandle bitmap) {
+
+        }
 
         // need to call whenever we want the texture to be applied to the object being rendered
-        void Bind() const;
+        // void Bind() const;
 
     private:
-        struct Internal;
-        MeowEngine::internal_ptr<Internal> InternalPointer;
+        // struct Internal;
+        // MeowEngine::internal_ptr<Internal> InternalPointer;
     };
 }
 

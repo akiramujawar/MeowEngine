@@ -8,7 +8,7 @@
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
-    class SkyboxPass : IRenderPass {
+    class SkyboxPass : public IRenderPass {
     public:
         SkyboxPass();
         ~SkyboxPass() override;

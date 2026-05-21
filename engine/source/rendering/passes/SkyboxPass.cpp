@@ -3,6 +3,7 @@
 //
 
 #include <SkyboxPass.hpp>
+#include <log.hpp>
 
 #include <RenderContext.hpp>
 #include <RenderSceneData.hpp>
@@ -15,7 +16,7 @@ namespace MeowEngine::Rendering {
     SkyboxPass::~SkyboxPass() {}
 
     void SkyboxPass::Draw(RenderContext& context) {
-        const auto pipeline = context.PipelineManager.GetPipeline<GLSkyboxPipeline>();
-        pipeline.Draw(context, context.SceneData.Skybox);
+        const auto& pipeline = context.PipelineManager->GetPipeline<GLSkyboxPipeline>();
+        pipeline.Draw(context, context.SceneData->Skybox);
     }
 }
