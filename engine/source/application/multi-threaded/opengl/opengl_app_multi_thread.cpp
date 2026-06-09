@@ -6,7 +6,7 @@
 
 #include "AssetImporter.hpp"
 #include "scene_multi_thread.hpp"
-#include <UserEventType.hpp>
+#include <UserDeviceInputType.hpp>
 
 namespace MeowEngine {
     OpenGLAppMultiThread::OpenGLAppMultiThread()
@@ -41,7 +41,7 @@ namespace MeowEngine {
 
         // Create Scene & Setup Main thread
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 1); // 60 frames per second
-        InputManager = std::make_unique<MeowEngine::Runtime::InputManager>();
+        InputManager = std::make_unique<MeowEngine::Input::InputManager>();
         Scene = std::make_shared<MeowEngine::SceneMultiThread>(
             RenderThread->Window->GetWindowSize()
         );
@@ -134,7 +134,7 @@ namespace MeowEngine {
 
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
-                    InputManager->SetMouseDown();
+                    // InputManager->SetMouseDown();
                     break;
 
                 case SDL_QUIT:
@@ -154,7 +154,7 @@ namespace MeowEngine {
 
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                        case UserEventType::VIEW_PORT_RESIZE: {
+                        case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             MeowEngine::Log("Main Thread", "Rescaled Window");
 
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
@@ -162,11 +162,11 @@ namespace MeowEngine {
 
                             break;
                         }
-                        case UserEventType::WORLD_VIEW_FOCUS: {
+                        case UserDeviceInputType::WORLD_VIEW_FOCUS: {
                             InputManager->isActive = *(bool *) event.user.data1;
                             break;
                         }
-                        case UserEventType::IMPORT_FILE: {
+                        case UserDeviceInputType::IMPORT_FILE: {
                             std::vector<std::string> selectedFiles;
                             RenderThread->ShowImportPopup(selectedFiles);
 
@@ -177,7 +177,7 @@ namespace MeowEngine {
 
                             break;
                         }
-                        case UserEventType::SAVE_PROJECT: {
+                        case UserDeviceInputType::SAVE_PROJECT: {
                             Scene->Save();
                         }
 
@@ -190,7 +190,7 @@ namespace MeowEngine {
 
         // TODO: Build a input system
         // Track keyboard and mouse clicks/hold/drag/position
-        InputManager->ProcessInput();
+        // InputManager->ProcessInput();
         Scene->Input(deltaTime, *InputManager);
         InputManager->isMouseDown = false;
 

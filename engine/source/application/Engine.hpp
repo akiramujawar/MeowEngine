@@ -19,13 +19,13 @@
 #include <GraphicsDevice.hpp>
 #include <Renderer.hpp>
 
+#include <InputDevice.hpp>
 #include <EditorModule.hpp>
 #include <RuntimeModule.hpp>
 #include <PhysicsModule.hpp>
 
 #include <Project.hpp>
 #include <AssetManager.hpp>
-#include <InputManager.hpp>
 #include <RenderSceneExtractor.hpp>
 
 
@@ -85,7 +85,7 @@ namespace MeowEngine {
         void Loop();
         void ShutDown();
 
-        bool ProcessDeviceInput();
+        bool ProcessDeviceInput(const Input::InputEvents& events);
 
     private:
         // TODO: needs to be atomic
@@ -101,7 +101,7 @@ namespace MeowEngine {
         // essentials
         Runtime::Project Project;
         Runtime::Asset::AssetManager AssetManager;
-        Runtime::InputManager InputManager;
+        Input::InputDevice InputDevice;
         Core::Timing Timing;
 
         // messaging
@@ -113,7 +113,6 @@ namespace MeowEngine {
         Graphics::GraphicsDevice GraphicsDevice;
         Rendering::Renderer Renderer;
         Rendering::RenderSceneExtractor RenderSceneExtractor;
-
         Editor::EditorModule Editor;
         Runtime::RuntimeModule Runtime;
         Physics::PhysicsModule Physics;
@@ -131,5 +130,38 @@ namespace MeowEngine {
 // render thread
 // physics thread
 // workers
+
+// the flow - grpahics
+// Graphics::GraphicsDevice GraphicsDevice;
+// Rendering::Renderer Renderer;
+// -- UIRenderer => accesses runtime & editor ui render builder
+// -- WorldRendere => access runtime & editor world render builder
+//
+// Editor::EditorModule Editor; => accesses runtime module
+// Runtime::RuntimeModule Runtime; => isolate from editor & renderer
+// Physics::PhysicsModule Physics; => accesses runtime module
+
+// physics result inside physics - takes physics snapshot to apply data
+// runtime contains physics snapshot & render snapshot - takes physics results to apply data
+
+// dedicated shader folder for raw code files
+// dedicated assets folder
+// dedicated cpp/hpp folder
+//  - on engine run
+//      - check for shader if (duplicates throw error)
+//      - combine shader into .meowasset and save in .compiled/shader folder (folder will be hidden)
+//      - for now the only optimsation would be if compiled asset exists we only override the shader code
+//  - we will use these files as our shader asset
+//  - inside filesystem ui, we show the compiled shaders & not the raw shaders
+//  - drag n drop to reference this asset
+
+// input module - owned by engine.hpp
+// - input manager
+// - input double buffer
+// - input double buffer swap at sync point along with render scene extractor & physics extractor
+
+// engine needs to process input differently - like close, open, user events (will replace with commands / requests in future)
+// scene needs to use input differently - move, look around, trigger scene events
+// ui needs to use input differetntly - drag n drop, imgui, button click, open tracy client etc...
 
 #endif //MEOWENGINE_ENGINE_HPP

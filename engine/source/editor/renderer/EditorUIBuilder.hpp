@@ -37,12 +37,12 @@ namespace MeowEngine::Editor {
 
         // Closes any child processes like tracy
         void ClosePIDs();
-
+        void OpenTracyProfiler();
 //        bool IsSceneViewportFocused() const;
 //        const WindowSize& GetSceneViewportSize() const;
 
     private:
-        void OpenTracyProfiler();
+
 
         // void CreateNewFrame();
         void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, uint32_t frameBufferId, const double fps);

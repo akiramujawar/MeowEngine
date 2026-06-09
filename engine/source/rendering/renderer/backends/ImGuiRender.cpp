@@ -68,4 +68,8 @@ namespace MeowEngine::Rendering {
     void ImGuiRender::DrawFrame() {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
+
+    void ImGuiRender::ProcessInputEvent(const SDL_Event& event) {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+    }
 }

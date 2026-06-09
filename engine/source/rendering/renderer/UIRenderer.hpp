@@ -8,8 +8,13 @@
 #include <Public/Threading/Include.hpp>
 
 #include <IUIRender.hpp>
+#include <InputEvents.hpp>
 #include <EditorUIBuilder.hpp>
 #include <RuntimeUIBuilder.hpp>
+
+namespace MeowEngine::Input {
+    class InputDevice;
+}
 
 namespace MeowEngine::Rendering {
     struct RendererInitData;
@@ -21,12 +26,18 @@ namespace MeowEngine::Rendering {
 
         void Init(RendererInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
+        void Shutdown();
+
+    private:
+        void ProcessDeviceInput(const Input::InputEvents& events);
 
     private:
         std::unique_ptr<IUIRender> Backend;
 
         Runtime::RuntimeUIBuilder RuntimeBuilder;
         Editor::EditorUIBuilder EditorBuilder;
+
+        Input::InputDevice* InputDevice;
     };
 }
 

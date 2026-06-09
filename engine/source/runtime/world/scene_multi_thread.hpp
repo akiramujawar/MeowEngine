@@ -41,7 +41,7 @@ namespace MeowEngine {
         bool AddEntitiesOnPhysicsSystem(MeowEngine::Physics::PhysicsSystem* inPhysics);
 
         // -----------------------------
-        void Input(const float &deltaTime, const MeowEngine::Runtime::InputManager& inputManager);
+        void Input(const float &deltaTime, const MeowEngine::Input::InputManager& inputManager);
 
         // -----------------------------
         virtual void Update(const float& deltaTime);

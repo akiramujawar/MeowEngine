@@ -21,8 +21,6 @@ namespace MeowEngine::Rendering {
         template<typename Type>
         Type& GetPipeline();
 
-        int abc;
-
     private:
         std::unordered_map<std::type_index, std::unique_ptr<IRenderPipeline>> Pipelines;
     };

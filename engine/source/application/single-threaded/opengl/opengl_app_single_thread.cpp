@@ -19,7 +19,7 @@
 #include <frame_rate_counter.hpp>
 #include <string>
 
-#include "UserEventType.hpp"
+#include "UserDeviceInputType.hpp"
 
 using MeowEngine::OpenGLAppSingleThread;
 
@@ -109,7 +109,7 @@ struct OpenGLAppSingleThread::Internal {
     Platform::SDL_EngineWindow Window;
     std::shared_ptr<MeowEngine::Editor::EditorUIBuilder> UI;
     MeowEngine::Graphics::GLWorldViewBuffer FrameBuffer;
-    MeowEngine::Runtime::InputManager InputManager;
+    MeowEngine::Input::InputManager InputManager;
 
     const std::shared_ptr<MeowEngine::OpenGLAssetManager> AssetManager;
     MeowEngine::OpenGLRenderSystem Renderer;
@@ -173,12 +173,12 @@ struct OpenGLAppSingleThread::Internal {
 
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                    case UserEventType::VIEW_PORT_RESIZE: {
+                    case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
                             OnViewportResize(size);
                             break;
                         }
-                    case UserEventType::WORLD_VIEW_FOCUS: {
+                    case UserDeviceInputType::WORLD_VIEW_FOCUS: {
                             InputManager.isActive = *(bool *) event.user.data1;
                             break;
                         }
@@ -189,7 +189,7 @@ struct OpenGLAppSingleThread::Internal {
         }
 
         // Track keyboard and mouse clicks/hold/drag/position
-        InputManager.ProcessInput();
+        // InputManager.ProcessInput();
 
 //        GetScene().Input(deltaTime, InputManager);
 

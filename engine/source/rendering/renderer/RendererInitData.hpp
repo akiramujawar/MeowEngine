@@ -6,11 +6,13 @@
 #define MEOWENGINE_RENDERERCONTEXT_HPP
 
 #include <GraphicsDevice.hpp>
+#include <InputDevice.hpp>
 #include <GameplaySystem.hpp>
 
 namespace MeowEngine::Rendering {
     struct RendererInitData {
-        Graphics::GraphicsDevice* Device;
+        Graphics::GraphicsDevice* GraphicsDevice;
+        Input::InputDevice* InputDevice;
         Runtime::GameplaySystem* Gameplay;
     };
 }

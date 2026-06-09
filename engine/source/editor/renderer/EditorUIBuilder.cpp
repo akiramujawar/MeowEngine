@@ -17,7 +17,7 @@
 #include <csignal> // For signal handling
 
 #include "GraphicsDevice.hpp"
-#include "UserEventType.hpp"
+#include "UserDeviceInputType.hpp"
 
 namespace {
     pid_t tracy_profiler_pid = -1;
@@ -97,7 +97,7 @@ namespace MeowEngine::Editor {
 #ifdef __APPLE__
         if (event.type == SDL_USEREVENT) {
             switch (event.user.code) {
-                case UserEventType::OPEN_TRACY:
+                case UserDeviceInputType::OPEN_TRACY:
                     OpenTracyProfiler();
                     break;
             }

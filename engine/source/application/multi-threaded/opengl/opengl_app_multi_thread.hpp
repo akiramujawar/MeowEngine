@@ -54,7 +54,7 @@ namespace MeowEngine {
         /**
          * Manages Device Inputs
          */
-        std::unique_ptr<MeowEngine::Runtime::InputManager> InputManager;
+        std::unique_ptr<MeowEngine::Input::InputManager> InputManager;
 
         /**
          * Active Scene in engine

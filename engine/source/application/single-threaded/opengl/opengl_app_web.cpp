@@ -4,7 +4,7 @@
 
 #include "opengl_app_web.hpp"
 
-#include "UserEventType.hpp"
+#include "UserDeviceInputType.hpp"
 
 //#include "scene_single_thread.hpp"
 
@@ -27,7 +27,7 @@ namespace MeowEngine {
         MeowEngine::Log("Application", "Creating Object");
 
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 100);
-        InputManager = std::make_unique<MeowEngine::Runtime::InputManager>();
+        InputManager = std::make_unique<MeowEngine::Input::InputManager>();
 
         Window = std::make_unique<MeowEngine::Platform::SDL_EngineWindow>();
         AssetManager = std::make_shared<MeowEngine::OpenGLAssetManager>(MeowEngine::OpenGLAssetManager());
@@ -108,7 +108,7 @@ namespace MeowEngine {
             switch (event.type)
             {
                 case SDL_MOUSEBUTTONDOWN:
-                    InputManager->SetMouseDown();
+                    // InputManager->SetMouseDown();
                     break;
 
                 case SDL_WINDOWEVENT:
@@ -132,7 +132,7 @@ namespace MeowEngine {
 
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                        case UserEventType::VIEW_PORT_RESIZE: {
+                        case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
 
                             // glViewport(0, 0, size.Width, size.Height);
@@ -140,7 +140,7 @@ namespace MeowEngine {
                             Scene->OnWindowResized(size);
                             break;
                         }
-                        case UserEventType::WORLD_VIEW_FOCUS: {
+                        case UserDeviceInputType::WORLD_VIEW_FOCUS: {
                             InputManager->isActive = *(bool *) event.user.data1;
                             break;
                         }
@@ -151,7 +151,7 @@ namespace MeowEngine {
         }
 
         // Track keyboard and mouse clicks/hold/drag/position
-        InputManager->ProcessInput();
+        // InputManager->ProcessInput();
         Scene->Input(inDeltaTime, *InputManager);
         InputManager->isMouseDown = false;
 

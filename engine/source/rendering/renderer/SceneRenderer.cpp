@@ -89,4 +89,5 @@ namespace MeowEngine::Rendering {
         // - window swap - graphics
     }
 
+    void SceneRenderer::Shutdown() {}
 }

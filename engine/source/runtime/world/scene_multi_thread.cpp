@@ -308,7 +308,7 @@ struct SceneMultiThread::Internal {
         return World.GetBuffer().ApplyAddRemoveOnCurrentFinal();
     }
 
-    void Input(const float& delta, const MeowEngine::Runtime::InputManager& inputManager) {
+    void Input(const float& delta, const MeowEngine::Input::InputManager& inputManager) {
         if(!inputManager.isActive) {
             return;
         }
@@ -599,7 +599,7 @@ bool SceneMultiThread::AddEntitiesOnPhysicsSystem(MeowEngine::Physics::PhysicsSy
     return InternalPointer->AddEntitiesOnPhysicsThread(inPhysics);
 }
 
-void SceneMultiThread::Input(const float &deltaTime, const MeowEngine::Runtime::InputManager& inputManager) {
+void SceneMultiThread::Input(const float &deltaTime, const MeowEngine::Input::InputManager& inputManager) {
     InternalPointer->Input(deltaTime, inputManager);
 }
 

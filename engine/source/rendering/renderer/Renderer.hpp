@@ -17,6 +17,7 @@ namespace MeowEngine::Graphics {
     class GraphicsDevice;
 }
 
+
 namespace MeowEngine::Rendering {
     struct RendererInitData;
     class RenderSceneExtractor;
@@ -28,6 +29,7 @@ namespace MeowEngine::Rendering {
 
         void Init(RendererInitData& context);
         void Schedule(Threading::Scheduler& scheduler, RenderSceneExtractor& extractor);
+        void Shutdown();
 
         RenderResourceManager& GetResourceManager() {
             return ResourceManager;
@@ -41,7 +43,7 @@ namespace MeowEngine::Rendering {
         RenderPipelineManager PipelineManager;
         RenderResourceManager ResourceManager;
 
-        Graphics::GraphicsDevice* Device;
+        Graphics::GraphicsDevice* GraphicsDevice;
     };
 }
 

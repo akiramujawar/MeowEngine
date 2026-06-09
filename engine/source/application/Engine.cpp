@@ -4,12 +4,12 @@
 
 #include <Engine.hpp>
 
-#include <SDL_API.hpp>
+// #include <SDL_API.hpp>
 
 #include <MultiThreadExecutor.hpp>
 #include <SingleThreadExecutor.hpp>
 
-#include <UserEventType.hpp>
+#include <UserDeviceInputType.hpp>
 #include <RenderCommand.hpp>
 #include <RendererInitData.hpp>
 
@@ -49,6 +49,10 @@ namespace MeowEngine {
         Loop();
     }
 
+    void Engine::Close() {
+        IsRunning = false;
+    }
+
     void Engine::Init() {
         // on create
         // - create window - graphics
@@ -74,7 +78,8 @@ namespace MeowEngine {
         Editor.Init();
 
         Rendering::RendererInitData renderInit {};
-        renderInit.Device = &GraphicsDevice;
+        renderInit.GraphicsDevice = &GraphicsDevice;
+        renderInit.InputDevice = &InputDevice;
         renderInit.Gameplay = &Runtime.GetGameplay();
 
         Renderer.Init(renderInit);
@@ -87,12 +92,16 @@ namespace MeowEngine {
     }
 
     void Engine::Loop() {
-        while (true) {
-            if (!ProcessDeviceInput()) {
-                break;
-            }
+        while (IsRunning) {
+            InputDevice.Schedule(Scheduler);
 
-            Timing.Update();
+            Scheduler.AddTask([this](){
+                if (!ProcessDeviceInput(InputDevice.GetEvents().GetCurrent())) {
+                    Close();
+                }
+            });
+
+            Timing.Schedule(Scheduler);
 
             // -- runs on main thread
             // apply physics result => runtime
@@ -120,44 +129,28 @@ namespace MeowEngine {
     }
 
     void Engine::ShutDown() {
-        IsRunning = false;
+
     }
 
-    bool Engine::ProcessDeviceInput() {
+    bool Engine::ProcessDeviceInput(const Input::InputEvents& events) {
         PT_PROFILE_SCOPE;
-
-//            while(!InputBuffer.GetCurrent().empty())
-//            {
-//                event = InputBuffer.GetCurrent().front();
-//                InputBuffer.GetCurrent().pop();
-//
-//                // perform the task
-//                MeowEngine::Log("InputBuffer", "Event");
-//            }
-
-        // Reset
-        InputManager.isMouseDown = false;
 
         // TODO: migrate to sdl
         // Each loop we will process any events that are waiting for us.
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            // SharedState.SDLEventBuffer.GetCurrent().push(event);
-
+        // SDL_Event event;
+        for (const auto& event : events) {
+        // while (SDL_PollEvent(&event)) {
             switch (event.type) {
-                case SDL_MOUSEBUTTONDOWN:
-                    InputManager.SetMouseDown();
-                    break;
+
 
                 case SDL_QUIT:
-                    // If we get a quit signal, we will return that we don't want to keep looping.
-                    // RenderThread->UserInterface->ClosePIDs();
+                    Renderer.Shutdown();
                     return false;
 
                 case SDL_KEYDOWN:
                     // If we get a key down event for the ESC key, we also don't want to keep looping.
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
-                        // RenderThread->UserInterface->ClosePIDs();
+                        Renderer.Shutdown();
 
                         // App should close
                         return false;
@@ -166,7 +159,7 @@ namespace MeowEngine {
 
                 case SDL_USEREVENT:
                     switch (event.user.code) {
-                        case UserEventType::VIEW_PORT_RESIZE: {
+                        case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             MeowEngine::Log("Main Thread", "Rescaled Window");
 
                             // const Vector2Int size = *(Vector2Int *) event.user.data1;
@@ -174,11 +167,7 @@ namespace MeowEngine {
 
                             break;
                         }
-                        case UserEventType::WORLD_VIEW_FOCUS: {
-                            InputManager.isActive = *(bool *) event.user.data1;
-                            break;
-                        }
-                        case UserEventType::IMPORT_FILE: {
+                        case UserDeviceInputType::IMPORT_FILE: {
                             // std::vector<std::string> selectedFiles;
                             // RenderThread->ShowImportPopup(selectedFiles);
                             //
@@ -189,20 +178,16 @@ namespace MeowEngine {
 
                             break;
                         }
-                        case UserEventType::SAVE_PROJECT: {
+                        case UserDeviceInputType::SAVE_PROJECT: {
                             // Scene->Save();
                         }
 
                         default: ;
                     }
-                default:
-                    break;
+
             }
         }
 
-        // TODO: Build a input system
-        // Track keyboard and mouse clicks/hold/drag/position
-        InputManager.ProcessInput();
         // Scene->Input(deltaTime, *InputManager);
 
         // should app continue?

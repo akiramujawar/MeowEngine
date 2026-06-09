@@ -46,7 +46,7 @@ namespace MeowEngine {
 
         // main
         std::unique_ptr<MeowEngine::FrameRateCounter> FrameRateCounter;
-        std::unique_ptr<MeowEngine::Runtime::InputManager> InputManager;
+        std::unique_ptr<MeowEngine::Input::InputManager> InputManager;
 
         // shared
         std::shared_ptr<MeowEngine::SceneMultiThread> Scene;

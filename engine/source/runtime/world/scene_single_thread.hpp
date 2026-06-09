@@ -28,7 +28,7 @@ namespace MeowEngine {
         void LoadOnRenderSystem(std::shared_ptr<MeowEngine::AssetManager> assetManager);
         void CreateSceneOnMainSystem(MeowEngine::Physics::PhysicsSystem* inPhysics);
 
-        void Input(const float& deltaTime, const MeowEngine::Runtime::InputManager& inputManager);
+        void Input(const float& deltaTime, const MeowEngine::Input::InputManager& inputManager);
         void Update(const float& deltaTime);
         void RenderGameView(MeowEngine::OpenGLRenderSystem& renderer);
         void RenderUserInterface(MeowEngine::OpenGLRenderSystem& renderer, unsigned int frameBufferId, const double fps);

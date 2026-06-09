@@ -239,7 +239,7 @@ namespace MeowEngine {
             MeowEngine::Log("Creating", "Created");
         }
 
-        void Input(const float& delta, const MeowEngine::Runtime::InputManager& inputManager) {
+        void Input(const float& delta, const MeowEngine::Input::InputManager& inputManager) {
             if(!inputManager.isActive) {
                 return;
             }
@@ -356,7 +356,7 @@ namespace MeowEngine {
         InternalPointer->Create(inPhysics);
     }
 
-    void SceneSingleThread::Input(const float &deltaTime, const MeowEngine::Runtime::InputManager& inputManager) {
+    void SceneSingleThread::Input(const float &deltaTime, const MeowEngine::Input::InputManager& inputManager) {
         InternalPointer->Input(deltaTime, inputManager);
     }
 

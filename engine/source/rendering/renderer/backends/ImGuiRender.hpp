@@ -27,6 +27,8 @@ namespace MeowEngine::Rendering {
          * Execute the Render Commands to draw ScreenSpace UI
          */
         void DrawFrame() override;
+
+        void ProcessInputEvent(const SDL_Event& event) override;
     };
 }
 

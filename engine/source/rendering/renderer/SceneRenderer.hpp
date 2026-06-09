@@ -27,6 +27,7 @@ namespace MeowEngine::Rendering {
 
         void Init(RendererInitData& context);
         void Schedule(Threading::Scheduler& scheduler, RenderContext& renderContext);
+        void Shutdown();
 
     private:
         RenderGraph RenderGraph;

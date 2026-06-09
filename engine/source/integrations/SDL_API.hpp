@@ -10,7 +10,9 @@
 #include <SDL.h>
 #include "SDL_image.h"
 #include <SDL_messagebox.h>
+#include <SDL_mouse.h>
 #include <utility>
+
 
 
 #endif //MEOWENGINE_SDLAPI_HPP

@@ -9,6 +9,8 @@ namespace MeowEngine::Graphics {
     class GraphicsDevice;
 }
 
+typedef union SDL_Event SDL_Event;
+
 namespace MeowEngine::Rendering {
     class IUIRender {
     public:
@@ -28,6 +30,8 @@ namespace MeowEngine::Rendering {
          * Execute the Render Commands to draw ScreenSpace UI
          */
         virtual void DrawFrame() = 0;
+
+        virtual void ProcessInputEvent(const SDL_Event& event) = 0;
     };
 }
 

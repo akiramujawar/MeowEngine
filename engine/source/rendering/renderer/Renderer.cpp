@@ -17,28 +17,28 @@ namespace MeowEngine::Rendering {
         Scene.Init(context);
         UI.Init(context);
 
-        Device = context.Device;
+        GraphicsDevice = context.GraphicsDevice;
         Context.PipelineManager = &PipelineManager;
         Context.ResourceManager = &ResourceManager;
     }
 
     void Renderer::Schedule(Threading::Scheduler& scheduler, RenderSceneExtractor& extractor) {
-        // RenderContext context {
-        //     PipelineManager,
-        //     ResourceManager,
-        //     extractor.GetRenderFrameData().GetFinal()
-        // };
-
         Context.SceneData = &extractor.GetRenderFrameData().GetFinal();
-        Context.PipelineManager->abc = 1000;
 
         Scene.Schedule(scheduler, Context);
         UI.Schedule(scheduler);
 
         scheduler.AddTask(
-            [&window = Device->GetWindow()]() {
+            [&window = GraphicsDevice->GetWindow()]() {
                 window.SwapWindow();
             }
         );
+    }
+
+    void Renderer::Shutdown() {
+        // If we get a quit signal, we will return that we don't want to keep looping.
+        // RenderThread->UserInterface->ClosePIDs();
+        Scene.Shutdown();
+        UI.Shutdown();
     }
 }

@@ -8,7 +8,7 @@
 #include "Public/Math.hpp"
 #include <SDL_events.h>
 
-#include "UserEventType.hpp"
+#include "UserDeviceInputType.hpp"
 
 namespace MeowEngine::Editor {
 
@@ -36,7 +36,7 @@ namespace MeowEngine::Editor {
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = UserEventType::WORLD_VIEW_FOCUS;
+                event.user.code = UserDeviceInputType::WORLD_VIEW_FOCUS;
                 event.user.data1 = &IsFocused;
 
                 SDL_PushEvent(&event);
@@ -53,7 +53,7 @@ namespace MeowEngine::Editor {
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = UserEventType::VIEW_PORT_RESIZE;
+                event.user.code = UserDeviceInputType::VIEW_PORT_RESIZE;
                 event.user.data1 = &SceneViewportSize;
 
                 SDL_PushEvent(&event);

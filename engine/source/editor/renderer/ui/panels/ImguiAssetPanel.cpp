@@ -17,7 +17,7 @@
 #include "ImguiAssetDragDrop.hpp"
 #include "CreateAssetType.hpp"
 
-#include <UserEventType.hpp>
+#include <UserDeviceInputType.hpp>
 
 namespace MeowEngine::Editor {
     ImguiAssetPanel::ImguiAssetPanel()
@@ -114,7 +114,7 @@ namespace MeowEngine::Editor {
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = UserEventType::IMPORT_FILE;
+                event.user.code = UserDeviceInputType::IMPORT_FILE;
                 event.user.data1 = &selectionData.SelectedDirectoryPath;
     
                 SDL_PushEvent(&event);
