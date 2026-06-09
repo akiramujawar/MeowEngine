@@ -139,13 +139,13 @@ namespace MeowEngine {
 
                 case SDL_QUIT:
                     // If we get a quit signal, we will return that we don't want to keep looping.
-                    RenderThread->UserInterface->ClosePIDs();
+                    RenderThread->UserInterface->CloseProcesses();
                     return false;
 
                 case SDL_KEYDOWN:
                     // If we get a key down event for the ESC key, we also don't want to keep looping.
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
-                        RenderThread->UserInterface->ClosePIDs();
+                        RenderThread->UserInterface->CloseProcesses();
 
                         // App should close
                         return false;

@@ -77,7 +77,7 @@ namespace MeowEngine::Rendering {
     }
 
     void UIRenderer::Shutdown() {
-        EditorBuilder.ClosePIDs();
+        EditorBuilder.CloseProcesses();
     }
 
     void UIRenderer::ProcessDeviceInput(const Input::InputEvents& events) {
@@ -103,7 +103,7 @@ namespace MeowEngine::Rendering {
             if (event.type == SDL_USEREVENT) {
                 switch (event.user.code) {
                     case UserDeviceInputType::OPEN_TRACY:
-                        EditorBuilder.OpenTracyProfiler();
+                        EditorBuilder.OpenProfiler();
                         break;
                 }
             }

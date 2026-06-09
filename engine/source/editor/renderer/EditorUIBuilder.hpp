@@ -2,12 +2,10 @@
 // Created by Akira Mujawar on 08/07/24.
 //
 
-#ifndef MEOWENGINE_IMGUIEDITORUISYSTEM_HPP
-#define MEOWENGINE_IMGUIEDITORUISYSTEM_HPP
+#ifndef MEOWENGINE_EDITORUIBUILDER_HPP
+#define MEOWENGINE_EDITORUIBUILDER_HPP
 
-//#include <scene.hpp>
-// #include "GLWorldViewBuffer.hpp"
-// #include "Math.hpp"
+#include <TracyProfiler.hpp>
 
 #include <ImguiDockerSpace.hpp>
 #include "ImguiWorldTreePanel.hpp"
@@ -32,35 +30,26 @@ namespace MeowEngine::Editor {
         ~EditorUIBuilder();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void Input(const SDL_Event& event);
         void BuildDrawData(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps);
 
-        // Closes any child processes like tracy
-        void ClosePIDs();
-        void OpenTracyProfiler();
+        void OpenProfiler();
+
+        /**
+         * Closes any child processes like tracy
+         */
+        void CloseProcesses();
 //        bool IsSceneViewportFocused() const;
 //        const WindowSize& GetSceneViewportSize() const;
 
     private:
-
-
-        // void CreateNewFrame();
         void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, uint32_t frameBufferId, const double fps);
-        // void RenderFrame();
 
-//        void CreateRender3DPanel(unsigned int frameBufferId);
 //        bool isSceneViewportFocused; // soon come up with good naming conventions
 //        WindowSize SceneViewportSize;
 
-//        void CreateLifeObjectSelectorPanel(MeowEngine::Scene& scene);
-//        void CreateSelectableItem(bool isEnd);
-//        const ImGuiTreeNodeFlags SelectableFlags;
-
-//        void CreateObjectEditorPanel(const core::LifeObject& selectedLifeObject);
-
-//        void CreateLogPanel();
-
         bool IsRendering;
+
+        TracyProfiler Profiler;
 
         ImGuiDockerSpace DockerSpace;
         ImGuiWorldTreePanel WorldTreePanel;
@@ -74,5 +63,9 @@ namespace MeowEngine::Editor {
     };
 }
 
+// setup imgui input
+// extract the hierarchy tree elements
+// update ui to read from it
+// setup the command system for tree selection
 
-#endif //MEOWENGINE_IMGUIEDITORUISYSTEM_HPP
+#endif //MEOWENGINE_EDITORUIBUILDER_HPP

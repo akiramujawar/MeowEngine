@@ -26,7 +26,6 @@ namespace MeowEngine::Input {
 
         scheduler.AddTask(
             [&]() {
-                MeowEngine::Log("Input Count", static_cast<int>(Buffer.GetCurrent().size()));
                 InputManager.ProcessDeviceInput(Buffer.GetCurrent());
             }
         );

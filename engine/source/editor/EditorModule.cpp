@@ -20,7 +20,9 @@ namespace MeowEngine::Editor {
         Selector.Init(Runtime::GetProject().ProjectSettings.GetProjectPath());
     }
 
-    void EditorModule::Schedule(Threading::Scheduler& scheduler) {}
+    void EditorModule::Schedule(Threading::Scheduler& scheduler) {
+
+    }
 
     Selector& EditorModule::GetSelector() { return Selector; }
 
