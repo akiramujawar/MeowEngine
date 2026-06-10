@@ -7,7 +7,7 @@
 
 #include <functional>
 
-namespace MeowEngine::Runtime::Messaging {
+namespace MeowEngine::Messaging {
     /**
      * Sometimes immediate or can be queued, random order. Normal event system we build similar to games
      */

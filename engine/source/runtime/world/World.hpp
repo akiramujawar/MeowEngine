@@ -25,6 +25,7 @@ namespace MeowEngine::Runtime {
          */
         entt::entity AddEntity();
         void RemoveEntity(entt::entity entity);
+        entt::entity GetEntity(uint32_t guid);
 
         template<typename Type>
         Type& AddComponent(const entt::entity& entity);

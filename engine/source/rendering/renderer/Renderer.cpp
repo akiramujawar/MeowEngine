@@ -19,6 +19,7 @@ namespace MeowEngine::Rendering {
         UI.Init(context);
 
         GraphicsDevice = context.GraphicsDevice;
+        Context.CommandQueue = context.CommandQueue;
         Context.PipelineManager = &PipelineManager;
         Context.ResourceManager = &ResourceManager;
     }

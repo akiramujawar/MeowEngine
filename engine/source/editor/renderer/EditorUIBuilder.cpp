@@ -58,11 +58,10 @@ namespace MeowEngine::Editor {
                                std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
                                Editor::Selector& pSelection,
                                unsigned int frameBufferId, const double fps) {
-        // DrawFrame(registry, inUIInputQueue, pSelection, frameBufferId, fps);
         DockerSpace.SetupDockingSpace();
 
         WorldInspectorPanel.Draw(registry, inUIInputQueue, pSelection);
-        WorldTreePanel.Draw(renderContext, pSelection);
+        WorldTreePanel.Draw(renderContext);
         WorldViewPanel.Draw(reinterpret_cast<void*>(frameBufferId), fps);
         WorldSettingPanel.Draw();
         ProjectSettingPanel.Draw();
@@ -88,23 +87,5 @@ namespace MeowEngine::Editor {
 //const WindowSize& MeowEngine::graphics::ImGuiRenderer::GetSceneViewportSize() const {
 //    return SceneViewportSize;
 //}
-
-    // void EditorUIBuilder::DrawFrame(entt::registry& registry,
-    //                               std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-    //                               Editor::Selector& pSelection,
-    //                               uint32_t frameBufferId, const double fps) {
-    //     DockerSpace.SetupDockingSpace();
-    //
-    //     WorldInspectorPanel.Draw(registry, inUIInputQueue, pSelection);
-    //     WorldTreePanel.Draw(registry, pSelection);
-    //     WorldViewPanel.Draw(reinterpret_cast<void*>(frameBufferId), fps);
-    //     WorldSettingPanel.Draw();
-    //     ProjectSettingPanel.Draw();
-    //     EditorSettingPanel.Draw();
-    //     AssetPanel.Draw(pSelection);
-    //     ConsolePanel.Draw();
-    //
-    //     // ImGui::ShowDemoWindow(&IsRendering);
-    // }
 
 }

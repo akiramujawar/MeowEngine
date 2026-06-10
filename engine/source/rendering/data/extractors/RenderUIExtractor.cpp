@@ -50,9 +50,12 @@ namespace MeowEngine::Rendering {
         auto& frame = RenderUIData.GetCurrent();
         frame.RootEntities.clear();
         frame.EntityHierarchyMap.clear();
+        frame.SelectedEntities.clear();
     }
 
     void RenderUIExtractor::Extract() {
+        PT_PROFILE_SCOPE;
+
         auto& world = Gameplay->GetWorld();
         auto& ecs = world.GetRegistry();
         auto& frame = RenderUIData.GetCurrent();
@@ -98,6 +101,12 @@ namespace MeowEngine::Rendering {
 
                 extractEntityHierarchy(entity);
             }
+        }
+
+        // track selected entities
+        for (const auto entity : Selector->SelectedEntities) {
+             auto identity = ecs.get<Runtime::IdentityComponent>(entity);
+            frame.SelectedEntities.emplace(identity.GetGUID());
         }
     }
 

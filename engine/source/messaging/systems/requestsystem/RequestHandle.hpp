@@ -7,7 +7,7 @@
 
 #include <atomic>
 
-namespace MeowEngine::Runtime::Messaging {
+namespace MeowEngine::Messaging {
     /**
      * Useful for cross-thread messaging, goes to owner threads, response is async
      * @tparam Type

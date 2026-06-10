@@ -107,9 +107,9 @@ namespace MeowEngine {
         Core::Timing Timing;
 
         // messaging
-        Runtime::Messaging::CommandQueue CommandQueue;
-        Runtime::Messaging::EventBus EventBus;
-        Runtime::Messaging::RequestQueue RequestQueue;
+        Messaging::CommandQueue CommandQueue;
+        Messaging::EventBus EventBus;
+        Messaging::RequestQueue RequestQueue;
 
         // modules
         Graphics::GraphicsDevice GraphicsDevice;

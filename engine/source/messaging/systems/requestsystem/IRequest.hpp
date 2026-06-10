@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_IREQUEST_HPP
 #define MEOWENGINE_IREQUEST_HPP
 
-namespace MeowEngine::Runtime::Messaging {
+namespace MeowEngine::Messaging {
     struct IRequest {
         virtual ~IRequest() = default;
         virtual void Execute() = 0;

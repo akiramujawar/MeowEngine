@@ -5,12 +5,13 @@
 #ifndef MEOWENGINE_ICOMMAND_HPP
 #define MEOWENGINE_ICOMMAND_HPP
 
-#include <World.hpp>
 
-namespace MeowEngine::Runtime::Messaging {
+namespace MeowEngine::Messaging {
+    struct MessageContext;
+
     struct ICommand {
         virtual ~ICommand() = default;
-        virtual void Execute(World& world) = 0;
+        virtual void Execute(MessageContext& context) = 0;
     };
 }
 

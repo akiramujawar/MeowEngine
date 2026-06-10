@@ -7,7 +7,7 @@
 
 #include <RequestHandle.hpp>
 
-namespace MeowEngine::Runtime::Messaging {
+namespace MeowEngine::Messaging {
     class RequestQueue {
     public:
         template<typename Request, typename Response>

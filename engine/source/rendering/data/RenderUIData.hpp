@@ -29,6 +29,11 @@ namespace MeowEngine::Rendering {
          * All entities to be listed in tree panel
          */
         std::unordered_map<uint32_t, RenderEntityHierarchy> EntityHierarchyMap;
+
+        /**
+         * All the selected entities (are same for scene & ui (tree panel))
+         */
+        std::unordered_set<uint32_t> SelectedEntities;
     };
 }
 

@@ -47,8 +47,6 @@ namespace MeowEngine::Editor {
 //        const WindowSize& GetSceneViewportSize() const;
 
     private:
-        // void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, uint32_t frameBufferId, const double fps);
-
 //        bool isSceneViewportFocused; // soon come up with good naming conventions
 //        WindowSize SceneViewportSize;
 
@@ -68,8 +66,8 @@ namespace MeowEngine::Editor {
     };
 }
 
-// setup imgui input
-// extract the hierarchy tree elements
+// setup imgui input - done
+// extract the hierarchy tree elements - done
 // update ui to read from it
 // setup the command system for tree selection
 

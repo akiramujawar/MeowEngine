@@ -5,6 +5,10 @@
 #ifndef MEOWENGINE_RENDERCONTEXT_HPP
 #define MEOWENGINE_RENDERCONTEXT_HPP
 
+namespace MeowEngine::Messaging {
+    class CommandQueue;
+}
+
 namespace MeowEngine::Rendering {
     class RenderPipelineManager;
     class RenderResourceManager;
@@ -12,6 +16,7 @@ namespace MeowEngine::Rendering {
     struct RenderUIData;
 
     struct RenderContext {
+        Messaging::CommandQueue* CommandQueue;
         RenderPipelineManager* PipelineManager;
         RenderResourceManager* ResourceManager;
         RenderSceneData* SceneData;

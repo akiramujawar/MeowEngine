@@ -28,7 +28,7 @@ namespace MeowEngine::Editor {
         ~ImGuiWorldTreePanel();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void Draw(Rendering::RenderContext& renderContext, Editor::Selector& pSelection);
+        void Draw(Rendering::RenderContext& renderContext);
 
     private:
         void DrawHierarchy(uint32_t guid, Rendering::RenderContext& renderContext);
@@ -42,6 +42,7 @@ namespace MeowEngine::Editor {
         ImGuiWindowFlags WindowFlags;
 
         Runtime::GameplaySystem* Gameplay;
+
     };
 }
 

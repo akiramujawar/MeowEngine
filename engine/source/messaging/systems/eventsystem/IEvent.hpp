@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_IEVENT_HPP
 #define MEOWENGINE_IEVENT_HPP
 
-namespace MeowEngine::Runtime::Messaging {
+namespace MeowEngine::Messaging {
     struct IEvent {
         virtual ~IEvent() = default;
         virtual void Execute() = 0;

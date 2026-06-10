@@ -16,6 +16,8 @@
 #include <RenderSceneExtractorInitData.hpp>
 #include <RenderUIExtractorInitData.hpp>
 
+#include <MessageContext.hpp>
+
 namespace MeowEngine {
     Engine::Engine()
         : IsRunning(false)
@@ -78,13 +80,16 @@ namespace MeowEngine {
         Runtime.Init();
         Editor.Init();
 
+        // -- rendering
         Rendering::RendererInitData renderInit {};
         renderInit.GraphicsDevice = &GraphicsDevice;
         renderInit.InputDevice = &InputDevice;
         renderInit.Gameplay = &Runtime.GetGameplay();
+        renderInit.CommandQueue = &CommandQueue;
 
         Renderer.Init(renderInit);
 
+        // -- extraction
         Rendering::RenderSceneExtractorInitData sceneExtractorInit {};
         sceneExtractorInit.Gameplay = &Runtime.GetGameplay();
         sceneExtractorInit.Selector = &Editor.GetSelector();
@@ -96,18 +101,28 @@ namespace MeowEngine {
         uiExtractorInit.Selector = &Editor.GetSelector();
 
         RenderUIExtractor.Init(uiExtractorInit);
+
+        // -- messaging
+        Messaging::MessageContext messageContext;
+        messageContext.Selector = &Editor.GetSelector();
+        messageContext.Gameplay = &Runtime.GetGameplay();
+
+        CommandQueue.Init(messageContext);
     }
 
     void Engine::Loop() {
         while (IsRunning) {
+            // -- runs on main thread
             InputDevice.Schedule(Scheduler);
 
+            // -- runs on main thread
             Scheduler.AddTask([this](){
                 if (!ProcessDeviceInput(InputDevice.GetEvents().GetCurrent())) {
                     Close();
                 }
             });
 
+            // -- runs on main thread
             Timing.Schedule(Scheduler);
 
             // -- runs on main thread
@@ -122,14 +137,17 @@ namespace MeowEngine {
 
             // -- runs on main thread
             Editor.Schedule(Scheduler);
-            // can use the scene editor & runtime builder here
-            // same for ui (see if we can do the ui build data on main thread and render on render thread)
             RenderSceneExtractor.Schedule(Scheduler);
             RenderUIExtractor.Schedule(Scheduler);
 
             // -- runs on render thread
             Renderer.Schedule(Scheduler, RenderSceneExtractor, RenderUIExtractor);
 
+            // -- messaging executes at last on main thread but before swap
+            // NOTE: internally any swaps schedule should wait until messaging is processed
+            CommandQueue.Schedule(Scheduler);
+
+            // -- come back on this later (for job system flow)
             Executor->Execute(Scheduler);
         }
 
