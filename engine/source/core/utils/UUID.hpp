@@ -8,7 +8,7 @@
 #include "random"
 #include "log.hpp"
 
-namespace MeowEngine::Editor {
+namespace MeowEngine::Core {
     class UUID {
     public:
         static unsigned char Generate() {
@@ -17,6 +17,13 @@ namespace MeowEngine::Editor {
             std::uniform_int_distribution<uint64_t> uid;
             
             return uid(mt);
+        }
+
+        static uint64_t GenerateUUID() {
+            std::random_device random;
+            std::mt19937_64 mt(random());
+
+            return mt();
         }
         
         // static std::string GenerateHex(const unsigned int length) {

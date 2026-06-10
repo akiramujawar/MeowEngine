@@ -40,10 +40,10 @@ namespace MeowEngine::Editor {
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 
         ImGui::Begin("World Tree", &IsActive); {
-            for (auto& data : renderContext.UIData->RootEntities) {
-                DrawHierarchy(data, renderContext);
+            for (auto it = renderContext.UIData->RootEntities.rbegin(); it != renderContext.UIData->RootEntities.rend(); ++it) {
+                DrawHierarchy(*it, renderContext);
             }
-
+            
             ImGui::End();
         }
     }

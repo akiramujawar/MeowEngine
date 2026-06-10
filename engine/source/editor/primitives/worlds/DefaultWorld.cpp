@@ -19,11 +19,16 @@
 
 namespace MeowEngine::Editor {
     DefaultWorld::DefaultWorld() {
+        // editor entities
         CreateCamera();
-        CreateGrid();
-        CreateSky();
         CreateTransformHandle();
+        CreateGrid();
+
+        // test entities
         CreateHierarchyTest();
+
+        // runtime entities
+        CreateSky();
     }
 
     DefaultWorld::~DefaultWorld() {}
@@ -57,7 +62,7 @@ namespace MeowEngine::Editor {
         auto& identity = AddComponent<Runtime::IdentityComponent>(entity);
         auto& tree = AddComponent<component::HierarchyComponent>(entity);
         tree.Self = entity;
-        info.SetName(String("Grid"));
+        info.SetName(String("[Editor] Grid"));
 
         // AddComponent<component::GridComponent>(
         //     gridEntity,
