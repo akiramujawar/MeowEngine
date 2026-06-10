@@ -18,6 +18,9 @@ namespace MeowEngine::Runtime {
     class GameplaySystem;
 }
 
+namespace MeowEngine::Rendering {
+    struct RenderContext;
+}
 
 namespace MeowEngine::Editor {
     struct ImGuiWorldTreePanel {
@@ -25,12 +28,10 @@ namespace MeowEngine::Editor {
         ~ImGuiWorldTreePanel();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void Draw(entt::registry& registry, Editor::Selector& pSelection);
-        void CreateSelectableItem(
-                entt::registry& registry,
-                Editor::Selector& pSelection,
-                component::HierarchyComponent& pHierarchyComponent,
-                bool& pIsItemClicked);
+        void Draw(Rendering::RenderContext& renderContext, Editor::Selector& pSelection);
+
+    private:
+        void DrawHierarchy(uint32_t guid, Rendering::RenderContext& renderContext);
 
     private:
         const ImGuiTreeNodeFlags DefaultSelectableFlags;

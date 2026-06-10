@@ -113,7 +113,7 @@ namespace MeowEngine {
             SDL_Event event = inEvents.front();
             inEvents.pop();
 
-            UserInterface->Input(event);
+            // UserInterface->Input(event);
 
             switch (event.type) {
                 case SDL_USEREVENT:

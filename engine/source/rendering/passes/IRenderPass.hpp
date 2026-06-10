@@ -6,7 +6,7 @@
 #define MEOWENGINE_IRENDERPASS_HPP
 
 namespace MeowEngine::Rendering {
-    class RenderSceneData;
+    struct RenderSceneData;
     struct RenderContext;
 
     class IRenderPass {

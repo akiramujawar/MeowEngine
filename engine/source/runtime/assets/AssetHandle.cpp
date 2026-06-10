@@ -6,7 +6,7 @@
 
 namespace MeowEngine::Asset {
 
-    AssetHandle::AssetHandle() {}
+    AssetHandle::AssetHandle() : UUID(0) {}
 
     AssetHandle::~AssetHandle() {}
 

@@ -148,7 +148,7 @@ struct OpenGLAppSingleThread::Internal {
         // Each loop we will process any events that are waiting for us.
         while (SDL_PollEvent(&event))
         {
-            UI.get()->Input(event);
+            // UI.get()->Input(event);
 
             switch (event.type)
             {

@@ -14,6 +14,7 @@
 #include <RendererInitData.hpp>
 
 #include <RenderSceneExtractorInitData.hpp>
+#include <RenderUIExtractorInitData.hpp>
 
 namespace MeowEngine {
     Engine::Engine()
@@ -84,11 +85,17 @@ namespace MeowEngine {
 
         Renderer.Init(renderInit);
 
-        Rendering::RenderSceneExtractorInitData frameExtractorInit {};
-        frameExtractorInit.Gameplay = &Runtime.GetGameplay();
-        frameExtractorInit.Selector = &Editor.GetSelector();
+        Rendering::RenderSceneExtractorInitData sceneExtractorInit {};
+        sceneExtractorInit.Gameplay = &Runtime.GetGameplay();
+        sceneExtractorInit.Selector = &Editor.GetSelector();
 
-        RenderSceneExtractor.Init(frameExtractorInit);
+        RenderSceneExtractor.Init(sceneExtractorInit);
+
+        Rendering::RenderUIExtractorInitData uiExtractorInit {};
+        uiExtractorInit.Gameplay = &Runtime.GetGameplay();
+        uiExtractorInit.Selector = &Editor.GetSelector();
+
+        RenderUIExtractor.Init(uiExtractorInit);
     }
 
     void Engine::Loop() {
@@ -118,9 +125,10 @@ namespace MeowEngine {
             // can use the scene editor & runtime builder here
             // same for ui (see if we can do the ui build data on main thread and render on render thread)
             RenderSceneExtractor.Schedule(Scheduler);
+            RenderUIExtractor.Schedule(Scheduler);
 
             // -- runs on render thread
-            Renderer.Schedule(Scheduler, RenderSceneExtractor);
+            Renderer.Schedule(Scheduler, RenderSceneExtractor, RenderUIExtractor);
 
             Executor->Execute(Scheduler);
         }

@@ -2,13 +2,13 @@
 // Created by Akira Mujawar on 13/05/26.
 //
 
-#ifndef MEOWENGINE_RENDERGRAPH_HPP
-#define MEOWENGINE_RENDERGRAPH_HPP
+#ifndef MEOWENGINE_RENDERSCENEGRAPH_HPP
+#define MEOWENGINE_RENDERSCENEGRAPH_HPP
 
 #include <vector>
 
 namespace MeowEngine::Rendering {
-    class RenderSceneData;
+    struct RenderSceneData;
     class IRenderPass;
     struct RenderContext;
 
@@ -17,10 +17,10 @@ namespace MeowEngine::Rendering {
      * e.g. clear -> draw editor -> then game give -> then editor gizmos etc...
      * essentially the order of execution for the passes
      */
-    class RenderGraph {
+    class RenderSceneGraph {
     public:
-        RenderGraph();
-        ~RenderGraph();
+        RenderSceneGraph();
+        ~RenderSceneGraph();
 
         void Clear();
         template<typename PassType>
@@ -33,9 +33,9 @@ namespace MeowEngine::Rendering {
     };
 
     template <typename PassType>
-    void RenderGraph::Add() {
+    void RenderSceneGraph::Add() {
         RenderPasses.emplace_back(std::make_unique<PassType>());
     }
 }
 
-#endif //MEOWENGINE_RENDERGRAPH_HPP
+#endif //MEOWENGINE_RENDERSCENEGRAPH_HPP

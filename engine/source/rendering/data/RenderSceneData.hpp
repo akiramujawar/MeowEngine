@@ -14,7 +14,6 @@
 #include <LineDrawData.hpp>
 #include <TransformHandleDrawData.hpp>
 
-// TODO: rename to render scene data
 namespace MeowEngine::Rendering {
     struct RenderSceneData {
         GridDrawData Grid; // this goes to renderer pass config

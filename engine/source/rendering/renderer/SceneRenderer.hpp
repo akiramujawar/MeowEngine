@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_SCENERENDERER_HPP
 #define MEOWENGINE_SCENERENDERER_HPP
 
-#include <RenderGraph.hpp>
+#include <RenderSceneGraph.hpp>
 #include <GLWorldViewBuffer.hpp>
 
 #include <RuntimeSceneBuilder.hpp>
@@ -30,7 +30,7 @@ namespace MeowEngine::Rendering {
         void Shutdown();
 
     private:
-        RenderGraph RenderGraph;
+        RenderSceneGraph RenderGraph;
 
         /**
          * Draws our game view onto a ui panel (which is a framebuffer)

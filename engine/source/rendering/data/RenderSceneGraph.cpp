@@ -2,21 +2,21 @@
 // Created by Akira Mujawar on 13/05/26.
 //
 
-#include <RenderGraph.hpp>
+#include <RenderSceneGraph.hpp>
 
 #include <IRenderPass.hpp>
 
 namespace MeowEngine::Rendering {
 
-    RenderGraph::RenderGraph() {}
+    RenderSceneGraph::RenderSceneGraph() {}
 
-    RenderGraph::~RenderGraph() {}
+    RenderSceneGraph::~RenderSceneGraph() {}
 
-    void RenderGraph::Clear() {
+    void RenderSceneGraph::Clear() {
         RenderPasses.clear();
     }
 
-    void RenderGraph::Execute(RenderContext& renderContext) {
+    void RenderSceneGraph::Execute(RenderContext& renderContext) {
         for (auto& pass : RenderPasses) {
             pass->Draw(renderContext);
         }

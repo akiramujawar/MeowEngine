@@ -97,7 +97,7 @@ struct OpenGLRenderSystem::Internal {
     }
 
     void RenderUserInterface(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps) {
-        UI.get()->BuildDrawData(registry, inUIInputQueue, pSelection, frameBufferId, fps);
+        // UI.get()->BuildDrawData(registry, inUIInputQueue, pSelection, frameBufferId, fps);
     }
 
     void RenderPhysics(MeowEngine::PerspectiveCamera* cameraObject, entt::registry& registry) {

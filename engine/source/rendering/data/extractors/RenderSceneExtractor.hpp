@@ -6,6 +6,7 @@
 #define MEOWENGINE_RENDERSCENEEXTRACTOR_HPP
 
 #include <Public/Threading/Forward.hpp>
+
 #include <RenderSceneData.hpp>
 #include <RenderSceneExtractorInitData.hpp>
 
@@ -25,6 +26,7 @@ namespace MeowEngine::Rendering {
         void ExtractRuntime();
         void ExtractEditor();
 
+    private:
         DoubleBuffer<RenderSceneData> RenderSceneData;
         Runtime::GameplaySystem* Gameplay;
         Editor::Selector* Selector;

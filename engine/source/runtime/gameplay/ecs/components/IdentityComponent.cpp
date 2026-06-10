@@ -3,12 +3,12 @@
 //
 
 #include <IdentityComponent.hpp>
-
+#include <UUID.hpp>
 
 namespace MeowEngine::Runtime {
     void IdentityComponent::Reflect() {}
 
-    IdentityComponent::IdentityComponent() : GUID(0) {}
+    IdentityComponent::IdentityComponent() : GUID(Core::UUID::GenerateUUID()) {}
 
     uint32_t IdentityComponent::GetGUID() const {
         return GUID;

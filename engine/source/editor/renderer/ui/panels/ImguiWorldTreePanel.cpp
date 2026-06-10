@@ -18,6 +18,8 @@
 //#include "imgui_renderer.hpp"
 //#include "bridge_wrapper.hpp"
 
+#include <RenderContext.hpp>
+#include <RenderUIData.hpp>
 #include <GameplaySystem.hpp>
 
 namespace MeowEngine::Editor {
@@ -34,76 +36,48 @@ namespace MeowEngine::Editor {
         Gameplay = &gameplay;
     }
 
-    void ImGuiWorldTreePanel::Draw(entt::registry &registry1, Editor::Selector &pSelection) {
-        auto& registry = Gameplay->GetWorld().GetRegistry();
-
+    void ImGuiWorldTreePanel::Draw(Rendering::RenderContext& renderContext, Editor::Selector &pSelection) {
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 
         ImGui::Begin("World Tree", &IsActive); {
-            auto view = registry.view<component::HierarchyComponent>();
-            bool isItemClicked = false;
-
-            for (auto entity: view) {
-                // we select only the root entities
-                auto component = view.get<component::HierarchyComponent>(entity);
-
-                if (!registry.valid(component.Parent)) {
-                    CreateSelectableItem(registry, pSelection, component, isItemClicked);
-                }
+            for (auto& data : renderContext.UIData->RootEntities) {
+                DrawHierarchy(data, renderContext);
             }
 
             ImGui::End();
         }
-
     }
 
-    void ImGuiWorldTreePanel::CreateSelectableItem(entt::registry& registry,
-                                                   Editor::Selector& pSelection,
-                                                   component::HierarchyComponent& pHierarchyComponent,
-                                                   bool& pIsItemClicked) {
-        const int id = static_cast<int>(pHierarchyComponent.Self);
-        const bool isSelected = registry.valid(pSelection.SelectedEntity) && static_cast<int>(pSelection.SelectedEntity) == id;
+    void ImGuiWorldTreePanel::DrawHierarchy(uint32_t guid, Rendering::RenderContext& renderContext) {
+        auto& hierarchy = renderContext.UIData->EntityHierarchyMap[guid];
 
-        entity::InfoComponent& lifeObjectComponent = registry.get<entity::InfoComponent>(pHierarchyComponent.Self);
-        bool hasChild = registry.valid(pHierarchyComponent.FirstChild);
-        // hs a hierarchy?
-        ImGuiTreeNodeFlags flags = !hasChild ? DefaultSelectableNoListFlags : DefaultSelectableFlags;
+        // show drop arrow if child exists
+        ImGuiTreeNodeFlags flags = hierarchy.Childs.empty() ? DefaultSelectableNoListFlags : DefaultSelectableFlags;
         flags |= ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth;
 
         // if the item is selected we add selected flag?
-        if (isSelected) {
+        if (false) { // TODO:
             flags |= ImGuiTreeNodeFlags_Selected;
         }
 
-        // draw the item and its child is exists
+        // draw the item and its child is existing
         bool isOpen = ImGui::TreeNodeEx(
-            (void *) (intptr_t) id,
+            (void *) (intptr_t) hierarchy.GUID,
             flags,
             "%s",
-            lifeObjectComponent.Name.CStr()
+            hierarchy.Name.CStr()
         );
 
-
-        // if item gets clicked with cache item
-        if (!pIsItemClicked && ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-            MeowEngine::Log("Object Selected: ", std::to_string(id));
-            pSelection.SelectedEntity = pHierarchyComponent.Self;
-
-            pIsItemClicked = true;
-        }
-
-        if(hasChild && isOpen){
-            // show the child items in hierarchy
-            if(registry.valid(pHierarchyComponent.FirstChild)) {
-                CreateSelectableItem(registry, pSelection, registry.get<component::HierarchyComponent>(pHierarchyComponent.FirstChild), pIsItemClicked);
+        // we make sure the parent is expanded and actually has child
+        if (isOpen && !hierarchy.Childs.empty()) {
+            // expand the children
+            for (auto& child : hierarchy.Childs) {
+                DrawHierarchy(child, renderContext);
             }
 
+            // all childs are tracked, we can step out of tree node
             ImGui::TreePop();
         }
-
-        // show the next item in hierarchy (sibling of current item)
-        if(registry.valid(pHierarchyComponent.Next)) {
-            CreateSelectableItem(registry, pSelection, registry.get<component::HierarchyComponent>(pHierarchyComponent.Next), pIsItemClicked);
-        }
     }
+
 }

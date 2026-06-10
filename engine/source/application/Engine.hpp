@@ -16,17 +16,19 @@
 #include <EventBus.hpp>
 #include <RequestQueue.hpp>
 
-#include <GraphicsDevice.hpp>
-#include <Renderer.hpp>
-
 #include <InputDevice.hpp>
+#include <GraphicsDevice.hpp>
+
+#include <Renderer.hpp>
+#include <RenderSceneExtractor.hpp>
+#include <RenderUIExtractor.hpp>
+
 #include <EditorModule.hpp>
 #include <RuntimeModule.hpp>
 #include <PhysicsModule.hpp>
 
 #include <Project.hpp>
 #include <AssetManager.hpp>
-#include <RenderSceneExtractor.hpp>
 
 
 using namespace std;
@@ -113,6 +115,7 @@ namespace MeowEngine {
         Graphics::GraphicsDevice GraphicsDevice;
         Rendering::Renderer Renderer;
         Rendering::RenderSceneExtractor RenderSceneExtractor;
+        Rendering::RenderUIExtractor RenderUIExtractor;
         Editor::EditorModule Editor;
         Runtime::RuntimeModule Runtime;
         Physics::PhysicsModule Physics;

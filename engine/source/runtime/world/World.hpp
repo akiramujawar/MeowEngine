@@ -19,6 +19,10 @@ namespace MeowEngine::Runtime {
 
         ~World() {}
 
+        /**
+         * Empty entity (no components)
+         * @return
+         */
         entt::entity AddEntity();
         void RemoveEntity(entt::entity entity);
 
@@ -29,7 +33,7 @@ namespace MeowEngine::Runtime {
         void RemoveComponent(entt::entity entity);
 
         template<typename Type>
-        void GetComponent(entt::entity entity);
+        Type& GetComponent(entt::entity entity);
 
         entt::registry& GetRegistry() {
             return Registry;
@@ -58,6 +62,11 @@ namespace MeowEngine::Runtime {
     template <typename Type>
     Type& MeowEngine::Runtime::World::AddComponent(const entt::entity& entity) {
         return Registry.emplace<Type>(entity);
+    }
+
+    template <typename Type>
+    Type& World::GetComponent(entt::entity entity) {
+        return Registry.get<Type>(entity);
     }
 }
 

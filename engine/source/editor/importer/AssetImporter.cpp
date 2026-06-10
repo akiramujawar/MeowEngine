@@ -74,7 +74,7 @@ namespace MeowEngine::Editor {
         FileSystem::Path saveFilePath = FileSystem::Path(savePath) + importFilePath.GetName();
         saveFilePath.ReplaceExtension("meowdata");
 
-        const uint64_t uuid = UUID::Generate();
+        const uint64_t uuid = Core::UUID::GenerateUUID();
         const std::string setting = GetSettings(type);
         const std::vector<uint8_t> assetData = FileSystem::File::ReadAll(importPath);
 

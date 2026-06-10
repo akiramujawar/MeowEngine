@@ -13,6 +13,7 @@ namespace MeowEngine::component {
         REFLECT_COMPONENT(HierarchyComponent)
         static void Reflect() {}
 
+        HierarchyComponent();
         HierarchyComponent(const entt::entity& pSelf,
                            const entt::entity& pParent,
                            const entt::entity& pFirstChild,
@@ -27,10 +28,10 @@ namespace MeowEngine::component {
         entt::entity FirstChild;
 
         // next entity in the same hierarchy
-        entt::entity Next;
+        entt::entity NextChildOfParent;
 
         // previous entity in the same hierarchy
-        entt::entity Previous;
+        entt::entity PreviousChildOfParent;
     };
 }
 

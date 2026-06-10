@@ -15,6 +15,8 @@
 #include <RendererInitData.hpp>
 #include <UserDeviceInputType.hpp>
 
+#include "RenderContext.hpp"
+
 namespace MeowEngine::Rendering {
     UIRenderer::UIRenderer() = default;
     UIRenderer::~UIRenderer() = default;
@@ -27,7 +29,7 @@ namespace MeowEngine::Rendering {
         EditorBuilder.Init(*context.Gameplay);
     }
 
-    void UIRenderer::Schedule(Threading::Scheduler& scheduler) {
+    void UIRenderer::Schedule(Threading::Scheduler& scheduler, RenderContext& renderContext) {
         // RuntimeBuilder.Input();
         // EditorBuilder.Input();
 
@@ -53,6 +55,7 @@ namespace MeowEngine::Rendering {
         scheduler.AddTask(
             [&]() {
                 EditorBuilder.BuildDrawData(
+                    renderContext,
                     Editor::GetEditor().GetInputBuffer().GetCurrent()
                     , Editor::GetEditor().GetInputBuffer().GetPropertyChangeQueue()
                     , Editor::GetEditor().GetSelector()

@@ -103,7 +103,7 @@ namespace MeowEngine {
         // Each loop we will process any events that are waiting for us.
         while (SDL_PollEvent(&event))
         {
-            UserInterface->Input(event);
+            // UserInterface->Input(event);
 
             switch (event.type)
             {

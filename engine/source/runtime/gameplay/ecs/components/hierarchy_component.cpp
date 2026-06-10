@@ -5,6 +5,9 @@
 #include "hierarchy_component.hpp"
 
 namespace MeowEngine::component {
+    HierarchyComponent::HierarchyComponent()
+    : Self(entt::null), Parent(entt::null), FirstChild(entt::null), NextChildOfParent(entt::null), PreviousChildOfParent(entt::null) {}
+
     HierarchyComponent::HierarchyComponent(const entt::entity& pSelf,
                                            const entt::entity& pParent,
                                            const entt::entity& pFirstChild,
@@ -13,8 +16,8 @@ namespace MeowEngine::component {
         : Self(pSelf)
         , Parent(pParent)
         , FirstChild(pFirstChild)
-        , Next(pNext)
-        , Previous(pPrevious) {
+        , NextChildOfParent(pNext)
+        , PreviousChildOfParent(pPrevious) {
 
     }
 

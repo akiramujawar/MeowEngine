@@ -7,10 +7,6 @@
 
 #pragma once
 
-namespace MeowEngine::Rendering {
-    class RenderGraph;
-}
-
 namespace MeowEngine::Runtime {
     /**
      * decide setup required for set pass calls

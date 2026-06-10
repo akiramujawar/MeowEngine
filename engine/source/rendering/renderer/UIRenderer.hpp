@@ -18,6 +18,7 @@ namespace MeowEngine::Input {
 
 namespace MeowEngine::Rendering {
     struct RendererInitData;
+    struct RenderContext;
 
     class UIRenderer {
     public:
@@ -25,7 +26,7 @@ namespace MeowEngine::Rendering {
         ~UIRenderer();
 
         void Init(RendererInitData& context);
-        void Schedule(Threading::Scheduler& scheduler);
+        void Schedule(Threading::Scheduler& scheduler, RenderContext& renderContext);
         void Shutdown();
 
     private:

@@ -21,7 +21,12 @@
 #include "queue"
 #include "Selector.hpp"
 
+namespace MeowEngine::Rendering {
+    struct RenderContext;;
+}
+
 namespace MeowEngine::Editor {
+
     /**
      * Screen space UI (tied to imgui) for editor windows, buttons, panels, debugs
      */
@@ -30,7 +35,7 @@ namespace MeowEngine::Editor {
         ~EditorUIBuilder();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void BuildDrawData(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps);
+        void BuildDrawData(Rendering::RenderContext& renderContext, entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps);
 
         void OpenProfiler();
 
@@ -42,7 +47,7 @@ namespace MeowEngine::Editor {
 //        const WindowSize& GetSceneViewportSize() const;
 
     private:
-        void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, uint32_t frameBufferId, const double fps);
+        // void DrawFrame(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, uint32_t frameBufferId, const double fps);
 
 //        bool isSceneViewportFocused; // soon come up with good naming conventions
 //        WindowSize SceneViewportSize;

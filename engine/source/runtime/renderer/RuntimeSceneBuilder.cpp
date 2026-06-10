@@ -5,11 +5,6 @@
 #include <RuntimeSceneBuilder.hpp>
 #include <log.hpp>
 
-#include <RenderGraph.hpp>
-
-#include "GeometryPassData.hpp"
-
-
 namespace MeowEngine::Runtime {
     RuntimeSceneBuilder::RuntimeSceneBuilder() {
         MeowEngine::Log("Runtime RenderPipeline", "Constructed");
@@ -20,8 +15,4 @@ namespace MeowEngine::Runtime {
     }
 
     void RuntimeSceneBuilder::Init() {}
-
-    void RuntimeSceneBuilder::BuildGraph(Rendering::RenderGraph& graph) {
-        Add<Rendering::GeometryPassData>
-    }
 }
