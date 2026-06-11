@@ -5,18 +5,21 @@
 #ifndef MEOWENGINE_ENTT_REFLECTION_HPP
 #define MEOWENGINE_ENTT_REFLECTION_HPP
 
-#include "unordered_map"
-#include "entt.hpp"
-#include "vector"
-#include "reflection_property.hpp"
-#include "reflection_property_change.hpp"
-#include "string"
-#include "log.hpp"
+#include <string>
+#include <vector>
+#include <unordered_map>
 
-#include "entt_triple_buffer.hpp"
-#include "entt_single_buffer.hpp"
+#include <magic_enum.hpp>
+#include <entt.hpp>
 
-#include "magic_enum.hpp"
+#include <log.hpp>
+
+#include <entt_triple_buffer.hpp>
+#include <entt_single_buffer.hpp>
+
+#include <ReflectComponent.hpp>
+#include <reflection_property.hpp>
+#include <reflection_property_change.hpp>
 
 using namespace std;
 
@@ -41,11 +44,13 @@ namespace MeowEngine {
 
         // Register types (these are extended by macros in wrapper class)
         template<typename Type>
-        void RegisterComponent(std::string inName) {
-            MeowEngine::Log("RegisterComponent", inName);
+        void RegisterComponent(ReflectionComponent inComponent) {
+            MeowEngine::Log("RegisterComponent", inComponent.Name);
+
             entt::id_type componentId = entt::type_hash<Type>().value();
+
             if(!HasComponent(componentId)) {
-                Components[componentId] = inName;
+                ComponentMap[componentId] = inComponent;
             }
         }
 
@@ -132,8 +137,13 @@ namespace MeowEngine {
             void* inChangedData
         );
 
+        void* CopyComponentData(entt::id_type type, const std::string& name, void* from);
+
     private:
-        std::unordered_map<entt::id_type, std::string> Components;
+        /**
+         * component and methods to perform actions on component (like fresh construction)
+         */
+        std::unordered_map<entt::id_type, ReflectionComponent> ComponentMap;
 
         /**
          * class name, reflected property list

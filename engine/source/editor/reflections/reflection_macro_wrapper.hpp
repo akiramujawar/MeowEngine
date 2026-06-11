@@ -106,10 +106,13 @@ namespace MeowEngine {
         }
 
     #define REGISTER_COMPONENT(Component) \
-                                          \
         MeowEngine::GetReflection().RegisterComponent<Component>(\
-            #Component\
-        );
+            {\
+                #Component, \
+                []() -> void* { return new Component(); } \
+            }\
+        );\
+
 
     // objectPointer -
     #define REGISTER_PROPERTY(Class, Property, Type, IsEditable, IsMObject) \
