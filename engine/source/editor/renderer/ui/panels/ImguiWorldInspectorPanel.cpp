@@ -36,13 +36,13 @@ namespace MeowEngine::Editor {
         window_flags |= ImGuiWindowFlags_NoCollapse;
 
         ImGui::Begin("World Inspector", &CanDrawPanel); {
-            for (auto data : renderContext.UIData->LastSelectedEntityComponents) {
+            for (const auto& data : renderContext.UIData->LastSelectedEntityComponents) {
                 if (ImGui::CollapsingHeader(data.Name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-                    // ImGuiInputExtension::ShowProperty(
-                    //     data.Name,
-                    //     data.DataObject,
-                    //     true
-                    // );
+                    ImGuiInputExtension::ShowProperty(
+                        data.Name,
+                        data.DataObject,
+                        true
+                    );
 
                     ImGui::Spacing();
                 }

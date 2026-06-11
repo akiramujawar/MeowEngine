@@ -16,18 +16,23 @@
 #include <camera_component.hpp>
 #include <grid_component.hpp>
 #include <sky_box_component.hpp>
+#include <reflection_test_component.hpp>
 
 namespace MeowEngine::Editor {
     DefaultWorld::DefaultWorld() {
         // editor entities
+        CreateEmptyLine();
         CreateCamera();
         CreateTransformHandle();
         CreateGrid();
 
         // test entities
+        CreateEmptyLine();
         CreateHierarchyTest();
+        CreateReflectionTest();
 
         // runtime entities
+        CreateEmptyLine();
         CreateSky();
     }
 
@@ -38,19 +43,16 @@ namespace MeowEngine::Editor {
         auto& info = AddComponent<entity::InfoComponent>(entity);
         auto& identity = AddComponent<Runtime::IdentityComponent>(entity);
         auto& tree = AddComponent<component::HierarchyComponent>(entity);
+        auto& transform = AddComponent<entity::Transform3DComponent>(entity);
+
         tree.Self = entity;
-
         info.SetName(String("[EDITOR] Camera"));
+        transform.Position = Vector3(10,20,300);
+        transform.Scale = Vector3(1,1,1);
+        transform.Euler = Vector3(1,10,2);
+        transform.Rotation = Quaternion(transform.Euler);
 
 
-        // AddComponent<entity::Transform3DComponent>(
-        //     cameraEntity,
-        //     Camera.GetProjectionMatrix() * Camera.GetViewMatrix(),
-        //     Vector3{0, 0, 0},
-        //     Vector3{1.0, 1.0f, 1.0f},
-        //     glm::vec3{0.0f, 1.0f, 0.0f},
-        //     0.0f
-        // );
         // AddComponent<entity::CameraComponent>(
         //     cameraEntity
         // );
@@ -99,24 +101,20 @@ namespace MeowEngine::Editor {
     }
 
     void DefaultWorld::CreateHierarchyTest() {
-        const auto root1 = CreateDefaultEntity();
-        const auto root11 = CreateDefaultEntity();
-        const auto root111 = CreateDefaultEntity();
-        const auto root12 = CreateDefaultEntity();
-        const auto root121 = CreateDefaultEntity();
+        const auto root1 = CreateDefaultEntity("[TEST] Hierarchy");
+        const auto root11 = CreateDefaultEntity("Child11");
+        const auto root111 = CreateDefaultEntity("Child111");
+        const auto root12 = CreateDefaultEntity("Child12");
+        const auto root121 = CreateDefaultEntity("Child121");
 
         {
-            auto& info = GetComponent<entity::InfoComponent>(root1);
             auto& tree = GetComponent<component::HierarchyComponent>(root1);
-            info.SetName(String("[TEST] Hierarchy"));
             tree.Self = root1;
             tree.FirstChild = root11;
         }
 
         {
-            auto& info = GetComponent<entity::InfoComponent>(root11);
             auto& tree = GetComponent<component::HierarchyComponent>(root11);
-            info.SetName(String("Child11"));
             tree.Self = root11;
             tree.Parent = root1;
             tree.FirstChild = root111;
@@ -124,17 +122,13 @@ namespace MeowEngine::Editor {
         }
 
         {
-            auto& info = GetComponent<entity::InfoComponent>(root111);
             auto& tree = GetComponent<component::HierarchyComponent>(root111);
-            info.SetName(String("Child111"));
             tree.Self = root111;
             tree.Parent = root11;
         }
 
         {
-            auto& info = GetComponent<entity::InfoComponent>(root12);
             auto& tree = GetComponent<component::HierarchyComponent>(root12);
-            info.SetName(String("Child12"));
             tree.Self = root12;
             tree.Parent = root1;
             tree.FirstChild = root121;
@@ -142,22 +136,34 @@ namespace MeowEngine::Editor {
         }
 
         {
-            auto& info = GetComponent<entity::InfoComponent>(root121);
             auto& tree = GetComponent<component::HierarchyComponent>(root121);
-            info.SetName(String("Child121"));
             tree.Self = root121;
             tree.Parent = root12;
         }
     }
 
-    entt::entity DefaultWorld::CreateDefaultEntity() {
+    void DefaultWorld::CreateReflectionTest() {
+        auto entity = CreateDefaultEntity("[TEST] Reflection");
+
+        auto& reflection = AddComponent<entity::ReflectionTestComponent>(entity);
+        reflection.Init();
+    }
+
+    void DefaultWorld::CreateEmptyLine() {
+        CreateDefaultEntity("----------------------");
+    }
+
+    entt::entity DefaultWorld::CreateDefaultEntity(std::string name) {
         const auto entity = AddEntity();
 
-        AddComponent<entity::InfoComponent>(entity);
         AddComponent<Runtime::IdentityComponent>(entity);
+        auto& info = AddComponent<entity::InfoComponent>(entity);
         auto& tree = AddComponent<component::HierarchyComponent>(entity);
+
+        info.SetName(String(name));
         tree.Self = entity;
 
         return entity;
     }
+
 }

@@ -14,12 +14,26 @@ namespace MeowEngine::entity {
     class BasicClass {
     public:
         int TestValue;
+
+        void Init() {
+            TestValue = 222;
+        }
+
+        BasicClass() {
+
+        }
     };
 
     class SubChildClass : Object {
     public:
         REFLECT_MObject(SubChildClass)
         static void Reflect();
+
+        void Init() {
+            MeshType = 99;
+            Size = 99.99;
+            Text = String("SubChildClass");
+        }
 
         int MeshType;
         float Size;
@@ -30,6 +44,14 @@ namespace MeowEngine::entity {
     public:
         REFLECT_MObject(ChildClass)
         static void Reflect();
+
+        void Init() {
+            ChildMeshType = 99;
+            ChildSize = 99.99;
+            ChildText = String("ChildText");
+
+            ChildSubPointer->Init();
+        }
 
         int ChildMeshType;
         float ChildSize;
@@ -49,6 +71,17 @@ namespace MeowEngine::entity {
             RootChild.ChildSubPointer = new SubChildClass();
 
             BasicClassNonNull = new BasicClass();
+        }
+
+        void Init() {
+            RootMeshType = 99;
+            RootSize = 99.99;
+            RootText = String("DummyClass");
+
+            RootChild.Init();
+            RootChildPointer->Init();
+            // BasicClassNull->Init();
+            BasicClassNonNull->Init();
         }
 
         int RootMeshType;
@@ -79,6 +112,20 @@ namespace MeowEngine::entity {
 
         entity::ColliderType Enum;
         entity::ColliderType EnumCallback;
+
+        void Init() {
+            Int = 111;
+            IntCallback = 112;
+
+            Object.Init();
+            ObjectCallback.Init();
+
+            Pointer->Init();
+            PointerCallback->Init();
+
+            Enum = entity::ColliderType::MESH;
+            EnumCallback = entity::ColliderType::CAPSULE;
+        }
 
 
         // NOTE: add test for pointer callback & enum callback

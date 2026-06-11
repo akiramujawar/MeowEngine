@@ -5,8 +5,8 @@
 #include "entt_reflection.hpp"
 
 #include "Public/Core.hpp"
+#include "Public/Math.hpp"
 #include "log.hpp"
-#include "String.hpp"
 
 namespace MeowEngine {
 
@@ -138,11 +138,65 @@ namespace MeowEngine {
     void* EnttReflection::CopyComponentData(entt::id_type type, const std::string& name, void* from) {
         void* to = ComponentMap[type].Construct();
 
-        auto properties = GetProperties(name);
-        for (auto property : properties) {
-            property.Get()
-        }
+        CopyPropertyData(name, to, from);
 
         return to;
+    }
+
+    void EnttReflection::CopyPropertyData(const std::string& className, void* to, void* from) {
+        const auto properties = GetProperties(className);
+        for (const auto& property : properties) {
+
+            // need to handle primitives, struct / classes & enums, pointers
+
+            switch(property.Type) {
+                case NOT_DEFINED:
+                    break;
+                case PRIMITIVE: {
+                    auto data = property.Get(from);
+                    property.Set(to, data);
+
+                    break;
+                }
+                case ARRAY:
+                    break;
+                case POINTER: {
+                    if (property.IsMObject) {
+                        void* toPointer = property.Get(to);
+                        void* fromPointer = property.Get(from);
+
+                        Object* toObject = *static_cast<Object**>(toPointer) ;
+                        Object* fromObject = *static_cast<Object**>(fromPointer) ;
+
+                        if (fromObject != nullptr) {
+                            CopyPropertyData(fromObject->GetClassName(), toObject, fromObject);
+                        }
+                    }
+                }
+                    break;
+                case ENUM: {
+                    auto data = property.Get(from);
+                    property.Set(to, data);
+
+                    break;
+                }
+                    break;
+                case CLASS_OR_STRUCT: {
+                    if (property.TypeId == typeid(String) ||
+                        property.TypeId == typeid(Vector3) ||
+                        property.TypeId == typeid(Quaternion))
+                    {
+                        auto data = property.Get(from);
+                        property.Set(to, data);
+                    }
+                    else {
+                        if (property.IsMObject) {
+                            CopyPropertyData(property.TypeName, property.Get(to), property.Get(from));
+                        }
+                    }
+                    break;
+                }
+            }
+        }
     }
 }

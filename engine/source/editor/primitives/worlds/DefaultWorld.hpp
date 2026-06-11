@@ -17,9 +17,12 @@ namespace MeowEngine::Editor {
         void CreateGrid();
         void CreateSky();
         void CreateTransformHandle();
-        void CreateHierarchyTest();
 
-        entt::entity CreateDefaultEntity();
+        void CreateHierarchyTest();
+        void CreateReflectionTest();
+
+        void CreateEmptyLine();
+        entt::entity CreateDefaultEntity(std::string name);
     };
 }
 

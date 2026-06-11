@@ -76,7 +76,6 @@ namespace MeowEngine::Editor {
         if (!(pIsEditable & inProperty.IsEditable)) {
             ImGui::BeginDisabled(true);
         }
-
         if (inProperty.TypeId == typeid(int)) {
             void* value = inProperty.Get(inObject);
             int changeHolder = *static_cast<int*>(value);
@@ -96,7 +95,26 @@ namespace MeowEngine::Editor {
                 change = new MeowEngine::ReflectionPropertyChange(inProperty.Name, new int(changeHolder),
                                                                   [](void* inPointer) { delete static_cast<int*>(inPointer); });
             }
-        } else if (inProperty.TypeId == typeid(float)) {
+        }
+        else if (inProperty.TypeId == typeid(uint32_t)) {
+            void* value = inProperty.Get(inObject);
+            int changeHolder = *static_cast<int*>(value);
+            std::string changeText = std::to_string(changeHolder);
+
+            std::string uniqueName = String::Format("##%s%s", inProperty.Name.data(), dataObject->GetClassName().data());
+
+            // show name of item
+            ImGui::AlignTextToFramePadding();
+            ImGui::Text("%s", inProperty.Name.c_str());
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(200);
+            float availableSpace = ImGui::GetContentRegionAvail().x;
+            ImGui::SetNextItemWidth(availableSpace);
+
+            // show disabled text
+            ImGui::InputText(uniqueName.c_str(), changeText.data(), changeText.size(), ImGuiInputTextFlags_ReadOnly);
+        }
+        else if (inProperty.TypeId == typeid(float)) {
             void* value = inProperty.Get(inObject);
             float changeHolder = *static_cast<float*>(value);
 

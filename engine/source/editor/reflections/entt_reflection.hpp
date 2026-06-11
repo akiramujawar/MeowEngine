@@ -139,6 +139,8 @@ namespace MeowEngine {
 
         void* CopyComponentData(entt::id_type type, const std::string& name, void* from);
 
+        void CopyPropertyData(const std::string& className, void* to, void* from);
+
     private:
         /**
          * component and methods to perform actions on component (like fresh construction)

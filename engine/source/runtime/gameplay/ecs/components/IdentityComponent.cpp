@@ -6,7 +6,9 @@
 #include <UUID.hpp>
 
 namespace MeowEngine::Runtime {
-    void IdentityComponent::Reflect() {}
+    void IdentityComponent::Reflect() {
+        REGISTER_PROPERTY(IdentityComponent, GUID, uint32_t, false, false)
+    }
 
     IdentityComponent::IdentityComponent() : GUID(Core::UUID::GenerateUUID()) {}
 
