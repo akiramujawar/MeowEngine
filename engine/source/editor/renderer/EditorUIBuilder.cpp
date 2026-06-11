@@ -50,8 +50,8 @@ namespace MeowEngine::Editor {
     }
 
     void EditorUIBuilder::Init(Runtime::GameplaySystem& gameplay) {
-        WorldInspectorPanel.Init(gameplay);
-        WorldTreePanel.Init(gameplay);
+        WorldInspectorPanel.Init();
+        WorldTreePanel.Init();
     }
 
     void EditorUIBuilder::BuildDrawData(Rendering::RenderContext& renderContext, entt::registry& registry,
@@ -60,7 +60,7 @@ namespace MeowEngine::Editor {
                                unsigned int frameBufferId, const double fps) {
         DockerSpace.SetupDockingSpace();
 
-        WorldInspectorPanel.Draw(registry, inUIInputQueue, pSelection);
+        WorldInspectorPanel.Draw(renderContext, registry, inUIInputQueue, pSelection);
         WorldTreePanel.Draw(renderContext);
         WorldViewPanel.Draw(reinterpret_cast<void*>(frameBufferId), fps);
         WorldSettingPanel.Draw();

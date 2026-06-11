@@ -27,7 +27,7 @@ namespace MeowEngine::Editor {
         ImGuiWorldTreePanel();
         ~ImGuiWorldTreePanel();
 
-        void Init(Runtime::GameplaySystem& gameplay);
+        void Init();
         void Draw(Rendering::RenderContext& renderContext);
 
     private:
@@ -40,9 +40,6 @@ namespace MeowEngine::Editor {
 
         bool IsActive;
         ImGuiWindowFlags WindowFlags;
-
-        Runtime::GameplaySystem* Gameplay;
-
     };
 }
 

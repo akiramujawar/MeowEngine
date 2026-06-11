@@ -26,9 +26,7 @@ namespace MeowEngine::Editor {
 
     ImGuiWorldTreePanel::~ImGuiWorldTreePanel() {}
 
-    void ImGuiWorldTreePanel::Init(Runtime::GameplaySystem& gameplay) {
-        Gameplay = &gameplay;
-    }
+    void ImGuiWorldTreePanel::Init() {}
 
     void ImGuiWorldTreePanel::Draw(Rendering::RenderContext& renderContext) {
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);

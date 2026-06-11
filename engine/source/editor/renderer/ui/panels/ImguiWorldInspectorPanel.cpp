@@ -2,12 +2,16 @@
 // Created by Akira Mujawar on 13/07/24.
 //
 
-#include "ImguiWorldInspectorPanel.hpp"
-#include "ImguiAPI.hpp"
-#include "log.hpp"
+#include <ImguiWorldInspectorPanel.hpp>
 
-#include "reflection_macro_wrapper.hpp"
-#include "ImguiInputExtension.hpp"
+#include <ImguiAPI.hpp>
+#include <log.hpp>
+
+#include <reflection_macro_wrapper.hpp>
+#include <ImguiInputExtension.hpp>
+
+#include <RenderContext.hpp>
+#include <RenderUIData.hpp>
 
 namespace MeowEngine::Editor {
     ImGuiWorldInspectorPanel::ImGuiWorldInspectorPanel() {
@@ -18,47 +22,60 @@ namespace MeowEngine::Editor {
 
     }
 
-    void ImGuiWorldInspectorPanel::Init(Runtime::GameplaySystem& gameplay) {
+    void ImGuiWorldInspectorPanel::Init() {
 
     }
 
-    void ImGuiWorldInspectorPanel::Draw(entt::registry& registry,
-                                        std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-                                        Editor::Selector& pSelection) {
+    void ImGuiWorldInspectorPanel::Draw(
+        Rendering::RenderContext& renderContext,
+        entt::registry& registry,
+        std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
+        Editor::Selector& pSelection)
+    {
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoCollapse;
 
-        ImGui::Begin("World Inspector", &CanDrawPanel);
-        {
-            // TODO: There's a issue when a edit is made to edit panel and a new item is selected without loosing focus from edit panel
-            if (registry.valid(pSelection.SelectedEntity)) {
-                // for each component or
-                for (pair<unsigned int, entt::basic_sparse_set<>&> component: registry.storage()) {
-                    if (component.second.contains(pSelection.SelectedEntity)) {
-                        entt::id_type type = component.first;
-                        const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
-                        void* componentObject = component.second.value(pSelection.SelectedEntity);
+        ImGui::Begin("World Inspector", &CanDrawPanel); {
+            for (auto data : renderContext.UIData->LastSelectedEntityComponents) {
+                if (ImGui::CollapsingHeader(data.Name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+                    // ImGuiInputExtension::ShowProperty(
+                    //     data.Name,
+                    //     data.DataObject,
+                    //     true
+                    // );
 
-                        // Display Component Name
-                        if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-                            MeowEngine::ReflectionPropertyChange* change = ImGuiInputExtension::ShowProperty(
-                                componentName,
-                                componentObject,
-                                true
-                            );
-
-                            if (change != nullptr){
-                                change->EntityId = static_cast<int>(pSelection.SelectedEntity);
-                                change->ComponentType = type;
-
-//                            MeowEngine::Log("Edit Panel", *static_cast<float*>(change->Data));
-                                inUIInputQueue.push(std::make_shared<MeowEngine::ReflectionPropertyChange>(*change));
-                            }
-
-                            ImGui::Spacing();
-                        }
-                    }
+                    ImGui::Spacing();
                 }
+            }
+
+            // // TODO: There's a issue when a edit is made to edit panel and a new item is selected without loosing focus from edit panel
+            // if (registry.valid(pSelection.SelectedEntity)) {
+            //     // for each component or
+            //     for (pair<unsigned int, entt::basic_sparse_set<>&> component: registry.storage()) {
+            //         if (component.second.contains(pSelection.SelectedEntity)) {
+            //             entt::id_type type = component.first;
+            //             const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
+            //             void* componentObject = component.second.value(pSelection.SelectedEntity);
+            //
+            //             // Display Component Name
+            //             if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+            //                 MeowEngine::ReflectionPropertyChange* change = ImGuiInputExtension::ShowProperty(
+            //                     componentName,
+            //                     componentObject,
+            //                     true
+            //                 );
+            //
+            //                 if (change != nullptr){
+            //                     change->EntityId = static_cast<int>(pSelection.SelectedEntity);
+            //                     change->ComponentType = type;
+            //
+            //                     inUIInputQueue.push(std::make_shared<MeowEngine::ReflectionPropertyChange>(*change));
+            //                 }
+            //
+            //                 ImGui::Spacing();
+            //             }
+            //         }
+            //     }
 
 //            for(MeowEngine::ReflectionProperty property : componentProperties) {
 //                if(property.Name == propertyName) {
@@ -83,9 +100,9 @@ namespace MeowEngine::Editor {
 //                    rigidbody->OverrideTransform(transform);
 //                }
 //            }
-            } else {
-                MeowEngine::Log("Selected Entity: ", "Entity not valid");
-            }
+            // } else {
+                // MeowEngine::Log("Selected Entity: ", "Entity not valid");
+            // }
 
             ImGui::End();
         }

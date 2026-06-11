@@ -51,6 +51,7 @@ namespace MeowEngine::Rendering {
         frame.RootEntities.clear();
         frame.EntityHierarchyMap.clear();
         frame.SelectedEntities.clear();
+        frame.LastSelectedEntityComponents.clear();
     }
 
     void RenderUIExtractor::Extract() {
@@ -108,6 +109,35 @@ namespace MeowEngine::Rendering {
              auto identity = ecs.get<Runtime::IdentityComponent>(entity);
             frame.SelectedEntities.emplace(identity.GetGUID());
         }
+
+        // world inspector (copy selected entity)
+        if (!Selector->SelectedEntities.empty()) {
+            auto lastSelectedEntity = Selector->SelectedEntities[Selector->SelectedEntities.size() - 1];
+
+            if (ecs.valid(lastSelectedEntity)) {
+                // for entity if a component exists capture it's type, name & data & create a relfected clone
+                for (pair<unsigned int, entt::basic_sparse_set<>&> component: ecs.storage()) {
+                    // find the component type, name and object data from ecs registry
+                    if (component.second.contains(lastSelectedEntity)) {
+                        const entt::id_type componentType = component.first;
+                        const std::string componentName = MeowEngine::GetReflection().GetComponentName(componentType);
+                        void* componentObject = component.second.value(lastSelectedEntity);
+
+                        void* clonedComponent = GetReflection().CopyComponentData(componentType, componentName, componentObject);
+
+                        frame.LastSelectedEntityComponents.push_back({
+                            componentType,
+                            componentName,
+                            clonedComponent
+                        });
+                    }
+                }
+            }
+        }
+
+        // get the void* data
+        // component name
+        // the idea is to construct fresh component using reflection data
     }
 
 }

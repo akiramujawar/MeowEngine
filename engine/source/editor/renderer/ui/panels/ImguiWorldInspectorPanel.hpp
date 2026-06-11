@@ -12,8 +12,9 @@
 #include "reflection_property_change.hpp"
 #include "queue"
 
-namespace MeowEngine::Runtime {
-    class GameplaySystem;
+
+namespace MeowEngine::Rendering {
+    struct RenderContext;
 }
 
 namespace MeowEngine::Editor {
@@ -21,8 +22,8 @@ namespace MeowEngine::Editor {
         ImGuiWorldInspectorPanel();
         ~ImGuiWorldInspectorPanel();
 
-        void Init(Runtime::GameplaySystem& gameplay);
-        void Draw(entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection);
+        void Init();
+        void Draw(Rendering::RenderContext& renderContext, entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection);
 
     private:
         bool CanDrawPanel;

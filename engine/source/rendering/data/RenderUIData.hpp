@@ -18,6 +18,12 @@ namespace MeowEngine::Rendering {
         std::vector<uint32_t> Childs;
     };
 
+    struct RenderEntityComponent {
+        entt::id_type Type;
+        std::string Name;
+        void* DataObject; // TODO: as rework in future try replacing void* with Engine Object
+    };
+
     struct RenderUIData {
         /**
          * We track only the roots for tree panel and
@@ -34,6 +40,11 @@ namespace MeowEngine::Rendering {
          * All the selected entities (are same for scene & ui (tree panel))
          */
         std::unordered_set<uint32_t> SelectedEntities;
+
+        /**
+         * A reflected clone of components attached to last selected entity
+         */
+        std::vector<RenderEntityComponent> LastSelectedEntityComponents;
     };
 }
 
