@@ -116,7 +116,7 @@ namespace MeowEngine {
             buffer->RegisterComponent<Type>();
         }
 
-        void ApplyPropertyChange(MeowEngine::ReflectionPropertyChange& inPropertyChange, entt::registry& inRegistry);
+        void ApplyPropertyChange(MeowEngine::ReflectionPropertyChange& inPropertyChange, entt::entity entity, entt::registry& inRegistry);
 
         /**
          * Retrieves the all the properties within object from data using reflection storage

@@ -54,13 +54,12 @@ namespace MeowEngine::Editor {
         WorldTreePanel.Init();
     }
 
-    void EditorUIBuilder::BuildDrawData(Rendering::RenderContext& renderContext, entt::registry& registry,
-                               std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
+    void EditorUIBuilder::BuildDrawData(Rendering::RenderContext& renderContext,
                                Editor::Selector& pSelection,
                                unsigned int frameBufferId, const double fps) {
         DockerSpace.SetupDockingSpace();
 
-        WorldInspectorPanel.Draw(renderContext, registry, inUIInputQueue, pSelection);
+        WorldInspectorPanel.Draw(renderContext);
         WorldTreePanel.Draw(renderContext);
         WorldViewPanel.Draw(reinterpret_cast<void*>(frameBufferId), fps);
         WorldSettingPanel.Draw();

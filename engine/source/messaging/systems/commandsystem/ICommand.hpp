@@ -5,6 +5,7 @@
 #ifndef MEOWENGINE_ICOMMAND_HPP
 #define MEOWENGINE_ICOMMAND_HPP
 
+#include <memory>
 
 namespace MeowEngine::Messaging {
     struct MessageContext;

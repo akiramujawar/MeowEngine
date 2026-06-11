@@ -42,6 +42,11 @@ namespace MeowEngine::Rendering {
         std::unordered_set<uint32_t> SelectedEntities;
 
         /**
+         * Latest selected entity
+         */
+        uint32_t LastSelectedEntity;
+
+        /**
          * A reflected clone of components attached to last selected entity
          */
         std::vector<RenderEntityComponent> LastSelectedEntityComponents;

@@ -35,7 +35,7 @@ namespace MeowEngine::Editor {
         ~EditorUIBuilder();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void BuildDrawData(Rendering::RenderContext& renderContext, entt::registry& registry, std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps);
+        void BuildDrawData(Rendering::RenderContext& renderContext, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps);
 
         void OpenProfiler();
 

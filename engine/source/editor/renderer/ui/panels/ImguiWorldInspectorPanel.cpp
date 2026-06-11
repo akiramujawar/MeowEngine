@@ -13,6 +13,9 @@
 #include <RenderContext.hpp>
 #include <RenderUIData.hpp>
 
+#include <CommandQueue.hpp>
+#include <ReflectionPropertyChangeCommand.hpp>
+
 namespace MeowEngine::Editor {
     ImGuiWorldInspectorPanel::ImGuiWorldInspectorPanel() {
 
@@ -26,11 +29,7 @@ namespace MeowEngine::Editor {
 
     }
 
-    void ImGuiWorldInspectorPanel::Draw(
-        Rendering::RenderContext& renderContext,
-        entt::registry& registry,
-        std::queue<std::shared_ptr<MeowEngine::ReflectionPropertyChange>>& inUIInputQueue,
-        Editor::Selector& pSelection)
+    void ImGuiWorldInspectorPanel::Draw(Rendering::RenderContext& renderContext)
     {
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoCollapse;
@@ -38,11 +37,20 @@ namespace MeowEngine::Editor {
         ImGui::Begin("World Inspector", &CanDrawPanel); {
             for (const auto& data : renderContext.UIData->LastSelectedEntityComponents) {
                 if (ImGui::CollapsingHeader(data.Name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-                    ImGuiInputExtension::ShowProperty(
+                    ReflectionPropertyChange* change = ImGuiInputExtension::ShowProperty(
                         data.Name,
                         data.DataObject,
                         true
                     );
+
+                    if (change != nullptr) {
+                        change->GUID = renderContext.UIData->LastSelectedEntity;
+                        change->ComponentType = data.Type;
+
+                        renderContext.CommandQueue->Push(
+                            std::make_unique<Messaging::ReflectionPropertyChangeCommand>(change)
+                        );
+                    }
 
                     ImGui::Spacing();
                 }

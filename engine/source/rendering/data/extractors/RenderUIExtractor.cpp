@@ -106,7 +106,7 @@ namespace MeowEngine::Rendering {
 
         // track selected entities
         for (const auto entity : Selector->SelectedEntities) {
-             auto identity = ecs.get<Runtime::IdentityComponent>(entity);
+            auto identity = ecs.get<Runtime::IdentityComponent>(entity);
             frame.SelectedEntities.emplace(identity.GetGUID());
         }
 
@@ -114,6 +114,11 @@ namespace MeowEngine::Rendering {
         if (!Selector->SelectedEntities.empty()) {
             auto lastSelectedEntity = Selector->SelectedEntities[Selector->SelectedEntities.size() - 1];
 
+            // track last selected entity guid
+            auto identity = ecs.get<Runtime::IdentityComponent>(lastSelectedEntity);
+            frame.LastSelectedEntity = identity.GetGUID();
+
+            // track component data for last selected entity
             if (ecs.valid(lastSelectedEntity)) {
                 // for entity if a component exists capture it's type, name & data & create a relfected clone
                 for (pair<unsigned int, entt::basic_sparse_set<>&> component: ecs.storage()) {

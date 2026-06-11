@@ -41,14 +41,12 @@ namespace MeowEngine {
         Properties[inClassName].push_back(inProperty);
     }
 
-    void EnttReflection::ApplyPropertyChange(ReflectionPropertyChange& inPropertyChange, entt::registry& inRegistry) {
-        auto changedEntity = static_cast<entt::entity>(inPropertyChange.EntityId);
-
+    void EnttReflection::ApplyPropertyChange(ReflectionPropertyChange& inPropertyChange, entt::entity entity, entt::registry& inRegistry) {
         entt::basic_registry<>::common_type *componentStorage = inRegistry.storage(inPropertyChange.ComponentType);
         std::string componentName = GetComponentName(inPropertyChange.ComponentType);
 
-        void* componentObject = componentStorage->value(changedEntity);
-        void* data = componentStorage->value(changedEntity);
+        void* componentObject = componentStorage->value(entity);
+        void* data = componentStorage->value(entity);
 
         // if component has direct changes
         if(inPropertyChange.ClassProperties.empty()) {

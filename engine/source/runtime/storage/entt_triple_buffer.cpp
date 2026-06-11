@@ -107,8 +107,8 @@ void MeowEngine::EnttTripleBuffer::ApplyPropertyChange() {
     while(!UiInputPropertyChangesQueue.empty()) {
         std::shared_ptr<MeowEngine::ReflectionPropertyChange> change = UiInputPropertyChangesQueue.front();
 
-        MeowEngine::GetReflection().ApplyPropertyChange(*change, DoubleBuffer.GetCurrent());
-        MeowEngine::GetReflection().ApplyPropertyChange(*change, DoubleBuffer.GetFinal());
+        // MeowEngine::GetReflection().ApplyPropertyChange(*change, DoubleBuffer.GetCurrent());
+        // MeowEngine::GetReflection().ApplyPropertyChange(*change, DoubleBuffer.GetFinal());
 
         PhysicsUiInputPropertyChangesQueue.enqueue(change);
         UiInputPropertyChangesQueue.pop();
@@ -118,14 +118,14 @@ void MeowEngine::EnttTripleBuffer::ApplyPropertyChange() {
 void MeowEngine::EnttTripleBuffer::ApplyPropertyChangeOnStaging(MeowEngine::Physics::PhysicsSystem* pPhysics) {
     // Apply UI inputs to physics components
     std::shared_ptr<MeowEngine::ReflectionPropertyChange> change;
-    while(PhysicsUiInputPropertyChangesQueue.try_dequeue(change)) {
-        const entt::entity& entity = static_cast<entt::entity>(change->EntityId);
-
-        if(pPhysics->IsRigidbody(Staging, entity)) {
-            MeowEngine::GetReflection().ApplyPropertyChange(*change, Staging);
-
-            // Apply update physics transform to entities
-            pPhysics->SyncTransform(Staging, entity);
-        }
-    }
+    // while(PhysicsUiInputPropertyChangesQueue.try_dequeue(change)) {
+    //     const entt::entity& entity = static_cast<entt::entity>(change->EntityId);
+    //
+    //     if(pPhysics->IsRigidbody(Staging, entity)) {
+    //         MeowEngine::GetReflection().ApplyPropertyChange(*change, Staging);
+    //
+    //         // Apply update physics transform to entities
+    //         pPhysics->SyncTransform(Staging, entity);
+    //     }
+    // }
 }

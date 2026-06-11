@@ -28,7 +28,8 @@ namespace MeowEngine {
             }
         }
 
-        int EntityId;
+        // int EntityId;
+        uint32_t GUID;
         entt::id_type ComponentType;
         std::string PropertyName;
         std::vector <MeowEngine::ReflectionProperty> ClassProperties;
