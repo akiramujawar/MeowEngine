@@ -56,7 +56,6 @@ namespace MeowEngine::Rendering {
             [&]() {
                 EditorBuilder.BuildDrawData(
                     renderContext
-                    , Editor::GetEditor().GetSelector()
                     , 0, 0
                 );
             }

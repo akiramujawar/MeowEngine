@@ -5,8 +5,8 @@
 #ifndef MEOWENGINE_IMGUICREATEASSETPOPUPMODAL_HPP
 #define MEOWENGINE_IMGUICREATEASSETPOPUPMODAL_HPP
 
-#include "string"
-#include "CreateAssetType.hpp"
+#include <Public/Core.hpp>
+#include <CreateAssetType.hpp>
 
 namespace MeowEngine::Editor {
     struct Selector;
@@ -21,7 +21,7 @@ namespace MeowEngine::Editor {
          * NOTE: Force close can be added if required otherwise self contained is good
          * @return
          */
-        bool Draw(const Selector& selectionData);
+        bool Draw(String selectedDirectoryPath);
         
     private:
         std::string TitleText;

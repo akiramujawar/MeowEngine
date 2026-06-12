@@ -2,11 +2,11 @@
 // Created by Akira Mujawar on 27/02/26.
 //
 
-#include "ImguiCreateAssetPopupModal.hpp"
-#include "ImguiAPI.hpp"
-#include "log.hpp"
+#include <ImguiCreateAssetPopupModal.hpp>
+
+#include <ImguiAPI.hpp>
+#include <log.hpp>
 #include <Public/IO.hpp>
-#include <Selector.hpp>
 
 namespace {
     /**
@@ -45,7 +45,7 @@ namespace MeowEngine::Editor {
         MeowEngine::Log("ImguiCreateAssetPopup", "Destroyed");
     }
     
-    bool ImguiCreateAssetPopupModal::Draw(const Selector& selectionData) {
+    bool ImguiCreateAssetPopupModal::Draw(String selectedDirectoryPath) {
         // ideally on construction this should be called for renaming
         // since its inside popup menu we bring it outside when rendering and open popup
         if(!ImGui::IsPopupOpen(TitleText.c_str())) {
@@ -75,7 +75,7 @@ namespace MeowEngine::Editor {
             if(ImGui::Button("Create", ImVec2(120, 0))) {
                 switch (AssetType) {
                     case AssetCreateType::FOLDER: {
-                        FileSystem::Path path {selectionData.SelectedDirectoryPath};
+                        FileSystem::Path path {selectedDirectoryPath.GetRawString()};
                         FileSystem::Path assetName {InputText};
         
                         FileSystem::FileSystem::CreateDirectory(path + assetName);

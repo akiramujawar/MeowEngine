@@ -29,11 +29,16 @@ namespace MeowEngine::Editor {
         Selector& GetSelector() {
             return Selector;
         }
+
+        FileDialog& GetFileDialog() {
+            return FileDialog;
+        }
+
         // EnttBufferBase& GetInputBuffer();
 
     private:
         Selector Selector;
-        FileDialog FileOpener;
+        FileDialog FileDialog;
 
         // /**
         //  * This gives double buffering & reflection for ui inputs

@@ -17,7 +17,13 @@
 #include "ImguiAssetDragDrop.hpp"
 #include "CreateAssetType.hpp"
 
-#include <UserDeviceInputType.hpp>
+#include <ImportFileCommand.hpp>
+#include <RenderContext.hpp>
+#include <RenderUIData.hpp>
+
+#include <CommandQueue.hpp>
+#include <SelectDirectoryCommand.hpp>
+#include <SelectAssetCommand.hpp>
 
 namespace MeowEngine::Editor {
     ImguiAssetPanel::ImguiAssetPanel()
@@ -35,7 +41,10 @@ namespace MeowEngine::Editor {
         PT_PROFILE_FREE("ImguiAssetPanel")
     }
 
-    void ImguiAssetPanel::Draw(Editor::Selector& selectionData) {
+    void ImguiAssetPanel::Draw(const Rendering::RenderContext& renderContext) {
+        SelectedDirectoryPath = renderContext.UIData->SelectedDirectoryPath;;
+        SelectedAssetPath = renderContext.UIData->SelectedAssetPath;
+        CommandQueue = renderContext.CommandQueue;
         
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -53,14 +62,14 @@ namespace MeowEngine::Editor {
             auto availableSpace = ImGui::GetContentRegionAvail();
            
             if(ImGui::BeginTable("", 2, flags, availableSpace)) {
-                ShowTableHeaders(selectionData);
-                ShowTableContents(selectionData);
+                ShowTableHeaders();
+                ShowTableContents();
                 
                 ImGui::EndTable();
             }
             
             // draws the popup modal
-            if(ShowCreatePopupModal && ShowCreatePopupModal->Draw(selectionData)) {
+            if(ShowCreatePopupModal && ShowCreatePopupModal->Draw(SelectedDirectoryPath)) {
                 ShowCreatePopupModal.reset();
             }
             
@@ -79,7 +88,7 @@ namespace MeowEngine::Editor {
         
     }
     
-    void ImguiAssetPanel::ShowTableHeaders(Editor::Selector& selectionData) {
+    void ImguiAssetPanel::ShowTableHeaders() {
         ImGui::TableSetupColumn("Directory");
         ImGui::TableSetupColumn("FolderView"); // folder view
     
@@ -108,16 +117,9 @@ namespace MeowEngine::Editor {
             const ImVec2 importButtonSize(ImGui::CalcTextSize(importButtonText.c_str()).x, headerHeight);
             if (ImGui::Button(importButtonText.c_str(), importButtonSize)) {
                 // display window for importing files.
-                // NOTE: We create a event as creating a native window requires main thread.
-                // TODO: ideally if dragging a file from outside and dropping is easier implement that
-                // TODO: Create a way to handle & define the event types & data for code readability
-                SDL_Event event;
-                SDL_zero(event);
-                event.type = SDL_USEREVENT;
-                event.user.code = UserDeviceInputType::IMPORT_FILE;
-                event.user.data1 = &selectionData.SelectedDirectoryPath;
-    
-                SDL_PushEvent(&event);
+                CommandQueue->Push(
+                    std::make_unique<Messaging::ImportFileCommand>(SelectedDirectoryPath.GetRawString())
+                );
             }
     
             ImGui::SameLine();
@@ -129,12 +131,12 @@ namespace MeowEngine::Editor {
                 ImGui::OpenPopup("ShowCreateAssetPopupMenu");
             }
     
-            ShowCreateAssetPopupMenu(selectionData);
+            ShowCreateAssetPopupMenu();
             ImGui::PopID();
         }
     }
     
-    void ImguiAssetPanel::ShowTableContents(Editor::Selector& selectionData) {
+    void ImguiAssetPanel::ShowTableContents() {
         // folder view (tree)
         ImGui::TableNextRow(ImGuiTableRowFlags_None, ImGui::GetContentRegionAvail().y);
         ImGui::TableNextColumn() ;
@@ -146,7 +148,7 @@ namespace MeowEngine::Editor {
             auto projectPath = Runtime::GetProject().ProjectSettings.GetProjectPath();
             auto assetPath = projectPath + "source";
         
-            ShowDirectory(selectionData, assetPath.GetRawString(), "Project");
+            ShowDirectory(assetPath.GetRawString(), "Project");
         }
     
         // show internal engine assets
@@ -154,7 +156,7 @@ namespace MeowEngine::Editor {
             auto enginePath = Runtime::GetProject().ProjectSettings.GetEnginePath();
             auto assetPath = enginePath + "assets";
         
-            ShowDirectory(selectionData, assetPath.GetRawString(), "Engine");
+            ShowDirectory(assetPath.GetRawString(), "Engine");
         }
         ImGui::EndChild();
         
@@ -162,15 +164,13 @@ namespace MeowEngine::Editor {
         ImGui::TableNextColumn();
         ImGui::BeginChild("##ThumbnailsScrollableView", ImVec2(0,0), true, flags);
         if(ImGui::BeginTable("DirectoryFiles", 4, ImGuiTableFlags_NoBordersInBody)) {
-            ShowSelectedDirectoryFiles(selectionData);
+            ShowSelectedDirectoryFiles();
             ImGui::EndTable();
         }
         ImGui::EndChild();
     }
 
-    void ImguiAssetPanel::ShowDirectory(Editor::Selector& selectionData,
-                                               const std::string& pathString,
-                                               const std::string& pathName) {
+    void ImguiAssetPanel::ShowDirectory(const std::string& pathString, const std::string& pathName) {
         FileSystem::Path path { pathString };
         FileSystem::Directory directory { path };
         std::vector<FileSystem::Path> directories = directory.GetDirectories(false);
@@ -179,7 +179,7 @@ namespace MeowEngine::Editor {
         flags |= ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth;
 
         // if the item is selected we add selected flag?
-        if (pathString == selectionData.SelectedDirectoryPath) {
+        if (pathString == SelectedDirectoryPath.GetRawString()) {
             flags |= ImGuiTreeNodeFlags_Selected;
         }
 
@@ -193,8 +193,14 @@ namespace MeowEngine::Editor {
 
         // if item gets clicked with cache item
         if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-            selectionData.SelectedDirectoryPath = path.GetRawString();
-            selectionData.SelectedAssetPath = path.GetRawString();
+            // we treat folder as asset too, hence we update both directory path & asset path
+            CommandQueue->Push(
+                std::make_unique<Messaging::SelectDirectoryCommand>(String(path.GetRawString()))
+            );
+
+            CommandQueue->Push(
+                std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
+            );
     
             MeowEngine::Log("Directory Selected: ", path.GetName().GetRawString());
         }
@@ -204,26 +210,25 @@ namespace MeowEngine::Editor {
         if(!directories.empty() && isOpen){
             // show the child items in hierarchy
             for(auto& folder : directories) {
-                ShowDirectory(selectionData, folder.GetRawString(), folder.GetName().GetRawString());
+                ShowDirectory(folder.GetRawString(), folder.GetName().GetRawString());
             }
 
             ImGui::TreePop();
         }
     }
 
-    void ImguiAssetPanel::ShowSelectedDirectoryFiles(Editor::Selector& selectionData) {
-        FileSystem::Path path { selectionData.SelectedDirectoryPath };
+    void ImguiAssetPanel::ShowSelectedDirectoryFiles() {
+        FileSystem::Path path { SelectedDirectoryPath.GetRawString() };
         FileSystem::Directory directory { path };
         std::vector<FileSystem::Path> assetPaths = directory.GetAll(false);
 
         for(const auto& assetPath : assetPaths) {
             ImGui::TableNextColumn();
-            ShowThumbnail(selectionData, assetPath);
+            ShowThumbnail(assetPath);
         }
     }
 
-    void ImguiAssetPanel::ShowThumbnail(Selector& selectionData,
-                                        const FileSystem::Path& path) {
+    void ImguiAssetPanel::ShowThumbnail(const FileSystem::Path& path) {
         FileSystem::Path name = path.GetName();
         
         // TODO: Once we have our full system ready to load/unload assets we update this properly
@@ -236,7 +241,9 @@ namespace MeowEngine::Editor {
         
         // show a button (hidden overlay)
         if(ImGui::InvisibleButton("button", thumbnailSize)) {
-            selectionData.SelectedAssetPath = path.GetRawString();
+            CommandQueue->Push(
+                std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
+            );
             MeowEngine::Log("Asset Selected", name.GetRawString());
         }
 
@@ -269,14 +276,16 @@ namespace MeowEngine::Editor {
         bool hovered = ImGui::IsItemHovered();
         
         ImU32 backgroundColor = hovered? IM_COL32(90, 90, 90, 255) : IM_COL32(0,0,0,0);
-        if(path.GetStringView() == selectionData.SelectedAssetPath) {
+        if(path.GetStringView() == SelectedAssetPath.GetRawString()) {
             backgroundColor = IM_COL32(0, 137, 209, 255);
         }
         
         // right click
         {
             if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
-                selectionData.SelectedAssetPath = path.GetRawString();
+                CommandQueue->Push(
+                    std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
+                );
                 
                 ImGui::OpenPopup("ShowEditAssetMenu");
                 MeowEngine::Log("Asset Right Clicked: ", path.GetName().GetRawString());
@@ -285,7 +294,7 @@ namespace MeowEngine::Editor {
             // show menu on right click
             if (ImGui::BeginPopup("ShowEditAssetMenu")) {
                 if(ImGui::MenuItem("Delete")) {
-                    ShowDeletePopupModal = std::make_unique<ImguiDeleteAssetPopupModal>(selectionData.SelectedAssetPath);
+                    ShowDeletePopupModal = std::make_unique<ImguiDeleteAssetPopupModal>(SelectedAssetPath.GetRawString());
                 }
                 
                 if(ImGui::MenuItem("Rename")) {
@@ -323,14 +332,14 @@ namespace MeowEngine::Editor {
         ImGui::PopID();
     }
 
-    void ImguiAssetPanel::ShowCreateAssetPopupMenu(Editor::Selector& selectionData) {
+    void ImguiAssetPanel::ShowCreateAssetPopupMenu() {
         std::string titleText;
         AssetCreateType createType = AssetCreateType::NONE;
         
         // show popup menu for different types of items which can be created
         if (ImGui::BeginPopup("ShowCreateAssetPopupMenu")) {
             if(ImGui::MenuItem("Folder")) {
-                FileSystem::Path directory(selectionData.SelectedDirectoryPath);
+                FileSystem::Path directory(SelectedDirectoryPath.GetRawString());
                 
                 titleText = "Create folder?";
                 createType = AssetCreateType::FOLDER;
@@ -338,7 +347,7 @@ namespace MeowEngine::Editor {
             
             if (ImGui::BeginMenu("Misc", "")) {  // 2nd param is for shortcut
                 if(ImGui::MenuItem("World")) {
-                    FileSystem::Path directory(selectionData.SelectedDirectoryPath);
+                    FileSystem::Path directory(SelectedDirectoryPath.GetRawString());
                     
                     titleText = "Create world?";
                     createType = AssetCreateType::WORLD;

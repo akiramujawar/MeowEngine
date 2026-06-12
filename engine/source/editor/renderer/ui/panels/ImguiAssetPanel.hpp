@@ -11,11 +11,17 @@
 #include "string_view"
 #include "string"
 
-#include "Selector.hpp"
+#include <Public/Core.hpp>
 #include "opengl_thumbnail.hpp"
 
-namespace MeowEngine::Core::IO::FileSystem {
-    class Path;
+#include <Public/IO/Forward.hpp>
+
+namespace MeowEngine::Rendering {
+    struct RenderContext;
+}
+
+namespace MeowEngine::Messaging {
+    class CommandQueue;
 }
 
 namespace MeowEngine::Editor {
@@ -27,24 +33,22 @@ namespace MeowEngine::Editor {
         ImguiAssetPanel();
         ~ImguiAssetPanel();
 
-        void Draw(Editor::Selector& selectionData);
+        void Draw(const Rendering::RenderContext& renderContext);
 
     private:
-        void ShowTableHeaders(Editor::Selector& selectionData);
-        void ShowTableContents(Editor::Selector& selectionData);
-        void ShowDirectory(Editor::Selector& selectionData,
-                           const std::string& pathString,
-                           const std::string& pathName);
+        void ShowTableHeaders();
+        void ShowTableContents();
+        void ShowDirectory(const std::string& pathString, const std::string& pathName);
 
-        void ShowSelectedDirectoryFiles(Selector& selectionData);
+        void ShowSelectedDirectoryFiles();
 
         /**
          * We can move this into a thumbnail renderer or something similir
          * @param selectionData
          * @param path
          */
-        void ShowThumbnail(Selector& selectionData, const Core::IO::FileSystem::Path& path);
-        void ShowCreateAssetPopupMenu(Editor::Selector& selectionData);
+        void ShowThumbnail(const FileSystem::Path& path);
+        void ShowCreateAssetPopupMenu();
         
     private:
         bool IsActive;
@@ -59,6 +63,11 @@ namespace MeowEngine::Editor {
         // TODO: Temp until we have loader system
         OpenGLThumbnail folderImage;
         OpenGLThumbnail unknownImage;
+
+        // From render context
+        String SelectedDirectoryPath;
+        String SelectedAssetPath;
+        Messaging::CommandQueue* CommandQueue;
     };
 }
 

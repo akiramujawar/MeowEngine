@@ -54,9 +54,7 @@ namespace MeowEngine::Editor {
         WorldTreePanel.Init();
     }
 
-    void EditorUIBuilder::BuildDrawData(Rendering::RenderContext& renderContext,
-                               Editor::Selector& pSelection,
-                               unsigned int frameBufferId, const double fps) {
+    void EditorUIBuilder::BuildDrawData(Rendering::RenderContext& renderContext, unsigned int frameBufferId, const double fps) {
         DockerSpace.SetupDockingSpace();
 
         WorldInspectorPanel.Draw(renderContext);
@@ -65,7 +63,7 @@ namespace MeowEngine::Editor {
         WorldSettingPanel.Draw();
         ProjectSettingPanel.Draw();
         EditorSettingPanel.Draw();
-        AssetPanel.Draw(pSelection);
+        AssetPanel.Draw(renderContext);
         ConsolePanel.Draw();
 
         // ImGui::ShowDemoWindow(&IsRendering);

@@ -8,6 +8,7 @@
 namespace MeowEngine {
     namespace Editor {
         class Selector;
+        class FileDialog;
     }
 
     namespace Runtime {
@@ -18,6 +19,8 @@ namespace MeowEngine {
 namespace MeowEngine::Messaging {
     struct MessageContext {
         Editor::Selector* Selector;
+        Editor::FileDialog* FileDialog;
+
         Runtime::GameplaySystem* Gameplay;
     };
 }

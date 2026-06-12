@@ -117,6 +117,7 @@ namespace MeowEngine {
         Messaging::MessageContext messageContext {};
         messageContext.Selector = &Editor.GetSelector();
         messageContext.Gameplay = &Runtime.GetGameplay();
+        messageContext.FileDialog = &Editor.GetFileDialog();
 
         CommandQueue.Init(messageContext);
     }
@@ -202,17 +203,6 @@ namespace MeowEngine {
 
                             // const Vector2Int size = *(Vector2Int *) event.user.data1;
                             // Scene->OnWindowResized(size);
-
-                            break;
-                        }
-                        case UserDeviceInputType::IMPORT_FILE: {
-                            // std::vector<std::string> selectedFiles;
-                            // RenderThread->ShowImportPopup(selectedFiles);
-                            //
-                            // for (auto& importFilePath : selectedFiles) {
-                            //     std::string saveToDirectoryPath = *static_cast<std::string*>(event.user.data1);
-                            //     Editor::AssetImporter::Import(importFilePath, saveToDirectoryPath);
-                            // }
 
                             break;
                         }

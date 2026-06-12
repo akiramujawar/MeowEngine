@@ -140,9 +140,9 @@ namespace MeowEngine::Rendering {
             }
         }
 
-        // get the void* data
-        // component name
-        // the idea is to construct fresh component using reflection data
+        // cache the selected file / folder
+        frame.SelectedDirectoryPath = String(Selector->SelectedDirectoryPath);
+        frame.SelectedAssetPath = String(Selector->SelectedAssetPath);
     }
 
 }

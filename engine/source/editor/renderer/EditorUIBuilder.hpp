@@ -17,10 +17,6 @@
 #include "ImguiProjectSettingPanel.hpp"
 #include "ImguiEditorSettingPanel.hpp"
 
-#include "entt.hpp"
-#include "queue"
-#include "Selector.hpp"
-
 namespace MeowEngine::Rendering {
     struct RenderContext;;
 }
@@ -35,7 +31,7 @@ namespace MeowEngine::Editor {
         ~EditorUIBuilder();
 
         void Init(Runtime::GameplaySystem& gameplay);
-        void BuildDrawData(Rendering::RenderContext& renderContext, Editor::Selector& pSelection, unsigned int frameBufferId, const double fps);
+        void BuildDrawData(Rendering::RenderContext& renderContext, unsigned int frameBufferId, const double fps);
 
         void OpenProfiler();
 

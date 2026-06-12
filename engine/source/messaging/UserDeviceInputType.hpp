@@ -10,7 +10,6 @@ namespace MeowEngine {
         OPEN_TRACY = 1,
         VIEW_PORT_RESIZE = 2,
         WORLD_VIEW_FOCUS = 3,
-        IMPORT_FILE = 4,
         SAVE_PROJECT = 5
     };
 }

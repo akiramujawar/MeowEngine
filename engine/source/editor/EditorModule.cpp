@@ -18,7 +18,7 @@ namespace MeowEngine::Editor {
 
     void EditorModule::Init(EditorInitContext& context) {
         Selector.Init(Runtime::GetProject().ProjectSettings.GetProjectPath());
-        FileOpener.Init(context);
+        FileDialog.Init(context);
     }
 
     void EditorModule::Schedule(Threading::Scheduler& scheduler) {
