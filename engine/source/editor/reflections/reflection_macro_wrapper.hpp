@@ -109,7 +109,8 @@ namespace MeowEngine {
         MeowEngine::GetReflection().RegisterComponent<Component>(\
             {\
                 #Component, \
-                []() -> void* { return new Component(); } \
+                []() -> void* { return new Component(); }, \
+                [](void* data) -> void { delete (Component*)data; } \
             }\
         );\
 

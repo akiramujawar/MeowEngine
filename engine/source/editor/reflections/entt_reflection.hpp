@@ -45,7 +45,7 @@ namespace MeowEngine {
         // Register types (these are extended by macros in wrapper class)
         template<typename Type>
         void RegisterComponent(ReflectionComponent inComponent) {
-            MeowEngine::Log("RegisterComponent", inComponent.Name);
+            MeowEngine::Log("RegisterComponent", inComponent.ClassName);
 
             entt::id_type componentId = entt::type_hash<Type>().value();
 
@@ -138,6 +138,7 @@ namespace MeowEngine {
         );
 
         void* CopyComponentData(entt::id_type type, const std::string& name, void* from);
+        void DeleteComponentData(entt::id_type type, void* from);
 
         void CopyPropertyData(const std::string& className, void* to, void* from);
 

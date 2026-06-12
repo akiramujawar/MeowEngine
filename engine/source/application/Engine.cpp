@@ -130,6 +130,8 @@ namespace MeowEngine {
 
     void Engine::Loop() {
         while (IsRunning) {
+            Scheduler.Clear();
+
             // -- runs on main thread
             InputDevice.Schedule(Scheduler);
 

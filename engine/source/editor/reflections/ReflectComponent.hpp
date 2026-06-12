@@ -10,12 +10,13 @@
 
 namespace MeowEngine {
     struct ReflectionComponent {
-        std::string Name;
+        std::string ClassName;
 
         /**
          * Constructs new component (delete manually after usage)
          */
         std::function<void*()> Construct;
+        std::function<void(void*)> Destruct;
     };
 }
 

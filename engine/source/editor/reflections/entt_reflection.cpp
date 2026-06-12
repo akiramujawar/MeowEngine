@@ -23,7 +23,7 @@ namespace MeowEngine {
     }
 
     std::string EnttReflection::GetComponentName(entt::id_type inId) {
-        return ComponentMap[inId].Name;
+        return ComponentMap[inId].ClassName;
     }
 
     std::vector<ReflectionProperty> EnttReflection::GetProperties(std::string inClassName) {
@@ -139,6 +139,10 @@ namespace MeowEngine {
         CopyPropertyData(name, to, from);
 
         return to;
+    }
+
+    void EnttReflection::DeleteComponentData(entt::id_type type, void* from) {
+        ComponentMap[type].Destruct(from);
     }
 
     void EnttReflection::CopyPropertyData(const std::string& className, void* to, void* from) {

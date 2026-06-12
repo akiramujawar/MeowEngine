@@ -198,6 +198,10 @@ namespace MeowEngine::Rendering {
         uiData.RootEntities.clear();
         uiData.EntityHierarchyMap.clear();
         uiData.SelectedEntities.clear();
+        // -- delete & clear copied components
+        for (auto& lastSelectedComponent : uiData.LastSelectedEntityComponents) {
+            GetReflection().DeleteComponentData(lastSelectedComponent.Type, lastSelectedComponent.DataObject);
+        }
         uiData.LastSelectedEntityComponents.clear();
     }
 }
