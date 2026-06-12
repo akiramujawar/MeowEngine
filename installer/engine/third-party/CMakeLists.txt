@@ -1,0 +1,12 @@
+
+include(OpenGL.cmake)
+include(SDL.cmake)
+include(GLM.cmake)
+include(TinyObjectLoader.cmake)
+include(MagicEnum.cmake)
+include(ConcurrentQueue.cmake)
+include(Entt.cmake)
+include(PhysX.cmake)
+include(ImGui.cmake)
+include(Tracy.cmake)
+include(NativeFileDialog.cmake)

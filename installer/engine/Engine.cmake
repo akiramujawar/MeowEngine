@@ -1,13 +1,4 @@
 cmake_minimum_required(VERSION 4.1)
-#project(MeowEngine)
-
-#set(CMAKE_OSX_ARCHITECTURES "x86_64")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fexceptions")
-
-#set(CMAKE_C_FLAGS "-Wall -DTRACY_ENABLE")
-#set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVK_PROTOTYPES")
-
-message(${PROJECT_SOURCE_DIR})
 
 set(THIRD_PARTY_DIR ${PROJECT_SOURCE_DIR}/libs/third-party)
 set(MAIN_SOURCE_DIR ${PROJECT_SOURCE_DIR}/engine/source)
@@ -19,215 +10,219 @@ set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/engine/include)
 set(TOOLS_DIR ${PROJECT_SOURCE_DIR}/engine/tools)
 set(EXAMPLES_DIR ${PROJECT_SOURCE_DIR}/engine/examples)
 
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY out)
-# Set the output directories
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-# Optionally set custom directories for Debug and Release builds
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/builds/console)
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR})
-set(CMAKE_BUILD_RPATH "@loader_path/dependencies/Frameworks")
-set(CMAKE_INSTALL_RPATH "@loader_path/dependencies/Frameworks")
+#find_package(OpenCL REQUIRED)
+#find_package(OpenGL REQUIRED)
+#find_package(SDL2 REQUIRED)
 
 #
-find_package(OpenCL REQUIRED) # required for imgui
-find_package(OpenGL REQUIRED) # required for tracy & native menu options with bridge wrapper
-find_package(SDL2 REQUIRED) # required for native menu options with bridge wrapper
+# Sources
+#
 
+file(GLOB_RECURSE CPP_SOURCES CONFIGURE_DEPENDS
+    ${MAIN_SOURCE_DIR}/*.cpp
+)
 
-# Include directories for intellisense
-include_directories(${THIRD_PARTY_DIR}/SDL/include)
-include_directories(${THIRD_PARTY_DIR}/glm)
-include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
-include_directories(${THIRD_PARTY_DIR}/SDL2_image)
-include_directories(${THIRD_PARTY_DIR}/magic-enum/include/magic_enum)
-include_directories(${THIRD_PARTY_DIR}/concurrentqueue)
-include_directories(${THIRD_PARTY_DIR}/imgui)
-include_directories(${THIRD_PARTY_DIR}/imgui/backends)
-include_directories(${THIRD_PARTY_DIR}/tracy/public/tracy)
-include_directories(${THIRD_PARTY_DIR}/entt/single_include/entt)
-include_directories(${THIRD_PARTY_DIR}/physx/physx/include)
-include_directories(${THIRD_PARTY_DIR}/nativefiledialog/src/include)
+file(GLOB_RECURSE M_SOURCES CONFIGURE_DEPENDS
+    ${MAIN_SOURCE_DIR}/*.m
+)
 
-# glob is not good idea
-file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
-file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
-file(GLOB_RECURSE M_SOURCES ${MAIN_SOURCE_DIR}/*.m)
+file(GLOB_RECURSE SETTINGS_SOURCES CONFIGURE_DEPENDS
+    ${SETTINGS_DIR}/*.cpp
+)
 
-#include_directories(../main/src/include/bitmap.hpp)
+file(GLOB_RECURSE INCLUDE_SOURCES CONFIGURE_DEPENDS
+    ${INCLUDE_DIR}/*.cpp
+)
 
-# Collect all directories under the include directory
-file(GLOB_RECURSE ALL_ENTRIES "${MAIN_SOURCE_DIR}/*")
+file(GLOB_RECURSE TOOLS_SOURCES CONFIGURE_DEPENDS
+    ${TOOLS_DIR}/*.cpp
+)
 
-# Extract directories from the list of entries
-set(ALL_DIRECTORIES "")
-foreach(ENTRY ${ALL_ENTRIES})
-    get_filename_component(DIR ${ENTRY} DIRECTORY)
-    if(IS_DIRECTORY ${DIR})
-        list(APPEND ALL_DIRECTORIES ${DIR})
-    endif()
+file(GLOB_RECURSE EXAMPLES_SOURCES CONFIGURE_DEPENDS
+    ${EXAMPLES_DIR}/*.cpp
+)
+
+#
+# Recursive include directories
+#
+
+set(ALL_INCLUDE_DIRS)
+
+#include_directories(${THIRD_PARTY_DIR}/SDL/include)
+#include_directories(${THIRD_PARTY_DIR}/glm)
+#include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
+#include_directories(${THIRD_PARTY_DIR}/SDL2_image)
+#include_directories(${THIRD_PARTY_DIR}/magic-enum/include/magic_enum)
+#include_directories(${THIRD_PARTY_DIR}/concurrentqueue)
+#include_directories(${THIRD_PARTY_DIR}/imgui)
+#include_directories(${THIRD_PARTY_DIR}/imgui/backends)
+#include_directories(${THIRD_PARTY_DIR}/tracy/public/tracy)
+#include_directories(${THIRD_PARTY_DIR}/entt/single_include/entt)
+#include_directories(${THIRD_PARTY_DIR}/physx/physx/include)
+#include_directories(${THIRD_PARTY_DIR}/nativefiledialog/src/include)
+
+foreach(ROOT_DIR
+    ${MAIN_SOURCE_DIR}
+    ${SETTINGS_DIR}
+    ${INCLUDE_DIR}
+    ${TOOLS_DIR}
+    ${EXAMPLES_DIR}
+)
+    list(APPEND ALL_INCLUDE_DIRS ${ROOT_DIR})
+
+    file(GLOB_RECURSE ROOT_ENTRIES CONFIGURE_DEPENDS
+        "${ROOT_DIR}/*"
+    )
+
+    foreach(ENTRY ${ROOT_ENTRIES})
+        get_filename_component(DIR "${ENTRY}" DIRECTORY)
+
+        if(IS_DIRECTORY "${DIR}")
+            list(APPEND ALL_INCLUDE_DIRS "${DIR}")
+        endif()
+    endforeach()
 endforeach()
 
-# Remove duplicates from the list of directories
-list(REMOVE_DUPLICATES ALL_DIRECTORIES)
+list(REMOVE_DUPLICATES ALL_INCLUDE_DIRS)
 
-message("Directories found in ${DIRECTORY_TO_SEARCH}:")
-foreach(DIR ${ALL_DIRECTORIES})
-    message("${DIR}")
-    include_directories(${DIR})
-endforeach()
+#
+# Tracy
+#
 
-# configs
-file(GLOB_RECURSE SETTINGS_HEADERS ${SETTINGS_DIR}/*.hpp)
-file(GLOB_RECURSE SETTINGS_SOURCES ${SETTINGS_DIR}/*.cpp)
-include_directories(${SETTINGS_DIR})
-
-# configs
-file(GLOB_RECURSE INCLUDE_HEADERS ${INCLUDE_DIR}/*.hpp)
-file(GLOB_RECURSE INCLUDE_SOURCES ${INCLUDE_DIR}/*.cpp)
-include_directories(${INCLUDE_DIR})
-
-# tools
-file(GLOB_RECURSE TOOLS_HEADERS ${TOOLS_DIR}/*.hpp)
-file(GLOB_RECURSE TOOLS_SOURCES ${TOOLS_DIR}/*.cpp)
-include_directories(${TOOLS_DIR})
-
-# examples
-file(GLOB_RECURSE EXAMPLES_HEADERS ${EXAMPLES_DIR}/*.hpp)
-file(GLOB_RECURSE EXAMPLES_SOURCES ${EXAMPLES_DIR}/*.cpp)
-#include_directories(${EXAMPLES_DIR})
-
-# Collect all directories under the include directory
-file(GLOB_RECURSE ALL_EXAMPLE_ENTRIES "${EXAMPLES_DIR}/*")
-
-# Extract directories from the list of entries
-set(ALL_EXAMPLE_DIRECTORIES "")
-foreach(ENTRY ${ALL_EXAMPLE_ENTRIES})
-    get_filename_component(DIR ${ENTRY} DIRECTORY)
-    if(IS_DIRECTORY ${DIR})
-        list(APPEND ALL_EXAMPLE_DIRECTORIES ${DIR})
-    endif()
-endforeach()
-
-# Remove duplicates from the list of directories
-list(REMOVE_DUPLICATES ALL_EXAMPLE_DIRECTORIES)
-
-# include example directory
-message("Directories found in ${DIRECTORY_TO_SEARCH}:")
-foreach(DIR ${ALL_EXAMPLE_DIRECTORIES})
-    message("${DIR}")
-    include_directories(${DIR})
-endforeach()
-
-#target_include_directories(
-#    MeowEngine PUBLIC
-#    ${CMAKE_SOURCE_DIR}/core
+#add_library(
+#    TracyClient STATIC
+#    ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
+#    ${THIRD_PARTY_DIR}/tracy/public/tracy/TracyOpenCL.hpp
 #)
-message("ds")
-message(${PROJECT_SOURCE_DIR})
+#
+#target_compile_definitions(
+#    TracyClient
+#    PUBLIC
+#    TRACY_ENABLE=1
+#)
+
+#
+# Native File Dialog
+#
+
+#add_subdirectory(
+#    ${THIRD_PARTY_DIR}/nativefiledialog
+#    ${CMAKE_BINARY_DIR}/nativefiledialog-build
+#)
+
+
+
+#
+# PhysX
+#
+
+#find_library(
+#    PHYSX_LIBRARY
+#    NAMES libPhysX_static_64.a
+#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+#)
+#
+#find_library(
+#    PHYSX_COMMON_LIB
+#    NAMES libPhysXCommon_static_64.a
+#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+#)
+#
+#find_library(
+#    PHYSX_FOUNDATION_LIB
+#    NAMES libPhysXFoundation_static_64.a
+#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+#)
+#
+#find_library(
+#    PHYSX_EXTENSIONS_LIB
+#    NAMES libPhysXExtensions_static_64.a
+#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+#)
+
+#
+# Executable
+#
 
 add_executable(
     MeowEngine
 
-    ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
-    ${THIRD_PARTY_DIR}/concurrentqueue/concurrentqueue.h
-
-    ${THIRD_PARTY_DIR}/imgui/imgui.cpp
-    ${THIRD_PARTY_DIR}/imgui/imgui_draw.cpp
-    ${THIRD_PARTY_DIR}/imgui/imgui_tables.cpp
-    ${THIRD_PARTY_DIR}/imgui/imgui_widgets.cpp
-    ${THIRD_PARTY_DIR}/imgui/imgui_demo.cpp
-    ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_sdl2.cpp
-    ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_opengl3.cpp
-
-    ${CPP_HEADERS}
     ${CPP_SOURCES}
-
-    ${SETTINGS_HEADERS}
     ${SETTINGS_SOURCES}
-
-    ${INCLUDE_HEADERS}
     ${INCLUDE_SOURCES}
-
-    ${TOOLS_HEADERS}
     ${TOOLS_SOURCES}
-
-    ${EXAMPLES_HEADERS}
     ${EXAMPLES_SOURCES}
 
     ${M_SOURCES}
     ${MAIN_SOURCE_DIR}/application/main.mm
 )
 
-#target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
-#target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
-
-#target_link_libraries(MeowEngine PRIVATE nfd)
-
-# Link profiler with console executable
-add_library(
-    TracyClient STATIC
-    ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
-    ${THIRD_PARTY_DIR}/tracy/public/tracy/TracyOpenCL.hpp
-    #        ${THIRD_PARTY_DIR}/tracy/public/tracy/TracyOpenGL.hpp
-)
-#target_include_directories(TracyClient PUBLIC ../../public/tracy)
-target_compile_definitions(TracyClient PUBLIC TRACY_ENABLE=1)
-target_link_libraries(MeowEngine PUBLIC OpenCL::OpenCL TracyClient ${CMAKE_DL_LIBS})
-#target_link_libraries(MeowEngine PUBLIC OpenGL::OpenGL TracyClient ${CMAKE_DL_LIBS})
-
-# Link native menu option for mac
-#include_directories(${SDL2_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIR})
-
-target_link_libraries(MeowEngine PUBLIC
-    ${SDL2_LIBRARIES}
-    ${OPENGL_LIBRARIES}
+target_include_directories(
+    MeowEngine
+    PRIVATE
+    ${ALL_INCLUDE_DIRS}
 )
 
-# BUG: some weird issue here. PHYSX_LIB is somehow already set to a physic common lib path.
-find_library(PHYSX_LIBRARY NAMES libPhysX_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
-find_library(PHYSX_COMMON_LIB NAMES libPhysXCommon_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
-find_library(PHYSX_FOUNDATION_LIB NAMES libPhysXFoundation_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
-find_library(PHYSX_EXTENSIONS_LIB NAMES libPhysXExtensions_static_64.a PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release)
-
-message(${THIRD_PARTY_DIR}/nativefiledialog)
-message(${CMAKE_BINARY_DIR}/nativefiledialog-build)
 add_subdirectory(
-    ${THIRD_PARTY_DIR}/nativefiledialog
-    ${CMAKE_BINARY_DIR}/nativefiledialog-build
+    ${PROJECT_SOURCE_DIR}/installer/engine/third-party
 )
 
-target_link_libraries(MeowEngine PRIVATE nfd)
+#target_link_libraries(
+#    MeowEngine
+#    PUBLIC
+#    OpenCL::OpenCL
+#    TracyClient
+#    ${CMAKE_DL_LIBS}
+#)
+
+#target_link_libraries(
+#    MeowEngine
+#    PUBLIC
+##    ${SDL2_LIBRARIES}
+#    ${OPENGL_LIBRARIES}
+#)
+
+#target_link_libraries(
+#    MeowEngine
+#    PRIVATE
+#    nfd
+#)
+
+#target_link_libraries(
+#    MeowEngine
+#    PUBLIC
+#    ${PHYSX_LIBRARY}
+#    ${PHYSX_COMMON_LIB}
+#    ${PHYSX_FOUNDATION_LIB}
+#    ${PHYSX_EXTENSIONS_LIB}
+#)
+
+#target_link_libraries(
+#    MeowEngine
+#    PRIVATE
+#    ImGui
+#)
 
 if(APPLE)
-    target_link_libraries(MeowEngine PRIVATE
+    target_link_libraries(
+        MeowEngine
+        PRIVATE
         "-framework AppKit"
         "-framework Foundation"
         "-framework UniformTypeIdentifiers"
         "-framework Cocoa"
     )
+
+#    message(${SDL_LINK_FLAGS})
+#    message(STATUS "SDL_LINK_FLAGS = '${SDL_LINK_FLAGS}'")
+#    set_target_properties(
+#        MeowEngine
+#        PROPERTIES
+#        LINK_FLAGS
+#        "-F${LIBRARY_DIR}/Frameworks -framework OpenGL"
+#    )
 endif()
 
-target_link_libraries(MeowEngine PUBLIC
-    ${PHYSX_LIBRARY}
-    ${PHYSX_COMMON_LIB}
-    ${PHYSX_FOUNDATION_LIB}
-    ${PHYSX_EXTENSIONS_LIB}
-)
-
-# This is to ensure executable knows how to attach frameworks or other things to itself
-set_target_properties(
-    MeowEngine
-    PROPERTIES
-    LINK_FLAGS
-    "-F${LIBRARY_DIR}/Frameworks -framework SDL2 -framework SDL2_image -framework OpenGL"
-)
-
-#echo "Current working directory: $(pwd)"
-
-# Executes after build to properly link sdk framework in executable file
 add_custom_command(
     TARGET MeowEngine
     POST_BUILD
