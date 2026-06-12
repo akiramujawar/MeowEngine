@@ -2,9 +2,10 @@
 // Created by Akira Mujawar on 14/05/26.
 //
 
-#include "EditorModule.hpp"
+#include <EditorModule.hpp>
 
-#include <Public/MeowEngine.hpp>
+#include <EditorInitContext.hpp>
+#include <Project.hpp>
 
 namespace MeowEngine::Editor {
 
@@ -17,7 +18,7 @@ namespace MeowEngine::Editor {
     }
 
     void EditorModule::Init(EditorInitContext& context) {
-        Selector.Init(Runtime::GetProject().ProjectSettings.GetProjectPath());
+        Selector.Init(context.Project->Settings.GetProjectPath());
         FileDialog.Init(context);
     }
 

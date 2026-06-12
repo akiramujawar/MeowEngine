@@ -6,8 +6,8 @@
 
 #include <log.hpp>
 #include <AssetRegistrySerializer.hpp>
-#include <Public/MeowEngine.hpp>
-
+#include <EngineService.hpp>
+#include <Project.hpp>
 
 namespace MeowEngine::Runtime::Asset {
     AssetManager::AssetManager() : Resolver() {
@@ -21,7 +21,7 @@ namespace MeowEngine::Runtime::Asset {
         MeowEngine::Log("AssetManager", "Init");
 
         Serializer::AssetRegistrySerializer::Deserialize(
-            GetProject().ProjectSettings.GetAssetResolverPath(),
+            MeowEngine().Project.Settings.GetAssetResolverPath(),
             Resolver
         );
     }

@@ -8,10 +8,12 @@
 #include <AssetEntry.hpp>
 
 #include <Public/IO.hpp>
-#include <Public/MeowEngine.hpp>
+#include <EngineService.hpp>
 #include <UUID.hpp>
 
+#include <AssetManager.hpp>
 #include <AssetRegistrySerializer.hpp>
+#include <Project.hpp>
 
 using namespace MeowEngine::Runtime;
 
@@ -96,10 +98,10 @@ namespace MeowEngine::Editor {
         stream.Flush();
         stream.Close();
 
-        GetAssetManager().GetResolver().Add(uuid, Asset::AssetEntry{type,saveFilePath.CStr()});
+        MeowEngine().AssetManager.GetResolver().Add(uuid, Asset::AssetEntry{type,saveFilePath.CStr()});
         Asset::Serializer::AssetRegistrySerializer::Serialize(
-            GetProject().ProjectSettings.GetAssetResolverPath(),
-            GetAssetManager().GetResolver()
+             MeowEngine().Project.Settings.GetAssetResolverPath(),
+             MeowEngine().AssetManager.GetResolver()
         );
     }
 

@@ -6,9 +6,10 @@
 #include "log.hpp"
 
 #include <Public/IO.hpp>
-#include <Public/MeowEngine.hpp>
+#include <EngineService.hpp>
 
 #include "AssetLoader.hpp"
+#include <Project.hpp>
 
 #include "ImguiCreateAssetPopupModal.hpp"
 #include "ImguiDeleteAssetPopupModal.hpp"
@@ -145,7 +146,7 @@ namespace MeowEngine::Editor {
         ImGui::BeginChild("##AssetsScrollableView", ImVec2(0,0), true, flags);
         // show open project assets
         {
-            auto projectPath = Runtime::GetProject().ProjectSettings.GetProjectPath();
+            auto projectPath = MeowEngine().Project.Settings.GetProjectPath();
             auto assetPath = projectPath + "source";
         
             ShowDirectory(assetPath.GetRawString(), "Project");
@@ -153,7 +154,7 @@ namespace MeowEngine::Editor {
     
         // show internal engine assets
         {
-            auto enginePath = Runtime::GetProject().ProjectSettings.GetEnginePath();
+            auto enginePath = MeowEngine().Project.Settings.GetEnginePath();
             auto assetPath = enginePath + "assets";
         
             ShowDirectory(assetPath.GetRawString(), "Engine");

@@ -4,7 +4,7 @@
 
 #include "scene_multi_thread.hpp"
 
-#include <Public/MeowEngine.hpp>
+// #include <Public/MeowEngine.hpp>
 
 #include "camera_controller.hpp"
 #include "perspective_camera.hpp"
@@ -78,11 +78,11 @@ struct SceneMultiThread::Internal {
 
     void Save() {
         // RegistryBuffer.GetCurrent();
-        auto path = Runtime::GetProject().ProjectSettings.GetProjectPath();
-        path += "world.meowdata";
+        // auto path = Runtime::GetProject().ProjectSettings.GetProjectPath();
+        // path += "world.meowdata";
         // Runtime::World world(&RegistryBuffer.GetCurrent());
 
-        Runtime::WorldSerializer::Serialize(path, World);
+        // Runtime::WorldSerializer::Serialize(path, World);
     }
 
     void LoadOnRenderThread(std::shared_ptr<MeowEngine::AssetManager> assetManager) {

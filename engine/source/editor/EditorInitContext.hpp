@@ -9,9 +9,14 @@ namespace MeowEngine::Graphics {
     class GraphicsDevice;
 }
 
+namespace MeowEngine::Runtime {
+    class Project;
+}
+
 namespace MeowEngine::Editor {
     struct EditorInitContext {
-          Graphics::GraphicsDevice* GraphicsDevice;
+        Graphics::GraphicsDevice* GraphicsDevice;
+        Runtime::Project* Project;
     };
 }
 

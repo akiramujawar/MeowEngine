@@ -4,11 +4,13 @@
 
 #include <WorldSerializer.hpp>
 
+#include <Public/IO.hpp>
+#include <EngineService.hpp>
+
 // #include "hierarchy_component.hpp"
 #include "info_component.hpp"
 #include "entt.hpp"
-#include <Public/MeowEngine.hpp>
-#include <Public/IO.hpp>
+#include <Project.hpp>
 
 #include "IdentityComponent.hpp"
 
@@ -200,7 +202,7 @@ namespace MeowEngine::Runtime {
         // auto testWorld = World();
         auto& registry = world.GetBuffer().GetCurrent();
 
-        FileSystem::Path worldPath = GetProject().ProjectSettings.GetProjectPath() + "world.meowdata";
+        FileSystem::Path worldPath = MeowEngine().Project.Settings.GetProjectPath() + "world.meowdata";
         FileSystem::FileStream stream;
         stream.Open(worldPath, FileSystem::FileMode::READ);
 

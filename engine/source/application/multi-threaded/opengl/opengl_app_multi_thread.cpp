@@ -33,7 +33,7 @@ namespace MeowEngine {
         // Select and set project path
         std::string projectPath;
         RenderThread->ShowPickFolderPopup(projectPath);
-        GetProject().ProjectSettings.SetProjectPath(projectPath);
+        GetProject().Settings.SetProjectPath(projectPath);
 
         // Initialise
         // TODO: later we will include everything here (like InputManager etc...)

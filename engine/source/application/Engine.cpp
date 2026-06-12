@@ -5,6 +5,7 @@
 #include <Engine.hpp>
 
 // #include <SDL_API.hpp>
+#include <EngineService.hpp>
 
 #include <MultiThreadExecutor.hpp>
 #include <SingleThreadExecutor.hpp>
@@ -88,6 +89,7 @@ namespace MeowEngine {
         // -- editor
         Editor::EditorInitContext editorInit {};
         editorInit.GraphicsDevice = &GraphicsDevice;
+        editorInit.Project = &Project;
 
         Editor.Init(editorInit);
 
@@ -120,6 +122,14 @@ namespace MeowEngine {
         messageContext.FileDialog = &Editor.GetFileDialog();
 
         CommandQueue.Init(messageContext);
+
+        EngineService engineService {
+            AssetManager,
+            Project,
+            Editor
+        };
+
+        EngineService::Init(engineService);
     }
 
     void Engine::Load() {

@@ -5,7 +5,7 @@
 #include "Project.hpp"
 
 namespace MeowEngine::Runtime {
-    Project::Project() : ProjectSettings() {
+    Project::Project() : Settings() {
         MeowEngine::Log("Project", "Constructed");
     }
 
