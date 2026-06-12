@@ -39,14 +39,6 @@ namespace MeowEngine {
      */
     struct Engine {
     public:
-        static Engine& Get() {
-            return *AppInstance;
-        }
-
-    private:
-        inline static Engine* AppInstance;
-
-    public:
         Engine();
         virtual ~Engine();
 
@@ -56,31 +48,6 @@ namespace MeowEngine {
         virtual void CreateApplication() {};
         void Open();
         void Close();
-
-        /**
-         * Returns stack instance of asset manager
-         * @return
-         */
-        Runtime::Asset::AssetManager& GetAssetManager() {
-            return AssetManager;
-        }
-
-        /**
-         * Returns stack instance of project (which includes asset registry, settings)
-         * @return
-         */
-        Runtime::Project& GetProject() {
-            return Project;
-        }
-
-        /**
-         * Returns stack instance of editor engine (which includes Selector, Reflection, Importer etc...)
-         * @return
-         */
-        Editor::EditorModule& GetEditorModule() {
-            return Editor;
-        }
-
 
     private:
         /**
@@ -140,7 +107,6 @@ namespace MeowEngine {
         Editor::EditorModule Editor;
         Runtime::RuntimeModule Runtime;
         Physics::PhysicsModule Physics;
-
 
     };
 } // namespace MeowEngine

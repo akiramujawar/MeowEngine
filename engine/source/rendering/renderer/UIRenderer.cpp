@@ -10,7 +10,6 @@
 
 // NOTE: remove this later
 #include <EditorModule.hpp>
-#include <Public/MeowEditor.hpp>
 
 #include <RendererInitData.hpp>
 #include <UserDeviceInputType.hpp>

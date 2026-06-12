@@ -19,7 +19,7 @@ namespace MeowEngine {
     }
 
     struct EngineService {
-        friend class Engine;
+        friend struct Engine;
 
         static EngineService& Get() {
             assert(Instance);

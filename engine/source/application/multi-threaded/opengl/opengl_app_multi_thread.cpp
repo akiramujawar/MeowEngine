@@ -33,11 +33,11 @@ namespace MeowEngine {
         // Select and set project path
         std::string projectPath;
         RenderThread->ShowPickFolderPopup(projectPath);
-        GetProject().Settings.SetProjectPath(projectPath);
+        // GetProject().Settings.SetProjectPath(projectPath);
 
         // Initialise
         // TODO: later we will include everything here (like InputManager etc...)
-        GetAssetManager().Init();
+        // GetAssetManager().Init();
 
         // Create Scene & Setup Main thread
         FrameRateCounter = std::make_unique<MeowEngine::FrameRateCounter>(60, 1); // 60 frames per second

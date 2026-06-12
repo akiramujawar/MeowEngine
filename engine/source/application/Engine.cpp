@@ -26,8 +26,6 @@ namespace MeowEngine {
     {
         MeowEngine::Log("Engine", "Initializing Engine...");
 
-        AppInstance = this;
-
         try {
 #ifdef __MULTI_THREAD__
             MeowEngine::Log("Engine", "Creating MultiThread Engine...");
