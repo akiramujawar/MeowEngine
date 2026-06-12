@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
+# Set Paths
 set(THIRD_PARTY_DIR ${PROJECT_SOURCE_DIR}/libs/third-party)
 set(MAIN_SOURCE_DIR ${PROJECT_SOURCE_DIR}/engine/source)
 set(ASSETS ${PROJECT_SOURCE_DIR}/engine/assets)
@@ -10,14 +11,12 @@ set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/engine/include)
 set(TOOLS_DIR ${PROJECT_SOURCE_DIR}/engine/tools)
 set(EXAMPLES_DIR ${PROJECT_SOURCE_DIR}/engine/examples)
 
-#find_package(OpenCL REQUIRED)
-#find_package(OpenGL REQUIRED)
-#find_package(SDL2 REQUIRED)
+# Set output directory for builds
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/builds/console)
+#set(CMAKE_BUILD_RPATH "@loader_path/dependencies/Frameworks")
+#set(CMAKE_INSTALL_RPATH "@loader_path/dependencies/Frameworks")
 
-#
 # Sources
-#
-
 file(GLOB_RECURSE CPP_SOURCES CONFIGURE_DEPENDS
     ${MAIN_SOURCE_DIR}/*.cpp
 )
@@ -42,24 +41,8 @@ file(GLOB_RECURSE EXAMPLES_SOURCES CONFIGURE_DEPENDS
     ${EXAMPLES_DIR}/*.cpp
 )
 
-#
 # Recursive include directories
-#
-
 set(ALL_INCLUDE_DIRS)
-
-#include_directories(${THIRD_PARTY_DIR}/SDL/include)
-#include_directories(${THIRD_PARTY_DIR}/glm)
-#include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
-#include_directories(${THIRD_PARTY_DIR}/SDL2_image)
-#include_directories(${THIRD_PARTY_DIR}/magic-enum/include/magic_enum)
-#include_directories(${THIRD_PARTY_DIR}/concurrentqueue)
-#include_directories(${THIRD_PARTY_DIR}/imgui)
-#include_directories(${THIRD_PARTY_DIR}/imgui/backends)
-#include_directories(${THIRD_PARTY_DIR}/tracy/public/tracy)
-#include_directories(${THIRD_PARTY_DIR}/entt/single_include/entt)
-#include_directories(${THIRD_PARTY_DIR}/physx/physx/include)
-#include_directories(${THIRD_PARTY_DIR}/nativefiledialog/src/include)
 
 foreach(ROOT_DIR
     ${MAIN_SOURCE_DIR}
@@ -85,65 +68,7 @@ endforeach()
 
 list(REMOVE_DUPLICATES ALL_INCLUDE_DIRS)
 
-#
-# Tracy
-#
-
-#add_library(
-#    TracyClient STATIC
-#    ${THIRD_PARTY_DIR}/tracy/public/TracyClient.cpp
-#    ${THIRD_PARTY_DIR}/tracy/public/tracy/TracyOpenCL.hpp
-#)
-#
-#target_compile_definitions(
-#    TracyClient
-#    PUBLIC
-#    TRACY_ENABLE=1
-#)
-
-#
-# Native File Dialog
-#
-
-#add_subdirectory(
-#    ${THIRD_PARTY_DIR}/nativefiledialog
-#    ${CMAKE_BINARY_DIR}/nativefiledialog-build
-#)
-
-
-
-#
-# PhysX
-#
-
-#find_library(
-#    PHYSX_LIBRARY
-#    NAMES libPhysX_static_64.a
-#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-#)
-#
-#find_library(
-#    PHYSX_COMMON_LIB
-#    NAMES libPhysXCommon_static_64.a
-#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-#)
-#
-#find_library(
-#    PHYSX_FOUNDATION_LIB
-#    NAMES libPhysXFoundation_static_64.a
-#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-#)
-#
-#find_library(
-#    PHYSX_EXTENSIONS_LIB
-#    NAMES libPhysXExtensions_static_64.a
-#    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-#)
-
-#
-# Executable
-#
-
+# Add our main engine executable & link it
 add_executable(
     MeowEngine
 
@@ -163,46 +88,12 @@ target_include_directories(
     ${ALL_INCLUDE_DIRS}
 )
 
+# Run third-party cmake to link all the libraries
 add_subdirectory(
     ${PROJECT_SOURCE_DIR}/installer/engine/third-party
 )
 
-#target_link_libraries(
-#    MeowEngine
-#    PUBLIC
-#    OpenCL::OpenCL
-#    TracyClient
-#    ${CMAKE_DL_LIBS}
-#)
-
-#target_link_libraries(
-#    MeowEngine
-#    PUBLIC
-##    ${SDL2_LIBRARIES}
-#    ${OPENGL_LIBRARIES}
-#)
-
-#target_link_libraries(
-#    MeowEngine
-#    PRIVATE
-#    nfd
-#)
-
-#target_link_libraries(
-#    MeowEngine
-#    PUBLIC
-#    ${PHYSX_LIBRARY}
-#    ${PHYSX_COMMON_LIB}
-#    ${PHYSX_FOUNDATION_LIB}
-#    ${PHYSX_EXTENSIONS_LIB}
-#)
-
-#target_link_libraries(
-#    MeowEngine
-#    PRIVATE
-#    ImGui
-#)
-
+# Platform specific for apple (will come on this while working on web & windows) - painful stuff ehhhh
 if(APPLE)
     target_link_libraries(
         MeowEngine
@@ -213,16 +104,16 @@ if(APPLE)
         "-framework Cocoa"
     )
 
-#    message(${SDL_LINK_FLAGS})
-#    message(STATUS "SDL_LINK_FLAGS = '${SDL_LINK_FLAGS}'")
-#    set_target_properties(
-#        MeowEngine
-#        PROPERTIES
-#        LINK_FLAGS
-#        "-F${LIBRARY_DIR}/Frameworks -framework OpenGL"
-#    )
+    # give the RPath for linking our custom dependencies/Frameworks
+    set_target_properties(
+        MeowEngine
+        PROPERTIES
+        BUILD_RPATH "@loader_path/dependencies/Frameworks"
+    )
+
 endif()
 
+# Run external commands after building the MeowEngine
 add_custom_command(
     TARGET MeowEngine
     POST_BUILD

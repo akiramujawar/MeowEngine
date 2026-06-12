@@ -27,7 +27,7 @@ target_include_directories(
 target_link_libraries(
     ImGui
     PUBLIC
-    ${SDL2_LIBRARIES}
+    SDL_Framework
     ${OPENGL_LIBRARIES}
 )
 
