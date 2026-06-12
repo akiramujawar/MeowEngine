@@ -9,6 +9,7 @@
 #include <InputDevice.hpp>
 #include <GameplaySystem.hpp>
 #include <CommandQueue.hpp>
+#include <RenderExtractor.hpp>
 
 namespace MeowEngine::Rendering {
     struct RendererInitData {
@@ -16,6 +17,7 @@ namespace MeowEngine::Rendering {
         Input::InputDevice* InputDevice;
         Runtime::GameplaySystem* Gameplay;
         Messaging::CommandQueue* CommandQueue;
+        RenderExtractor* RenderExtractor;
     };
 }
 

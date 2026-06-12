@@ -20,8 +20,7 @@
 #include <GraphicsDevice.hpp>
 
 #include <Renderer.hpp>
-#include <RenderSceneExtractor.hpp>
-#include <RenderUIExtractor.hpp>
+#include <RenderExtractor.hpp>
 
 #include <EditorModule.hpp>
 #include <RuntimeModule.hpp>
@@ -102,8 +101,7 @@ namespace MeowEngine {
         // modules
         Graphics::GraphicsDevice GraphicsDevice;
         Rendering::Renderer Renderer;
-        Rendering::RenderSceneExtractor RenderSceneExtractor;
-        Rendering::RenderUIExtractor RenderUIExtractor;
+        Rendering::RenderExtractor RenderExtractor;
         Editor::EditorModule Editor;
         Runtime::RuntimeModule Runtime;
         Physics::PhysicsModule Physics;

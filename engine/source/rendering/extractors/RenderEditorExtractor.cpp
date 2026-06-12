@@ -1,11 +1,11 @@
 //
-// Created by Akira Mujawar on 09/06/26.
+// Created by Akira Mujawar on 12/06/26.
 //
 
-#include <RenderUIExtractor.hpp>
+#include <RenderEditorExtractor.hpp>
 
-// core
-#include <Public/Threading/Include.hpp>
+#include <RenderSceneData.hpp>
+#include <RenderUIData.hpp>
 
 // runtime
 #include <GameplaySystem.hpp>
@@ -18,48 +18,90 @@
 #include <IdentityComponent.hpp>
 #include <info_component.hpp>
 #include <hierarchy_component.hpp>
+#include <transform3d_component.hpp>
+#include <collider_component.hpp>
 
 namespace MeowEngine::Rendering {
+    RenderEditorExtractor::RenderEditorExtractor() {}
 
-    RenderUIExtractor::RenderUIExtractor() {}
-
-    RenderUIExtractor::~RenderUIExtractor() {}
-
-    void RenderUIExtractor::Init(const RenderUIExtractorInitData& data) {
-        Gameplay = data.Gameplay;
-        Selector = data.Selector;
+    void RenderEditorExtractor::Init(const RenderExtractorInitData& frame) {
+        Gameplay = frame.Gameplay;
+        Selector = frame.Selector;
     }
 
-    void RenderUIExtractor::Schedule(Threading::Scheduler& scheduler) {
-        scheduler.AddTask(
-            [this]() {
-                Clear();
-                Extract();
+    void RenderEditorExtractor::ExtractScene(RenderSceneData& frame) {
+        auto& ecs = Gameplay->GetWorld().GetRegistry();
+
+        // selected transform handles
+        for (auto &&entity : Selector->SelectedEntities) {
+            auto transform = ecs.try_get<entity::Transform3DComponent>(entity);
+
+            if (transform != nullptr) {
+                Rendering::TransformHandleDrawData data {};
+                // data.Shader = editor.TransformhandelAsset
+                data.TransformMatrix = transform->TransformMatrix;
+
+                frame.TransformHandles.push_back(data);
             }
-        );
+        }
 
-        // swap buffers (internally only swaps if buffers are not locked)
-        scheduler.AddTask(
-            [this]() {
-                RenderUIData.Swap();
+        // grid
+        frame.Grid.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+        frame.Grid.TransformMatrix = glm::mat4(1.0f); // camera mvp
+
+        // physics colliders (box, sphere)
+        auto&& collidersView = ecs.view<entity::Transform3DComponent, entity::ColliderComponent>();
+        for (auto &&entity : collidersView) {
+            auto&& [transform, collider] = collidersView.get(entity);
+
+            switch (collider.GetColliderData().GetType()) {
+                case entity::ColliderType::BOX: {
+                    auto shape = collider.GetColliderData().Cast<entity::BoxColliderShape>();
+                    BoxColliderDrawData data;
+                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+                    data.TransformMatrix = transform.TransformMatrix; // process collider transform
+
+                    frame.BoxColliders.push_back(data);
+                    break;
+                }
+
+                case entity::ColliderType::SPHERE: {
+                    auto shape = collider.GetColliderData().Cast<entity::SphereColliderShape>();
+                    SphereColliderDrawData data;
+                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+                    data.TransformMatrix = transform.TransformMatrix; // process collider transform
+
+                    frame.SphereColliders.push_back(data);
+
+                    break;
+                }
+
+                default:
+                    break;
             }
-        );
+        }
+
+        // -- examples
+        // auto view = registry.view<MeowEngine::core::component::Transform3DComponent>();
+        // for(auto entity: view)
+        // {
+        //     auto transform = view.get<MeowEngine::core::component::Transform3DComponent>(entity);
+        //
+        // }
+        //
+        // auto view = registry.view<entity::Transform3dComponent>();
+        // registry.view<MeowEngine::entity::Transform3dComponent>().each([](auto entity, auto &MeowEngine::entity::Transform3dComponent) {
+        //     // ...
+        // });
+        //
+        // for(auto &&[entt::entity, MeowEngine::entity::Transform3dComponent]: registry.view<entity::Transform3dComponent>().each()) {
+        //     // ...
+        // }
     }
 
-    void RenderUIExtractor::Clear() {
-        auto& frame = RenderUIData.GetCurrent();
-        frame.RootEntities.clear();
-        frame.EntityHierarchyMap.clear();
-        frame.SelectedEntities.clear();
-        frame.LastSelectedEntityComponents.clear();
-    }
-
-    void RenderUIExtractor::Extract() {
-        PT_PROFILE_SCOPE;
-
+    void RenderEditorExtractor::ExtractUI(RenderUIData& frame) {
         auto& world = Gameplay->GetWorld();
         auto& ecs = world.GetRegistry();
-        auto& frame = RenderUIData.GetCurrent();
 
         // extract entities for tree panel
         auto view = ecs.view<Runtime::IdentityComponent, entity::InfoComponent, component::HierarchyComponent>();
@@ -145,4 +187,17 @@ namespace MeowEngine::Rendering {
         frame.SelectedAssetPath = String(Selector->SelectedAssetPath);
     }
 
+    void RenderEditorExtractor::Clear(RenderSceneData& sceneData, RenderUIData& uiData) {
+        // clear scene data
+        sceneData.BoxColliders.clear();
+        sceneData.SphereColliders.clear();
+        sceneData.Lines.clear();
+        sceneData.TransformHandles.clear();
+
+        // clear ui data
+        uiData.RootEntities.clear();
+        uiData.EntityHierarchyMap.clear();
+        uiData.SelectedEntities.clear();
+        uiData.LastSelectedEntityComponents.clear();
+    }
 }

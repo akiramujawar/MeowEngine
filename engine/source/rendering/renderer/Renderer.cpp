@@ -7,8 +7,7 @@
 #include <RendererInitData.hpp>
 #include <RenderContext.hpp>
 
-#include <RenderSceneExtractor.hpp>
-#include <RenderUIExtractor.hpp>
+#include <RenderExtractor.hpp>
 
 namespace MeowEngine::Rendering {
     Renderer::Renderer() {}
@@ -22,11 +21,12 @@ namespace MeowEngine::Rendering {
         Context.CommandQueue = context.CommandQueue;
         Context.PipelineManager = &PipelineManager;
         Context.ResourceManager = &ResourceManager;
+        Context.Extractor = context.RenderExtractor;
     }
 
-    void Renderer::Schedule(Threading::Scheduler& scheduler, RenderSceneExtractor& sceneExtractor, RenderUIExtractor& uiExtractor) {
-        Context.SceneData = &sceneExtractor.GetRenderFrameData().GetFinal();
-        Context.UIData = &uiExtractor.GetRenderFrameData().GetFinal();
+    void Renderer::Schedule(Threading::Scheduler& scheduler) {
+        // Context.SceneData = &extractor.GetRenderSceneData().GetFinal();
+        // Context.UIData = &extractor.GetRenderUIData().GetFinal();
 
         Scene.Schedule(scheduler, Context);
         UI.Schedule(scheduler, Context);

@@ -14,8 +14,7 @@
 #include <RenderCommand.hpp>
 #include <RendererInitData.hpp>
 
-#include <RenderSceneExtractorInitData.hpp>
-#include <RenderUIExtractorInitData.hpp>
+#include <RenderExtractorInitData.hpp>
 
 #include <EditorInitContext.hpp>
 #include <MessageContext.hpp>
@@ -91,27 +90,22 @@ namespace MeowEngine {
 
         Editor.Init(editorInit);
 
+        // -- extraction
+        Rendering::RenderExtractorInitData extractorInit {};
+        extractorInit.Gameplay = &Runtime.GetGameplay();
+        extractorInit.Selector = &Editor.GetSelector();
+
+        RenderExtractor.Init(extractorInit);
+
         // -- rendering
         Rendering::RendererInitData renderInit {};
         renderInit.GraphicsDevice = &GraphicsDevice;
         renderInit.InputDevice = &InputDevice;
         renderInit.Gameplay = &Runtime.GetGameplay();
         renderInit.CommandQueue = &CommandQueue;
+        renderInit.RenderExtractor = &RenderExtractor;
 
         Renderer.Init(renderInit);
-
-        // -- extraction
-        Rendering::RenderSceneExtractorInitData sceneExtractorInit {};
-        sceneExtractorInit.Gameplay = &Runtime.GetGameplay();
-        sceneExtractorInit.Selector = &Editor.GetSelector();
-
-        RenderSceneExtractor.Init(sceneExtractorInit);
-
-        Rendering::RenderUIExtractorInitData uiExtractorInit {};
-        uiExtractorInit.Gameplay = &Runtime.GetGameplay();
-        uiExtractorInit.Selector = &Editor.GetSelector();
-
-        RenderUIExtractor.Init(uiExtractorInit);
 
         // -- messaging
         Messaging::MessageContext messageContext {};
@@ -161,11 +155,10 @@ namespace MeowEngine {
 
             // -- runs on main thread
             Editor.Schedule(Scheduler);
-            RenderSceneExtractor.Schedule(Scheduler);
-            RenderUIExtractor.Schedule(Scheduler);
+            RenderExtractor.Schedule(Scheduler);
 
             // -- runs on render thread
-            Renderer.Schedule(Scheduler, RenderSceneExtractor, RenderUIExtractor);
+            Renderer.Schedule(Scheduler);
 
             // -- messaging executes at last on main thread but before swap
             // NOTE: internally any swaps schedule should wait until messaging is processed

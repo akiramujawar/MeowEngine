@@ -58,13 +58,17 @@ namespace MeowEngine::Rendering {
 
         scheduler.AddTask(
             [this, &renderContext]() {
+                renderContext.SceneData = &renderContext.Extractor->GetRenderSceneData().GetFinal();
+
                 RenderGraph.Clear();
+
                 RenderGraph.Add<SkyboxPass>();
                 RenderGraph.Add<EditorOverlayPass>();
                 RenderGraph.Add<GeometryPass>();
                 RenderGraph.Add<DebugPass>();
                 RenderGraph.Add<PostProcessPass>();
                 RenderGraph.Add<GizmoPass>();
+
                 RenderGraph.Execute(renderContext);
             }
         );

@@ -1,9 +1,9 @@
 //
-// Created by Akira Mujawar on 09/06/26.
+// Created by Akira Mujawar on 19/05/26.
 //
 
-#ifndef MEOWENGINE_RENDERUIEXTRACTORINITDATA_HPP
-#define MEOWENGINE_RENDERUIEXTRACTORINITDATA_HPP
+#ifndef MEOWENGINE_RENDEREXTRACTORINITDATA_HPP
+#define MEOWENGINE_RENDEREXTRACTORINITDATA_HPP
 
 namespace MeowEngine::Runtime {
     class GameplaySystem;
@@ -14,10 +14,10 @@ namespace MeowEngine::Editor {
 }
 
 namespace MeowEngine::Rendering {
-    struct RenderUIExtractorInitData {
+    struct RenderExtractorInitData {
         Runtime::GameplaySystem* Gameplay;
         Editor::Selector* Selector;
     };
 }
 
-#endif //MEOWENGINE_RENDERUIEXTRACTORINITDATA_HPP
+#endif //MEOWENGINE_RENDEREXTRACTORINITDATA_HPP

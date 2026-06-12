@@ -16,9 +16,12 @@
 
 namespace MeowEngine::Rendering {
     struct RenderSceneData {
-        GridDrawData Grid; // this goes to renderer pass config
+        // runtime
         SkyboxDrawData Skybox;
         std::vector<MeshDrawData> Meshes;
+
+        // editor
+        GridDrawData Grid; // this goes to renderer pass config
         std::vector<BoxColliderDrawData> BoxColliders;
         std::vector<SphereColliderDrawData> SphereColliders;
         std::vector<LineDrawData> Lines;

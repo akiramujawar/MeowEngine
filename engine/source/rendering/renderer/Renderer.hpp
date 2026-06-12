@@ -20,8 +20,7 @@ namespace MeowEngine::Graphics {
 
 namespace MeowEngine::Rendering {
     struct RendererInitData;
-    class RenderSceneExtractor;
-    class RenderUIExtractor;
+    class RenderExtractor;
 
     class Renderer {
     public:
@@ -29,7 +28,7 @@ namespace MeowEngine::Rendering {
         ~Renderer();
 
         void Init(RendererInitData& context);
-        void Schedule(Threading::Scheduler& scheduler, RenderSceneExtractor& sceneExtractor,  RenderUIExtractor& uiExtractor);
+        void Schedule(Threading::Scheduler& scheduler);
         void Shutdown();
 
         RenderResourceManager& GetResourceManager() {
