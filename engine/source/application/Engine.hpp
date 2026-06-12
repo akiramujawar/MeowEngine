@@ -83,9 +83,30 @@ namespace MeowEngine {
 
 
     private:
+        /**
+         * Initialise engine systems
+         */
         void Init();
+
+        /**
+         * Load project and other engine specific assets
+         */
+        void Load();
+
+        /**
+         * Main loop for scheduling processes
+         */
         void Loop();
-        void ShutDown();
+
+        /**
+         * Unload any engine specific assets
+         */
+        void Unload();
+
+        /**
+         * Close all threads and processes
+         */
+        void Shutdown();
 
         bool ProcessDeviceInput(const Input::InputEvents& events);
 

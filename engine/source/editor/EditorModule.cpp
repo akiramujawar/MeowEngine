@@ -16,15 +16,14 @@ namespace MeowEngine::Editor {
         MeowEngine::Log("EditorModule", "Destructed");
     }
 
-    void EditorModule::Init() {
+    void EditorModule::Init(EditorInitContext& context) {
         Selector.Init(Runtime::GetProject().ProjectSettings.GetProjectPath());
+        FileOpener.Init(context);
     }
 
     void EditorModule::Schedule(Threading::Scheduler& scheduler) {
 
     }
 
-    Selector& EditorModule::GetSelector() { return Selector; }
-
-    EnttBufferBase& EditorModule::GetInputBuffer() { return EnttSingleBuffer; }
+    // EnttBufferBase& EditorModule::GetInputBuffer() { return EnttSingleBuffer; }
 }

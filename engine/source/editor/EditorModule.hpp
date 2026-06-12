@@ -7,11 +7,13 @@
 
 #include <Public/Threading/Include.hpp>
 
-#include <entt_single_buffer.hpp>
+// #include <entt_single_buffer.hpp>
 #include <Selector.hpp>
-
+#include <FileDialog.hpp>
 
 namespace MeowEngine::Editor {
+    struct EditorInitContext;
+
     /**
      * Owns the editor states, features & coordinates internally
      * NOTE: Similar can be created for runtime & thus expanding for external module
@@ -21,20 +23,23 @@ namespace MeowEngine::Editor {
         EditorModule();
         ~EditorModule();
 
-        void Init();
+        void Init(EditorInitContext& context);
         void Schedule(Threading::Scheduler& scheduler);
 
-        Selector& GetSelector();
-        EnttBufferBase& GetInputBuffer();
+        Selector& GetSelector() {
+            return Selector;
+        }
+        // EnttBufferBase& GetInputBuffer();
 
     private:
         Selector Selector;
+        FileDialog FileOpener;
 
-        /**
-         * This gives double buffering & reflection for ui inputs
-         * NOTE: this needs to be decoupled and removed
-         */
-        EnttSingleBuffer EnttSingleBuffer;
+        // /**
+        //  * This gives double buffering & reflection for ui inputs
+        //  * NOTE: this needs to be decoupled and removed
+        //  */
+        // EnttSingleBuffer EnttSingleBuffer;
     };
 }
 

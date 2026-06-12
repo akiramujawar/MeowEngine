@@ -55,9 +55,7 @@ namespace MeowEngine::Rendering {
         scheduler.AddTask(
             [&]() {
                 EditorBuilder.BuildDrawData(
-                    renderContext,
-                    Editor::GetEditor().GetInputBuffer().GetCurrent()
-                    , Editor::GetEditor().GetInputBuffer().GetPropertyChangeQueue()
+                    renderContext
                     , Editor::GetEditor().GetSelector()
                     , 0, 0
                 );

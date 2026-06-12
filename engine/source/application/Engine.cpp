@@ -16,6 +16,7 @@
 #include <RenderSceneExtractorInitData.hpp>
 #include <RenderUIExtractorInitData.hpp>
 
+#include <EditorInitContext.hpp>
 #include <MessageContext.hpp>
 
 namespace MeowEngine {
@@ -49,11 +50,15 @@ namespace MeowEngine {
         IsRunning = true;
 
         Init();
+        Load();
         Loop();
     }
 
     void Engine::Close() {
         IsRunning = false;
+
+        Unload();
+        Shutdown();
     }
 
     void Engine::Init() {
@@ -77,8 +82,14 @@ namespace MeowEngine {
         // TODO: later we will include everything here (like InputManager etc...)
         // AssetManager.Init();
 
+        // -- runtime
         Runtime.Init();
-        Editor.Init();
+
+        // -- editor
+        Editor::EditorInitContext editorInit {};
+        editorInit.GraphicsDevice = &GraphicsDevice;
+
+        Editor.Init(editorInit);
 
         // -- rendering
         Rendering::RendererInitData renderInit {};
@@ -103,11 +114,15 @@ namespace MeowEngine {
         RenderUIExtractor.Init(uiExtractorInit);
 
         // -- messaging
-        Messaging::MessageContext messageContext;
+        Messaging::MessageContext messageContext {};
         messageContext.Selector = &Editor.GetSelector();
         messageContext.Gameplay = &Runtime.GetGameplay();
 
         CommandQueue.Init(messageContext);
+    }
+
+    void Engine::Load() {
+
     }
 
     void Engine::Loop() {
@@ -150,13 +165,10 @@ namespace MeowEngine {
             // -- come back on this later (for job system flow)
             Executor->Execute(Scheduler);
         }
-
-        ShutDown();
     }
 
-    void Engine::ShutDown() {
-
-    }
+    void Engine::Unload() {}
+    void Engine::Shutdown() {}
 
     bool Engine::ProcessDeviceInput(const Input::InputEvents& events) {
         PT_PROFILE_SCOPE;
