@@ -1,0 +1,1 @@
+find_package(OpenCL REQUIRED) #required by tracy

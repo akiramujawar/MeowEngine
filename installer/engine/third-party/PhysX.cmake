@@ -14,35 +14,48 @@ target_link_libraries(
     PhysX
 )
 
-find_library(
-    PHYSX_LIBRARY
-    NAMES libPhysX_static_64.a
-    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-)
+if(EMSCRIPTEN)
+    set(PHYSX_LIB "${THIRD_PARTY_DIR}/physx/physx/bin/emscripten/release")
 
-find_library(
-    PHYSX_COMMON_LIB
-    NAMES libPhysXCommon_static_64.a
-    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-)
+    target_link_libraries(
+        MeowEngine
+        PUBLIC
+        "${PHYSX_LIB}/libPhysX_static.a"
+        "${PHYSX_LIB}/libPhysXCommon_static.a"
+        "${PHYSX_LIB}/libPhysXFoundation_static.a"
+        "${PHYSX_LIB}/libPhysXExtensions_static.a"
+    )
+elseif(APPLE)
+    find_library(
+        PHYSX_LIBRARY
+        NAMES libPhysX_static_64.a
+        PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+    )
 
-find_library(
-    PHYSX_FOUNDATION_LIB
-    NAMES libPhysXFoundation_static_64.a
-    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-)
+    find_library(
+        PHYSX_COMMON_LIB
+        NAMES libPhysXCommon_static_64.a
+        PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+    )
 
-find_library(
-    PHYSX_EXTENSIONS_LIB
-    NAMES libPhysXExtensions_static_64.a
-    PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
-)
+    find_library(
+        PHYSX_FOUNDATION_LIB
+        NAMES libPhysXFoundation_static_64.a
+        PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+    )
 
-target_link_libraries(
-    MeowEngine
-    PUBLIC
-    ${PHYSX_LIBRARY}
-    ${PHYSX_COMMON_LIB}
-    ${PHYSX_FOUNDATION_LIB}
-    ${PHYSX_EXTENSIONS_LIB}
-)
+    find_library(
+        PHYSX_EXTENSIONS_LIB
+        NAMES libPhysXExtensions_static_64.a
+        PATHS ${THIRD_PARTY_DIR}/physx/physx/bin/linux.x86_64/release
+    )
+
+    target_link_libraries(
+        MeowEngine
+        PUBLIC
+        ${PHYSX_LIBRARY}
+        ${PHYSX_COMMON_LIB}
+        ${PHYSX_FOUNDATION_LIB}
+        ${PHYSX_EXTENSIONS_LIB}
+    )
+endif ()

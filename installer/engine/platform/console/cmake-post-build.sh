@@ -1,6 +1,6 @@
 #!/bin/bash
 #../../../
-pushd ../../../builds/console || exit
+pushd builds/console || exit
 
   if [ ! -d 'dependencies' ]; then
     mkdir dependencies

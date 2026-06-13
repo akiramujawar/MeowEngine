@@ -3,10 +3,10 @@
 echo "Building HTML files..."
 
 # Copy our 'template.html' into the output folder as 'index.html'.
-cp template.html ../../../builds/web/index.html
+cp installer/engine/platform/web/template.html builds/web/index.html
 
 # Navigate into the output folder then start a simple server and open it.
-pushd ../../../builds/web
+pushd builds/web
 #  http-server
 
 

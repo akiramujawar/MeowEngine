@@ -24,12 +24,23 @@ target_include_directories(
     ${THIRD_PARTY_DIR}/imgui/backends
 )
 
-target_link_libraries(
-    ImGui
-    PUBLIC
-    SDL_Framework
-    ${OPENGL_LIBRARIES}
-)
+
+if(EMSCRIPTEN)
+    target_compile_options(ImGui PRIVATE
+        "-sUSE_SDL=2"
+    )
+
+    target_link_options(ImGui PRIVATE
+        "-sUSE_SDL=2"
+    )
+elseif (APPLE)
+    target_link_libraries(
+        ImGui
+        PUBLIC
+        SDL_Framework
+        ${OPENGL_LIBRARIES}
+    )
+endif ()
 
 target_link_libraries(
     MeowEngine

@@ -269,6 +269,54 @@ fetch_third_party_lib_entt()
     popd
 }
 
+fetch_emscripten()
+{
+    local output_name="$1"
+    local project_path="$2"
+
+    # If required, download and configure the Emscripten SDK into the third-party folder.
+    pushd libs/third-party
+       if [ ! -d "$output_name" ]; then
+          echo "------ Fetching Emscripten SDK ..."
+
+          # Download the Emscripten SDK as a zip file from GitHub.
+          wget -O "$output_name".zip "$project_path"
+
+          # Unzip the Emscripten SDK.
+          unzip -q "$output_name".zip
+
+          # Find the newly extracted top-level directory
+          extracted_dir=$(zipinfo -1 "$output_name.zip" | head -1 | cut -d/ -f1)
+
+          # Rename it to 'emscripten'.
+          mv "$extracted_dir" "$output_name"
+
+          # Clean up the zip file we downloaded.
+          rm "$output_name".zip
+       fi
+    popd
+
+    # ideally we use 4.0.1
+    pushd libs/third-party/"$output_name"
+#        echo "Updating Emscripten SDK ..."
+#        ./emsdk update
+
+        echo "------ Installing latest Emscripten SDK ..."
+        ./emsdk install latest
+
+        echo "------ Activating latest Emscripten SDK ..."
+        ./emsdk activate latest
+
+        echo "------ Configuring Emscripten environment variables"
+        source ./emsdk_env.sh
+
+        echo "------ Emscripten version"
+        emcc --version
+    popd
+}
+
+# linux ------------------------------------------------------------------------------------
+
 fetch_third_party_lib_physx()
 {
   verify_third_party_folder_exists
@@ -286,6 +334,7 @@ fetch_third_party_lib_physx()
   pushd libs/third-party/physx/physx || exit
     ./generate_projects.sh linux-clang
 
+    echo "Compiling linux-clang-release"
     pushd compiler/linux-clang-release || exit
         make clean
         make -j4
@@ -293,8 +342,13 @@ fetch_third_party_lib_physx()
   popd || exit
 }
 
+# web ------------------------------------------------------------------------------------
+
 fetch_third_party_lib_physx_web()
 {
+  fetch_emscripten "emscripten-4-0-1" "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.1.zip"
+
+  use_emscripten_env
   verify_third_party_folder_exists
 
   # shellcheck disable=SC2164
@@ -308,16 +362,24 @@ fetch_third_party_lib_physx_web()
 
   # linux-aarch64 | linux
   pushd libs/third-party/physx/physx || exit
+    echo "----------------------------Version"
+    emcc --version
+
+    echo "----------------------------Generate"
+    echo "Generating project"
     ./generate_projects.sh emscripten
 
+    echo "----------------------------Emscripten"
+    echo "Compiling Emscripten PhysX"
     pushd compiler/emscripten-release || exit
         make clean
-        make -j8
+#        make -j8 # use multiple threads to build (faster)
+        make -j1 VERBOSE=1 # use single thread to build
     popd || exit
   popd || exit
 }
 
-#------------------------------------------------------------------------------------
+# macos ------------------------------------------------------------------------------------
 
 # MacOS Lib's
 fetch_framework_sdl2() {

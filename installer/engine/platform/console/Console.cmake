@@ -28,6 +28,6 @@ endif()
 add_custom_command(
     TARGET MeowEngine
     POST_BUILD
-    WORKING_DIRECTORY ${INSTALLER_DIR}
-    COMMAND ./cmake-post-build.sh -p console
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    COMMAND ${INSTALLER_DIR}/./cmake-post-build.sh -p console
 )
