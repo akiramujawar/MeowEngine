@@ -8,6 +8,30 @@
 #include <ImguiAPI.hpp>
 #include <PlatformBridgeAPI.hpp>
 
+namespace {
+    void LoadIniFromFileSystem() { // used for emscripten only
+        const char* iniPath = "assets/layout.ini"; // Path in the virtual filesystem
+        if (FILE* file = fopen(iniPath, "r")) {
+            fseek(file, 0, SEEK_END);
+            size_t size = ftell(file);
+            rewind(file);
+
+            char* buffer = new char[size + 1];
+            fread(buffer, 1, size, file);
+            buffer[size] = '\0'; // Null-terminate the string
+            fclose(file);
+
+            ImGui::LoadIniSettingsFromMemory(buffer, size);
+            delete[] buffer;
+
+            MeowEngine::Log("ImGUI", "Loaded File");
+        }
+        else {
+            MeowEngine::Log("ImGUI", "Failed to open file");
+        }
+    }
+}
+
 namespace MeowEngine::Rendering {
     ImGuiRender::ImGuiRender(Graphics::GraphicsDevice& device) {
 #ifdef __EMSCRIPTEN__
@@ -25,7 +49,7 @@ namespace MeowEngine::Rendering {
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         //    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-#ifdef __EMSCRIPTEN__
+#ifdef __WEB__
         LoadIniFromFileSystem();
 #else
         io.IniFilename = "assets/layout.ini";

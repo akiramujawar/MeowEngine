@@ -4,10 +4,40 @@
 
 #include "SDL_NativeFileDialog.hpp"
 
+#include "log.hpp"
 #include "SDL_API.hpp"
 #include "NFD_API.hpp"
 
-#include "log.hpp"
+#if (__WEB__)
+
+namespace MeowEngine::Platform {
+    void SDL_NativeFileDialog::Init() {}
+
+    void SDL_NativeFileDialog::Quit() {}
+
+    void SDL_NativeFileDialog::ShowError(const char* message, SDL_Window* window) {
+        if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", message, window) != 0) {
+            printf("SDL_ShowSimpleMessageBox failed: %s\n", SDL_GetError());
+            return;
+        }
+    }
+
+    void SDL_NativeFileDialog::ShowMessage(const char* path, SDL_Window* window) {
+        if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Success", path, window) != 0) {
+                printf("SDL_ShowSimpleMessageBox failed: %s\n", SDL_GetError());
+            return;
+        }
+    }
+
+    void SDL_NativeFileDialog::OpenDialog(SDL_Window* window, std::string& path) {}
+    void SDL_NativeFileDialog::OpenDialogMultiple(SDL_Window* window, std::vector<std::string>& paths) {}
+    void SDL_NativeFileDialog::PickFolder(SDL_Window* window, std::string& path) {}
+    void SDL_NativeFileDialog::PickFolderMultiple(SDL_Window* window, std::vector<std::string>& paths) {}
+    void SDL_NativeFileDialog::SaveDialog(SDL_Window* window) {}
+
+}
+
+#else
 
 namespace {
     using MeowEngine::Platform::SDL_NativeFileDialog;
@@ -201,3 +231,5 @@ namespace MeowEngine::Platform {
     }
     
 }
+
+#endif

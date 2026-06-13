@@ -48,6 +48,12 @@ namespace MeowEngine {
         void Open();
         void Close();
 
+#if __WEB__
+        void WebLoop() {
+            Schedule();
+        }
+#endif
+
     private:
         /**
          * Initialise engine systems
@@ -58,6 +64,11 @@ namespace MeowEngine {
          * Load project and other engine specific assets
          */
         void Load();
+
+        /**
+         *
+         */
+        void Schedule();
 
         /**
          * Main loop for scheduling processes

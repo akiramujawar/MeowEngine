@@ -16,8 +16,8 @@ namespace MeowEngine {
 
         // need to call whenever we want the texture to be applied to the object being rendered
         void Bind() const;
-        u_int16_t GetWidth() const;
-        u_int16_t GetHeight() const;
+        uint16_t GetWidth() const;
+        uint16_t GetHeight() const;
         void* GetTextureID() const;
 
     private:

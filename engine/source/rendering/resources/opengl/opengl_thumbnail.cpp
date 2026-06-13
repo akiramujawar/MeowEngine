@@ -35,8 +35,8 @@ namespace {
 
 struct MeowEngine::OpenGLThumbnail::Internal {
     const GLuint TextureID;
-    const u_int16_t Width;
-    const u_int16_t Height;
+    const uint16_t Width;
+    const uint16_t Height;
 
     Internal(const MeowEngine::Bitmap& bitmap)
         : TextureID(::CreateTexture(bitmap))
@@ -56,11 +56,11 @@ void MeowEngine::OpenGLThumbnail::Bind() const {
     glBindTexture(GL_TEXTURE_2D, InternalPointer->TextureID);
 }
 
-u_int16_t MeowEngine::OpenGLThumbnail::GetWidth() const {
+uint16_t MeowEngine::OpenGLThumbnail::GetWidth() const {
     return InternalPointer->Width;
 }
 
-u_int16_t MeowEngine::OpenGLThumbnail::GetHeight() const {
+uint16_t MeowEngine::OpenGLThumbnail::GetHeight() const {
     return InternalPointer->Height;
 }
 

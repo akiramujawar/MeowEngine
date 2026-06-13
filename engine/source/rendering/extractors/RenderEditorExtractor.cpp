@@ -38,7 +38,7 @@ namespace MeowEngine::Rendering {
 
             if (transform != nullptr) {
                 Rendering::TransformHandleDrawData data {};
-                // data.Shader = editor.TransformhandelAsset
+                data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
                 data.TransformMatrix = transform->TransformMatrix;
 
                 frame.TransformHandles.push_back(data);

@@ -11,7 +11,11 @@
 #include <system_error>
 
 namespace  MeowEngine::Editor {
-    pid_t TracyProfiler::ProcessID = -1;
+    #if (__WEB__)
+        int TracyProfiler::ProcessID = -1;
+    #else
+        pid_t TracyProfiler::ProcessID = -1;
+    #endif
 
     TracyProfiler::TracyProfiler() {
         ProcessID = -1;

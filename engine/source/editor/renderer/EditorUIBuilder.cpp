@@ -7,29 +7,29 @@
 #include <log.hpp>
 #include <GraphicsDevice.hpp>
 
-namespace {
-    void LoadIniFromFileSystem() {
-        const char* iniPath = "assets/layout.ini"; // Path in the virtual filesystem
-        if (FILE* file = fopen(iniPath, "r")) {
-            fseek(file, 0, SEEK_END);
-            size_t size = ftell(file);
-            rewind(file);
-
-            char* buffer = new char[size + 1];
-            fread(buffer, 1, size, file);
-            buffer[size] = '\0'; // Null-terminate the string
-            fclose(file);
-
-            ImGui::LoadIniSettingsFromMemory(buffer, size);
-            delete[] buffer;
-
-            MeowEngine::Log("ImGUI", "Loaded File");
-        }
-        else {
-            MeowEngine::Log("ImGUI", "Failed to open file");
-        }
-    }
-}
+// namespace {
+//     void LoadIniFromFileSystem() {
+//         const char* iniPath = "assets/layout.ini"; // Path in the virtual filesystem
+//         if (FILE* file = fopen(iniPath, "r")) {
+//             fseek(file, 0, SEEK_END);
+//             size_t size = ftell(file);
+//             rewind(file);
+//
+//             char* buffer = new char[size + 1];
+//             fread(buffer, 1, size, file);
+//             buffer[size] = '\0'; // Null-terminate the string
+//             fclose(file);
+//
+//             ImGui::LoadIniSettingsFromMemory(buffer, size);
+//             delete[] buffer;
+//
+//             MeowEngine::Log("ImGUI", "Loaded File");
+//         }
+//         else {
+//             MeowEngine::Log("ImGUI", "Failed to open file");
+//         }
+//     }
+// }
 
 namespace MeowEngine::Editor {
 

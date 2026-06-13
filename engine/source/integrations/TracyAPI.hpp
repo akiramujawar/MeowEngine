@@ -10,13 +10,16 @@
 //#include <TracyOpenCL.hpp>
 //#include "../../../../../../third-party/tracy/public/common/TracySystem.hpp"
 
-#include "Tracy.hpp"
-#include "TracyC.h"
+#if (!__WEB__)
+    #include "Tracy.hpp"
+    #include "TracyC.h"
 
-#include <TracyOpenGL.hpp>
-//#include "TracyOpenCL.hpp"
-//#include "TracyOpenGL.hpp"
-#include "../../../../third-party/tracy/public/common/TracySystem.hpp"
+    #include <TracyOpenGL.hpp>
+    //#include "TracyOpenCL.hpp"
+    //#include "TracyOpenGL.hpp"
+    #include "../../../../third-party/tracy/public/common/TracySystem.hpp"
+#endif
+
 
 #define PT_PROFILE_SCOPE ZoneScoped
 #define PT_PROFILE_SCOPE_N(x) ZoneScopedN(x)

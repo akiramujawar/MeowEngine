@@ -4,6 +4,7 @@
 #include "SDL_EngineWindow.hpp"
 
 #include "GL_API.hpp"
+#include <EmscriptenAPI.hpp>
 
 #include "SDL_NativeFileDialog.hpp"
 #include "PlatformType.hpp"
@@ -30,25 +31,22 @@ namespace MeowEngine::Platform {
     }
 
     Vector2Int SDL_EngineWindow::GetWindowSize() {
-        uint32_t displayWidth{0};
-        uint32_t displayHeight{0};
-
-#ifdef __EMSCRIPTEN__
+#ifdef __WEB__
         // For Emscripten targets we will invoke some Javascript
         // to find out the dimensions of the canvas in the HTML
         // document. Note that the 'width' and 'height' attributes
         // need to be set on the <canvas /> HTML element, like so:
         // <canvas id="canvas" width="600", height="360"></canvas>
 
-        uint32_t width{static_cast<uint32_t>(EM_ASM_INT({
+        int width = static_cast<int>(EM_ASM_INT({
             return document.getElementById('canvas').width;
-        }))};
+        }));
 
-        uint32_t height{static_cast<uint32_t>(EM_ASM_INT({
+        int height = static_cast<int>(EM_ASM_INT({
             return document.getElementById('canvas').height;
-        }))};
+        }));
 
-        return WindowSize{width, height};
+        return Vector2Int{width, height};
 #else
         int width {0};
         int height {0};
@@ -77,10 +75,12 @@ namespace MeowEngine::Platform {
 
     SDL_Window* SDL_EngineWindow::CreateHandle(const uint32_t& windowFlags){
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
-            throw std::runtime_error("Main Thread:: Could not initialize SDL2_image");
+            throw std::runtime_error("Main Thread:: Could not initialize VIDEO & EVENTS");
         }
 
         if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+            std::cout << "SDL_image error: " << IMG_GetError() << std::endl;
+            MeowEngine::Log("SDL Image error", IMG_GetError(), LogType::ERROR);
             throw std::runtime_error("Main Thread:: Could not initialize SDL2_image");
         }
     

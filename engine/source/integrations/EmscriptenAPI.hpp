@@ -10,7 +10,7 @@
 #include <iostream>
 
 // Emscripten
-#ifdef __EMSCRIPTEN__
+#if (__WEB__)
     #include <emscripten.h>
 #endif
 

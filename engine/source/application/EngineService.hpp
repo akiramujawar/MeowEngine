@@ -22,7 +22,7 @@ namespace MeowEngine {
         friend struct Engine;
 
         static EngineService& Get() {
-            assert(Instance);
+            // assert(Instance); // cannot support on emscripten :(
             return *Instance;
         }
 

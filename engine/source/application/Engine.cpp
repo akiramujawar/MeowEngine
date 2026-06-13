@@ -19,6 +19,17 @@
 #include <EditorInitContext.hpp>
 #include <MessageContext.hpp>
 
+#if __WEB__
+#include <EmscriptenAPI.hpp>
+
+namespace {
+    void EmscriptenLoop(MeowEngine::Engine* engine) {
+        MeowEngine::Log("Emscripten", "Looping");
+        engine->WebLoop();
+    }
+}
+#endif
+
 namespace MeowEngine {
     Engine::Engine()
         : IsRunning(false)
@@ -49,7 +60,12 @@ namespace MeowEngine {
 
         Init();
         Load();
+
+#if __WEB__
+        emscripten_set_main_loop_arg((em_arg_callback_func) ::EmscriptenLoop, this, 60, 1);
+#else
         Loop();
+#endif
     }
 
     void Engine::Close() {
@@ -128,46 +144,50 @@ namespace MeowEngine {
 
     }
 
+    void Engine::Schedule() {
+        Scheduler.Clear();
+
+        // -- runs on main thread
+        InputDevice.Schedule(Scheduler);
+
+        // -- runs on main thread
+        Scheduler.AddTask([this](){
+            if (!ProcessDeviceInput(InputDevice.GetEvents().GetCurrent())) {
+                Close();
+            }
+        });
+
+        // -- runs on main thread
+        Timing.Schedule(Scheduler);
+
+        // -- runs on main thread
+        // apply physics result => runtime
+        Runtime.Schedule(Scheduler);
+        // queue physics command => runtime
+
+        // -- runs on physics thread
+        // process physics command => physics
+        Physics.Schedule(Scheduler);
+        // create physics result => physics
+
+        // -- runs on main thread
+        Editor.Schedule(Scheduler);
+        RenderExtractor.Schedule(Scheduler);
+
+        // -- runs on render thread
+        Renderer.Schedule(Scheduler);
+
+        // -- messaging executes at last on main thread but before swap
+        // NOTE: internally any swaps schedule should wait until messaging is processed
+        CommandQueue.Schedule(Scheduler);
+
+        // -- come back on this later (for job system flow)
+        Executor->Execute(Scheduler);
+    }
+
     void Engine::Loop() {
         while (IsRunning) {
-            Scheduler.Clear();
-
-            // -- runs on main thread
-            InputDevice.Schedule(Scheduler);
-
-            // -- runs on main thread
-            Scheduler.AddTask([this](){
-                if (!ProcessDeviceInput(InputDevice.GetEvents().GetCurrent())) {
-                    Close();
-                }
-            });
-
-            // -- runs on main thread
-            Timing.Schedule(Scheduler);
-
-            // -- runs on main thread
-            // apply physics result => runtime
-            Runtime.Schedule(Scheduler);
-            // queue physics command => runtime
-
-            // -- runs on physics thread
-            // process physics command => physics
-            Physics.Schedule(Scheduler);
-            // create physics result => physics
-
-            // -- runs on main thread
-            Editor.Schedule(Scheduler);
-            RenderExtractor.Schedule(Scheduler);
-
-            // -- runs on render thread
-            Renderer.Schedule(Scheduler);
-
-            // -- messaging executes at last on main thread but before swap
-            // NOTE: internally any swaps schedule should wait until messaging is processed
-            CommandQueue.Schedule(Scheduler);
-
-            // -- come back on this later (for job system flow)
-            Executor->Execute(Scheduler);
+            Schedule();
         }
     }
 

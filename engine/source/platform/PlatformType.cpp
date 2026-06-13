@@ -6,17 +6,17 @@
 
 MeowEngine::PlatformType MeowEngine::GetCurrentPlatform() {
     #if defined(__EMSCRIPTEN__)
-        return MeowEngine::Platform::emscripten;
+        return MeowEngine::PlatformType::emscripten;
     #elif __APPLE__
         #include "TargetConditionals.h"
         #if TARGET_OS_IPHONE
-            return MeowEngine::Platform::ios;
+            return MeowEngine::PlatformType::ios;
         #else
             return MeowEngine::PlatformType::mac;
         #endif
     #elif __ANDROID__
-        return MeowEngine::Platform::android;
+        return MeowEngine::PlatformType::android;
     #elif WIN32
-        return MeowEngine::Platform::windows;
+        return MeowEngine::PlatformType::windows;
     #endif
 }

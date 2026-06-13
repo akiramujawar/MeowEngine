@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_PROFILER_HPP
 #define MEOWENGINE_PROFILER_HPP
 
-#ifdef __ENABLE_TRACY__
+#if (!__WEB__)
     #include "TracyAPI.hpp"
 #else
     #define PT_PROFILE_SCOPE

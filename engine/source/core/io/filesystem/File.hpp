@@ -15,7 +15,7 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     class File {
     public:
-        static std::vector<u_int8_t> ReadAll(const std::string_view path);
+        static std::vector<uint8_t> ReadAll(const std::string_view path);
         static std::string ReadText(const std::string_view path);
 
         static size_t Read(const std::string_view path, void* buffer, size_t size);

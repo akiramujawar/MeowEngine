@@ -10,12 +10,12 @@
 
 
 namespace MeowEngine::Core::IO::FileSystem {
-    std::vector<u_int8_t> File::ReadAll(const std::string_view path) {
+    std::vector<uint8_t> File::ReadAll(const std::string_view path) {
         FileStream stream;
         stream.Open(Path(path), FileMode::READ);
 
         std::size_t size = stream.Size();
-        std::vector<u_int8_t> data(size);
+        std::vector<uint8_t> data(size);
 
         stream.Read(data.data(), data.size());
         stream.Close();

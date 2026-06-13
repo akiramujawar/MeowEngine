@@ -5,6 +5,8 @@
 #ifndef MEOWENGINE_PLATFORMBRIDGEAPI_HPP
 #define MEOWENGINE_PLATFORMBRIDGEAPI_HPP
 
+#if (!__WEB__)
+
 #ifdef __APPLE__
     extern "C" {
         #include "mac_bridge.h"
@@ -13,6 +15,8 @@
     #include "window_bridge.h"
 
     void createWindowsMenu(HWND hwnd);
+#endif
+
 #endif
 
 #endif //MEOWENGINE_PLATFORMBRIDGEAPI_HPP
