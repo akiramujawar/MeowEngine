@@ -48,4 +48,5 @@ cmake -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_PATH} -S .
 # Start the actual build.
 echo " "
 echo "------- Building project ..."
+#make VERBOSE=1
 make -j$(sysctl -n hw.ncpu) VERBOSE=1

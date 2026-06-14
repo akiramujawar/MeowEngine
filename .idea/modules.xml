@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/physicat.iml" filepath="$PROJECT_DIR$/.idea/physicat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/meowengine.iml" filepath="$PROJECT_DIR$/.idea/meowengine.iml" />
     </modules>
   </component>
 </project>
