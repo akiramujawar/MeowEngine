@@ -17,7 +17,7 @@ elseif (APPLE)
     )
 
     target_link_libraries(
-        MeowEngine
+        MeowStandalone
         PUBLIC
         ${OPENGL_LIBRARIES} OpenGL_Framework
     )

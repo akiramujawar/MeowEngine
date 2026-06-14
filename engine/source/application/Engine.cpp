@@ -4,7 +4,7 @@
 
 #include <Engine.hpp>
 
-// #include <SDL_API.hpp>
+#include <AppIcon.hpp>
 #include <EngineService.hpp>
 
 #include <MultiThreadExecutor.hpp>
@@ -34,6 +34,7 @@ namespace MeowEngine {
     Engine::Engine()
         : IsRunning(false)
     {
+        SetAppIcon();
         MeowEngine::Log("Engine", "Initializing Engine...");
 
         try {

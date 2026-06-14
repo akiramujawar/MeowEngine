@@ -5,8 +5,40 @@ set(BUILD_PLATFORM "console" CACHE STRING "Build type")
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fexceptions")
 
-# load engine
+# if the project is started without providing sandbox project (i.e. from ide)
+# we set engine/examples as project path (default)
+if(NOT PROJECT_PATH)
+    set(PROJECT_PATH ${PROJECT_SOURCE_DIR}/engine/examples)
+endif()
+
+set(THIRD_PARTY_DIR ${PROJECT_SOURCE_DIR}/libs/third-party)
+set(MAIN_SOURCE_DIR ${PROJECT_SOURCE_DIR}/engine/source)
+set(INSTALLER_DIR ${PROJECT_SOURCE_DIR}/installer/engine/platform/${BUILD_PLATFORM})
+
+# set the output folder for executable
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_PATH}/builds/${BUILD_PLATFORM})
+
+add_executable(
+    MeowStandalone
+
+    ${MAIN_SOURCE_DIR}/main.mm
+)
+
+# build sandbox & engine
 include(${CMAKE_CURRENT_LIST_DIR}/Engine.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Sandbox.cmake)
+
+target_link_libraries(
+    MeowStandalone
+    PRIVATE
+    MeowEngine
+)
+
+target_link_libraries(
+    MeowStandalone
+    PRIVATE
+    Sandbox
+)
 
 # platform configs
 message(STATUS "Selected build: ${BUILD_PLATFORM}")

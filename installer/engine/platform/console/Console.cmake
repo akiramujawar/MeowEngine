@@ -7,7 +7,7 @@ target_compile_definitions(MeowEngine PUBLIC __SINGLE_THREAD__)
 # Platform specific for apple (will come on this while working on web & windows) - painful stuff ehhhh
 if(APPLE)
     target_link_libraries(
-        MeowEngine
+        MeowStandalone
         PRIVATE
         "-framework AppKit"
         "-framework Foundation"
@@ -17,7 +17,7 @@ if(APPLE)
 
     # give the RPath for linking our custom dependencies/Frameworks
     set_target_properties(
-        MeowEngine
+        MeowStandalone
         PROPERTIES
         BUILD_RPATH "@loader_path/engine/dependencies/Frameworks"
     )
@@ -28,7 +28,7 @@ message(STATUS "Running external command")
 
 # Run external commands after building the MeowEngine
 add_custom_command(
-    TARGET MeowEngine
+    TARGET MeowStandalone
     POST_BUILD
     WORKING_DIRECTORY ${PROJECT_PATH}
     COMMAND ENGINE_PATH=${CMAKE_SOURCE_DIR}

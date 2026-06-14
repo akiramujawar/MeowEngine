@@ -15,6 +15,7 @@ if(EMSCRIPTEN)
     )
 elseif (APPLE)
     add_library(SDL_Framework INTERFACE)
+
     target_include_directories(
         SDL_Framework INTERFACE
         ${THIRD_PARTY_DIR}/SDL/include
@@ -36,7 +37,7 @@ elseif (APPLE)
     )
 
     target_link_libraries(
-        MeowEngine
+        MeowStandalone
         PUBLIC
         SDL_Framework
     )

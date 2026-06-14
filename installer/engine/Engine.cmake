@@ -1,29 +1,29 @@
 cmake_minimum_required(VERSION 4.1)
 
 # Set Paths
-set(THIRD_PARTY_DIR ${PROJECT_SOURCE_DIR}/libs/third-party)
-set(MAIN_SOURCE_DIR ${PROJECT_SOURCE_DIR}/engine/source)
-set(ASSETS ${PROJECT_SOURCE_DIR}/engine/assets)
-set(INSTALLER_DIR ${PROJECT_SOURCE_DIR}/installer/engine/platform/${BUILD_PLATFORM})
+#set(THIRD_PARTY_DIR ${PROJECT_SOURCE_DIR}/libs/third-party)
+#set(MAIN_SOURCE_DIR ${PROJECT_SOURCE_DIR}/engine/source)
+##set(ASSETS ${PROJECT_SOURCE_DIR}/engine/assets)
+#set(INSTALLER_DIR ${PROJECT_SOURCE_DIR}/installer/engine/platform/${BUILD_PLATFORM})
 set(LIBRARY_DIR ${PROJECT_SOURCE_DIR}/libs)
 set(SETTINGS_DIR ${PROJECT_SOURCE_DIR}/engine/settings)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/engine/include)
 set(TOOLS_DIR ${PROJECT_SOURCE_DIR}/engine/tools)
 set(TESTS_DIR ${PROJECT_SOURCE_DIR}/engine/tests)
 
-# move this to Sandbox later
-if(NOT PROJECT_PATH)
-    set(PROJECT_PATH ${PROJECT_SOURCE_DIR}/engine/examples)
-endif()
+## move this to Sandbox later
+#if(NOT PROJECT_PATH)
+#    set(PROJECT_PATH ${PROJECT_SOURCE_DIR}/engine/examples)
+#endif()
 
 # Set output directory for builds
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_PATH}/builds/${BUILD_PLATFORM})
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_PATH}/builds/${BUILD_PLATFORM})
 #set(CMAKE_BUILD_RPATH "@loader_path/dependencies/Frameworks")
 #set(CMAKE_INSTALL_RPATH "@loader_path/dependencies/Frameworks")
 
 message("directory-----------------------------------")
 message(${INSTALLER_DIR})
-message(${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+#message(${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 # Sources
 file(GLOB_RECURSE CPP_SOURCES CONFIGURE_DEPENDS
@@ -81,8 +81,8 @@ endforeach()
 list(REMOVE_DUPLICATES ALL_INCLUDE_DIRS)
 
 # Add our main engine executable & link it
-add_executable(
-    MeowEngine
+add_library(
+    MeowEngine STATIC
 
     ${CPP_SOURCES}
     ${SETTINGS_SOURCES}
@@ -91,12 +91,11 @@ add_executable(
     ${TESTS_SOURCES}
 
     ${M_SOURCES}
-    ${MAIN_SOURCE_DIR}/application/main.mm
 )
 
 target_include_directories(
     MeowEngine
-    PRIVATE
+    PUBLIC
     ${ALL_INCLUDE_DIRS}
 )
 

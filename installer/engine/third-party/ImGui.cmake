@@ -44,6 +44,6 @@ endif ()
 
 target_link_libraries(
     MeowEngine
-    PRIVATE
+    PUBLIC
     ImGui
 )
