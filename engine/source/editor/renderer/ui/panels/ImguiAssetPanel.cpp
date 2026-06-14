@@ -32,8 +32,8 @@ namespace MeowEngine::Editor {
         , DefaultSelectableFlags(ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth)
         , DefaultSelectableNoListFlags(DefaultSelectableFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen)
         , IsActive(false)
-        , folderImage(OpenGLThumbnail(assets::LoadBitmap("assets/icons/thumbnails/folder.png")))
-        , unknownImage(OpenGLThumbnail(assets::LoadBitmap("assets/icons/thumbnails/unknown.png"))){
+        , folderImage(OpenGLThumbnail(assets::LoadBitmap("engine/assets/icons/thumbnails/folder.png")))
+        , unknownImage(OpenGLThumbnail(assets::LoadBitmap("engine/assets/icons/thumbnails/unknown.png"))){
         PT_PROFILE_ALLOC("ImguiAssetPanel", sizeof(ImguiAssetPanel))
 
     }
@@ -155,8 +155,9 @@ namespace MeowEngine::Editor {
         // show internal engine assets
         {
             auto enginePath = MeowEngine().Project.Settings.GetEnginePath();
-            auto assetPath = enginePath + "assets";
-        
+            auto assetPath = enginePath + "engine/assets";
+
+            // MeowEngine::Log("Engine Path", enginePath.GetRawString());
             ShowDirectory(assetPath.GetRawString(), "Engine");
         }
         ImGui::EndChild();

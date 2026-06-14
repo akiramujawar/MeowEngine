@@ -76,6 +76,8 @@ namespace MeowEngine {
     }
 
     void Engine::Init() {
+        Project.Init();
+
         // on create
         // - create window - graphics
         // - create context - graphics
@@ -115,6 +117,7 @@ namespace MeowEngine {
 
         // -- rendering
         Rendering::RendererInitData renderInit {};
+        renderInit.Project = &Project;
         renderInit.GraphicsDevice = &GraphicsDevice;
         renderInit.InputDevice = &InputDevice;
         renderInit.Gameplay = &Runtime.GetGameplay();

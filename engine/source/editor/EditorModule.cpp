@@ -18,6 +18,8 @@ namespace MeowEngine::Editor {
     }
 
     void EditorModule::Init(EditorInitContext& context) {
+        context.Project->Settings.InitDevelopment();
+
         Selector.Init(context.Project->Settings.GetProjectPath());
         FileDialog.Init(context);
     }

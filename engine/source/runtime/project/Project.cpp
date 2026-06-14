@@ -12,4 +12,8 @@ namespace MeowEngine::Runtime {
     Project::~Project() {
         MeowEngine::Log("Project", "Destructed");
     }
+
+    void Project::Init() {
+        Settings.Init();
+    }
 }

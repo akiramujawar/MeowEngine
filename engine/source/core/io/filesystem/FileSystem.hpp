@@ -27,6 +27,7 @@ namespace MeowEngine::Core::IO::FileSystem {
 
         static bool CreateDirectory(const Path& path);
         static bool IsDirectory(const Path& path);
+        static Path GetExecutablePath();
         
         /**
          *

@@ -24,11 +24,11 @@ namespace MeowEngine::Rendering {
     SceneRenderer::SceneRenderer()
         : SceneViewFrameBuffer(Graphics::GLWorldViewBuffer(1000, 500))
     {
-        MeowEngine::Log("Renderer", "Constructed");
+        MeowEngine::Log("SceneRenderer", "Constructed");
     }
 
     SceneRenderer::~SceneRenderer() {
-        MeowEngine::Log("Renderer", "Destructed");
+        MeowEngine::Log("SceneRenderer", "Destructed");
     }
 
     void SceneRenderer::Init(RendererInitData& context) {

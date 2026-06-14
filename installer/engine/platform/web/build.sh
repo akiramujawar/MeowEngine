@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Include the shared scripts and utility methods that are common to all platforms.
-. installer/platforms/shared-scripts.sh
+. installer/engine/platform/shared-scripts.sh
 
 ## Make sure we have a 'build' folder.
 #if [ ! -d "build" ]; then

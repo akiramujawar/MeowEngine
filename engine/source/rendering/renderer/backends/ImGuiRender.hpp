@@ -13,6 +13,8 @@ namespace MeowEngine::Rendering {
         ImGuiRender(Graphics::GraphicsDevice& device);
         ~ImGuiRender() override;
 
+        void Init(RendererInitData& context) override;
+
         /**
          * Start recording Render Commands for ScreenSpace UI
          */

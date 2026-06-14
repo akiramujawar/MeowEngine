@@ -10,8 +10,12 @@
 #include <RenderExtractor.hpp>
 
 namespace MeowEngine::Rendering {
-    Renderer::Renderer() {}
-    Renderer::~Renderer() {}
+    Renderer::Renderer() {
+        MeowEngine::Log("Renderer", "Constructed");
+    }
+    Renderer::~Renderer() {
+        MeowEngine::Log("Renderer", "Destructed");
+    }
 
     void Renderer::Init(RendererInitData& context) {
         Scene.Init(context);

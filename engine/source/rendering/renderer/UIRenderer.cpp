@@ -17,12 +17,17 @@
 #include "RenderContext.hpp"
 
 namespace MeowEngine::Rendering {
-    UIRenderer::UIRenderer() = default;
-    UIRenderer::~UIRenderer() = default;
+    UIRenderer::UIRenderer() {
+        MeowEngine::Log("UIRenderer", "Constructed");
+    };
+    UIRenderer::~UIRenderer() {
+        MeowEngine::Log("UIRenderer", "Destructed");
+    };
 
     void UIRenderer::Init(RendererInitData& context) {
         InputDevice = context.InputDevice;
         Backend = std::make_unique<ImGuiRender>(*context.GraphicsDevice);
+        Backend->Init(context);
 
         RuntimeBuilder.Init();
         EditorBuilder.Init(*context.Gameplay);

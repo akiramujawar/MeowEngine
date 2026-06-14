@@ -12,30 +12,47 @@ namespace MeowEngine::Settings {
     class ProjectSettings {
     public:
         ProjectSettings()
-        : EnginePath("")
+        : EnginePath("") // TODO: we retrieve this from Sandbox.txt
         , ProjectPath("")
+        , ExecutablePath("")
         , ProjectMetadataPath("")
         , AssetRegistryPath("") {}
 
-        void SetProjectPath(const std::string& path) {
-            const auto projectPath = FileSystem::Path(path);
-            auto meowProject = projectPath + projectPath.GetName();
-            meowProject.ReplaceExtension(".meowproject");
+        void Init() {
+            ExecutablePath = FileSystem::FileSystem::GetExecutablePath();
 
-            auto assetRegistry = projectPath + "Registry";
+            auto assetRegistry = ExecutablePath + "Registry";
             assetRegistry.ReplaceExtension(".meowdata");
 
-            ProjectPath = FileSystem::Path(path);
-            ProjectMetadataPath = meowProject;
             AssetRegistryPath = assetRegistry;
         }
 
+        void InitDevelopment() {
+            ProjectPath = ExecutablePath.GetParent().GetParent();
+
+            auto meowProject = ProjectPath + ProjectPath.GetName();
+            meowProject.ReplaceExtension(".meowproject");
+            ProjectMetadataPath = meowProject;
+        }
+
+        /**
+         * NOTE: Only use inside editor code
+         * @return
+         */
         const FileSystem::Path& GetEnginePath() {
             return EnginePath;
         }
 
+        /**
+         * NOTE: Only use inside editor code
+         * @return
+         */
         const FileSystem::Path& GetProjectPath() {
             return ProjectPath;
+        }
+
+        const FileSystem::Path& GetExecutablePath() {
+            return ExecutablePath;
         }
 
         const FileSystem::Path& GetAssetResolverPath() {
@@ -45,6 +62,7 @@ namespace MeowEngine::Settings {
     private:
         FileSystem::Path EnginePath;
         FileSystem::Path ProjectPath;
+        FileSystem::Path ExecutablePath;
         FileSystem::Path ProjectMetadataPath;
         FileSystem::Path AssetRegistryPath;
     };

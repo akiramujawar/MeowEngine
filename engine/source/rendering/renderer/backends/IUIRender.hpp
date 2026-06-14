@@ -12,9 +12,13 @@ namespace MeowEngine::Graphics {
 typedef union SDL_Event SDL_Event;
 
 namespace MeowEngine::Rendering {
+    struct RendererInitData;
+
     class IUIRender {
     public:
         virtual ~IUIRender() = default;
+
+        virtual void Init(RendererInitData& context) = 0;
 
         /**
          * Start recording Render Commands for ScreenSpace UI

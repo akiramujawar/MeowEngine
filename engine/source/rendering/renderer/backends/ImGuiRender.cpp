@@ -4,9 +4,11 @@
 
 #include <ImGuiRender.hpp>
 
-#include <GraphicsDevice.hpp>
 #include <ImguiAPI.hpp>
 #include <PlatformBridgeAPI.hpp>
+
+#include <GraphicsDevice.hpp>
+#include <RendererInitData.hpp>
 
 namespace {
     void LoadIniFromFileSystem() { // used for emscripten only
@@ -42,19 +44,6 @@ namespace MeowEngine::Rendering {
 
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
-        (void) io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        //    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
-#ifdef __WEB__
-        LoadIniFromFileSystem();
-#else
-        io.IniFilename = "assets/layout.ini";
-        ImGui::LoadIniSettingsFromDisk(io.IniFilename);
-#endif
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();
@@ -77,6 +66,23 @@ namespace MeowEngine::Rendering {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplSDL2_Shutdown();
         ImGui::DestroyContext();
+    }
+
+    void ImGuiRender::Init(RendererInitData& context) {
+        ImGuiIO& io = ImGui::GetIO();
+        (void) io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+#ifdef __WEB__
+        LoadIniFromFileSystem();
+#else
+        auto path = context.Project->Settings.GetExecutablePath() + "assets/layout.ini";
+        MeowEngine::Log("IMGUI PATH", path.GetRawString());
+        io.IniFilename = path.GetRawString().c_str();
+        ImGui::LoadIniSettingsFromDisk(io.IniFilename);
+#endif
     }
 
     void ImGuiRender::BeginFrame() {

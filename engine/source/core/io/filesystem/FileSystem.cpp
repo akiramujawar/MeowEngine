@@ -6,6 +6,17 @@
 
 #include "filesystem"
 
+#if (__WEB__)
+
+#elif __APPLE__
+    #include <mach-o/dyld.h>
+#elif __linux__
+
+#elif _WIN32
+
+#endif
+
+
 namespace MeowEngine::Core::IO::FileSystem {
 
 
@@ -30,7 +41,29 @@ namespace MeowEngine::Core::IO::FileSystem {
         
         return directoryEntry.is_directory();
     }
-    
+
+    Path FileSystem::GetExecutablePath() {
+        #if (__WEB__)
+            auto executableDir = std::filesystem::current_path();
+        #elif __APPLE__
+            uint32_t size = 0;
+            _NSGetExecutablePath(nullptr, &size);
+
+            std::string buffer(size, '\0');
+            _NSGetExecutablePath(buffer.data(), &size);
+
+            auto executableDir = std::filesystem::canonical(buffer).parent_path();
+        #elif __linux__
+            auto exeDir = std::filesystem::canonical("/proc/self/exe");
+        #elif _WIN32
+            // char path[MAX_PATH];
+            // GetModuleFileNameA(nullptr, path, MAX_PATH);
+            // auto executableDir = std::filesystem::path(path)
+        #endif
+
+        return {executableDir.c_str()};
+    }
+
     bool FileSystem::Move(const Path& filePath , const Path& directoryToMovePath) {
         if(!IsDirectory(directoryToMovePath)) {
             MeowEngine::Log("FileSystem::Move", {directoryToMovePath.GetRawString(), "Not a directory"})  ;

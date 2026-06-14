@@ -19,15 +19,19 @@ if(APPLE)
     set_target_properties(
         MeowEngine
         PROPERTIES
-        BUILD_RPATH "@loader_path/dependencies/Frameworks"
+        BUILD_RPATH "@loader_path/engine/dependencies/Frameworks"
     )
 
 endif()
+
+message(STATUS "Running external command")
 
 # Run external commands after building the MeowEngine
 add_custom_command(
     TARGET MeowEngine
     POST_BUILD
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-    COMMAND ${INSTALLER_DIR}/./cmake-post-build.sh -p console
+    WORKING_DIRECTORY ${PROJECT_PATH}
+    COMMAND ENGINE_PATH=${CMAKE_SOURCE_DIR}
+            ${INSTALLER_DIR}/./cmake-post-build.sh
+            -p console
 )

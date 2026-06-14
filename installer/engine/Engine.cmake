@@ -9,10 +9,15 @@ set(LIBRARY_DIR ${PROJECT_SOURCE_DIR}/libs)
 set(SETTINGS_DIR ${PROJECT_SOURCE_DIR}/engine/settings)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/engine/include)
 set(TOOLS_DIR ${PROJECT_SOURCE_DIR}/engine/tools)
-set(EXAMPLES_DIR ${PROJECT_SOURCE_DIR}/engine/examples)
+set(TESTS_DIR ${PROJECT_SOURCE_DIR}/engine/tests)
+
+# move this to Sandbox later
+if(NOT PROJECT_PATH)
+    set(PROJECT_PATH ${PROJECT_SOURCE_DIR}/engine/examples)
+endif()
 
 # Set output directory for builds
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/builds/${BUILD_PLATFORM})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_PATH}/builds/${BUILD_PLATFORM})
 #set(CMAKE_BUILD_RPATH "@loader_path/dependencies/Frameworks")
 #set(CMAKE_INSTALL_RPATH "@loader_path/dependencies/Frameworks")
 
@@ -27,7 +32,6 @@ file(GLOB_RECURSE CPP_SOURCES CONFIGURE_DEPENDS
 
 set(M_SOURCES)
 if(APPLE AND NOT EMSCRIPTEN)
-#    list(APPEND M_SOURCES "${MAIN_SOURCE_DIR}/platform/backends/mac")
     file(GLOB_RECURSE M_SOURCES CONFIGURE_DEPENDS
         ${MAIN_SOURCE_DIR}/platform/backends/mac/*.m
     )
@@ -45,8 +49,8 @@ file(GLOB_RECURSE TOOLS_SOURCES CONFIGURE_DEPENDS
     ${TOOLS_DIR}/*.cpp
 )
 
-file(GLOB_RECURSE EXAMPLES_SOURCES CONFIGURE_DEPENDS
-    ${EXAMPLES_DIR}/*.cpp
+file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS
+    ${TESTS_DIR}/*.cpp
 )
 
 # Recursive include directories
@@ -57,7 +61,7 @@ foreach(ROOT_DIR
     ${SETTINGS_DIR}
     ${INCLUDE_DIR}
     ${TOOLS_DIR}
-    ${EXAMPLES_DIR}
+    ${TESTS_DIR}
 )
     list(APPEND ALL_INCLUDE_DIRS ${ROOT_DIR})
 
@@ -84,7 +88,7 @@ add_executable(
     ${SETTINGS_SOURCES}
     ${INCLUDE_SOURCES}
     ${TOOLS_SOURCES}
-    ${EXAMPLES_SOURCES}
+    ${TESTS_SOURCES}
 
     ${M_SOURCES}
     ${MAIN_SOURCE_DIR}/application/main.mm

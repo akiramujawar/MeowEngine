@@ -1,38 +1,53 @@
 #!/bin/bash
 #../../../
+
+echo "-- Engine Path"
+echo "${ENGINE_PATH}"
+
+echo "-- Sandbox Path (test this for ide and external)"
+SANDBOX_PATH=$(pwd)
+echo "${SANDBOX_PATH}"
+
+echo "-- Linking files"
 pushd builds/console || exit
 
-  if [ ! -d 'dependencies' ]; then
-    mkdir dependencies
+  if [ ! -d 'engine' ]; then
+    mkdir "engine"
   fi
 
-  if [ ! -d 'dependencies/Framework' ]; then
-    pushd dependencies  || exit
-      echo "Linking libraries"
-      # shellcheck disable=SC2226
-      ln -s ../../../libs/Frameworks
-    popd || exit
-  fi
+  pushd engine || exit
+    if [ ! -d 'dependencies' ]; then
+      mkdir dependencies
+    fi
 
-  if [ !  -d 'assets' ]; then
-      echo "Linking Engine Data"
-      # shellcheck disable=SC2226
-      ln -s ../../engine/assets
-  fi
+    if [ ! -d 'dependencies/Framework' ]; then
+      pushd dependencies  || exit
+        echo "Linking libraries"
+        # shellcheck disable=SC2226
+        ln -s "${ENGINE_PATH}/libs/Frameworks"
+      popd || exit
+    fi
 
-  if [ ! -d 'project' ]; then
+    if [ !  -d 'dependencies/profiler' ]; then
+      pushd dependencies || exit
+        echo "Linking Tracy Server Profiler"
+        # shellcheck disable=SC2226
+        ln -s "${ENGINE_PATH}/libs/third-party/tracy/profiler"
+      popd || exit
+    fi
+
+    if [ !  -d 'assets' ]; then
+        echo "Linking Engine Data"
+        # shellcheck disable=SC2226
+        ln -s "${ENGINE_PATH}/engine/assets"
+    fi
+  popd || exit
+
+  if [ ! -d 'assets' ]; then
       echo "Linking Example Project"
       # shellcheck disable=SC2226
-      ln -s ../../engine/examples
-      mv examples project
-  fi
-
-  if [ !  -d 'dependencies/profiler' ]; then
-    pushd dependencies || exit
-      echo "Linking Tracy Server Profiler"
-      # shellcheck disable=SC2226
-      ln -s ../../../libs/third-party/tracy/profiler
-    popd || exit
+      ln -s "${SANDBOX_PATH}"/assets
+#      mv examples project
   fi
 popd || exit
 

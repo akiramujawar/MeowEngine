@@ -14,6 +14,8 @@ namespace MeowEngine::Runtime {
         Project();
         ~Project();
 
+        void Init();
+
         Settings::ProjectSettings Settings;
         Asset::AssetRegistry AssetResolver;
     };

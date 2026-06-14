@@ -4,6 +4,7 @@
 
 #include "scene_add_remove_entity.hpp"
 
+
 namespace MeowEngine {
     void SceneAddRemoveEntity::Update(const float &deltaTime) {
         SceneMultiThread::Update(deltaTime);
