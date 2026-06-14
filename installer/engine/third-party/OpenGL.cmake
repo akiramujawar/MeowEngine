@@ -1,6 +1,6 @@
 
 if(EMSCRIPTEN)
-    target_link_options(MeowEngine PRIVATE
+    target_link_options(MeowStandalone PUBLIC
         "-sUSE_WEBGL2=1"
     )
 elseif (APPLE)

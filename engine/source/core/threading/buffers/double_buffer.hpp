@@ -6,7 +6,7 @@
 #define MEOWENGINE_BUFFER_HPP
 
 #include "utility"
-#include "Profiler.hpp"
+#include "TracyAPI.hpp"
 
 using namespace std;
 

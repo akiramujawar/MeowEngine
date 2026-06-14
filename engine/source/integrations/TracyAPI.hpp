@@ -10,7 +10,12 @@
 //#include <TracyOpenCL.hpp>
 //#include "../../../../../../third-party/tracy/public/common/TracySystem.hpp"
 
-#if (!__WEB__)
+#if (__WEB__)
+    #define PT_PROFILE_SCOPE
+    #define PT_PROFILE_SCOPE_N(x)
+    #define PT_PROFILE_ALLOC(p, size)
+    #define PT_PROFILE_FREE(p)
+#else
     #include "Tracy.hpp"
     #include "TracyC.h"
 
@@ -18,13 +23,12 @@
     //#include "TracyOpenCL.hpp"
     //#include "TracyOpenGL.hpp"
     #include "../../../../third-party/tracy/public/common/TracySystem.hpp"
+
+    #define PT_PROFILE_SCOPE ZoneScoped
+    #define PT_PROFILE_SCOPE_N(x) ZoneScopedN(x)
+    #define PT_PROFILE_ALLOC(p, size) TracyCAllocS(p, size, 12);
+    #define PT_PROFILE_FREE(p) TracyCFreeS(p, 12);
 #endif
-
-
-#define PT_PROFILE_SCOPE ZoneScoped
-#define PT_PROFILE_SCOPE_N(x) ZoneScopedN(x)
-#define PT_PROFILE_ALLOC(p, size) TracyCAllocS(p, size, 12);
-#define PT_PROFILE_FREE(p) TracyCFreeS(p, 12);
 
 //        TracyGpuContext
 //        TracyMessageL("Sleep a little bit");

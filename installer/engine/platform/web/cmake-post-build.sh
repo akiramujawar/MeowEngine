@@ -1,10 +1,17 @@
 #!/bin/bash
 
-echo "Building HTML files..."
+echo "-- Building HTML files..."
+
+echo "-- Engine Path"
+echo "${ENGINE_PATH}"
+
+echo "-- Sandbox Path (test this for ide and external)"
+SANDBOX_PATH=$(pwd)
+echo "${SANDBOX_PATH}"
 
 # Copy our 'template.html' into the output folder as 'index.html'.
-cp installer/engine/platform/web/template.html builds/web/index.html
-
+cp "${ENGINE_PATH}/installer/engine/platform/web/template.html" "${SANDBOX_PATH}/builds/web/index.html"
+cp "${ENGINE_PATH}/installer/engine/platform/web/StartLocalWebServer.sh" "${SANDBOX_PATH}/builds/StartLocalWebServer.sh"
 # Navigate into the output folder then start a simple server and open it.
 #pushd builds/web
 #  http-server

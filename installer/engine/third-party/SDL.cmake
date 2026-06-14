@@ -3,12 +3,14 @@ if(EMSCRIPTEN)
     include_directories(${THIRD_PARTY_DIR}/SDL/include)
     include_directories(${THIRD_PARTY_DIR}/SDL2_image)
 
-    target_compile_options(MeowEngine PRIVATE
+    # link for compiling
+    target_compile_options(MeowEngine PUBLIC
         "-sUSE_SDL=2"
         "-sUSE_SDL_IMAGE=2"
     )
 
-    target_link_options(MeowEngine PRIVATE
+    # link to final wasm target
+    target_link_options(MeowStandalone PUBLIC
         "-sUSE_SDL=2"
         -sUSE_SDL_IMAGE=2
         -sSDL2_IMAGE_FORMATS=['png','jpg']

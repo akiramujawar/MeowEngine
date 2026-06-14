@@ -8,7 +8,7 @@
 #include "mutex"
 #include "thread"
 #include "condition_variable"
-#include "Profiler.hpp"
+#include "TracyAPI.hpp"
 
 class ThreadBarrier {
 public:
