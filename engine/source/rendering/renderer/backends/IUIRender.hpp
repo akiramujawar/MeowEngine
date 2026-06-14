@@ -19,6 +19,7 @@ namespace MeowEngine::Rendering {
         virtual ~IUIRender() = default;
 
         virtual void Init(RendererInitData& context) = 0;
+        virtual void SaveLayout() = 0;
 
         /**
          * Start recording Render Commands for ScreenSpace UI

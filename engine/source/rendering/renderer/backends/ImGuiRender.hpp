@@ -14,6 +14,7 @@ namespace MeowEngine::Rendering {
         ~ImGuiRender() override;
 
         void Init(RendererInitData& context) override;
+        void SaveLayout() override;
 
         /**
          * Start recording Render Commands for ScreenSpace UI

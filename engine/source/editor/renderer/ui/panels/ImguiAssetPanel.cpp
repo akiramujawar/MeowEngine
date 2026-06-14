@@ -147,8 +147,9 @@ namespace MeowEngine::Editor {
         // show open project assets
         {
             auto projectPath = MeowEngine().Project.Settings.GetProjectPath();
-            auto assetPath = projectPath + "source";
-        
+            auto assetPath = projectPath + "assets";
+
+            // MeowEngine::Log("Engine Path", assetPath.GetRawString());
             ShowDirectory(assetPath.GetRawString(), "Project");
         }
     

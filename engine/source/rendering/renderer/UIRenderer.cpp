@@ -111,6 +111,10 @@ namespace MeowEngine::Rendering {
                     case UserDeviceInputType::OPEN_TRACY:
                         EditorBuilder.OpenProfiler();
                         break;
+                    case UserDeviceInputType::SAVE_PROJECT: {
+                        // Scene->Save();
+                        Backend->SaveLayout();
+                    }
                 }
             }
 #endif

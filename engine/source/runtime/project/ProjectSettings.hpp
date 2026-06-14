@@ -20,6 +20,7 @@ namespace MeowEngine::Settings {
 
         void Init() {
             ExecutablePath = FileSystem::FileSystem::GetExecutablePath();
+            MeowEngine::Log("Executable Path", ExecutablePath.GetRawString());
 
             auto assetRegistry = ExecutablePath + "Registry";
             assetRegistry.ReplaceExtension(".meowdata");

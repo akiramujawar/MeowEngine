@@ -9,6 +9,7 @@
 
 #include <GraphicsDevice.hpp>
 #include <RendererInitData.hpp>
+#include <EngineService.hpp>
 
 namespace {
     void LoadIniFromFileSystem() { // used for emscripten only
@@ -78,11 +79,18 @@ namespace MeowEngine::Rendering {
 #ifdef __WEB__
         LoadIniFromFileSystem();
 #else
-        auto path = context.Project->Settings.GetExecutablePath() + "assets/layout.ini";
-        MeowEngine::Log("IMGUI PATH", path.GetRawString());
+        auto path = context.Project->Settings.GetExecutablePath() + "assets/Layout.ini";
+        MeowEngine::Log("ImGui Layout Path", path.GetRawString());
         io.IniFilename = path.GetRawString().c_str();
         ImGui::LoadIniSettingsFromDisk(io.IniFilename);
 #endif
+    }
+
+    void ImGuiRender::SaveLayout() {
+        auto path = MeowEngine().Project.Settings.GetExecutablePath() + "assets/Layout.ini";
+        ImGui::SaveIniSettingsToDisk(path.CStr());
+
+        MeowEngine::Log("ImGui Layout Path", path.GetRawString());
     }
 
     void ImGuiRender::BeginFrame() {

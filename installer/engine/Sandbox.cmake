@@ -28,14 +28,32 @@ endforeach()
 
 list(REMOVE_DUPLICATES ALL_INCLUDE_DIRS)
 
-add_library(
-    Sandbox STATIC
+#add_library(Sandbox STATIC)
+#
+#target_sources(Sandbox PRIVATE ${SANDBOX_SOURCES})
 
-    ${SANDBOX_SOURCES}
-)
+if(SANDBOX_SOURCES)
+    add_library(
+        Sandbox STATIC
+        ${SANDBOX_SOURCES}
+    )
 
-target_link_libraries(
-    Sandbox
-    PUBLIC
-    MeowEngine
-)
+    # link meowengine to sandbox
+    target_link_libraries(
+        Sandbox
+        PUBLIC
+        MeowEngine
+    )
+else ()
+    add_library(
+        Sandbox INTERFACE
+    )
+
+    # link meowengine to sandbox
+    target_link_libraries(
+        Sandbox
+        INTERFACE
+        MeowEngine
+    )
+endif ()
+
