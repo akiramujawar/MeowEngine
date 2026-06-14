@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 14/06/26.
+//
+
+#ifndef MEOWENGINE_FRAGMENTSHADERASSET_HPP
+#define MEOWENGINE_FRAGMENTSHADERASSET_HPP
+
+
+class FragmentShaderAsset {};
+
+
+#endif //MEOWENGINE_FRAGMENTSHADERASSET_HPP

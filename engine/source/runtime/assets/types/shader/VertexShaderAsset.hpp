@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 14/06/26.
+//
+
+#ifndef MEOWENGINE_VERTEXSHADERASSET_HPP
+#define MEOWENGINE_VERTEXSHADERASSET_HPP
+
+
+class VertexShaderAsset {};
+
+
+#endif //MEOWENGINE_VERTEXSHADERASSET_HPP
