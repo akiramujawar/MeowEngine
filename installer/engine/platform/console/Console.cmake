@@ -1,10 +1,11 @@
 message(STATUS "Configuring console build")
 
+# -----
 target_compile_definitions(MeowEngine PUBLIC __ENABLE_TRACY__)
 #target_compile_definitions(MeowEngine PUBLIC __MULTI_THREAD__)
 target_compile_definitions(MeowEngine PUBLIC __SINGLE_THREAD__)
 
-# Platform specific for apple (will come on this while working on web & windows) - painful stuff ehhhh
+# ----- Platform specific for apple (will come on this while working on web & windows) - painful stuff ehhhh
 if(APPLE)
     target_link_libraries(
         MeowStandalone
@@ -26,7 +27,7 @@ endif()
 
 message(STATUS "Running external command")
 
-# Run external commands after building the MeowEngine
+# ----- Run external commands after building the MeowEngine
 add_custom_command(
     TARGET MeowStandalone
     POST_BUILD

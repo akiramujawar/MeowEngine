@@ -2,6 +2,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://akiramujawar.com/assets/scss/main.css">
     <style>
         canvas.emscripten {
             display:block;
@@ -37,11 +38,19 @@
 </head>
 
 <body>
+<div id="use-desktop-popup">
+    <div>
+        <button onclick="removeElement()">x</button>
+        <span>Best to experience this on Desktop for best experience!</span>
+        <br>
+        <a href="../../index.html">Go back!</a>
+    </div>
+</div>
 <div class="content">
     <canvas class="emscripten" id="canvas" width="1000", height="560" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
     <!--    <textarea class="emscripten" id="output" rows="8"></textarea>-->
 </div>
-
+<script src="https://akiramujawar.com/assets/js/main.js"></script>
 <script type='text/javascript'>
     var Module = {
         preRun: [],

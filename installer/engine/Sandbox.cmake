@@ -1,9 +1,8 @@
 
-
-
+# ----- Set Paths
 set(SANDBOX_DIRECTORY ${PROJECT_PATH}/source)
 
-# Recursive include directories
+# ----- Recursive include directories
 set(ALL_INCLUDE_DIRS)
 
 file(GLOB_RECURSE SANDBOX_SOURCES CONFIGURE_DEPENDS
@@ -28,10 +27,8 @@ endforeach()
 
 list(REMOVE_DUPLICATES ALL_INCLUDE_DIRS)
 
-#add_library(Sandbox STATIC)
-#
-#target_sources(Sandbox PRIVATE ${SANDBOX_SOURCES})
-
+# ----- Create library and link to MeowEngine
+# NOTE: check on this. ideally we need to link it to MeowStandalone
 if(SANDBOX_SOURCES)
     add_library(
         Sandbox STATIC

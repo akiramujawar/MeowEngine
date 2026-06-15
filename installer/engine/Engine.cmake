@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
-# Set Paths
-#set(THIRD_PARTY_DIR ${PROJECT_SOURCE_DIR}/libs/third-party)
-#set(MAIN_SOURCE_DIR ${PROJECT_SOURCE_DIR}/engine/source)
-##set(ASSETS ${PROJECT_SOURCE_DIR}/engine/assets)
-#set(INSTALLER_DIR ${PROJECT_SOURCE_DIR}/installer/engine/platform/${BUILD_PLATFORM})
+# ----- Set Paths
 set(LIBRARY_DIR ${PROJECT_SOURCE_DIR}/libs)
 set(SETTINGS_DIR ${PROJECT_SOURCE_DIR}/engine/settings)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/engine/include)
@@ -23,9 +19,8 @@ set(TESTS_DIR ${PROJECT_SOURCE_DIR}/engine/tests)
 
 message("directory-----------------------------------")
 message(${INSTALLER_DIR})
-#message(${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
-# Sources
+# ----- Sources
 file(GLOB_RECURSE CPP_SOURCES CONFIGURE_DEPENDS
     ${MAIN_SOURCE_DIR}/*.cpp
 )
@@ -53,7 +48,7 @@ file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS
     ${TESTS_DIR}/*.cpp
 )
 
-# Recursive include directories
+# ----- Recursive include directories
 set(ALL_INCLUDE_DIRS)
 
 foreach(ROOT_DIR
@@ -80,7 +75,7 @@ endforeach()
 
 list(REMOVE_DUPLICATES ALL_INCLUDE_DIRS)
 
-# Add our main engine executable & link it
+# ----- Add our main engine executable & link it
 add_library(
     MeowEngine STATIC
 
@@ -99,7 +94,7 @@ target_include_directories(
     ${ALL_INCLUDE_DIRS}
 )
 
-# Run third-party cmake to link all the libraries
+# ----- Run third-party cmake to link all the libraries
 add_subdirectory(
     ${PROJECT_SOURCE_DIR}/installer/engine/third-party
 )

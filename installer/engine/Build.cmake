@@ -2,20 +2,23 @@ message(STATUS "Selecting platform...")
 
 set(BUILD_PLATFORM "console" CACHE STRING "Build type")
 
+#  ----- Set Architecture
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fexceptions")
 
-# if the project is started without providing sandbox project (i.e. from ide)
+# ----- Set Project Path if started from IDE
+# this is auto set if Sandbox project builds
 # we set engine/examples as project path (default)
 if(NOT PROJECT_PATH)
     set(PROJECT_PATH ${PROJECT_SOURCE_DIR}/engine/examples)
 endif()
 
+# ---- Set Paths
 set(THIRD_PARTY_DIR ${PROJECT_SOURCE_DIR}/libs/third-party)
 set(MAIN_SOURCE_DIR ${PROJECT_SOURCE_DIR}/engine/source)
 set(INSTALLER_DIR ${PROJECT_SOURCE_DIR}/installer/engine/platform/${BUILD_PLATFORM})
 
-# set the output folder for executable
+# ----- Set the output folder for executable
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_PATH}/builds/${BUILD_PLATFORM})
 
 add_executable(
@@ -24,10 +27,11 @@ add_executable(
     ${MAIN_SOURCE_DIR}/main.mm
 )
 
-# build sandbox & engine
+# ----- Build sandbox & engine
 include(${CMAKE_CURRENT_LIST_DIR}/Engine.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/Sandbox.cmake)
 
+# ----- Link our Engine & Sandbox static libraries
 target_link_libraries(
     MeowStandalone
     PRIVATE
@@ -40,7 +44,7 @@ target_link_libraries(
     Sandbox
 )
 
-# platform configs
+# ----- Platform Configs
 message(STATUS "Selected build: ${BUILD_PLATFORM}")
 
 if(BUILD_PLATFORM STREQUAL "console")
@@ -48,7 +52,7 @@ if(BUILD_PLATFORM STREQUAL "console")
 elseif(BUILD_PLATFORM STREQUAL "web")
     include(${CMAKE_CURRENT_LIST_DIR}/platform/web/Web.cmake)
 elseif (BUILD_PLATFORM STREQUAL "mac")
-    include(${CMAKE_CURRENT_LIST_DIR}/platform/Mac.cmake)
+    include(${CMAKE_CURRENT_LIST_DIR}/platform/mac/Mac.cmake)
 else()
     message(FATAL_ERROR "Unknown build type")
 endif()
