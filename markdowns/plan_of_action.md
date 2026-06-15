@@ -21,6 +21,10 @@
 - [ ] Documenting done items and different approaches and used libraries
 - [x] Hierarchy for entities
 - [ ] Reworking asset loading pipeline & render loading pipeline (shaders, textures, meshes)
+- [x] Refactor cmake
+- [ ] Improving current shader pipeline to handle shaders dynamically
+- [x] Find a way to isolate and build code while developing simulations
+- [ ] Play & Pause & Stop
 
 ## Meow Engine v0.6
 - [ ] Selecting objects
@@ -34,16 +38,14 @@
 - [ ] Add Unit Testing
 - [ ] Creating wrapper for switching between different physics engine
 - [ ] If simple, add basic light and sky box
-- [ ] Improving current shader pipeline to handle shaders dynamically
 - [ ] Researching on auto-build deployment and build status
 - [ ] On repo update - auto build emscripten for web and upload
 - [ ] Create build modes for debug and release
-- [ ] Find a way to isolate and build code while developing simulations
 - [ ] 2 builds for web - engine & a multi-scene simulation
 - [ ] Create a template for dump-testing shaders
 - [ ] Dynamic Window Layout & save'n'load
 - [ ] Setting up Vulkan
 - [ ] Creating 3D spatial hashing (showcase & in-built)
 - [ ] Updating pipeline to use HLSL
-- [ ] Refactor to utilise <system/file.hpp> instead of "file.hpp"
-- [ ] Refactor cmake
+- [ ] Refactor to utilise <system/file.hpp> instead of "file.hpp" (include changes)
+- [ ] Create a client which will cache engine directory & can create sandboxes & cache them as well. 
