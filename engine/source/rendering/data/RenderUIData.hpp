@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_RENDERUIDATA_HPP
 #define MEOWENGINE_RENDERUIDATA_HPP
 
-#include <Public/Core.hpp>
+#include <Public/Core/Include.hpp>
 
 namespace MeowEngine::Rendering {
     /**

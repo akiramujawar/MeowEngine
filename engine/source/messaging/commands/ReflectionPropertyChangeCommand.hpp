@@ -16,7 +16,7 @@ namespace MeowEngine::Messaging {
     public:
         ReflectionPropertyChangeCommand(MeowEngine::ReflectionPropertyChange* change);
 
-        void Execute(MessageContext& context) override;
+        void Execute(MessageInitData& context) override;
 
     private:
         ReflectionPropertyChange* Change;

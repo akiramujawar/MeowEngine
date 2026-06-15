@@ -11,7 +11,7 @@
 #include <system_error>
 
 #include <Public/IO/Include.hpp>
-#include <EngineService.hpp>
+#include <MeowService.hpp>
 #include <Project.hpp>
 
 namespace  MeowEngine::Editor {
@@ -50,7 +50,7 @@ namespace  MeowEngine::Editor {
 
         if (ProcessID == 0) {
             // Child process
-            auto profilerPath = MeowEngine().Project.Settings.GetExecutablePath() + "engine/dependencies/profiler/build/unix/Tracy-release";
+            auto profilerPath = MeowService().Project.Settings.GetExecutablePath() + "engine/dependencies/profiler/build/unix/Tracy-release";
             const char* path = profilerPath.CStr();
             if (execl(path, path, (char*) NULL) == -1) {
                 perror("execl");

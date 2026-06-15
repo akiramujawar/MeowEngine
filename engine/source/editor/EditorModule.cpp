@@ -4,7 +4,7 @@
 
 #include <EditorModule.hpp>
 
-#include <EditorInitContext.hpp>
+#include <EditorInitData.hpp>
 #include <Project.hpp>
 
 namespace MeowEngine::Editor {
@@ -17,7 +17,7 @@ namespace MeowEngine::Editor {
         MeowEngine::Log("EditorModule", "Destructed");
     }
 
-    void EditorModule::Init(EditorInitContext& context) {
+    void EditorModule::Init(EditorInitData& context) {
         context.Project->Settings.InitDevelopment();
 
         Selector.Init(context.Project->Settings.GetProjectPath());

@@ -10,7 +10,7 @@
 #include <Public/Threading/Forward.hpp>
 
 #include <ICommand.hpp>
-#include <MessageContext.hpp>
+#include <MessageInitData.hpp>
 
 namespace MeowEngine::Messaging {
     /**
@@ -21,13 +21,13 @@ namespace MeowEngine::Messaging {
         CommandQueue();
         ~CommandQueue();
 
-        void Init(const MessageContext& context);
+        void Init(const MessageInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
 
         void Push(std::unique_ptr<ICommand> command);
 
     private:
-        MessageContext Context;
+        MessageInitData Context;
         moodycamel::ConcurrentQueue<std::unique_ptr<ICommand>> queue;
     };
 }

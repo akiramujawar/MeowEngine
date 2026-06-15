@@ -13,14 +13,14 @@ namespace MeowEngine::Platform {
 }
 
 namespace MeowEngine::Editor {
-    struct EditorInitContext;
+    struct EditorInitData;
 
     class FileDialog {
     public:
         FileDialog();
         ~FileDialog();
 
-        void Init(const EditorInitContext& context);
+        void Init(const EditorInitData& context);
 
         void ShowPickFolderPopup(std::string& selectedDirectory) const;
         void ShowImportPopup(std::string& selectedFile) const;

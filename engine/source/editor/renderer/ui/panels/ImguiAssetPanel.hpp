@@ -11,7 +11,7 @@
 #include "string_view"
 #include "string"
 
-#include <Public/Core.hpp>
+#include <Public/Core/Include.hpp>
 #include "opengl_thumbnail.hpp"
 
 #include <Public/IO/Forward.hpp>

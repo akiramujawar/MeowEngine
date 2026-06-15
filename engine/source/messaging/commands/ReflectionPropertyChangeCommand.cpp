@@ -6,14 +6,14 @@
 
 #include <reflection_macro_wrapper.hpp>
 #include <GameplaySystem.hpp>
-#include <MessageContext.hpp>
+#include <MessageInitData.hpp>
 
 namespace MeowEngine::Messaging {
     ReflectionPropertyChangeCommand::ReflectionPropertyChangeCommand(MeowEngine::ReflectionPropertyChange* change) {
         Change = change;
     }
 
-    void ReflectionPropertyChangeCommand::Execute(MessageContext& context) {
+    void ReflectionPropertyChangeCommand::Execute(MessageInitData& context) {
         auto& world = context.Gameplay->GetWorld();
         auto& ecs = world.GetRegistry();
 

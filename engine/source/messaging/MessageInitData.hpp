@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 10/06/26.
 //
 
-#ifndef MEOWENGINE_MESSAGECONTEXT_HPP
-#define MEOWENGINE_MESSAGECONTEXT_HPP
+#ifndef MEOWENGINE_MESSAGEINITDATA_HPP
+#define MEOWENGINE_MESSAGEINITDATA_HPP
 
 namespace MeowEngine {
     namespace Editor {
@@ -17,7 +17,7 @@ namespace MeowEngine {
 }
 
 namespace MeowEngine::Messaging {
-    struct MessageContext {
+    struct MessageInitData {
         Editor::Selector* Selector;
         Editor::FileDialog* FileDialog;
 
@@ -25,4 +25,4 @@ namespace MeowEngine::Messaging {
     };
 }
 
-#endif //MEOWENGINE_MESSAGECONTEXT_HPP
+#endif //MEOWENGINE_MESSAGEINITDATA_HPP

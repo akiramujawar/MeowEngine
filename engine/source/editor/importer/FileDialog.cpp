@@ -5,7 +5,7 @@
 #include <FileDialog.hpp>
 
 #include <SDL_NativeFileDialog.hpp>
-#include <EditorInitContext.hpp>
+#include <EditorInitData.hpp>
 #include <GraphicsDevice.hpp>
 
 namespace MeowEngine::Editor {
@@ -17,7 +17,7 @@ namespace MeowEngine::Editor {
         Platform::SDL_NativeFileDialog::Quit();
     }
 
-    void FileDialog::Init(const EditorInitContext& context) {
+    void FileDialog::Init(const EditorInitData& context) {
         Window = &context.GraphicsDevice->GetWindow();
     }
 

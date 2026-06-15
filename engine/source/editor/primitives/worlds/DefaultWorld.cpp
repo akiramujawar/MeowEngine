@@ -5,7 +5,7 @@
 #include <DefaultWorld.hpp>
 
 #include <Public/Math.hpp>
-#include <Public/Core.hpp>
+#include <Public/Core/Include.hpp>
 
 #include <IdentityComponent.hpp>
 #include <info_component.hpp>

@@ -16,7 +16,7 @@ namespace MeowEngine::Messaging {
             IsCtrlSelect = bIsCtrlSelect;
         }
 
-        void Execute(MessageContext& context) override;
+        void Execute(MessageInitData& context) override;
 
     private:
         uint32_t GUID;

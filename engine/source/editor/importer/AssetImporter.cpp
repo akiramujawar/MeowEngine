@@ -5,10 +5,10 @@
 #include <AssetImporter.hpp>
 #include <AssetHeader.hpp>
 #include <AssetType.hpp>
-#include <AssetEntry.hpp>
+#include <AssetMetadata.hpp>
 
 #include <Public/IO.hpp>
-#include <EngineService.hpp>
+#include <MeowService.hpp>
 #include <UUID.hpp>
 
 #include <AssetManager.hpp>
@@ -18,16 +18,16 @@
 using namespace MeowEngine::Runtime;
 
 namespace {
-    Asset::AssetType GetAssetType(const std::string& extension) {
+    MeowEngine::Asset::AssetType GetAssetType(const std::string& extension) {
         if (extension == ".png" || extension == ".jpg") {
-            return Asset::AssetType::TEXTURE;
+            return MeowEngine::Asset::AssetType::TEXTURE;
         }
 
         if (extension == ".obj") {
-            return Asset::AssetType::MESH;
+            return MeowEngine::Asset::AssetType::MESH;
         }
 
-        return Asset::AssetType::UNKNOWN;
+        return MeowEngine::Asset::AssetType::UNKNOWN;
     }
 
     void ImportTextureSetting(std::string& setting) {
@@ -38,19 +38,19 @@ namespace {
         setting = "{}";
     }
 
-    std::string GetSettings(const Asset::AssetType& type) {
+    std::string GetSettings(const MeowEngine::Asset::AssetType& type) {
         std::string setting;
 
         switch (type) {
-            case Asset::AssetType::TEXTURE:
+            case MeowEngine::Asset::AssetType::TEXTURE:
                 ImportTextureSetting(setting);
                 break;
-            case Asset::AssetType::MESH:
+            case MeowEngine::Asset::AssetType::MESH:
                 ImportMeshSetting(setting);
                 break;
-            case Asset::AssetType::WORLD:
+            case MeowEngine::Asset::AssetType::WORLD:
                 break;
-            case Asset::AssetType::MATERIAL:
+            case MeowEngine::Asset::AssetType::MATERIAL:
                 break;
             default:
                 break;
@@ -98,11 +98,11 @@ namespace MeowEngine::Editor {
         stream.Flush();
         stream.Close();
 
-        MeowEngine().AssetManager.GetResolver().Add(uuid, Asset::AssetEntry{type,saveFilePath.CStr()});
-        Asset::Serializer::AssetRegistrySerializer::Serialize(
-             MeowEngine().Project.Settings.GetAssetResolverPath(),
-             MeowEngine().AssetManager.GetResolver()
-        );
+        // MeowService().AssetManager.GetResolver().Add(uuid, Asset::AssetEntry{type,saveFilePath.CStr()});
+        // Asset::Serializer::AssetRegistrySerializer::Serialize(
+        //      MeowService().Project.Settings.GetAssetResolverPath(),
+        //      MeowService().AssetManager.GetResolver()
+        // );
     }
 
 }

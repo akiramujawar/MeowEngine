@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 12/06/26.
 //
 
-#ifndef MEOWENGINE_EDITORINITCONTEXT_HPP
-#define MEOWENGINE_EDITORINITCONTEXT_HPP
+#ifndef MEOWENGINE_EDITORINITDATA_HPP
+#define MEOWENGINE_EDITORINITDATA_HPP
 
 namespace MeowEngine::Graphics {
     class GraphicsDevice;
@@ -14,10 +14,10 @@ namespace MeowEngine::Runtime {
 }
 
 namespace MeowEngine::Editor {
-    struct EditorInitContext {
+    struct EditorInitData {
         Graphics::GraphicsDevice* GraphicsDevice;
         Runtime::Project* Project;
     };
 }
 
-#endif //MEOWENGINE_EDITORINITCONTEXT_HPP
+#endif //MEOWENGINE_EDITORINITDATA_HPP

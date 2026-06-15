@@ -4,12 +4,12 @@
 
 #include <SelectDirectoryCommand.hpp>
 
-#include <MessageContext.hpp>
+#include <MessageInitData.hpp>
 #include <Selector.hpp>
 
 namespace MeowEngine::Messaging {
 
-    void SelectDirectoryCommand::Execute(MessageContext& context) {
+    void SelectDirectoryCommand::Execute(MessageInitData& context) {
         context.Selector->SelectedDirectoryPath = Path.GetRawString();
     }
 

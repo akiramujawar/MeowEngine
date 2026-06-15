@@ -8,7 +8,7 @@ namespace MeowEngine::Messaging {
     CommandQueue::CommandQueue() = default;
     CommandQueue::~CommandQueue() = default;
 
-    void CommandQueue::Init(const MessageContext& context) {
+    void CommandQueue::Init(const MessageInitData& context) {
         Context = context;
     }
 

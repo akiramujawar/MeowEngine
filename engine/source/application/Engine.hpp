@@ -66,14 +66,14 @@ namespace MeowEngine {
         void Load();
 
         /**
-         *
-         */
-        void Schedule();
-
-        /**
          * Main loop for scheduling processes
          */
         void Loop();
+
+        /**
+         *
+         */
+        void Schedule();
 
         /**
          * Unload any engine specific assets
@@ -100,7 +100,7 @@ namespace MeowEngine {
 
         // essentials
         Runtime::Project Project;
-        Runtime::Asset::AssetManager AssetManager;
+        Asset::AssetManager AssetManager;
         Input::InputDevice InputDevice;
         Core::Timing Timing;
 

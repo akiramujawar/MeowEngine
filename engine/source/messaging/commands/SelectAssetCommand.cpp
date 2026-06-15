@@ -4,12 +4,12 @@
 
 #include <SelectAssetCommand.hpp>
 
-#include <MessageContext.hpp>
+#include <MessageInitData.hpp>
 #include <Selector.hpp>
 
 namespace MeowEngine::Messaging {
 
-    void SelectAssetCommand::Execute(MessageContext& context) {
+    void SelectAssetCommand::Execute(MessageInitData& context) {
         context.Selector->SelectedAssetPath = Path.GetRawString();
     }
 

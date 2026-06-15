@@ -6,7 +6,7 @@
 #include "ImguiAPI.hpp"
 #include "reflection_macro_wrapper.hpp"
 
-#include <Public/Core.hpp>
+#include <Public/Core/Include.hpp>
 #include <Public/Math.hpp>
 
 namespace MeowEngine::Editor {

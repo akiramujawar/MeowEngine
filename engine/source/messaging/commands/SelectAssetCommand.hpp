@@ -7,7 +7,7 @@
 
 
 #include <Public/Messaging/Include.hpp>
-#include <Public/Core.hpp>
+#include <Public/Core/Include.hpp>
 
 namespace MeowEngine::Messaging {
     class SelectAssetCommand  : public ICommand {
@@ -16,7 +16,7 @@ namespace MeowEngine::Messaging {
             Path = path;
         }
 
-        void Execute(MessageContext& context) override;
+        void Execute(MessageInitData& context) override;
 
     private:
         String Path;

@@ -6,7 +6,7 @@
 #define MEOWENGINE_TEST_AUTO_REFLECT_HPP
 
 #include "log.hpp"
-#include "Public/Core.hpp"
+#include "Public/Core/Include.hpp"
 
 // Static Self Registration Test for reflection system
 // This is to avoid manual registration of MObjects

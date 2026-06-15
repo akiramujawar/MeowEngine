@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_IMGUICREATEASSETPOPUPMODAL_HPP
 #define MEOWENGINE_IMGUICREATEASSETPOPUPMODAL_HPP
 
-#include <Public/Core.hpp>
+#include <Public/Core/Include.hpp>
 #include <CreateAssetType.hpp>
 
 namespace MeowEngine::Editor {

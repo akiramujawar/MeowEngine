@@ -4,13 +4,13 @@
 
 #include <SelectEntityCommand.hpp>
 
-#include <MessageContext.hpp>
+#include <MessageInitData.hpp>
 #include <Selector.hpp>
 #include <GameplaySystem.hpp>
 
 namespace MeowEngine::Messaging {
 
-    void SelectEntityCommand::Execute(MessageContext& context) {
+    void SelectEntityCommand::Execute(MessageInitData& context) {
         auto& world = context.Gameplay->GetWorld();
         auto entity = world.GetEntity(GUID);
 

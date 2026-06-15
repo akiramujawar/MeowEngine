@@ -15,7 +15,7 @@ namespace MeowEngine::Messaging {
             ImportFolderPath = importFolderPath;
         }
 
-        void Execute(MessageContext& context) override;
+        void Execute(MessageInitData& context) override;
 
     private:
         std::string ImportFolderPath;

@@ -5,19 +5,20 @@
 #include <Engine.hpp>
 
 #include <AppIcon.hpp>
-#include <EngineService.hpp>
+#include <MeowService.hpp>
 
 #include <MultiThreadExecutor.hpp>
 #include <SingleThreadExecutor.hpp>
 
 #include <UserDeviceInputType.hpp>
 #include <RenderCommand.hpp>
+
+#include <MeowServiceInitData.hpp>
 #include <RendererInitData.hpp>
-
 #include <RenderExtractorInitData.hpp>
-
-#include <EditorInitContext.hpp>
-#include <MessageContext.hpp>
+#include "AssetManagerInitData.hpp"
+#include <EditorInitData.hpp>
+#include <MessageInitData.hpp>
 
 #if __WEB__
 #include <EmscriptenAPI.hpp>
@@ -97,13 +98,18 @@ namespace MeowEngine {
 
         // Initialise
         // TODO: later we will include everything here (like InputManager etc...)
-        // AssetManager.Init();
+
+        Asset::AssetManagerInitData assetManagerInit{
+            Project
+        };
+
+        AssetManager.Init(assetManagerInit);
 
         // -- runtime
         Runtime.Init();
 
         // -- editor
-        Editor::EditorInitContext editorInit {};
+        Editor::EditorInitData editorInit {};
         editorInit.GraphicsDevice = &GraphicsDevice;
         editorInit.Project = &Project;
 
@@ -128,24 +134,34 @@ namespace MeowEngine {
         Renderer.Init(renderInit);
 
         // -- messaging
-        Messaging::MessageContext messageContext {};
-        messageContext.Selector = &Editor.GetSelector();
-        messageContext.Gameplay = &Runtime.GetGameplay();
-        messageContext.FileDialog = &Editor.GetFileDialog();
+        Messaging::MessageInitData messageInit {};
+        messageInit.Selector = &Editor.GetSelector();
+        messageInit.Gameplay = &Runtime.GetGameplay();
+        messageInit.FileDialog = &Editor.GetFileDialog();
 
-        CommandQueue.Init(messageContext);
+        CommandQueue.Init(messageInit);
 
-        EngineService engineService {
+        MeowServiceInitData meowServiceInit {
             AssetManager,
             Project,
             Editor
         };
 
-        EngineService::Init(engineService);
+        MeowService::Init(meowServiceInit);
     }
 
     void Engine::Load() {
+        // asset registry load
+        // load default scene if set
+        // otherwise create new scene
+    }
 
+    void Engine::Loop() {
+        // ReSharper disable once CppDFAConstantConditions
+        // ReSharper disable once CppDFAEndlessLoop
+        while (IsRunning) {
+            Schedule();
+        }
     }
 
     void Engine::Schedule() {
@@ -187,12 +203,6 @@ namespace MeowEngine {
 
         // -- come back on this later (for job system flow)
         Executor->Execute(Scheduler);
-    }
-
-    void Engine::Loop() {
-        while (IsRunning) {
-            Schedule();
-        }
     }
 
     void Engine::Unload() {}

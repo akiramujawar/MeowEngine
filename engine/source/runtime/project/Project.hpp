@@ -6,7 +6,6 @@
 #define MEOWENGINETEST2_PROJECT_HPP
 
 #include <ProjectSettings.hpp>
-#include <AssetRegistry.hpp>
 
 namespace MeowEngine::Runtime {
     class Project {
@@ -17,7 +16,6 @@ namespace MeowEngine::Runtime {
         void Init();
 
         Settings::ProjectSettings Settings;
-        Asset::AssetRegistry AssetResolver;
     };
 }
 

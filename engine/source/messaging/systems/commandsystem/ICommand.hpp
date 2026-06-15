@@ -8,11 +8,11 @@
 #include <memory>
 
 namespace MeowEngine::Messaging {
-    struct MessageContext;
+    struct MessageInitData;
 
     struct ICommand {
         virtual ~ICommand() = default;
-        virtual void Execute(MessageContext& context) = 0;
+        virtual void Execute(MessageInitData& context) = 0;
     };
 }
 

@@ -12,7 +12,7 @@
 #include <FileDialog.hpp>
 
 namespace MeowEngine::Editor {
-    struct EditorInitContext;
+    struct EditorInitData;
 
     /**
      * Owns the editor states, features & coordinates internally
@@ -23,7 +23,7 @@ namespace MeowEngine::Editor {
         EditorModule();
         ~EditorModule();
 
-        void Init(EditorInitContext& context);
+        void Init(EditorInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
 
         Selector& GetSelector() {

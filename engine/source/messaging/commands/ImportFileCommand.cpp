@@ -5,12 +5,12 @@
 #include <ImportFileCommand.hpp>
 
 #include <AssetImporter.hpp>
-#include <MessageContext.hpp>
+#include <MessageInitData.hpp>
 #include <FileDialog.hpp>
 
 namespace MeowEngine::Messaging {
 
-    void ImportFileCommand::Execute(MessageContext& context) {
+    void ImportFileCommand::Execute(MessageInitData& context) {
         std::vector<std::string> selectedFiles;
         context.FileDialog->ShowImportPopup(selectedFiles);
 
