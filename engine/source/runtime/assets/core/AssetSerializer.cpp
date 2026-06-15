@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 05/03/26.
 //
 
-#include <AssetImporter.hpp>
+#include <AssetSerializer.hpp>
 #include <AssetHeader.hpp>
 #include <AssetType.hpp>
 #include <AssetMetadata.hpp>
@@ -15,7 +15,6 @@
 #include <AssetRegistrySerializer.hpp>
 #include <Project.hpp>
 
-using namespace MeowEngine::Runtime;
 
 namespace {
     MeowEngine::Asset::AssetType GetAssetType(const std::string& extension) {
@@ -60,9 +59,9 @@ namespace {
     }
 }
 
-namespace MeowEngine::Editor {
+namespace MeowEngine::Asset {
 
-    void AssetImporter::Import(const std::string_view& importPath, const std::string_view& savePath) {
+    void AssetSerializer::Serialize(const std::string_view& importPath, const std::string_view& savePath) {
         const FileSystem::Path importFilePath(importPath);
         const Asset::AssetType type = GetAssetType(importFilePath.GetExtension().GetRawString());
 
@@ -105,4 +104,25 @@ namespace MeowEngine::Editor {
         // );
     }
 
+    bool AssetSerializer::Deserialize(const Path& path, AssetHeader& header) {
+        FileSystem::FileStream stream;
+
+        stream.Open(path.GetRawString().data(), FileSystem::FileMode::READ);
+
+        // move indicator to asset data
+        // (just by reading it auto seeks as header size is constant, we do it any way)
+        stream.Read(&header, sizeof(Asset::AssetHeader));
+        // stream.Seek(header.DataIndicator);
+
+        // check for file validity
+        if (strncmp(header.Magic, "MEOW", 4) != 0) {
+            // throw std::runtime_error("Invalid Asset Resolver");
+            std::string logMessage = "Invalid Asset: " + path.GetRawString();
+            MeowEngine::Log("Asset Serializer", logMessage, LogType::ERROR);
+
+            return false;
+        }
+
+        return true;
+    }
 }

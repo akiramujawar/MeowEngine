@@ -10,10 +10,13 @@
 
 namespace MeowEngine::Asset {
     /**
-     * Container for UUID
-     * NOTE: Use instead of path or string
+     * Container for UUID (pure uuid only)
+     * NOTE: Is created internally by AssetRegistry only
      */
     struct AssetHandle {
+        friend class AssetRegistrySerializer;
+        friend class AssetDatabase;
+
         AssetHandle();
         ~AssetHandle();
 
@@ -21,11 +24,20 @@ namespace MeowEngine::Asset {
          * When a reference is not assigned
          */
         static AssetHandle Null;
+
         bool IsValid() const;
         uint64_t GetUUID() const;
 
         bool operator==(const AssetHandle& handle) const;
         bool operator!=(const AssetHandle& handle) const;
+
+    private:
+        static AssetHandle Create(uint64_t uuid) {
+            AssetHandle handle;
+            handle.UUID = uuid;
+
+            return handle;
+        }
 
     private:
         uint64_t UUID;

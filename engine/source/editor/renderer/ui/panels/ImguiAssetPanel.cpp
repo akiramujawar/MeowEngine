@@ -23,8 +23,11 @@
 #include <RenderUIData.hpp>
 
 #include <CommandQueue.hpp>
+#include <imgui_internal.h>
 #include <SelectDirectoryCommand.hpp>
 #include <SelectAssetCommand.hpp>
+
+#include "AssetManager.hpp"
 
 namespace MeowEngine::Editor {
     ImguiAssetPanel::ImguiAssetPanel()
@@ -43,7 +46,7 @@ namespace MeowEngine::Editor {
     }
 
     void ImguiAssetPanel::Draw(const Rendering::RenderContext& renderContext) {
-        SelectedDirectoryPath = renderContext.UIData->SelectedDirectoryPath;;
+        SelectedDirectoryPath = renderContext.UIData->SelectedDirectoryPath;
         SelectedAssetPath = renderContext.UIData->SelectedAssetPath;
         CommandQueue = renderContext.CommandQueue;
         
@@ -63,7 +66,7 @@ namespace MeowEngine::Editor {
             auto availableSpace = ImGui::GetContentRegionAvail();
            
             if(ImGui::BeginTable("", 2, flags, availableSpace)) {
-                ShowTableHeaders();
+                ShowTableHeaders(availableSpace);
                 ShowTableContents();
                 
                 ImGui::EndTable();
@@ -89,7 +92,7 @@ namespace MeowEngine::Editor {
         
     }
     
-    void ImguiAssetPanel::ShowTableHeaders() {
+    void ImguiAssetPanel::ShowTableHeaders(ImVec2 availableSpace) {
         ImGui::TableSetupColumn("Directory");
         ImGui::TableSetupColumn("FolderView"); // folder view
     
@@ -100,12 +103,20 @@ namespace MeowEngine::Editor {
         // draw "Directory" header
         ImGui::TableSetColumnIndex(0);
         ImGui::PushID(0); {
+            const std::string& sideMenu = "Side Menu + ";
+            if (ImGui::ArrowButtonEx(sideMenu.c_str(), ImGuiDir_Down, ImVec2(headerHeight, headerHeight))) {
+                // TODO: implement modal poppup for this
+                MeowService().AssetManager.RebuidE();
+            }
+
             float textHeight = ImGui::GetTextLineHeight();
-            float textOffset = (headerHeight - textHeight) * 0.5f;
-            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 10);
+            float textOffset = (headerHeight - textHeight) * 0.5f - 3; // little manual okay sometimes :)
+
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 3);
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + textOffset);
             ImGui::TextUnformatted(ImGui::TableGetColumnName(0));
-        
+
             ImGui::PopID();
         }
     
@@ -146,7 +157,7 @@ namespace MeowEngine::Editor {
         ImGui::BeginChild("##AssetsScrollableView", ImVec2(0,0), true, flags);
         // show open project assets
         {
-            auto projectPath = MeowService().Project.Settings.GetProjectPath();
+            auto projectPath = MeowService().Project.Settings.GetSandboxRootPathE();
             auto assetPath = projectPath + "assets";
 
             // MeowEngine::Log("Engine Path", assetPath.GetRawString());
@@ -155,7 +166,7 @@ namespace MeowEngine::Editor {
     
         // show internal engine assets
         {
-            auto enginePath = MeowService().Project.Settings.GetEnginePath();
+            auto enginePath = MeowService().Project.Settings.GetEngineRootPathE();
             auto assetPath = enginePath + "engine/assets";
 
             // MeowEngine::Log("Engine Path", enginePath.GetRawString());
@@ -236,6 +247,8 @@ namespace MeowEngine::Editor {
         
         // TODO: Once we have our full system ready to load/unload assets we update this properly
         // TODO: remember we have check if its directory or not first. files without extensions will pretend to be folder with below logic
+        // render resource -> try to get if not -> get asset -> load asset -> create resource using bitmap -> cache texture in asset cache
+        // texture asset will be simplified format of bitmap
         void* imagePtr = path.GetExtension().GetStringView().empty()? folderImage.GetTextureID() : unknownImage.GetTextureID();
         
         ImGui::PushID(path.CStr());

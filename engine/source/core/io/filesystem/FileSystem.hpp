@@ -46,7 +46,8 @@ namespace MeowEngine::Core::IO::FileSystem {
         static bool Replace(const Path& a, const Path& b);
         
         /**
-         *
+         * Remember rename is atomic for same partition / volume.
+         * Hence, we perform operations like write and once success we rename from .tmp to original
          * @param path Path of the file to rename (project/abc.xyz). Includes the file name
          * @param name New name for the file (only name)
          * @return

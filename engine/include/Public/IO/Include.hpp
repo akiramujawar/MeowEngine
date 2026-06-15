@@ -5,6 +5,7 @@
 #ifndef MEOWENGINE_IO_HPP
 #define MEOWENGINE_IO_HPP
 
+#include <Public/Core/Include.hpp>
 #include <Public/IO/Forward.hpp>
 
 #include <Path.hpp>

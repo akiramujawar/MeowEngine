@@ -6,66 +6,82 @@
 #define MEOWENGINE_PROJECTSETTINGS_HPP
 
 #include <string>
-#include <Public/IO.hpp>
+
+#include <Public/IO/Include.hpp>
 
 namespace MeowEngine::Settings {
     class ProjectSettings {
     public:
         ProjectSettings()
-        : EnginePath("") // TODO: we retrieve this from Sandbox.txt
-        , ProjectPath("")
+        : EngineRootPathE("") // TODO: we retrieve this from Sandbox.txt
+        , SandboxRootPathE("")
         , ExecutablePath("")
-        , ProjectMetadataPath("")
-        , AssetRegistryPath("") {}
+        , MeowProjectPathE("")
+        , EngineAssetRegistryPath("")
+        , SandboxAssetRegistryPath("") {}
 
         void Init() {
             ExecutablePath = FileSystem::FileSystem::GetExecutablePath();
             MeowEngine::Log("Executable Path", ExecutablePath.GetRawString());
 
-            auto assetRegistry = ExecutablePath + "Registry";
-            assetRegistry.ReplaceExtension(".meowdata");
+            auto engineAssetRegistry = ExecutablePath + "engine/assets/Registry";
+            engineAssetRegistry.ReplaceExtension(".meowreg");
+            EngineAssetRegistryPath = engineAssetRegistry;
 
-            AssetRegistryPath = assetRegistry;
+            auto sandboxAssetRegistry = ExecutablePath + "assets/Registry";
+            sandboxAssetRegistry.ReplaceExtension(".meowreg");
+            SandboxAssetRegistryPath = sandboxAssetRegistry;
         }
 
-        void InitDevelopment() {
-            ProjectPath = ExecutablePath.GetParent().GetParent();
+        void InitE() {
+            // we can get engine path by reading project metadata
+            SandboxRootPathE = ExecutablePath.GetParent().GetParent();
 
-            auto meowProject = ProjectPath + ProjectPath.GetName();
+            auto meowProject = SandboxRootPathE + SandboxRootPathE.GetName();
             meowProject.ReplaceExtension(".meowproject");
-            ProjectMetadataPath = meowProject;
+            MeowProjectPathE = meowProject;
         }
 
         /**
          * NOTE: Only use inside editor code
          * @return
          */
-        const FileSystem::Path& GetEnginePath() {
-            return EnginePath;
+        const Path& GetEngineRootPathE() {
+            return EngineRootPathE;
         }
 
         /**
          * NOTE: Only use inside editor code
          * @return
          */
-        const FileSystem::Path& GetProjectPath() {
-            return ProjectPath;
+        const Path& GetSandboxRootPathE() {
+            return SandboxRootPathE;
         }
 
-        const FileSystem::Path& GetExecutablePath() {
+        const Path& GetExecutablePath() {
             return ExecutablePath;
         }
 
-        const FileSystem::Path& GetAssetResolverPath() {
-            return AssetRegistryPath;
+        const Path& GetEngineAssetResolverPath() {
+            return EngineAssetRegistryPath;
+        }
+
+        const Path& GetSandboxAssetResolverPath() {
+            return SandboxAssetRegistryPath;
         }
 
     private:
-        FileSystem::Path EnginePath;
-        FileSystem::Path ProjectPath;
-        FileSystem::Path ExecutablePath;
-        FileSystem::Path ProjectMetadataPath;
-        FileSystem::Path AssetRegistryPath;
+        // - for editor only
+        // only use while running editor (@EngineRootPath & @SandboxRootPath)
+        Path EngineRootPathE;
+        Path SandboxRootPathE;
+        Path MeowProjectPathE;
+
+        // for runtime
+        Path ExecutablePath;
+
+        Path EngineAssetRegistryPath;
+        Path SandboxAssetRegistryPath;
     };
 }
 

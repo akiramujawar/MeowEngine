@@ -9,7 +9,7 @@
 
 #include <ImguiDockerSpace.hpp>
 #include "ImguiWorldTreePanel.hpp"
-#include "ImguiWorldInspectorPanel.hpp"
+#include "ImGuiInspectorPanel.hpp"
 #include "ImguiWorldViewPanel.hpp"
 #include "ImguiConsolePanel.hpp"
 #include "ImguiAssetPanel.hpp"
@@ -52,7 +52,7 @@ namespace MeowEngine::Editor {
 
         ImGuiDockerSpace DockerSpace;
         ImGuiWorldTreePanel WorldTreePanel;
-        ImGuiWorldInspectorPanel WorldInspectorPanel;
+        ImGuiInspectorPanel WorldInspectorPanel;
         ImGuiWorldViewPanel WorldViewPanel;
         ImGuiConsolePanel ConsolePanel;
         ImguiAssetPanel AssetPanel;

@@ -4,6 +4,9 @@
 
 #include "AssetCache.hpp"
 
-namespace MeowEngine::Runtime::Asset {
-
+namespace MeowEngine::Asset {
+    bool AssetCache::Has(const AssetHandle& handle) const {
+        const auto iterator = CacheMap.find(handle);
+        return iterator != CacheMap.end();
+    }
 }

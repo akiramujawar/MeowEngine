@@ -82,6 +82,7 @@ namespace MeowEngine::Rendering {
         auto path = context.Project->Settings.GetExecutablePath() + "assets/Layout.ini";
         MeowEngine::Log("ImGui Layout Path", path.GetRawString());
         io.IniFilename = path.GetRawString().c_str();
+
         ImGui::LoadIniSettingsFromDisk(io.IniFilename);
 #endif
     }

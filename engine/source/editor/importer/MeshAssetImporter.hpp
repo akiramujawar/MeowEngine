@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 15/06/26.
+//
+
+#ifndef MEOWENGINE_MESHASSETIMPORTER_HPP
+#define MEOWENGINE_MESHASSETIMPORTER_HPP
+
+
+class MeshAssetImporter {};
+
+
+#endif //MEOWENGINE_MESHASSETIMPORTER_HPP

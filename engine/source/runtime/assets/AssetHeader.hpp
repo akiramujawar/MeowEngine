@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-namespace MeowEngine::Runtime::Asset {
+namespace MeowEngine::Asset {
 
 // pack results in placement of the members one after another in memory
 // remember how we used to set png sizes to multiples of 2?

@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 13/07/24.
 //
 
-#ifndef MEOWENGINE_IMGUIWORLDINSPECTORPANEL_HPP
-#define MEOWENGINE_IMGUIWORLDINSPECTORPANEL_HPP
+#ifndef MEOWENGINE_IMGUIINSPECTORPANEL_HPP
+#define MEOWENGINE_IMGUIINSPECTORPANEL_HPP
 
 #include "Public/Math.hpp"
 #include "entt.hpp"
@@ -18,9 +18,9 @@ namespace MeowEngine::Rendering {
 }
 
 namespace MeowEngine::Editor {
-    struct ImGuiWorldInspectorPanel {
-        ImGuiWorldInspectorPanel();
-        ~ImGuiWorldInspectorPanel();
+    struct ImGuiInspectorPanel {
+        ImGuiInspectorPanel();
+        ~ImGuiInspectorPanel();
 
         void Init();
         void Draw(Rendering::RenderContext& renderContext);
@@ -31,4 +31,4 @@ namespace MeowEngine::Editor {
 }
 
 
-#endif //MEOWENGINE_IMGUIWORLDINSPECTORPANEL_HPP
+#endif //MEOWENGINE_IMGUIINSPECTORPANEL_HPP

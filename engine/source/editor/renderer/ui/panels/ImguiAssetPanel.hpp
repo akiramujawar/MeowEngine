@@ -36,7 +36,7 @@ namespace MeowEngine::Editor {
         void Draw(const Rendering::RenderContext& renderContext);
 
     private:
-        void ShowTableHeaders();
+        void ShowTableHeaders(ImVec2 availableSpace);
         void ShowTableContents();
         void ShowDirectory(const std::string& pathString, const std::string& pathName);
 

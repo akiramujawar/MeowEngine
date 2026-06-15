@@ -4,7 +4,7 @@
 
 #include "opengl_app_multi_thread.hpp"
 
-#include "AssetImporter.hpp"
+#include "AssetSerializer.hpp"
 #include "scene_multi_thread.hpp"
 #include <UserDeviceInputType.hpp>
 

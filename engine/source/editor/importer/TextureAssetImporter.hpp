@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 15/06/26.
+//
+
+#ifndef MEOWENGINE_TEXTUREASSETIMPORTER_HPP
+#define MEOWENGINE_TEXTUREASSETIMPORTER_HPP
+
+
+class TextureAssetImporter {};
+
+
+#endif //MEOWENGINE_TEXTUREASSETIMPORTER_HPP

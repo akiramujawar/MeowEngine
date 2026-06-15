@@ -4,7 +4,7 @@
 
 #include <ImportFileCommand.hpp>
 
-#include <AssetImporter.hpp>
+#include <AssetSerializer.hpp>
 #include <MessageInitData.hpp>
 #include <FileDialog.hpp>
 
@@ -14,8 +14,10 @@ namespace MeowEngine::Messaging {
         std::vector<std::string> selectedFiles;
         context.FileDialog->ShowImportPopup(selectedFiles);
 
+        // TODO: read extension and accordingly perform the action
+        // here we might involve different types of importers like png, jpegs and soo on...
         for (auto& importFilePath : selectedFiles) {
-            Editor::AssetImporter::Import(importFilePath, ImportFolderPath);
+            Asset::AssetSerializer::Serialize(importFilePath, ImportFolderPath);
         }
     }
 

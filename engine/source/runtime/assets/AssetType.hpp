@@ -5,7 +5,7 @@
 #ifndef MEOWENGINETEST2_ASSETTYPE_HPP
 #define MEOWENGINETEST2_ASSETTYPE_HPP
 
-namespace MeowEngine::Runtime::Asset {
+namespace MeowEngine::Asset {
     enum class AssetType : int{
         // misc / core
         UNKNOWN = 0,

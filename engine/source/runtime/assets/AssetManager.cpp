@@ -4,29 +4,35 @@
 
 #include "AssetManager.hpp"
 
-#include <log.hpp>
-#include <AssetRegistrySerializer.hpp>
-#include <EngineService.hpp>
-#include <Project.hpp>
+#include "log.hpp"
+#include "AssetManagerInitData.hpp"
 
-namespace MeowEngine::Runtime::Asset {
-    AssetManager::AssetManager() : Resolver() {
+// #include <AssetRegistrySerializer.hpp>
+// #include <MeowService.hpp>
+// #include <Project.hpp>
+
+namespace MeowEngine::Asset {
+    AssetManager::AssetManager() {
         MeowEngine::Log("AssetManager", "Constructed");
     }
     AssetManager::~AssetManager() {
         MeowEngine::Log("AssetManager", "Destructed");
     }
 
-    void AssetManager::Init() {
+    void AssetManager::Init(const AssetManagerInitData& context) {
         MeowEngine::Log("AssetManager", "Init");
 
-        Serializer::AssetRegistrySerializer::Deserialize(
-            MeowEngine().Project.Settings.GetAssetResolverPath(),
-            Resolver
-        );
+        // load asset registry
     }
 
-    AssetRegistry& AssetManager::GetResolver() {
-        return Resolver;
+    void AssetManager::Load() {
+        Registry.Load();
+
+
+    }
+
+    void AssetManager::RebuidE() {
+        Registry.RebuildE();
+        // Directory.RebuildE();
     }
 }

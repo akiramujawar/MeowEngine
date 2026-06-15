@@ -99,9 +99,7 @@ namespace MeowEngine {
         // Initialise
         // TODO: later we will include everything here (like InputManager etc...)
 
-        Asset::AssetManagerInitData assetManagerInit{
-            Project
-        };
+        Asset::AssetManagerInitData assetManagerInit{};
 
         AssetManager.Init(assetManagerInit);
 
@@ -123,6 +121,7 @@ namespace MeowEngine {
         RenderExtractor.Init(extractorInit);
 
         // -- rendering
+        // TODO: renderer.load so that imgui can load layout (currently inside init)
         Rendering::RendererInitData renderInit {};
         renderInit.Project = &Project;
         renderInit.GraphicsDevice = &GraphicsDevice;
@@ -154,6 +153,7 @@ namespace MeowEngine {
         // asset registry load
         // load default scene if set
         // otherwise create new scene
+        AssetManager.Load();
     }
 
     void Engine::Loop() {
