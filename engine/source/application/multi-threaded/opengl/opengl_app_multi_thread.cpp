@@ -152,8 +152,9 @@ namespace MeowEngine {
                     }
                     break;
 
-                case SDL_USEREVENT:
-                    switch (event.user.code) {
+                case SDL_USEREVENT: {
+                    auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
+                    switch (userEvent) {
                         case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             MeowEngine::Log("Main Thread", "Rescaled Window");
 
@@ -166,23 +167,24 @@ namespace MeowEngine {
                             InputManager->isActive = *(bool *) event.user.data1;
                             break;
                         }
-                        // case UserDeviceInputType::IMPORT_FILE: {
-                        //     std::vector<std::string> selectedFiles;
-                        //     RenderThread->ShowImportPopup(selectedFiles);
-                        //
-                        //     for (auto& importFilePath : selectedFiles) {
-                        //         std::string saveToDirectoryPath = *static_cast<std::string*>(event.user.data1);
-                        //         Editor::AssetImporter::Import(importFilePath, saveToDirectoryPath);
-                        //     }
-                        //
-                        //     break;
-                        // }
+                            // case UserDeviceInputType::IMPORT_FILE: {
+                            //     std::vector<std::string> selectedFiles;
+                            //     RenderThread->ShowImportPopup(selectedFiles);
+                            //
+                            //     for (auto& importFilePath : selectedFiles) {
+                            //         std::string saveToDirectoryPath = *static_cast<std::string*>(event.user.data1);
+                            //         Editor::AssetImporter::Import(importFilePath, saveToDirectoryPath);
+                            //     }
+                            //
+                            //     break;
+                            // }
                         case UserDeviceInputType::SAVE_PROJECT: {
                             Scene->Save();
                         }
 
                         default: ;
                     }
+                }
                 default:
                     break;
             }

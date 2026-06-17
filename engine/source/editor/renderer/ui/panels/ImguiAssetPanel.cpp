@@ -130,6 +130,7 @@ namespace MeowEngine::Editor {
             if (ImGui::Button(importButtonText.c_str(), importButtonSize)) {
                 // display window for importing files.
                 CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
                     std::make_unique<Messaging::ImportFileCommand>(SelectedDirectoryPath.GetRawString())
                 );
             }
@@ -209,10 +210,12 @@ namespace MeowEngine::Editor {
         if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
             // we treat folder as asset too, hence we update both directory path & asset path
             CommandQueue->Push(
+                Messaging::ThreadType::MAIN,
                 std::make_unique<Messaging::SelectDirectoryCommand>(String(path.GetRawString()))
             );
 
             CommandQueue->Push(
+                Messaging::ThreadType::MAIN,
                 std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
             );
     
@@ -258,6 +261,7 @@ namespace MeowEngine::Editor {
         // show a button (hidden overlay)
         if(ImGui::InvisibleButton("button", thumbnailSize)) {
             CommandQueue->Push(
+                Messaging::ThreadType::MAIN,
                 std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
             );
             MeowEngine::Log("Asset Selected", name.GetRawString());
@@ -300,6 +304,7 @@ namespace MeowEngine::Editor {
         {
             if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
                 CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
                     std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
                 );
                 

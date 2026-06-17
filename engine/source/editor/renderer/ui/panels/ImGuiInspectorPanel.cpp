@@ -49,6 +49,7 @@ namespace MeowEngine::Editor {
                         change->ComponentType = data.Type;
 
                         renderContext.CommandQueue->Push(
+                            Messaging::ThreadType::MAIN,
                             std::make_unique<Messaging::ReflectionPropertyChangeCommand>(change)
                         );
                     }

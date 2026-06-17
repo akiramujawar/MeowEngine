@@ -4,6 +4,8 @@
 
 #include <CommandQueue.hpp>
 
+#include "Scheduler.hpp"
+
 namespace MeowEngine::Messaging {
     CommandQueue::CommandQueue() = default;
     CommandQueue::~CommandQueue() = default;
@@ -12,16 +14,44 @@ namespace MeowEngine::Messaging {
         Context = context;
     }
 
-    void CommandQueue::Push(std::unique_ptr<ICommand> command) {
-        queue.enqueue(std::move(command));
+    void CommandQueue::Push(ThreadType type, std::unique_ptr<ICommand> command) {
+        switch (type) {
+            case ThreadType::MAIN:
+                mainQueue.enqueue(std::move(command));
+                break;
+            case ThreadType::RENDER:
+                renderQueue.enqueue(std::move(command));
+                break;
+            case ThreadType::PHYSICS:
+                physicsQueue.enqueue(std::move(command));
+                break;
+        }
     }
 
     void CommandQueue::Schedule(Threading::Scheduler& scheduler) {
-        std::unique_ptr<ICommand> command;
+        scheduler.AddTask([&]() {
+            std::unique_ptr<ICommand> command;
 
-        while (queue.try_dequeue(command)) {
-            command->Execute(Context);
-        }
+            while (mainQueue.try_dequeue(command)) {
+                command->Execute(Context);
+            }
+        });
+
+        scheduler.AddTask([&]() {
+            std::unique_ptr<ICommand> command;
+
+            while (renderQueue.try_dequeue(command)) {
+                command->Execute(Context);
+            }
+        });
+
+        scheduler.AddTask([&]() {
+            std::unique_ptr<ICommand> command;
+
+            while (physicsQueue.try_dequeue(command)) {
+                command->Execute(Context);
+            }
+        });
     }
 
 }

@@ -5,8 +5,10 @@
 #ifndef MEOWENGINE_USEREVENTTYPE_HPP
 #define MEOWENGINE_USEREVENTTYPE_HPP
 
+#include <cstdlib>
+
 namespace MeowEngine {
-    enum UserDeviceInputType : int32_t {
+    enum class UserDeviceInputType : int32_t {
         OPEN_TRACY = 1,
         VIEW_PORT_RESIZE = 2,
         WORLD_VIEW_FOCUS = 3,

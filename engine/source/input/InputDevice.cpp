@@ -15,18 +15,19 @@ namespace MeowEngine::Input {
     void InputDevice::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(
             [&]() {
-                Buffer.GetCurrent().clear();
+                // Buffer.GetCurrent().clear();
+                InputEvents.clear();
 
                 SDL_Event event;
                 while (SDL_PollEvent(&event)) {
-                    Buffer.GetCurrent().push_back(event);
+                    InputEvents.push_back(event);
                 }
             }
         );
 
         scheduler.AddTask(
             [&]() {
-                InputManager.ProcessDeviceInput(Buffer.GetCurrent());
+                InputManager.ProcessDeviceInput(InputEvents);
             }
         );
     }

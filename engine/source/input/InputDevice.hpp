@@ -24,9 +24,10 @@ namespace MeowEngine::Input {
 
         void Schedule(Threading::Scheduler& scheduler);
 
-        DoubleBuffer<InputEvents> GetEvents() const {
-            return Buffer;
-        }
+        // DoubleBuffer<InputEvents> GetEvents() const {
+        //     return Buffer;
+        // }
+        InputEvents& GetEvents() { return InputEvents; };
 
     private:
         InputManager InputManager;
@@ -34,9 +35,10 @@ namespace MeowEngine::Input {
         /**
          * TODO: remove the dependency on SDL_Event (replace with messaging system)
          */
-        DoubleBuffer<InputEvents> Buffer;
+        InputEvents InputEvents;
     };
 }
 
-
+// renderer -> add command queue for event -> add sdl event -> input device use the sdl event
+// renderer -> add command queue -> input device do this
 #endif //MEOWENGINE_INPUTMODULE_HPP

@@ -172,7 +172,7 @@ namespace MeowEngine {
 
         // -- runs on main thread
         Scheduler.AddTask([this](){
-            if (!ProcessDeviceInput(InputDevice.GetEvents().GetCurrent())) {
+            if (!ProcessDeviceInput(InputDevice.GetEvents())) {
                 Close();
             }
         });
@@ -234,9 +234,11 @@ namespace MeowEngine {
                     break;
 
                 case SDL_USEREVENT:
-                    switch (event.user.code) {
+                    // TODO: use event system here
+                    auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
+                    switch (userEvent) {
                         case UserDeviceInputType::VIEW_PORT_RESIZE: {
-                            MeowEngine::Log("Main Thread", "Rescaled Window");
+                            // MeowEngine::Log("Main Thread", "Rescaled Window");
 
                             // const Vector2Int size = *(Vector2Int *) event.user.data1;
                             // Scene->OnWindowResized(size);

@@ -21,8 +21,10 @@ namespace MeowEngine::Input {
                     isMouseDown = true;
                     break;
                 }
+                // TODO: move this to command queue
                 case SDL_USEREVENT: {
-                    switch (event.user.code) {
+                    auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
+                    switch (userEvent) {
                         case UserDeviceInputType::WORLD_VIEW_FOCUS: {
                             isActive = *static_cast<bool*>(event.user.data1);
                             break;

@@ -66,11 +66,13 @@ namespace MeowEngine::Editor {
         if (ImGui::IsItemClicked()) {
             if (ImGui::GetIO().KeyCtrl) {
                 renderContext.CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
                     std::make_unique<Messaging::SelectEntityCommand>(guid, true)
                 );
             }
             else {
                 renderContext.CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
                     std::make_unique<Messaging::SelectEntityCommand>(guid, false)
                 );
             }

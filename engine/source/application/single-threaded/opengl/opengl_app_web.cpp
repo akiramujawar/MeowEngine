@@ -130,8 +130,9 @@ namespace MeowEngine {
 //                    }
 //                    break;
 
-                case SDL_USEREVENT:
-                    switch (event.user.code) {
+                case SDL_USEREVENT: {
+                    auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
+                    switch (userEvent) {
                         case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
 
@@ -145,6 +146,7 @@ namespace MeowEngine {
                             break;
                         }
                     }
+                }
                 default:
                     break;
             }

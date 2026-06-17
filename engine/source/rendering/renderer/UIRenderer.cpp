@@ -52,7 +52,8 @@ namespace MeowEngine::Rendering {
         // schedule ui
         scheduler.AddTask(
             [&]() {
-                ProcessDeviceInput(InputDevice->GetEvents().GetCurrent());
+                // TODO: remove this and replace with command queue
+                ProcessDeviceInput(InputDevice->GetEvents());
             }
         );
 
@@ -107,7 +108,8 @@ namespace MeowEngine::Rendering {
 
 #ifdef __APPLE__
             if (event.type == SDL_USEREVENT) {
-                switch (event.user.code) {
+                auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
+                switch (userEvent) {
                     case UserDeviceInputType::OPEN_TRACY:
                         EditorBuilder.OpenProfiler();
                         break;

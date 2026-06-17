@@ -171,18 +171,20 @@ struct OpenGLAppSingleThread::Internal {
                     }
                     break;
 
-                case SDL_USEREVENT:
-                    switch (event.user.code) {
-                    case UserDeviceInputType::VIEW_PORT_RESIZE: {
+                case SDL_USEREVENT: {
+                    auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
+                    switch (userEvent) {
+                        case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
                             OnViewportResize(size);
                             break;
                         }
-                    case UserDeviceInputType::WORLD_VIEW_FOCUS: {
+                        case UserDeviceInputType::WORLD_VIEW_FOCUS: {
                             InputManager.isActive = *(bool *) event.user.data1;
                             break;
                         }
                     }
+                }
                 default:
                     break;
             }

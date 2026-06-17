@@ -33,10 +33,11 @@ namespace MeowEngine::Editor {
             if (isFocused != IsFocused) {
                 IsFocused = isFocused;
 
+                // TODO: use event system here
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = UserDeviceInputType::WORLD_VIEW_FOCUS;
+                event.user.code = static_cast<uint32_t>(UserDeviceInputType::WORLD_VIEW_FOCUS);
                 event.user.data1 = &IsFocused;
 
                 SDL_PushEvent(&event);
@@ -46,6 +47,8 @@ namespace MeowEngine::Editor {
 
             const ImVec2 viewportSize = ImGui::GetContentRegionAvail();
             if ((uint32_t) viewportSize.x != SceneViewportSize.Width ||
+
+                // TODO: use event system here
                 (uint32_t) viewportSize.y != SceneViewportSize.Height) {
                 SceneViewportSize.Width = (uint32_t) viewportSize.x;
                 SceneViewportSize.Height = (uint32_t) viewportSize.y;
@@ -53,7 +56,7 @@ namespace MeowEngine::Editor {
                 SDL_Event event;
                 SDL_zero(event);
                 event.type = SDL_USEREVENT;
-                event.user.code = UserDeviceInputType::VIEW_PORT_RESIZE;
+                event.user.code = static_cast<uint32_t>(UserDeviceInputType::VIEW_PORT_RESIZE);
                 event.user.data1 = &SceneViewportSize;
 
                 SDL_PushEvent(&event);
