@@ -7,13 +7,14 @@
 #include <Public/Core/Include.hpp>
 #include <Public/IO/Include.hpp>
 
+#include "AssetSerializer.hpp"
 #include <AssetRegistry.hpp>
 #include <AssetHeader.hpp>
 #include <AssetType.hpp>
 
-namespace MeowEngine::Asset {
 
-    bool AssetRegistrySerializer::Serialize(const Path& resolverPath, const AssetRegistry& resolverAsset) {
+namespace MeowEngine::Asset {
+    bool AssetRegistrySerializer::Serialize(const Path& path, const AssetRegistry& resolverAsset) {
         MeowEngine::Log("AssetResolverSerializer", "Serialize");
         // techniques to achieve this
         // - memory mapped - best option
@@ -22,94 +23,78 @@ namespace MeowEngine::Asset {
         // - load entire file into memory then process - 3rd best
         // - read, parse move to next line - worst
 
-        if (!resolverPath.Exists()) {
-            Create(resolverPath);
-        }
-
-        // temp file to write data on
-        FileSystem::Path tempPath(resolverPath);
-        tempPath.ReplaceName("Temp");
-
-        // stream and write the data (binary method)
+        // read existing header
+        auto readSerializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
         AssetHeader header;
+        AssetSerializer::ReadHeader(readSerializer, header);
+        AssetSerializer::CloseSerializer(readSerializer);
 
-        // - read header from existing resolver
-        FileSystem::FileStream existingStream;
-        existingStream.Open(resolverPath.GetRawString().data(), FileSystem::FileMode::READ);
-        existingStream.Read(&header, sizeof(AssetHeader));
-        existingStream.Close();
+        auto tempPath = path;
+        tempPath.ReplaceExtension("meowtemp");
 
-        // - write header in temp resolver
-        FileSystem::FileStream writeStream;
-        writeStream.Open(tempPath, FileSystem::FileMode::WRITE);
-        writeStream.Write(&header, sizeof(AssetHeader));
+        auto writeSerializer = AssetSerializer::OpenSerializer(tempPath, FileSystem::FileMode::WRITE);
+        AssetSerializer::WriteHeader(writeSerializer, header);
 
         // save the total counts followed by key-value
         uint32_t assetCount = resolverAsset.GetSize();
-        writeStream.Write(&assetCount, sizeof(uint32_t));
+        writeSerializer.WriteUInt32(assetCount);
 
-        for (const auto& [key, value] : resolverAsset.GetMap()) {
-            uint32_t entrySize = sizeof(value);
+        const auto& map = resolverAsset.GetMap();
+        for (auto iterator = map.begin(); iterator != map.end(); ++iterator) {
+            auto test = iterator->first;
+            auto test1 = iterator->first.GetUUID();
+            auto test2 = iterator->second;
 
-            // uuid, total size of path, path
-            writeStream.Write(&key, sizeof(uint64_t));
-            writeStream.Write(&entrySize, sizeof(uint32_t));
-            writeStream.Write(&value, entrySize);
+            writeSerializer.WriteUInt64(iterator->first.GetUUID());
+            AssetSerializer::WriteMetadata(writeSerializer, iterator->second);
         }
 
-        writeStream.Flush();
-        writeStream.Close();
+        AssetSerializer::CloseSerializer(writeSerializer);
 
-        // replace temp with existing resolver file
-        FileSystem::FileSystem::Replace(resolverPath.GetRawString().data(), tempPath);
+        if (!FileSystem::FileSystem::Replace(path, tempPath)) {
+            FileSystem::FileSystem::Remove(tempPath);
+
+            return false;
+        }
 
         return true;
     }
 
-    bool AssetRegistrySerializer::Deserialize(const Path& resolverPath, AssetRegistry& resolverAsset) {
-        if (!resolverPath.Exists()) {
-            Create(resolverPath);
+    bool AssetRegistrySerializer::Deserialize(const Path& path, AssetRegistry& resolverAsset) {
+        // if doesn't exist's, create the asset file
+        if (!path.Exists()) {
+            Create(path);
         }
 
-        MeowEngine::Log("AssetResolverSerializer", "Deserialize");
+        auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
 
-        // TODO: rework to use asset serializer for this?
-        FileSystem::FileStream stream;
         AssetHeader header;
+        bool isValidAsset = AssetSerializer::ReadHeader(serializer, header);
 
-        stream.Open(resolverPath.GetRawString().data(), FileSystem::FileMode::READ);
-
-        // move indicator to asset data
-        // (just by reading it auto seeks as header size is constant, we do it any way)
-        stream.Read(&header, sizeof(Asset::AssetHeader));
-        // stream.Seek(header.DataIndicator);
-
-        // check for file validity
-        if (strncmp(header.Magic, "MEOW", 4) != 0) {
-            throw std::runtime_error("Invalid Asset Resolver");
+        if (!isValidAsset) {
+            return false;
         }
 
         // retrieve stores uuid & paths and push to resolverMap
-        uint32_t assetCount(0);
-        stream.Read(&assetCount, sizeof(uint32_t));
-
+        uint32_t assetCount = serializer.ReadUInt32();
         for (auto i = 0; i < assetCount; i++) {
-            uint64_t uuid;
-            uint32_t entrySize;
-            AssetMetadata entry;
+            uint64_t uuid = serializer.ReadUInt64();
 
-            stream.Read(&uuid, sizeof(uint64_t));
-            stream.Read(&entrySize, sizeof(uint32_t));
-            stream.Read(&entry, entrySize);
+            AssetMetadata metadata;
+            AssetSerializer::ReadMetadata(serializer, metadata);
 
-            resolverAsset.Add(AssetHandle::Create(uuid), entry);
+            resolverAsset.Add(AssetHandle::Create(uuid), metadata);
         }
 
-        stream.Close();
+        AssetSerializer::CloseSerializer(serializer);
+
+        return true;
     }
 
     void AssetRegistrySerializer::Create(const Path& path) {
         MeowEngine::Log("AssetResolverSerializer", {"Creating Empty Resolver", path.GetRawString()});
+
+        auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::WRITE);
 
         AssetHeader header {0, static_cast<int>(Asset::AssetType::PROJECT)};
         header.SettingIndicator = sizeof(Asset::AssetHeader);
@@ -117,13 +102,10 @@ namespace MeowEngine::Asset {
         header.DataIndicator = header.SettingIndicator + header.SettingSize;
         header.DataSize = 0;
 
-        FileSystem::FileStream stream;
-        stream.Open(path, FileSystem::FileMode::WRITE);
+        AssetSerializer::WriteHeader(serializer, header);
+        serializer.WriteUInt32(0);
 
-        stream.Write(&header, sizeof(Asset::AssetHeader));
-
-        stream.Flush();
-        stream.Close();
+        AssetSerializer::CloseSerializer(serializer);
     }
 
 }

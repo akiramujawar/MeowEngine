@@ -2,24 +2,43 @@
 // Created by Akira Mujawar on 05/03/26.
 //
 
-#ifndef MEOWENGINE_ASSETIMPORTER_HPP
-#define MEOWENGINE_ASSETIMPORTER_HPP
+#ifndef MEOWENGINE_ASSETSERIALIZER_HPP
+#define MEOWENGINE_ASSETSERIALIZER_HPP
 
 #include <string_view>
 
 #include "Public/Core/Forward.hpp"
+#include "Public/IO/Forward.hpp"
+
+#include "log.hpp"
 #include "AssetHeader.hpp"
+#include "AssetMetadata.hpp"
+
 
 namespace MeowEngine::Asset {
+    class AssetRegistry;
+
     /**
      * Reads asset header or writes asset header + given data
      */
     class AssetSerializer {
     public:
+        static Serialization::Serializer OpenSerializer(Path path, FileSystem::FileMode mode);
+        static void CloseSerializer(const Serialization::Serializer& serializer);
+
+        static bool ReadHeader(const Serialization::Serializer& serializer, AssetHeader& header);
+        static void WriteHeader(const Serialization::Serializer& serializer, AssetHeader& header);
+
+        static void ReadMetadata(const Serialization::Serializer& serializer, AssetMetadata& metadata);
+        static void WriteMetadata(const Serialization::Serializer& serializer, const AssetMetadata& metadata);
+
+    public:
+        // TODO: we dont need this anymore
+        // this is used for binary data importer -> like png, jpeg and also obj
         static void Serialize(const std::string_view& importPath, const std::string_view& savePath);
-        static bool Deserialize(const Path& path, AssetHeader& header);
     };
+
 }
 
 
-#endif //MEOWENGINE_ASSETIMPORTER_HPP
+#endif //MEOWENGINE_ASSETSERIALIZER_HPP

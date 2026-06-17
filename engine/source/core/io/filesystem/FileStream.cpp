@@ -8,6 +8,7 @@
 
 
 namespace MeowEngine::Core::IO::FileSystem {
+    FileStream::FileStream() : Mode(FileMode::READ_WRITE) {}
     FileStream::~FileStream() {}
 
     bool FileStream::Open(const Path& path, FileMode mode) {
@@ -31,6 +32,7 @@ namespace MeowEngine::Core::IO::FileSystem {
                 break;
         }
 
+        Mode = mode;
         Stream.open(path.GetRawString(), openMode);
 
         return Stream.is_open();
@@ -114,5 +116,9 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     bool FileStream::IsOpen() const {
         return Stream.is_open();
+    }
+
+    FileMode FileStream::GetMode() const {
+        return Mode;
     }
 }

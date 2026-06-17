@@ -36,7 +36,9 @@ namespace MeowEngine::Asset {
         , SettingIndicator(0)
         , SettingSize(0)
         , DataIndicator(0)
-        , DataSize(0) {}
+        , DataSize(0) {
+            // memcpy(Magic, "MEOW", 4); // direct copy without include \0
+        }
 
         AssetHeader(uint64_t uuid, int type)
         : Version(1)

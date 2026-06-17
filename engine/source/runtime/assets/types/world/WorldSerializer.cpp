@@ -50,22 +50,13 @@ namespace {
                     if (property.TypeId == typeid(int)) {
                         int value = *static_cast<int*>(data);
                         std::string name = property.Name;
-                        // float size = name.size();
 
-                        // stream.Write(&size, sizeof(uint32_t));
-                        // stream.Write(name.data(), name.size());
-                        // stream.Write(&value, sizeof(int));
                         serializer.WriteString(name);
                         serializer.WriteInt(value);
                     }
                     else if (property.TypeId == typeid(float)) {
                         float value = *static_cast<float*>(data);
                         std::string name = property.Name;
-                        // float size = name.size();
-
-                        // stream.Write(&size, sizeof(uint32_t));
-                        // stream.Write(name.data(), name.size());
-                        // stream.Write(&value, sizeof(float));
 
                         serializer.WriteString(name);
                         serializer.WriteFloat(value);
@@ -82,12 +73,6 @@ namespace {
 
                         serializer.WriteString(name);
                         serializer.WriteString(value);
-                        // float size = name.size();
-
-                        // stream.Write(&size, sizeof(uint32_t));
-                        // stream.Write(name.data(), name.size());
-                        //
-                        // stream.Write(value.data(), value.size());
                     }
                     else {
                         auto data = property.Get(instance);
@@ -134,9 +119,12 @@ namespace MeowEngine::Runtime {
         infoComponent.SetName(String("testEntity"));
 
         // serialization ahead
-        FileSystem::FileStream stream;
-        stream.Open(path, FileSystem::FileMode::WRITE);
-        Serialization::Serializer serializer {stream};
+        FileSystem::Path filePath = path;
+        FileSystem::Path fileName = path.GetName();
+        std::shared_ptr<FileSystem::FileStream> stream = std::make_shared<FileSystem::FileStream>();
+        // FileSystem::FileStream stream;
+        stream->Open(path, FileSystem::FileMode::WRITE);
+        Serialization::Serializer serializer {fileName, filePath, stream};
 
         // save entity count
         size_t entityCount = registry.storage<entt::entity>().size();
@@ -181,8 +169,8 @@ namespace MeowEngine::Runtime {
             }
         });
 
-        stream.Flush();
-        stream.Close();
+        stream->Flush();
+        stream->Close();
 
     }
 
@@ -203,10 +191,12 @@ namespace MeowEngine::Runtime {
         auto& registry = world.GetBuffer().GetCurrent();
 
         FileSystem::Path worldPath = MeowService().Project.Settings.GetSandboxRootPathE() + "world.meowdata";
-        FileSystem::FileStream stream;
-        stream.Open(worldPath, FileSystem::FileMode::READ);
+        std::shared_ptr<FileSystem::FileStream> stream = std::make_shared<FileSystem::FileStream>();
+        stream->Open(worldPath, FileSystem::FileMode::READ);
 
-        Serialization::Serializer serializer {stream};
+        FileSystem::Path filePath = path;
+        FileSystem::Path fileName = path.GetName();
+        Serialization::Serializer serializer {fileName, filePath, stream};
 
         size_t entityCount;
         entityCount = serializer.ReadSize();

@@ -14,6 +14,7 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     class FileStream {
     public:
+        FileStream();
         ~FileStream();
 
         bool Open(const Path& path, FileMode mode);
@@ -37,9 +38,11 @@ namespace MeowEngine::Core::IO::FileSystem {
         void Flush();
 
         bool IsOpen() const;
+        FileMode GetMode() const;
 
     private:
         std::fstream Stream; // input + output operations
+        FileMode Mode;
     };
 
 }

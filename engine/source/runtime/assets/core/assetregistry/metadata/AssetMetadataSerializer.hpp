@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 16/06/26.
+//
+
+#ifndef MEOWENGINE_ASSETMETADATASERIALIZER_HPP
+#define MEOWENGINE_ASSETMETADATASERIALIZER_HPP
+
+
+class AssetMetadataSerializer {};
+
+
+#endif //MEOWENGINE_ASSETMETADATASERIALIZER_HPP

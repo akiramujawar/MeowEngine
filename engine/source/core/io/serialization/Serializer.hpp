@@ -5,14 +5,16 @@
 #ifndef MEOWENGINETEST2_SERIALIZER_HPP
 #define MEOWENGINETEST2_SERIALIZER_HPP
 
+#include <memory>
 #include <cstdlib>
 
-#include <FileStream.hpp>
+#include "FileStream.hpp"
+#include "Path.hpp"
 
 namespace MeowEngine::Core::IO::Serialization {
-    class Serializer {
+    struct Serializer {
     public:
-        explicit Serializer(FileSystem::FileStream& stream);
+        explicit Serializer(FileSystem::Path fileName, FileSystem::Path path, std::shared_ptr<FileSystem::FileStream> stream);
 
         void WriteSize(size_t size) const;
         void WriteInt(int value) const;
@@ -23,6 +25,9 @@ namespace MeowEngine::Core::IO::Serialization {
         void WriteBool(bool value) const;
         void WriteString(const std::string& value) const;
 
+        template <typename Type>
+        void Write(const Type& type) const;
+
         [[nodiscard]] size_t ReadSize() const;
         [[nodiscard]] int ReadInt() const;
         [[nodiscard]] uint16_t ReadUInt16() const;
@@ -32,9 +37,43 @@ namespace MeowEngine::Core::IO::Serialization {
         [[nodiscard]] bool ReadBool() const;
         [[nodiscard]] std::string ReadString() const;
 
+        template<typename Type>
+        Type Read() const;
+
+        [[nodiscard]] FileSystem::Path GetPath() const { return Path; }
+        [[nodiscard]] FileSystem::FileMode GetMode() const { return Stream->GetMode(); }
+        [[nodiscard]] FileSystem::Path GetFileName() const { return FileName; }
+
+        [[nodiscard]] FileSystem::FileStream& GetStream() const { return *Stream; }
+
     private:
-        FileSystem::FileStream& Stream;
+        FileSystem::Path FileName;
+        FileSystem::Path Path;
+        // FileSystem::FileMode Mode;
+
+        std::shared_ptr<FileSystem::FileStream> Stream;
     };
+
+    template <typename Type>
+    void Serializer::Write(const Type& type) const {
+        static_assert(std::is_trivially_copyable_v<Type>, "Raw Write only supports trivially copyable types");
+
+        uint32_t size = sizeof(Type);
+
+        WriteUInt32(size);
+        Stream->Write(&type, sizeof(Type));
+    }
+
+    template <typename Type>
+    Type Serializer::Read() const {
+        static_assert(std::is_trivially_copyable_v<Type>, "Raw Read only supports trivially copyable");
+
+        Type value;
+        auto size = ReadUInt32();
+        Stream->Read(&value, size);
+
+        return value;
+    }
 }
 
 

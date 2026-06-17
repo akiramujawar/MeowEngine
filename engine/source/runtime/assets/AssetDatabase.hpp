@@ -5,6 +5,8 @@
 #ifndef MEOWENGINE_ASSETRESOLVER_HPP
 #define MEOWENGINE_ASSETRESOLVER_HPP
 
+#include <unordered_set>
+
 #include "Public/Core/Forward.hpp"
 #include "AssetRegistry.hpp"
 
@@ -32,6 +34,10 @@ namespace MeowEngine::Asset {
          * Call when assets where externally moved / added / deleted
          */
         void RebuildE();
+
+    private:
+        void UpdateAssetHandles(const Path& path, AssetRegistry& assetRegistry);
+        void CheckDirectoryForAssetHandles(const Path& directoryPath, AssetRegistry& assetRegistry, std::unordered_set<AssetHandle>& verifiedHandles);
 
     private:
         AssetRegistry EngineRegistry;

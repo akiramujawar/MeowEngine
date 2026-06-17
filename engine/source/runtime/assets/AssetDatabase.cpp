@@ -20,15 +20,16 @@ namespace MeowEngine::Asset {
 
     void AssetDatabase::Load() {
         const auto engineAssetRegistryPath = MeowService().Project.Settings.GetEngineAssetResolverPath();
-        const auto sandboxAssetRegistryPath = MeowService().Project.Settings.GetSandboxAssetResolverPath();
-
         AssetRegistrySerializer::Deserialize(
             engineAssetRegistryPath, EngineRegistry
         );
 
+        const auto sandboxAssetRegistryPath = MeowService().Project.Settings.GetSandboxAssetResolverPath();
         AssetRegistrySerializer::Deserialize(
             sandboxAssetRegistryPath, SandboxRegistry
         );
+
+        MeowEngine::Log("AssetDatabase", "");
     }
 
     bool AssetDatabase::Has(const AssetHandle& handle) {
@@ -57,61 +58,73 @@ namespace MeowEngine::Asset {
     void AssetDatabase::Remove(const AssetHandle& handle) {}
 
     void AssetDatabase::RebuildE() {
-        // read all files & access there guid - access filesystem to read file
-        // - check if guid exists in registry
-        //      - if exists
-        //          - check if path is correct
-        //              - if path not correct update it
-        // - if not exists
-        //      - add to registry
-        // - add to verified
-        // - compare verified vs asset registry
-        //      - if items missing from verified
-        //          - remove them from asset registry
+        const auto sandboxAssetsPath = MeowService().Project.Settings.GetExecutablePath() + "assets";
+        const auto sandboxAssetRegistryPath = MeowService().Project.Settings.GetSandboxAssetResolverPath();
+        UpdateAssetHandles(sandboxAssetsPath, SandboxRegistry);
+        AssetRegistrySerializer::Serialize(
+            sandboxAssetRegistryPath, SandboxRegistry
+        );
 
+        // when running as client we don't run this.
+        const auto engineAssetsPath = MeowService().Project.Settings.GetExecutablePath() + "engine/assets";
+        const auto engineAssetRegistryPath = MeowService().Project.Settings.GetEngineAssetResolverPath();
+        UpdateAssetHandles(engineAssetsPath, EngineRegistry);
+        AssetRegistrySerializer::Serialize(
+            engineAssetRegistryPath, EngineRegistry
+        );
+        // for testing --
+        // SandboxRegistry.Clear();
+        // EngineRegistry.Clear();
+        //
+        // Load();
+    }
+
+    void AssetDatabase::UpdateAssetHandles(const Path& path, AssetRegistry& assetRegistry) {
         std::unordered_set<AssetHandle> verifiedHandles;
-        auto rootPath = MeowService().Project.Settings.GetExecutablePath() + "assets";
-        auto rootDirectory = FileSystem::Directory { rootPath };
-        auto directories = rootDirectory.GetDirectories(false);
-        auto files = rootDirectory.GetFiles(false);
 
+        assetRegistry.Clear();
+        CheckDirectoryForAssetHandles(path, assetRegistry, verifiedHandles);
+    }
+
+    void AssetDatabase::CheckDirectoryForAssetHandles(const Path& directoryPath, AssetRegistry& assetRegistry, std::unordered_set<AssetHandle>& verifiedHandles) {
+        auto rootDirectory = FileSystem::Directory { directoryPath };
+
+        // for all files inside directory check if newly or updated asset handles
+        // - if so add new asset / update existing handle
+        auto files = rootDirectory.GetFiles(false);
         for (auto& filePath : files) {
             AssetHeader header;
+            bool isValidEngineAsset = false;
 
-            // if false, we assume it's not engine readable
-            if (AssetSerializer::Deserialize(filePath, header)) {
-                // temporary handle for checking assets
-                auto handle = AssetHandle::Create(header.UUID);
+            // read file get header & validity of asset (engine asset or not)
+            {
+                std::string logMessage = "Start: " + filePath.GetRawString();
+                MeowEngine::Log("Asset Serializer", logMessage, LogType::WARNING);
 
-                if (SandboxRegistry.Has(handle)) {
-                    if (SandboxRegistry.GetPath(handle) == filePath.GetStringView()) {
-                        // all good
-                    }
-                    else {
-                        auto metadata = SandboxRegistry.GetMetadata(handle);
-                        SandboxRegistry.Remove(handle);
-                        metadata.Path = filePath.GetRawString();
+                auto serializer = AssetSerializer::OpenSerializer(filePath, FileSystem::FileMode::READ);
+                isValidEngineAsset = AssetSerializer::ReadHeader(serializer, header);
 
-                        SandboxRegistry.Add(handle, metadata);
-                    }
-                }
-                else {
-                    AssetMetadata metadata;
-                    metadata.Path = filePath.GetRawString();
-                    metadata.Type = static_cast<AssetType>(header.Type);
-                    metadata.Handle = handle;
+                std::string logMessage2 = "End " + filePath.GetRawString();
+                MeowEngine::Log("Asset Serializer", logMessage2, LogType::WARNING);
 
-                    SandboxRegistry.Add(handle, metadata);
-                }
+                AssetSerializer::CloseSerializer(serializer);
+            }
 
-                verifiedHandles.insert(handle);
+            if (isValidEngineAsset) {
+                AssetHandle handle = AssetHandle::Create(header.UUID);
+                AssetMetadata metadata;
+                metadata.Type = static_cast<AssetType>(header.Type);
+                metadata.Path = filePath.GetRawString();
+                metadata.Handle = handle;
+
+                assetRegistry.Add(handle, metadata);
             }
         }
 
-        // TODO: do the same and loop for directory inside
-
-        for (auto& verifiedHandle : verifiedHandles) {
-            MeowEngine::Log("AssetDatabase", std::to_string(verifiedHandle.GetUUID()));
+        // check recursively for each folder in this path
+        auto directories = rootDirectory.GetDirectories(false);
+        for (auto& path : directories) {
+            CheckDirectoryForAssetHandles(path, assetRegistry, verifiedHandles);
         }
     }
 }

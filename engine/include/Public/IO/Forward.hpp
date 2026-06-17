@@ -8,10 +8,12 @@
 namespace MeowEngine {
     namespace Core::IO::FileSystem {
         class Path;
+        class FileStream;
+        enum class FileMode;
     }
 
     namespace Core::IO::Serialization {
-
+        struct  Serializer;
     }
 
     namespace FileSystem = Core::IO::FileSystem;

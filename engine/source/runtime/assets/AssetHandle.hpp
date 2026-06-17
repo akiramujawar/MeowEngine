@@ -14,6 +14,8 @@ namespace MeowEngine::Asset {
      * NOTE: Is created internally by AssetRegistry only
      */
     struct AssetHandle {
+        // TODO: remove these after we implement binary read/write
+        friend class AssetSerializer;
         friend class AssetRegistrySerializer;
         friend class AssetDatabase;
 

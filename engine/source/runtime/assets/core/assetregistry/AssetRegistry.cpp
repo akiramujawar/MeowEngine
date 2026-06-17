@@ -9,6 +9,11 @@
 
 namespace MeowEngine::Asset {
     void AssetRegistry::Add(const AssetHandle& handle, const AssetMetadata& entry) {
+        if (Has(handle)) {
+            MeowEngine::Log("Asset", "Already Exists" + entry.Path, LogType::WARNING);
+            return;
+        }
+
         PathMap.try_emplace(entry.Path, entry);
         MetadataMap.try_emplace(handle, entry);
     }

@@ -60,6 +60,56 @@ namespace {
 }
 
 namespace MeowEngine::Asset {
+    Serialization::Serializer AssetSerializer::OpenSerializer(Path path, const FileSystem::FileMode mode) {
+        Path fileName = path.GetName();
+
+        std::shared_ptr<FileSystem::FileStream> stream = std::make_shared<FileSystem::FileStream>();
+        stream->Open(path.GetRawString().data(), mode);
+
+        const Serialization::Serializer serializer {fileName, path, stream};
+
+        return serializer;
+    }
+
+    void AssetSerializer::CloseSerializer(const Serialization::Serializer& serializer) {
+        auto& stream = serializer.GetStream();
+        stream.Close();
+    }
+
+    bool AssetSerializer::ReadHeader(const Serialization::Serializer& serializer, AssetHeader& header) {
+        auto& stream = serializer.GetStream();
+        stream.Read(&header, sizeof(Asset::AssetHeader));
+
+        // check for file validity
+        if (strncmp(header.Magic, "MEOW", 4) != 0) {
+            // std::string logMessage = "Invalid Asset: " + stream.GetPath();
+            // MeowEngine::Log("Asset Serializer", logMessage, LogType::ERROR);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    void AssetSerializer::WriteHeader(const Serialization::Serializer& serializer, AssetHeader& header) {
+        auto& stream = serializer.GetStream();
+        stream.Write(&header, sizeof(Asset::AssetHeader));
+
+        // serializer.Write<AssetHeader>(header);
+    }
+
+    void AssetSerializer::ReadMetadata(const Serialization::Serializer& serializer, AssetMetadata& metadata) {
+        metadata.Type = static_cast<AssetType>(serializer.ReadInt());
+        metadata.Path = serializer.ReadString();
+        metadata.Handle = AssetHandle::Create(serializer.ReadUInt64());
+    }
+
+    void AssetSerializer::WriteMetadata(const Serialization::Serializer& serializer, const AssetMetadata& metadata) {
+        serializer.WriteInt(static_cast<int>(metadata.Type));
+        serializer.WriteString(metadata.Path);
+        serializer.WriteUInt64(metadata.Handle.GetUUID());
+    }
+
 
     void AssetSerializer::Serialize(const std::string_view& importPath, const std::string_view& savePath) {
         const FileSystem::Path importFilePath(importPath);
@@ -96,33 +146,6 @@ namespace MeowEngine::Asset {
 
         stream.Flush();
         stream.Close();
-
-        // MeowService().AssetManager.GetResolver().Add(uuid, Asset::AssetEntry{type,saveFilePath.CStr()});
-        // Asset::Serializer::AssetRegistrySerializer::Serialize(
-        //      MeowService().Project.Settings.GetAssetResolverPath(),
-        //      MeowService().AssetManager.GetResolver()
-        // );
     }
 
-    bool AssetSerializer::Deserialize(const Path& path, AssetHeader& header) {
-        FileSystem::FileStream stream;
-
-        stream.Open(path.GetRawString().data(), FileSystem::FileMode::READ);
-
-        // move indicator to asset data
-        // (just by reading it auto seeks as header size is constant, we do it any way)
-        stream.Read(&header, sizeof(Asset::AssetHeader));
-        // stream.Seek(header.DataIndicator);
-
-        // check for file validity
-        if (strncmp(header.Magic, "MEOW", 4) != 0) {
-            // throw std::runtime_error("Invalid Asset Resolver");
-            std::string logMessage = "Invalid Asset: " + path.GetRawString();
-            MeowEngine::Log("Asset Serializer", logMessage, LogType::ERROR);
-
-            return false;
-        }
-
-        return true;
-    }
 }

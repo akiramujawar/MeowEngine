@@ -6,6 +6,7 @@
 #define MEOWENGINETEST_ASSETREGISTRYSERIALIZER_HPP
 
 #include "Public/Core/Forward.hpp"
+#include "Public/IO/Forward.hpp"
 
 #include <AssetRegistry.hpp>
 
@@ -19,12 +20,12 @@ namespace MeowEngine::Asset {
         /**
          * Creates temp file, moves header & writes asset resolver map
          */
-        static bool Serialize(const Path& resolverPath, const AssetRegistry& resolverAsset);
+        static bool Serialize(const Path& path, const AssetRegistry& resolverAsset);
 
         /**
          * Loads asset resolver (.meowreg) & caches into asset resolver map
          */
-        static bool Deserialize(const Path& resolverPath, AssetRegistry& resolverAsset);
+        static bool Deserialize(const Path& path, AssetRegistry& resolverAsset);
 
     private:
         /**
