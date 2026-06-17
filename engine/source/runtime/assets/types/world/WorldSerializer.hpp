@@ -5,21 +5,16 @@
 #ifndef MEOWENGINE_WORLDSERIALIZER_HPP
 #define MEOWENGINE_WORLDSERIALIZER_HPP
 
-// #include <IO.hpp>
-#include <World.hpp>
+#include "Public/Core/Forward.hpp"
+#include "World.hpp"
 
-namespace MeowEngine::Core::IO::FileSystem {
-    class Path;
-}
+namespace MeowEngine::Asset {
 
-namespace MeowEngine::Runtime {
-    namespace FileSystem = Core::IO::FileSystem;
 
     class WorldSerializer {
     public:
-        static void Serialize(const FileSystem::Path path, World& world);
-
-        static void Deserialize(const FileSystem::Path path, World& world);
+        static bool Serialize(Path path, Runtime::World& world);
+        static bool Deserialize(Path path, Runtime::World& world);
     };
 }
 

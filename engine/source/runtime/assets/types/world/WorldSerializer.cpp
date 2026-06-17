@@ -4,8 +4,10 @@
 
 #include <WorldSerializer.hpp>
 
-#include <Public/IO.hpp>
-#include <MeowService.hpp>
+// #include <Public/IO.hpp>
+#include "MeowService.hpp"
+#include "AssetSerializer.hpp"
+#include "ComponentSerializer.hpp"
 
 // #include "hierarchy_component.hpp"
 #include "info_component.hpp"
@@ -20,126 +22,81 @@
 //
 // #define TEST2(Registry, Type, Entity, Args) TEST(Registry, Type, Entity, Args)
 
+// template<typename ComponentType>
+// void* AddComponent(entt::registry& registry, entt::entity &inEntity) {
+//     auto* test = new ComponentType();
+//
+//     registry.emplace<MeowEngine::entity::InfoComponent>(inEntity, std::move(test));
+//
+//     return static_cast<void*>(test);
+// }
+//
+// std::map<std::string, void*(*)(entt::registry& registry, entt::entity &inEntity)> AddComponentMap;
+
 template<typename ComponentType>
 void* AddComponent(entt::registry& registry, entt::entity &inEntity) {
-    auto* test = new ComponentType();
+    auto& test = registry.emplace<ComponentType>(inEntity);
 
-    registry.emplace<MeowEngine::entity::InfoComponent>(inEntity, std::move(test));
-
-    return static_cast<void*>(test);
+    return &test;
 }
 
-std::map<std::string, void*(*)(entt::registry& registry, entt::entity &inEntity)> AddComponentMap;
+std::map<std::string, void*(*)(entt::registry& registry, entt::entity& inEntity)> AddComponentMap;
 
 void Test123() {
-    // AddComponentMap["InfoComponent"] = &AddComponent<MeowEngine::entity::InfoComponent>;
+    AddComponentMap["InfoComponent"] = &AddComponent<MeowEngine::entity::InfoComponent>;
+
+    AddComponentMap.try_emplace(
+        "InfoComponent",
+        &AddComponent<MeowEngine::entity::InfoComponent>
+    );
     // AddComponentMap["HierarchyComponent"] = &AddComponent<MeowEngine::component::HierarchyComponent>;
 
 }
 
 std::map<int32_t, entt::entity> entityGUID_Map;
 
-namespace {
-    void SerializeClass(MeowEngine::Serialization::Serializer& serializer, void* instance, std::string className) {
-        // properties
-        auto properties = MeowEngine::GetReflection().GetProperties(className);
-        for (auto& property : properties) {
-            switch (property.Type) {
-                case MeowEngine::PRIMITIVE: {
-                    auto data = property.Get(instance);
-                    if (property.TypeId == typeid(int)) {
-                        int value = *static_cast<int*>(data);
-                        std::string name = property.Name;
-
-                        serializer.WriteString(name);
-                        serializer.WriteInt(value);
-                    }
-                    else if (property.TypeId == typeid(float)) {
-                        float value = *static_cast<float*>(data);
-                        std::string name = property.Name;
-
-                        serializer.WriteString(name);
-                        serializer.WriteFloat(value);
-                    }
-                    break;
-                }
-                case MeowEngine::CLASS_OR_STRUCT: {
-                    if (property.TypeId == typeid(MeowEngine::String)) {
-                        auto data = property.Get(instance);
-                        MeowEngine::String valueObject = *static_cast<MeowEngine::String*>(data);
-                        std::string value = valueObject.GetRawString();
-
-                        std::string name = property.Name;
-
-                        serializer.WriteString(name);
-                        serializer.WriteString(value);
-                    }
-                    else {
-                        auto data = property.Get(instance);
-                        std::string name = property.TypeName;
-
-                        SerializeClass(serializer, data, name);
-                    }
-
-
-                    break;
-                }
-                case MeowEngine::POINTER: {
-
-                }
-                case MeowEngine::ENUM: {
-                    auto data = property.Get(instance);
-                    // MeowEngine::Object* dataObject = static_cast<MeowEngine::Object*>(data);
-                    std::string name = property.Name;
-                    int value = *static_cast<int*>(data);
-
-                    serializer.WriteString(name);
-                    serializer.WriteInt(value);
-                }
-                case MeowEngine::ARRAY: {}
-                case MeowEngine::NOT_DEFINED: {}
-            }
-        }
-    }
-}
-
-namespace MeowEngine::Runtime {
-    void WorldSerializer::Serialize(const FileSystem::Path path, World& world) {
+namespace MeowEngine::Asset {
+    bool WorldSerializer::Serialize(const FileSystem::Path path, Runtime::World& world) {
         MeowEngine::Log("WorldSerializer", "Serialize");
 
         // template world data for testing
-        auto testWorld = World();
+        auto testWorld = Runtime::World();
         auto& registry = testWorld.GetBuffer().GetCurrent();
 
         entt::entity testEntity = registry.create();
-        auto identityComponent = registry.emplace<IdentityComponent>(testEntity);
+        auto identityComponent = registry.emplace<Runtime::IdentityComponent>(testEntity);
         auto infoComponent = registry.emplace<entity::InfoComponent>(testEntity);
 
         identityComponent.SetGUID(5556);
         infoComponent.SetName(String("testEntity"));
 
-        // serialization ahead
-        FileSystem::Path filePath = path;
-        FileSystem::Path fileName = path.GetName();
-        std::shared_ptr<FileSystem::FileStream> stream = std::make_shared<FileSystem::FileStream>();
-        // FileSystem::FileStream stream;
-        stream->Open(path, FileSystem::FileMode::WRITE);
-        Serialization::Serializer serializer {fileName, filePath, stream};
+        // read existing header
+        auto readSerializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
+        AssetHeader header;
+        AssetSerializer::ReadHeader(readSerializer, header);
+        AssetSerializer::CloseSerializer(readSerializer);
+
+        auto tempPath = path;
+        tempPath.ReplaceExtension("meowtemp");
+
+        // -------- serialization ahead
+        auto writeSerializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::WRITE);
+        AssetSerializer::WriteHeader(writeSerializer, header);
 
         // save entity count
         size_t entityCount = registry.storage<entt::entity>().size();
-        serializer.WriteSize(entityCount);
+        writeSerializer.WriteSize(entityCount);
 
         // save all guids
-        registry.view<IdentityComponent>().each([&serializer](const IdentityComponent& identity) {
-            serializer.WriteUInt32(identity.GetGUID());
+        registry.view<Runtime::IdentityComponent>().each([&writeSerializer](const Runtime::IdentityComponent& identity) {
+            writeSerializer.WriteUInt32(identity.GetGUID());
         });
 
         // guid, component count, component name & its serialized data (using reflection system)
-        registry.view<entt::entity, IdentityComponent>().each([&registry, &serializer](const entt::entity entity, const IdentityComponent& identity) {
+        registry.view<entt::entity, Runtime::IdentityComponent>().each([&registry, &writeSerializer](const entt::entity entity, const Runtime::IdentityComponent& identity) {
             // cache and save entity guid
             const auto guid = identity.GetGUID();
-            serializer.WriteUInt32(guid);
+            writeSerializer.WriteUInt32(guid);
 
             // count components (not the best way)
             uint16_t componentCount = 0;
@@ -152,7 +109,7 @@ namespace MeowEngine::Runtime {
             }
 
             // save component counts
-            serializer.WriteUInt16(componentCount);
+            writeSerializer.WriteUInt16(componentCount);
 
             // serialize & save component data
             // component = vector storage of that component for every entity using it
@@ -160,43 +117,39 @@ namespace MeowEngine::Runtime {
                 if (component.contains(entity)) {
                     const entt::id_type type = id;
                     const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
-                    serializer.WriteString(componentName);
+                    writeSerializer.WriteString(componentName);
 
                     // properties
                     void* componentObject = component.value(entity);
-                    ::SerializeClass(serializer, componentObject, componentName);
+                    Asset::ComponentSerializer::Serialize(writeSerializer, componentObject, componentName);
                 }
             }
         });
 
-        stream->Flush();
-        stream->Close();
+        AssetSerializer::CloseSerializer(writeSerializer);
 
+        if (!FileSystem::FileSystem::Replace(path, tempPath)) {
+            FileSystem::FileSystem::Remove(tempPath);
+
+            return false;
+        }
+
+        return true;
     }
 
-    void WorldSerializer::Deserialize(const FileSystem::Path path, World& world) {
-        // auto& registry = world.GetRegistry();
-        // registry.emplace<type>(entity, data);
-        // auto entity = registry.create();
-
-        // TEST(registry, "InfoComponent", entity, "Torus")
-        // AddComponent<entity::InfoComponent>(registry, entity, "Torus");
-
-        // std::string abc = "ds";
-        // void* test1 = &abc;
-
-        // AddComponentMap["InfoComponent"](registry, entity, test1);
-
+    bool WorldSerializer::Deserialize(const FileSystem::Path path, Runtime::World& world) {
         // auto testWorld = World();
         auto& registry = world.GetBuffer().GetCurrent();
 
-        FileSystem::Path worldPath = MeowService().Project.Settings.GetSandboxRootPathE() + "world.meowdata";
-        std::shared_ptr<FileSystem::FileStream> stream = std::make_shared<FileSystem::FileStream>();
-        stream->Open(worldPath, FileSystem::FileMode::READ);
+        // --------------- serialization ahead
+        auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
 
-        FileSystem::Path filePath = path;
-        FileSystem::Path fileName = path.GetName();
-        Serialization::Serializer serializer {fileName, filePath, stream};
+        AssetHeader header;
+        const bool isValidAsset = AssetSerializer::ReadHeader(serializer, header);
+
+        if (!isValidAsset) {
+            return false;
+        }
 
         size_t entityCount;
         entityCount = serializer.ReadSize();
@@ -205,7 +158,11 @@ namespace MeowEngine::Runtime {
 
         for (auto i = 0; i < entityCount; i++) {
             auto entity = world.GetBuffer().AddEntity();
-            world.GetBuffer().AddComponent<IdentityComponent>(entity);
+            auto instance = AddComponentMap["InfoComponent"](registry, entity);
+
+            ComponentSerializer::Deserialize(serializer, instance, "InfoComponent");
+
+            // world.GetBuffer().AddComponent<Runtime::IdentityComponent>(entity);
             // add component - multithread
             // set data for a component - multithread
             // through component->method->(dyanmic args)
@@ -222,5 +179,9 @@ namespace MeowEngine::Runtime {
             // read the components
             // find the entity and process to attach components & it's assign data
         }
+
+        AssetSerializer::CloseSerializer(serializer);
+
+        return true;
     }
 }
