@@ -14,6 +14,10 @@ namespace MeowEngine {
     namespace Runtime {
         class GameplaySystem;
     }
+
+    namespace Asset {
+        class AssetManager;
+    }
 }
 
 namespace MeowEngine::Messaging {
@@ -21,6 +25,7 @@ namespace MeowEngine::Messaging {
         Editor::Selector* Selector;
         Editor::FileDialog* FileDialog;
 
+        Asset::AssetManager* AssetManager;
         Runtime::GameplaySystem* Gameplay;
     };
 }

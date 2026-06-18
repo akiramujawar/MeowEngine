@@ -25,7 +25,7 @@ namespace MeowEngine::Platform {
         static void PickFolder(SDL_Window* window, std::string& path);
         static void PickFolderMultiple(SDL_Window* window, std::vector<std::string>& paths);
 
-        static void SaveDialog(SDL_Window* window);
+        static void SaveDialog(SDL_Window* window, std::string& path);
 
     };
 }

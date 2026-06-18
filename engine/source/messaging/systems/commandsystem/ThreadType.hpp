@@ -9,6 +9,7 @@
 
 namespace MeowEngine::Messaging {
     enum class ThreadType : uint8_t {
+        NONE,
         MAIN,
         RENDER,
         PHYSICS

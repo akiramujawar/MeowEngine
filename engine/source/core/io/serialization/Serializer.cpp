@@ -13,9 +13,7 @@ namespace MeowEngine::Core::IO::Serialization {
     Serializer::Serializer(FileSystem::Path fileName, FileSystem::Path path, std::shared_ptr<FileSystem::FileStream> stream)
         : FileName(std::move(fileName))
         , Path(std::move(path))
-        , Stream(std::move(stream)) {
-        MeowEngine::Log("Test","test");
-    }
+        , Stream(std::move(stream)) {}
 
     void Serializer::WriteSize(const size_t size) const {
         Stream->Write(&size, sizeof(size_t));

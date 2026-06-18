@@ -42,6 +42,7 @@ namespace MeowEngine::Core::IO::FileSystem {
          * @return
          */
         [[nodiscard]] bool IsRelative() const;
+        [[nodiscard]] bool IsLexicallyRelative(const std::string& path) const;
         [[nodiscard]] bool Exists() const;
 
         [[nodiscard]] Path GetParent() const;

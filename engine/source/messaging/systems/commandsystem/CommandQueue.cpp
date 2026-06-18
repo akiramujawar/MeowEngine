@@ -14,20 +14,6 @@ namespace MeowEngine::Messaging {
         Context = context;
     }
 
-    void CommandQueue::Push(ThreadType type, std::unique_ptr<ICommand> command) {
-        switch (type) {
-            case ThreadType::MAIN:
-                mainQueue.enqueue(std::move(command));
-                break;
-            case ThreadType::RENDER:
-                renderQueue.enqueue(std::move(command));
-                break;
-            case ThreadType::PHYSICS:
-                physicsQueue.enqueue(std::move(command));
-                break;
-        }
-    }
-
     void CommandQueue::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask([&]() {
             std::unique_ptr<ICommand> command;
@@ -52,6 +38,21 @@ namespace MeowEngine::Messaging {
                 command->Execute(Context);
             }
         });
+    }
+
+    void CommandQueue::Push(ThreadType type, std::unique_ptr<ICommand> command) {
+        switch (type) {
+            case ThreadType::MAIN:
+                mainQueue.enqueue(std::move(command));
+                break;
+            case ThreadType::RENDER:
+                renderQueue.enqueue(std::move(command));
+                break;
+            case ThreadType::PHYSICS:
+                physicsQueue.enqueue(std::move(command));
+                break;
+            default: ;
+        }
     }
 
 }

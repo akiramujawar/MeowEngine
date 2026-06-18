@@ -25,6 +25,7 @@ namespace MeowEngine::Editor {
         void ShowPickFolderPopup(std::string& selectedDirectory) const;
         void ShowImportPopup(std::string& selectedFile) const;
         void ShowImportPopup(std::vector<std::string>& selectedFiles) const;
+        void ShowSaveDirectoryPopup(std::string& selectedDirectory) const;
 
     private:
         Platform::SDL_EngineWindow* Window = nullptr;

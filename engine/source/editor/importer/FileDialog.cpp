@@ -32,4 +32,8 @@ namespace MeowEngine::Editor {
     void FileDialog::ShowImportPopup(std::vector<std::string>& selectedFiles) const {
         Platform::SDL_NativeFileDialog::OpenDialogMultiple(Window->GetHandle(), selectedFiles);
     }
+
+    void FileDialog::ShowSaveDirectoryPopup(std::string& selectedDirectory) const {
+        Platform::SDL_NativeFileDialog::SaveDialog(Window->GetHandle(), selectedDirectory);
+    }
 }

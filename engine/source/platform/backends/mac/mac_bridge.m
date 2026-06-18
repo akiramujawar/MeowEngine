@@ -47,8 +47,8 @@ void createMacMenu() {
         [fileMenuItem setSubmenu:fileMenu];
 
         // Add options in menu items
-        NSMenuItem *saveWorldItem = [[NSMenuItem alloc] initWithTitle:@"Save World" action:@selector(optionSaveWorldAction:) keyEquivalent:@"s"];
-        [fileMenu addItem:saveWorldItem];
+        NSMenuItem *saveItem = [[NSMenuItem alloc] initWithTitle:@"Save" action:@selector(optionSaveAction:) keyEquivalent:@"s"];
+        [fileMenu addItem:saveItem];
 
 
         // ------ Tools
@@ -80,8 +80,8 @@ void createMacMenu() {
     SDL_PushEvent(&event);
 }
 
-- (void)optionSaveWorldAction:(id)sender {
-    NSLog(@"Saving World");
+- (void)optionSaveAction:(id)sender {
+    NSLog(@"Saving");
 
     SDL_Event event;
     SDL_zero(event);

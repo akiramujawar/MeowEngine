@@ -51,7 +51,7 @@ namespace MeowEngine::Core::IO::FileSystem {
     Path Path::operator+ (const std::string_view& path) const {
         filesystem::path currentPath(CurrentPath);
         filesystem::path newPath = currentPath / path;
-        
+
         return Path { newPath.string() };
     }
     
@@ -91,6 +91,13 @@ namespace MeowEngine::Core::IO::FileSystem {
     bool Path::IsRelative() const {
         filesystem::path currentPath { CurrentPath };
         return currentPath.is_relative();
+    }
+
+    bool Path::IsLexicallyRelative(const std::string& path) const {
+        filesystem::path currentPath { CurrentPath };
+        filesystem::path pathToCheck = {path};
+
+        return currentPath.lexically_relative(pathToCheck) == currentPath;
     }
 
     bool Path::Exists() const {

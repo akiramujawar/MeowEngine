@@ -211,16 +211,17 @@ namespace MeowEngine::Platform {
         }
     }
 
-    void SDL_NativeFileDialog::SaveDialog(SDL_Window* window) {
-        char* nfdPaths;
+    void SDL_NativeFileDialog::SaveDialog(SDL_Window* window, std::string& path) {
+        char* nfdPath;
         nfdsavedialogu8args_t args = {0};
         ::SetNativeWindow(window, &args.parentWindow);
-        const nfdresult_t res = NFD_SaveDialogU8_With(&nfdPaths, &args);
+        const nfdresult_t res = NFD_SaveDialogU8_With(&nfdPath, &args);
 
         switch (res) {
             case NFD_OKAY:
-                ShowMessage(nfdPaths, window);
-                NFD_FreePathU8(nfdPaths);
+                path.assign(nfdPath);
+                ShowMessage(nfdPath, window);
+                NFD_FreePathU8(nfdPath);
                 break;
             case NFD_ERROR:
                 ShowError(NFD_GetError(), window);

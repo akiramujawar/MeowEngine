@@ -7,10 +7,10 @@
 
 #include <concurrentqueue.h>
 
-#include <Public/Threading/Forward.hpp>
+#include "Public/Threading/Forward.hpp"
 
 #include <ICommand.hpp>
-#include <MessageInitData.hpp>
+#include "MessageInitData.hpp"
 #include "ThreadType.hpp"
 
 namespace MeowEngine::Messaging {
