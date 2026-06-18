@@ -8,7 +8,7 @@
 // don't couple all components in world (identity / hierarchy / info are exceptions)
 #include <IdentityComponent.hpp>
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Asset {
     entt::entity World::AddEntity() {
         return Registry.create();
     }

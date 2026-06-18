@@ -13,8 +13,8 @@ namespace MeowEngine::Asset {
 
     class WorldSerializer {
     public:
-        static bool Serialize(Path path, Runtime::World& world);
-        static bool Deserialize(Path path, Runtime::World& world);
+        static bool Serialize(const Path& path, World& world);
+        static bool Deserialize(const Path& path, World& world);
     };
 }
 

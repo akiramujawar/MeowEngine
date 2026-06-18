@@ -4,6 +4,12 @@
 
 #include <RuntimeModule.hpp>
 
+#include <Public/Threading/Include.hpp>
+#include <log.hpp>
+
+#include "MeowService.hpp"
+#include "Project.hpp"
+
 namespace MeowEngine::Runtime {
     RuntimeModule::RuntimeModule() {
         MeowEngine::Log("RuntimeModule", "Constructed");
@@ -13,15 +19,12 @@ namespace MeowEngine::Runtime {
         MeowEngine::Log("RuntimeModule", "Destructed");
     }
 
-    void RuntimeModule::Init() {
-        WorldManager::Setup(&WorldManager, &Gameplay);
+    void RuntimeModule::Init(RuntimeInitData& context) {
+        WorldManager.Init(&Gameplay);
+    }
 
-        // // TODO: come back when setting up AssetSystem
-        // // Load & Switch to the world
-        // WorldManager.Load();
-        // WorldManager.Switch();
-
-
+    void RuntimeModule::Load() {
+        WorldManager.Load(MeowService().Project.Config.LaunchWorldHandle);
     }
 
     void RuntimeModule::Schedule(Threading::Scheduler& scheduler) {
@@ -38,7 +41,4 @@ namespace MeowEngine::Runtime {
         );
     }
 
-    GameplaySystem& RuntimeModule::GetGameplay() {
-        return Gameplay;
-    }
 }

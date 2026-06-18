@@ -14,11 +14,11 @@ namespace MeowEngine::Runtime {
         MeowEngine::Log("GameplaySystem", "Destructed");
     }
 
-    void GameplaySystem::SetWorld(Runtime::World* world) {
+    void GameplaySystem::SetWorld(Asset::World* world) {
         World = world;
     }
 
-    World& GameplaySystem::GetWorld() {
+    Asset::World& GameplaySystem::GetWorld() {
         return *World;
     }
 

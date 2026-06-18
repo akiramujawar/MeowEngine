@@ -19,15 +19,15 @@ namespace MeowEngine::Runtime {
         GameplaySystem();
         ~GameplaySystem();
 
-        void SetWorld(World* world);
-        World& GetWorld();
+        void SetWorld(Asset::World* world);
+        Asset::World& GetWorld();
 
         void Input();
         void Update();
         void Sync();
 
     private:
-        World* World;
+        Asset::World* World;
     };
 
 }

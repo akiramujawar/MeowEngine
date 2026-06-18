@@ -6,6 +6,7 @@
 #define MEOWENGINETEST2_PROJECT_HPP
 
 #include <ProjectSettings.hpp>
+#include "ApplicationConfig.hpp"
 
 namespace MeowEngine::Runtime {
     class Project {
@@ -16,6 +17,7 @@ namespace MeowEngine::Runtime {
         void Init();
 
         Settings::ProjectSettings Settings;
+        Asset::ApplicationConfig Config;
     };
 }
 

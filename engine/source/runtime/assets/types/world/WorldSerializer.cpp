@@ -45,10 +45,10 @@ std::map<std::string, void*(*)(entt::registry& registry, entt::entity& inEntity)
 void Test123() {
     AddComponentMap["InfoComponent"] = &AddComponent<MeowEngine::entity::InfoComponent>;
 
-    AddComponentMap.try_emplace(
-        "InfoComponent",
-        &AddComponent<MeowEngine::entity::InfoComponent>
-    );
+    // AddComponentMap.try_emplace(
+    //     "InfoComponent",
+    //     &AddComponent<MeowEngine::entity::InfoComponent>
+    // );
     // AddComponentMap["HierarchyComponent"] = &AddComponent<MeowEngine::component::HierarchyComponent>;
 
 }
@@ -56,11 +56,11 @@ void Test123() {
 std::map<int32_t, entt::entity> entityGUID_Map;
 
 namespace MeowEngine::Asset {
-    bool WorldSerializer::Serialize(const FileSystem::Path path, Runtime::World& world) {
+    bool WorldSerializer::Serialize(const FileSystem::Path& path, World& world) {
         MeowEngine::Log("WorldSerializer", "Serialize");
 
         // template world data for testing
-        auto testWorld = Runtime::World();
+        auto testWorld = Asset::World();
         auto& registry = testWorld.GetBuffer().GetCurrent();
 
         entt::entity testEntity = registry.create();
@@ -80,7 +80,7 @@ namespace MeowEngine::Asset {
         tempPath.ReplaceExtension("meowtemp");
 
         // -------- serialization ahead
-        auto writeSerializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::WRITE);
+        auto writeSerializer = AssetSerializer::OpenSerializer(tempPath, FileSystem::FileMode::WRITE);
         AssetSerializer::WriteHeader(writeSerializer, header);
 
         // save entity count
@@ -137,7 +137,7 @@ namespace MeowEngine::Asset {
         return true;
     }
 
-    bool WorldSerializer::Deserialize(const FileSystem::Path path, Runtime::World& world) {
+    bool WorldSerializer::Deserialize(const FileSystem::Path& path, World& world) {
         // auto testWorld = World();
         auto& registry = world.GetBuffer().GetCurrent();
 
@@ -160,7 +160,7 @@ namespace MeowEngine::Asset {
             auto entity = world.GetBuffer().AddEntity();
             auto instance = AddComponentMap["InfoComponent"](registry, entity);
 
-            ComponentSerializer::Deserialize(serializer, instance, "InfoComponent");
+            // ComponentSerializer::Deserialize(serializer, instance, "InfoComponent");
 
             // world.GetBuffer().AddComponent<Runtime::IdentityComponent>(entity);
             // add component - multithread

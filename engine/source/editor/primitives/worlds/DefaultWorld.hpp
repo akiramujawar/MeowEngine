@@ -8,7 +8,7 @@
 #include <World.hpp>
 
 namespace MeowEngine::Editor {
-    class DefaultWorld : public Runtime::World {
+    class DefaultWorld : public Asset::World {
     public:
         DefaultWorld();
         ~DefaultWorld();

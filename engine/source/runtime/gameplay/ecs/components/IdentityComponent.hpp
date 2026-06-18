@@ -18,8 +18,7 @@ namespace MeowEngine::Runtime {
 
         IdentityComponent();
 
-        [[nodiscard]]
-        uint32_t GetGUID() const;
+        [[nodiscard]] uint32_t GetGUID() const;
         void SetGUID(uint32_t guid);
 
     private:

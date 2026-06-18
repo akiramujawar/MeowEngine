@@ -5,15 +5,17 @@
 #ifndef MEOWENGINETEST2_WORLD_HPP
 #define MEOWENGINETEST2_WORLD_HPP
 
+
+#include "IAsset.hpp"
 #include <entt.hpp>
 
 #include "entt_triple_buffer.hpp"
 
-namespace MeowEngine::Runtime {
+namespace MeowEngine::Asset {
     /**
      * Represents ECS & actions which can be performed on world entities
      */
-    struct World {
+    class World : public IAsset {
     public:
         World() : Buffer() {}
 
@@ -61,7 +63,7 @@ namespace MeowEngine::Runtime {
     };
 
     template <typename Type>
-    Type& MeowEngine::Runtime::World::AddComponent(const entt::entity& entity) {
+    Type& MeowEngine::Asset::World::AddComponent(const entt::entity& entity) {
         return Registry.emplace<Type>(entity);
     }
 

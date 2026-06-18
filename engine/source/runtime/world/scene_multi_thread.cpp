@@ -59,7 +59,7 @@ struct SceneMultiThread::Internal {
     Editor::Selector SelectionData; // later we will have some type of unified system for selection system
 
     // EnttTripleBuffer RegistryBuffer;
-    Runtime::World World;
+    Asset::World World;
 
     // User Input Events
     const uint8_t* KeyboardState; // SDL owns the object & will manage the lifecycle. We just keep a pointer.
