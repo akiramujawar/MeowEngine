@@ -12,23 +12,45 @@
 #include <AssetHandle.hpp>
 #include <IAsset.hpp>
 
+#include "World.hpp"
+
 namespace MeowEngine::Asset {
     class AssetCache {
     public:
-        bool Has(const AssetHandle& handle) const;
+        [[nodiscard]] bool Has(const AssetHandle& handle) const;
 
-        template <typename Asset>
-        Asset& GetAsset(AssetHandle& handle) {
+        template <typename AssetType>
+        AssetType& Get(const AssetHandle& handle) {
             const auto iterator = CacheMap.find(handle);
             assert(iterator != CacheMap.end());
-            auto asset = *iterator->second;
 
-            return static_cast<Asset&>(asset);
+            return *dynamic_cast<AssetType*>(iterator->second.get());
         }
 
-        void AddAsset() {
-            // recieves asset
-            // handle
+        void Add(const AssetHandle& handle, std::unique_ptr<IAsset> asset) {
+            CacheMap.emplace(handle, std::move(asset));
+        }
+
+        void Replace(const AssetHandle& handle, std::unique_ptr<IAsset> asset) {
+            CacheMap[handle] = std::move(asset);
+        }
+
+        void Remove(const AssetHandle& handle) {
+            CacheMap.erase(handle);
+        }
+
+        void UpdateKey(const AssetHandle& handle) {
+            // only internal pointers are unliked so no copy/move is performed here
+            auto asset = CacheMap.extract(handle);
+
+            if (!asset.empty()) {
+                asset.key() = handle;
+                CacheMap.insert(std::move(asset));
+            }
+        }
+
+        void Clear() {
+            CacheMap.clear();
         }
 
     private:

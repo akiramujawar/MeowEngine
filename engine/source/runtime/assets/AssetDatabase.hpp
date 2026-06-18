@@ -27,15 +27,16 @@ namespace MeowEngine::Asset {
         Path GetAssetPath(const AssetHandle& handle);
         AssetMetadata GetAssetMetadata(const AssetHandle& asset);
 
-        void Add(const AssetHandle& handle);
+        AssetHandle Add(const Path& path);
         void Remove(const AssetHandle& handle);
 
         /**
          * Call when assets where externally moved / added / deleted
          */
-        void RebuildE();
+        void Rebuild();
 
     private:
+        [[nodiscard]] static bool IsEnginePath(const Path& path);
         void UpdateAssetHandles(const Path& path, AssetRegistry& assetRegistry);
         void CheckDirectoryForAssetHandles(const Path& directoryPath, AssetRegistry& assetRegistry, std::unordered_set<AssetHandle>& verifiedHandles);
 

@@ -7,6 +7,7 @@
 
 // #include <cstdlib>
 #include <functional>
+#include "UUID.hpp"
 
 namespace MeowEngine::Asset {
     /**
@@ -14,11 +15,6 @@ namespace MeowEngine::Asset {
      * NOTE: Is created internally by AssetRegistry only
      */
     struct AssetHandle {
-        // TODO: remove these after we implement binary read/write
-        friend class AssetSerializer;
-        friend class AssetRegistrySerializer;
-        friend class AssetDatabase;
-
         AssetHandle();
         ~AssetHandle();
 
@@ -27,22 +23,33 @@ namespace MeowEngine::Asset {
          */
         static AssetHandle Null;
 
-        bool IsValid() const;
-        uint64_t GetUUID() const;
+        [[nodiscard]] bool IsValid() const;
+        [[nodiscard]] bool GetIsTemp() const;
+        [[nodiscard]] uint64_t GetUUID() const;
 
+        // AssetHandle& operator=(const AssetHandle& handle);
         bool operator==(const AssetHandle& handle) const;
         bool operator!=(const AssetHandle& handle) const;
 
-    private:
+        static AssetHandle CreateTemp() {
+            AssetHandle handle;
+            handle.UUID = Core::UUID::GenerateUUID();
+            handle.IsTemp = true;
+
+            return handle;
+        }
+
         static AssetHandle Create(uint64_t uuid) {
             AssetHandle handle;
             handle.UUID = uuid;
+            handle.IsTemp = false;
 
             return handle;
         }
 
     private:
         uint64_t UUID;
+        bool IsTemp;
     };
 }
 

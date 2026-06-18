@@ -51,13 +51,48 @@ namespace MeowEngine::Asset {
 
     AssetMetadata AssetDatabase::GetAssetMetadata(const AssetHandle& asset) {}
 
-    void AssetDatabase::Add(const AssetHandle& handle) {
-        // EngineRegistry.Add()
+    AssetHandle AssetDatabase::Add(const Path& path) {
+        AssetHeader header;
+        bool isValidEngineAsset = false;
+
+        // read file get header & validity of asset (engine asset or not)
+        {
+            auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
+            isValidEngineAsset = AssetSerializer::ReadHeader(serializer, header);
+
+            AssetSerializer::CloseSerializer(serializer);
+        }
+
+        if (isValidEngineAsset) {
+            AssetHandle handle = AssetHandle::Create(header.UUID);
+            AssetMetadata metadata;
+            metadata.Type = static_cast<AssetType>(header.Type);
+            metadata.Path = path.GetRawString();
+            metadata.Handle = handle;
+
+            if (IsEnginePath(path)) {
+                EngineRegistry.Add(handle, metadata);
+            }
+            else {
+                SandboxRegistry.Add(handle, metadata);
+            }
+
+            return handle;
+        }
+
+        return AssetHandle::Null;
+
+        // if (IsEnginePath(path)) {
+        //     // get header
+        //     // create handle
+        //     // create metadata
+        //     // store
+        // }
     }
 
     void AssetDatabase::Remove(const AssetHandle& handle) {}
 
-    void AssetDatabase::RebuildE() {
+    void AssetDatabase::Rebuild() {
         const auto sandboxAssetsPath = MeowService().Project.Settings.GetExecutablePath() + "assets";
         const auto sandboxAssetRegistryPath = MeowService().Project.Settings.GetSandboxAssetResolverPath();
         UpdateAssetHandles(sandboxAssetsPath, SandboxRegistry);
@@ -77,6 +112,11 @@ namespace MeowEngine::Asset {
         // EngineRegistry.Clear();
         //
         // Load();
+    }
+
+    bool AssetDatabase::IsEnginePath(const Path& path) {
+        const auto engineAssetsPath = MeowService().Project.Settings.GetExecutablePath() + "engine/assets";
+        return path.IsLexicallyRelative(engineAssetsPath.GetRawString());
     }
 
     void AssetDatabase::UpdateAssetHandles(const Path& path, AssetRegistry& assetRegistry) {
