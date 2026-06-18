@@ -13,7 +13,7 @@ namespace MeowEngine::entity {
     public:
         REFLECT_COMPONENT(LineRenderComponent)
         static void Reflect();
-
+        LineRenderComponent() = default;
         explicit LineRenderComponent(MeowEngine::assets::ShaderPipelineType shader, glm::vec3 start, glm::vec3 end);
 
 //        void Update(const glm::mat4 &projectionViewMatrix) override {

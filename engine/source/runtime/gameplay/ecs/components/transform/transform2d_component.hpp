@@ -13,6 +13,9 @@ namespace MeowEngine::entity {
     public:
         REFLECT_COMPONENT(Transform2DComponent)
         static void Reflect();
+
+        Transform2DComponent() {};
+        void Update(const float& deltaTime) override {}
     };
 }
 

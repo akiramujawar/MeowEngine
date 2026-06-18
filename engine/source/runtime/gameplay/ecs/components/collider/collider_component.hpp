@@ -18,6 +18,7 @@ namespace MeowEngine::entity {
         REFLECT_COMPONENT(ColliderComponent)
         static void Reflect();
 
+        ColliderComponent() = default;
         ColliderComponent(entity::BoxColliderShape inData);
         ColliderComponent(entity::SphereColliderShape inData);
         virtual ~ColliderComponent() = default;

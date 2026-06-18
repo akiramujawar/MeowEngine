@@ -7,7 +7,7 @@
 
 #include "PxPhysicsAPI.h"
 
-#include "Public/Core.hpp"
+#include "Public/Core/Include.hpp"
 #include <collider_shape_type.hpp>
 
 namespace MeowEngine::entity {

@@ -14,6 +14,7 @@ namespace MeowEngine::entity {
         REFLECT_COMPONENT(Transform3DComponent)
         static void Reflect();
 
+        Transform3DComponent() = default;
         Transform3DComponent(const glm::mat4& inProjectionMatrix);
         Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3, Vector3, Quaternion rotation);
         Transform3DComponent(const glm::mat4& inProjectionMatrix, Vector3, Vector3, Vector3 eulerRotation);

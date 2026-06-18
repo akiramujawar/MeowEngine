@@ -15,6 +15,7 @@ namespace MeowEngine::entity {
         REFLECT_COMPONENT(MeshRenderComponent)
         static void Reflect();
 
+        MeshRenderComponent() = default;
         explicit MeshRenderComponent(MeowEngine::assets::ShaderPipelineType shader, MeowEngine::StaticMeshInstance* meshInstance);
 
 //        void Update(const glm::mat4 &projectionViewMatrix) override {
