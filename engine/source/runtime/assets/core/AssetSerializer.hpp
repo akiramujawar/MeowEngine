@@ -16,7 +16,7 @@
 
 
 namespace MeowEngine::Asset {
-    class AssetRegistry;
+    // class AssetRegistry;
 
     /**
      * Reads asset header or writes asset header + given data
@@ -27,10 +27,12 @@ namespace MeowEngine::Asset {
         static void CloseSerializer(const Serialization::Serializer& serializer);
 
         static bool ReadHeader(const Serialization::Serializer& serializer, AssetHeader& header);
-        static void WriteHeader(const Serialization::Serializer& serializer, AssetHeader& header);
+        static void WriteHeader(const Serialization::Serializer& serializer, const AssetHeader& header);
 
         static void ReadMetadata(const Serialization::Serializer& serializer, AssetMetadata& metadata);
         static void WriteMetadata(const Serialization::Serializer& serializer, const AssetMetadata& metadata);
+
+        static bool CreateEmptyMeowdata(const Path& path, const AssetHeader& header);
 
     public:
         // TODO: we dont need this anymore

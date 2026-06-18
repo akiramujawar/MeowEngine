@@ -64,6 +64,9 @@ namespace MeowEngine::Asset {
         // if doesn't exist's, create the asset file
         if (!path.Exists()) {
             Create(path);
+
+            // TODO: Ideally if it's fresh file we dont need the deserialize. rather we want to trigger asset database check
+            // return true;
         }
 
         auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);

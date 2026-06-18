@@ -91,7 +91,7 @@ namespace MeowEngine::Asset {
         return true;
     }
 
-    void AssetSerializer::WriteHeader(const Serialization::Serializer& serializer, AssetHeader& header) {
+    void AssetSerializer::WriteHeader(const Serialization::Serializer& serializer, const AssetHeader& header) {
         auto& stream = serializer.GetStream();
         stream.Write(&header, sizeof(Asset::AssetHeader));
 
@@ -108,6 +108,18 @@ namespace MeowEngine::Asset {
         serializer.WriteInt(static_cast<int>(metadata.Type));
         serializer.WriteString(metadata.Path);
         serializer.WriteUInt64(metadata.Handle.GetUUID());
+    }
+
+    bool AssetSerializer::CreateEmptyMeowdata(const Path& path, const AssetHeader& header) {
+        MeowEngine::Log("AssetSerializer", {"Creating empty asset", path.GetRawString()});
+        auto serializer = OpenSerializer(path, FileSystem::FileMode::WRITE);
+
+        WriteHeader(serializer, header);
+        serializer.WriteUInt32(0);
+
+        CloseSerializer(serializer);
+
+        return true;
     }
 
 
