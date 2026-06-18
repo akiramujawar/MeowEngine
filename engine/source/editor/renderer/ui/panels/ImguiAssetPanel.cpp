@@ -3,9 +3,11 @@
 //
 
 #include "ImguiAssetPanel.hpp"
+
+#include <imgui_internal.h>
 #include "log.hpp"
 
-#include <Public/IO.hpp>
+#include <Public/IO/Include.hpp>
 #include <MeowService.hpp>
 
 #include "AssetLoader.hpp"
@@ -23,9 +25,9 @@
 #include <RenderUIData.hpp>
 
 #include <CommandQueue.hpp>
-#include <imgui_internal.h>
-#include <SelectDirectoryCommand.hpp>
-#include <SelectAssetCommand.hpp>
+#include <SelectDirectoryPathCommand.hpp>
+#include <SelectAssetPathCommand.hpp>
+#include "RebuildAndSaveAssetRegistry.hpp"
 
 #include "AssetManager.hpp"
 
@@ -106,7 +108,10 @@ namespace MeowEngine::Editor {
             const std::string& sideMenu = "Side Menu + ";
             if (ImGui::ArrowButtonEx(sideMenu.c_str(), ImGuiDir_Down, ImVec2(headerHeight, headerHeight))) {
                 // TODO: implement modal poppup for this
-                MeowService().AssetManager.RebuidE();
+                CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::RebuildAndSaveAssetRegistry>()
+                );
             }
 
             float textHeight = ImGui::GetTextLineHeight();
@@ -211,15 +216,13 @@ namespace MeowEngine::Editor {
             // we treat folder as asset too, hence we update both directory path & asset path
             CommandQueue->Push(
                 Messaging::ThreadType::MAIN,
-                std::make_unique<Messaging::SelectDirectoryCommand>(String(path.GetRawString()))
+                std::make_unique<Messaging::SelectDirectoryPathCommand>(String(path.GetRawString()))
             );
 
             CommandQueue->Push(
                 Messaging::ThreadType::MAIN,
-                std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
+                std::make_unique<Messaging::SelectAssetPathCommand>(String(path.GetRawString()))
             );
-    
-            MeowEngine::Log("Directory Selected: ", path.GetName().GetRawString());
         }
     
         ImguiAssetDragDrop::DropAsset(path.GetRawString());
@@ -262,9 +265,12 @@ namespace MeowEngine::Editor {
         if(ImGui::InvisibleButton("button", thumbnailSize)) {
             CommandQueue->Push(
                 Messaging::ThreadType::MAIN,
-                std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
+                std::make_unique<Messaging::SelectAssetPathCommand>(String(path.GetRawString()))
             );
-            MeowEngine::Log("Asset Selected", name.GetRawString());
+        }
+
+        if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+            MeowEngine::Log("Asset Selected: ", "Double Clicked");
         }
 
         // prepare from the draw commands
@@ -305,7 +311,7 @@ namespace MeowEngine::Editor {
             if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
                 CommandQueue->Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SelectAssetCommand>(String(path.GetRawString()))
+                    std::make_unique<Messaging::SelectAssetPathCommand>(String(path.GetRawString()))
                 );
                 
                 ImGui::OpenPopup("ShowEditAssetMenu");

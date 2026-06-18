@@ -2,16 +2,17 @@
 // Created by Akira Mujawar on 12/06/26.
 //
 
-#ifndef MEOWENGINE_SELECTDIRECTORYCOMMAND_HPP
-#define MEOWENGINE_SELECTDIRECTORYCOMMAND_HPP
+#ifndef MEOWENGINE_SELECTASSETPATHCOMMAND_HPP
+#define MEOWENGINE_SELECTASSETPATHCOMMAND_HPP
+
 
 #include <Public/Messaging/Include.hpp>
 #include <Public/Core/Include.hpp>
 
 namespace MeowEngine::Messaging {
-    class SelectDirectoryCommand  : public ICommand {
+    class SelectAssetPathCommand  : public ICommand {
     public:
-        SelectDirectoryCommand(String path) {
+        SelectAssetPathCommand(String path) {
             Path = path;
         }
 
@@ -22,4 +23,5 @@ namespace MeowEngine::Messaging {
     };
 }
 
-#endif //MEOWENGINE_SELECTDIRECTORYCOMMAND_HPP
+
+#endif //MEOWENGINE_SELECTASSETPATHCOMMAND_HPP

@@ -257,6 +257,10 @@ namespace MeowEngine {
                             break;
                         }
                         case UserDeviceInputType::SAVE_PROJECT: {
+                            CommandQueue.Push(
+                                Messaging::ThreadType::MAIN,
+                                std::make_unique<Messaging::SaveProjectCommand>()
+                            );
                             // Scene->Save();
                         }
 

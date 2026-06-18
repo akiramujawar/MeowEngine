@@ -2,15 +2,17 @@
 // Created by Akira Mujawar on 12/06/26.
 //
 
-#include <SelectAssetCommand.hpp>
+#include <SelectAssetPathCommand.hpp>
 
 #include <MessageInitData.hpp>
 #include <Selector.hpp>
 
 namespace MeowEngine::Messaging {
 
-    void SelectAssetCommand::Execute(MessageInitData& context) {
+    void SelectAssetPathCommand::Execute(MessageInitData& context) {
         context.Selector->SelectedAssetPath = Path.GetRawString();
+
+        MeowEngine::Log("Asset Selected: ", Path.GetRawString());
     }
 
 }
