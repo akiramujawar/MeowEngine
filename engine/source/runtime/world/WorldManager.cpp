@@ -5,7 +5,16 @@
 #include <log.hpp>
 #include <WorldManager.hpp>
 
+#include "MeowService.hpp"
+#include "CommandQueue.hpp"
+#include "RequestQueue.hpp"
+#include "AssetManager.hpp"
 #include "GameplaySystem.hpp"
+
+#include "World.hpp"
+#include "DefaultWorld.hpp"
+
+#include "SaveWorldRequest.hpp"
 
 namespace MeowEngine::Runtime {
     WorldManager::WorldManager() {
@@ -15,23 +24,54 @@ namespace MeowEngine::Runtime {
         MeowEngine::Log("WorldManager", "Destructed");
     }
 
-    void WorldManager::Init(WorldManager* manager, GameplaySystem* gameplay) {
-        Instance = manager;
-        Instance->Gameplay = gameplay;
+    void WorldManager::Init(GameplaySystem* gameplay) {
+        Gameplay = gameplay;
     }
 
-    void WorldManager::Load(const Asset::AssetHandle& world) {
-        // Instance.Gameplay->SetWorld();
+    void WorldManager::Load(const Asset::AssetHandle& handle) {
+        auto& assetManager = MeowService().AssetManager;
+
+        if (auto* world = assetManager.GetAssetOrLoad<Asset::World>(handle)) {
+            Gameplay->SetWorld(world);
+            ActiveWorldHandle = handle;
+        }
+        else {
+            const auto tempHandle = assetManager.CreateTempAsset<Editor::DefaultWorld>();
+            auto* tempWorld = assetManager.GetAsset<Editor::DefaultWorld>(tempHandle);
+
+            Gameplay->SetWorld(tempWorld);
+            ActiveWorldHandle = tempHandle;
+        }
     }
 
-    void WorldManager::LoadAsync(const Asset::AssetHandle& world, std::function<void()> callback) {}
-    void WorldManager::Unload(const Asset::AssetHandle& world) {}
-    void WorldManager::UnloadAsync(const Asset::AssetHandle& world, std::function<void()> callback) {}
-    void WorldManager::Reload(const Asset::AssetHandle& world) {}
-    void WorldManager::ReloadAsync(const Asset::AssetHandle& world, std::function<void()> callback) {}
-    void WorldManager::Switch(const Asset::AssetHandle& world) {}
-    void WorldManager::Add(const Asset::AssetHandle& world) {}
-    void WorldManager::Save(const Asset::AssetHandle& world) {}
+    // void WorldManager::LoadAsync(const Asset::AssetHandle& world, std::function<void()> callback) {}
+    // void WorldManager::Unload(const Asset::AssetHandle& world) {}
+    // void WorldManager::UnloadAsync(const Asset::AssetHandle& world, std::function<void()> callback) {}
+    // void WorldManager::Reload(const Asset::AssetHandle& world) {}
+    // void WorldManager::ReloadAsync(const Asset::AssetHandle& world, std::function<void()> callback) {}
+    // void WorldManager::Switch(const Asset::AssetHandle& world) {}
+    // void WorldManager::Add(const Asset::AssetHandle& world) {}
 
-    WorldManager* WorldManager::Instance = nullptr;
+    void WorldManager::Save() {
+        if (ActiveWorldHandle.GetIsTemp()) {
+            MeowService().RequestQueue.Push(
+                Messaging::ThreadType::MAIN,
+                Messaging::ThreadType::MAIN,
+                std::make_unique<Messaging::SaveWorldRequest>(ActiveWorldHandle)
+            );
+
+            // preselected directory -> import -> select file -> load? -> process -> save -> update database & directory
+            // select folder -> temp asset -> get data -> save -> update database & directory (add key) -> update cache with updated handle (update key)
+
+            // if create manually file
+            // handle it then
+            // opening of file
+            // then trigger load
+        }
+        else {
+            auto& assetManager = MeowService().AssetManager;
+            assetManager.SaveAsset<Asset::World>(ActiveWorldHandle);
+        }
+    }
+
 }

@@ -17,8 +17,11 @@
 #include <RendererInitData.hpp>
 #include <RenderExtractorInitData.hpp>
 #include "AssetManagerInitData.hpp"
+#include "RuntimeInitData.hpp"
 #include <EditorInitData.hpp>
 #include <MessageInitData.hpp>
+
+#include "SaveProjectCommand.hpp"
 
 #if __WEB__
 #include <EmscriptenAPI.hpp>
@@ -104,7 +107,8 @@ namespace MeowEngine {
         AssetManager.Init(assetManagerInit);
 
         // -- runtime
-        Runtime.Init();
+        Runtime::RuntimeInitData runtimeInit{};
+        Runtime.Init(runtimeInit);
 
         // -- editor
         Editor::EditorInitData editorInit {};
@@ -137,12 +141,17 @@ namespace MeowEngine {
         messageInit.Selector = &Editor.GetSelector();
         messageInit.Gameplay = &Runtime.GetGameplay();
         messageInit.FileDialog = &Editor.GetFileDialog();
+        messageInit.AssetManager = &AssetManager;
 
         CommandQueue.Init(messageInit);
+        RequestQueue.Init(messageInit);
 
         MeowServiceInitData meowServiceInit {
             AssetManager,
             Project,
+            Runtime.GetWorldManager(),
+            CommandQueue,
+            RequestQueue,
             Editor
         };
 
@@ -153,7 +162,8 @@ namespace MeowEngine {
         // asset registry load
         // load default scene if set
         // otherwise create new scene
-        AssetManager.Load();
+        AssetManager.LoadDatabase();
+        Runtime.Load();
     }
 
     void Engine::Loop() {
@@ -200,6 +210,7 @@ namespace MeowEngine {
         // -- messaging executes at last on main thread but before swap
         // NOTE: internally any swaps schedule should wait until messaging is processed
         CommandQueue.Schedule(Scheduler);
+        RequestQueue.Schedule(Scheduler);
 
         // -- come back on this later (for job system flow)
         Executor->Execute(Scheduler);

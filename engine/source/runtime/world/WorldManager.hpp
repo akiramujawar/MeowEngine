@@ -10,13 +10,12 @@
 
 #include <AssetHandle.hpp>
 
-namespace MeowEngine::Asset {
-    struct AssetHandle;
-}
+// namespace MeowEngine::Asset {
+//     struct AssetHandle;
+// }
 
 namespace MeowEngine::Runtime {
     class GameplaySystem;
-    class World;
 
     /**
      * Manages the sync/async saving/loading/unloading of world & it's resources
@@ -27,52 +26,50 @@ namespace MeowEngine::Runtime {
         WorldManager();
         ~WorldManager();
 
-        static void Init(WorldManager* manager, GameplaySystem* gameplay);
+        void Init(GameplaySystem* gameplay);
 
     public:
         /**
          * Loads the world from disk into memory
          * @return
          */
-        static void Load(const MeowEngine::Asset::AssetHandle& world);
-        void LoadAsync(const MeowEngine::Asset::AssetHandle& world, std::function<void()> callback);
+        void Load(const MeowEngine::Asset::AssetHandle& handle);
+        void LoadAsync(const MeowEngine::Asset::AssetHandle& handle, std::function<void()> callback);
 
         /**
          * Unloads the world from memory
          */
-        void Unload(const MeowEngine::Asset::AssetHandle& world);
-        void UnloadAsync(const MeowEngine::Asset::AssetHandle& world, std::function<void()> callback);
+        void Unload(const MeowEngine::Asset::AssetHandle& handle);
+        void UnloadAsync(const MeowEngine::Asset::AssetHandle& handle, std::function<void()> callback);
 
         /**
          * Reloads world
          * (always faster than Load(), since the dependent assets are already in memory)
          */
-        void Reload(const MeowEngine::Asset::AssetHandle& world);
-        void ReloadAsync(const MeowEngine::Asset::AssetHandle& world, std::function<void()> callback);
+        void Reload(const MeowEngine::Asset::AssetHandle& handle);
+        void ReloadAsync(const MeowEngine::Asset::AssetHandle& handle, std::function<void()> callback);
 
         /**
          * Switches the active scene
          */
-        void Switch(const MeowEngine::Asset::AssetHandle& world);
+        void Switch(const MeowEngine::Asset::AssetHandle& handle);
 
         /**
          * Loads the world and adds entities to world
          * @param world loads the world if not in memory
          */
-        void Add(const MeowEngine::Asset::AssetHandle& world);
+        void Add(const MeowEngine::Asset::AssetHandle& handle);
 
         /**
          * Saves the world on to disk
          * @param world
          */
-        void Save(const MeowEngine::Asset::AssetHandle& world);
+        void Save();
 
     private:
-        static WorldManager* Instance;
-        GameplaySystem* Gameplay;
+        Asset::AssetHandle ActiveWorldHandle;
 
-        MeowEngine::Asset::AssetHandle ActiveWorld;
-        std::unordered_map<MeowEngine::Asset::AssetHandle, World*> Worlds;
+        GameplaySystem* Gameplay;
     };
 
 }

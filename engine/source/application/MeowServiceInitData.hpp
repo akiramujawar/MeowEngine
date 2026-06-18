@@ -13,17 +13,29 @@ namespace MeowEngine {
 
     namespace Runtime {
         class Project;
+        class WorldManager;
+    }
+
+    namespace Messaging {
+        class CommandQueue;
+        class RequestQueue;
     }
 
     namespace Editor {
         class EditorModule;
     }
+
 }
 
 namespace MeowEngine {
     struct MeowServiceInitData {
         Asset::AssetManager& AssetManager;
         Runtime::Project& Project;
+        Runtime::WorldManager& WorldManager;
+
+        Messaging::CommandQueue& CommandQueue;
+        Messaging::RequestQueue& RequestQueue;
+
         Editor::EditorModule& Editor;
     };
 }

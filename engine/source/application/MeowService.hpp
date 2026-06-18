@@ -26,13 +26,16 @@ namespace MeowEngine {
 
     private:
         static void Init(MeowServiceInitData& me) {
-            auto t = new MeowService {
+            auto service = new MeowService {
                 me.AssetManager,
                 me.Project,
+                me.WorldManager,
+                me.CommandQueue,
+                me.RequestQueue,
                 me.Editor
             };
 
-            Instance = t;
+            Instance = service;
         }
 
         inline static MeowService* Instance = nullptr;
@@ -40,6 +43,11 @@ namespace MeowEngine {
     public:
         Asset::AssetManager& AssetManager;
         Runtime::Project& Project;
+        Runtime::WorldManager& WorldManager;
+
+        Messaging::CommandQueue& CommandQueue;
+        Messaging::RequestQueue& RequestQueue;
+
         Editor::EditorModule& Editor;
     };
 
