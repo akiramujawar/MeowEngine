@@ -12,13 +12,13 @@ namespace MeowEngine::Messaging {
 
     void SelectEntityCommand::Execute(MessageInitData& context) {
         auto& world = context.Gameplay->GetWorld();
-        auto entity = world.GetEntity(GUID);
+        // auto handle = world.FindHandle(static_cast<Runtime::EntityID>(GUID));
 
         if (!IsCtrlSelect) {
             context.Selector->SelectedEntities.clear();
         }
 
-        context.Selector->SelectedEntities.push_back(entity);
+        context.Selector->SelectedEntities.push_back(Handle);
     }
 
 }

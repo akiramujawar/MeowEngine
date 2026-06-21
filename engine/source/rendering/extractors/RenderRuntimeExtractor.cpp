@@ -40,7 +40,7 @@ namespace MeowEngine::Rendering {
         }
 
         // sky box
-        auto skyBox = ecs.try_get<entity::SkyBoxComponent>(world.SkyBox);
+        auto skyBox = ecs.try_get<entity::SkyBoxComponent>(world.SkyBox.GetEntity());
         if (skyBox != nullptr) {
             SkyboxDrawData data;
             data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);

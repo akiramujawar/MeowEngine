@@ -6,6 +6,7 @@
 #define MEOWENGINE_HIERARCHY_COMPONENT_HPP
 
 #include "component_base.hpp"
+#include "EntityHandle.hpp"
 
 namespace MeowEngine::component {
     class HierarchyComponent : public entity::ComponentBase {
@@ -14,24 +15,24 @@ namespace MeowEngine::component {
         static void Reflect() {}
 
         HierarchyComponent();
-        HierarchyComponent(const entt::entity& pSelf,
-                           const entt::entity& pParent,
-                           const entt::entity& pFirstChild,
-                           const entt::entity& pNext,
-                           const entt::entity& pPrevious);
-        ~HierarchyComponent();
+        // HierarchyComponent(const entt::entity& pSelf,
+        //                    const entt::entity& pParent,
+        //                    const entt::entity& pFirstChild,
+        //                    const entt::entity& pNext,
+        //                    const entt::entity& pPrevious);
+        ~HierarchyComponent() override = default;
 
     public:
-        entt::entity Self;
+        Runtime::EntityHandle Self;
 
-        entt::entity Parent;
-        entt::entity FirstChild;
+        Runtime::EntityHandle Parent;
+        Runtime::EntityHandle FirstChild;
 
         // next entity in the same hierarchy
-        entt::entity NextChildOfParent;
+        Runtime::EntityHandle NextChildOfParent;
 
         // previous entity in the same hierarchy
-        entt::entity PreviousChildOfParent;
+        Runtime::EntityHandle PreviousChildOfParent;
     };
 }
 

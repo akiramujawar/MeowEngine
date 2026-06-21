@@ -6,7 +6,8 @@
 #define MEOWENGINE_SELECTION_DATA_HPP
 
 #include <Public/IO/Forward.hpp>
-#include <entt.hpp>
+
+#include "EntityHandle.hpp"
 
 namespace MeowEngine::Editor {
     struct Selector {
@@ -14,8 +15,8 @@ namespace MeowEngine::Editor {
 
         void Init(const FileSystem::Path& path);
         
-        entt::entity SelectedEntity;
-        std::vector<entt::entity> SelectedEntities;
+        Runtime::EntityHandle SelectedEntity;
+        std::vector<Runtime::EntityHandle> SelectedEntities;
 
         std::string SelectedDirectoryPath;
         std::string SelectedAssetPath;

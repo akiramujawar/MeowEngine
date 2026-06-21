@@ -44,12 +44,24 @@ namespace MeowEngine::Asset {
     }
 
     Path AssetDatabase::GetAssetPath(const AssetHandle& handle) {
-        const std::string& path = EngineRegistry.GetPath(handle);
+        if (SandboxRegistry.Has(handle)) {
+            const std::string& path = SandboxRegistry.GetPath(handle);
 
-        return Path {path};
+            return Path {path};
+        }
+        else if (EngineRegistry.Has(handle)) {
+            const std::string& path = EngineRegistry.GetPath(handle);
+
+            return Path {path};
+        }
+
+        MeowEngine::Log("AssetDatabase", "GetAssetPath: Cannot find path for handle", LogType::WARNING);
+        return Path {""};
     }
 
-    AssetMetadata AssetDatabase::GetAssetMetadata(const AssetHandle& asset) {}
+    AssetMetadata AssetDatabase::GetAssetMetadata(const AssetHandle& asset) {
+        MeowEngine::Log("AssetDatabase", "GetAssetMetadata Not implmented", LogType::ERROR);
+    }
 
     AssetHandle AssetDatabase::Add(const Path& path) {
         AssetHeader header;
@@ -78,6 +90,9 @@ namespace MeowEngine::Asset {
             }
 
             return handle;
+        }
+        else {
+            MeowEngine::Log("AssetDatabase", "Invalid path to add");
         }
 
         return AssetHandle::Null;

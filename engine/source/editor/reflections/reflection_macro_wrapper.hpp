@@ -72,16 +72,13 @@ namespace MeowEngine {
     #define REFLECT_COMPONENT(Type) \
         \
         struct Type##Reflector {            \
-            Type##Reflector(void(*pCallback)(void *)) {     \
+            Type##Reflector() {     \
                 REGISTER_COMPONENT(Type);                \
                 Type::Reflect();    \
-                MeowEngine::GetReflection().AddInitialiseComponentCallback(pCallback); \
             }                               \
         };                                  \
         \
-        inline static Type##Reflector _reflector{           \
-         &MeowEngine::EnttReflection::RegisterComponentOnEnttBuffer<Type> \
-        };                          \
+        inline static Type##Reflector _reflector{}; \
         std::string GetClassName() override { \
             return #Type; \
         }

@@ -7,7 +7,9 @@
 - [x] Automated component registration in triple buffer
 - [x] Adding Rotations & Scaling to transform & physics bodies
 - [ ] Adding navigation to github / go back for web builds
-- [ ] Reworking multithreading using command pattern for physics thread
+- [x] Build a new architecture for multithreading (using Scheduler)
+- [ ] Implement job system for multithreading
+- [ ] Reimplementing physics with new architecture for synchronisation
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
 - [x] Position, Scale, Rotation handles for selected objects
 - [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
@@ -20,14 +22,17 @@
 - [x] Create Unique ID generator for items
 - [ ] Documenting done items and different approaches and used libraries
 - [x] Hierarchy for entities
-- [ ] Reworking asset loading pipeline & render loading pipeline (shaders, textures, meshes)
+- [ ] Reworking asset loading pipeline
+- [ ] Render loading pipeline (shaders, textures, meshes)
 - [x] Refactor cmake
 - [ ] Improving current shader pipeline to handle shaders dynamically
 - [x] Find a way to isolate and build code while developing simulations
 - [ ] Play & Pause & Stop
+- [ ] Reworking engine to utilise new mathematical library
+- [ ] Decoupling SDL events with the help of messaging system
 
 ## Meow Engine v0.6
-- [ ] Selecting objects
+- [ ] Selecting objects in scene renderer (world)
 - [x] Compilation of physx for web
 - [x] Single thread app builds for web
 - [ ] Populating arrays / lists etc... in WorldInspectorPanel

@@ -40,7 +40,7 @@ namespace MeowEngine::Editor {
         }
     }
 
-    void ImGuiWorldTreePanel::DrawHierarchy(uint32_t guid, Rendering::RenderContext& renderContext) {
+    void ImGuiWorldTreePanel::DrawHierarchy(Runtime::EntityHandle guid, Rendering::RenderContext& renderContext) {
         PT_PROFILE_SCOPE;
 
         auto& hierarchy = renderContext.UIData->EntityHierarchyMap[guid];
@@ -57,7 +57,7 @@ namespace MeowEngine::Editor {
 
         // draw the item and its child is existing
         bool isOpen = ImGui::TreeNodeEx(
-            (void *) (intptr_t) hierarchy.GUID,
+            (void *) (intptr_t) hierarchy.Handle.GetGUIDInt(),
             flags,
             "%s",
             hierarchy.Name.CStr()

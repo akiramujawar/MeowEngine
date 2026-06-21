@@ -7,9 +7,10 @@
 
 
 #include "IAsset.hpp"
-#include <entt.hpp>
+#include "EntityRegistry.hpp"
+#include "EntityHandle.hpp"
 
-#include "entt_triple_buffer.hpp"
+// #include "entt_triple_buffer.hpp"
 
 namespace MeowEngine::Asset {
     /**
@@ -17,59 +18,52 @@ namespace MeowEngine::Asset {
      */
     class World : public IAsset {
     public:
-        World() : Buffer() {}
-
-        ~World() {}
+        World();
+        ~World() override = default;
 
         /**
          * Empty entity (no components)
          * @return
          */
-        entt::entity AddEntity();
-        void RemoveEntity(entt::entity entity);
-        entt::entity GetEntity(uint32_t guid);
+        Runtime::EntityHandle AddEntity();
+        Runtime::EntityHandle AddEntity(Runtime::EntityID guid);
+        Runtime::EntityHandle FindHandle(Runtime::EntityID guid);
+
+        void RemoveEntity(Runtime::EntityID guid);
+        bool Has(const Runtime::EntityHandle& handle);
 
         template<typename Type>
-        Type& AddComponent(const entt::entity& entity);
+        Type& AddComponent(const Runtime::EntityHandle& entity);
 
         template<typename Type>
-        void RemoveComponent(entt::entity entity);
+        void RemoveComponent(Runtime::EntityHandle entity);
 
         template<typename Type>
-        Type& GetComponent(entt::entity entity);
+        Type& GetComponent(Runtime::EntityHandle entity);
 
-        entt::registry& GetRegistry() {
-            return Registry;
-        }
-
-        [[nodiscard]]
-        const entt::registry& GetRegistry() const {
-            return Registry;
-        }
-
-        EnttTripleBuffer& GetBuffer() {
-            return Buffer;
-        }
+        [[nodiscard]] Runtime::EntityRegistry& GetRegistry() { return Registry; }
+        [[nodiscard]] const Runtime::EntityRegistry& GetRegistry() const { return Registry; }
+        // EnttTripleBuffer& GetBuffer() { return Buffer; }
 
     public:
-        entt::entity ActiveCamera;
-        entt::entity SkyBox;
+        Runtime::EntityHandle ActiveCamera;
+        Runtime::EntityHandle SkyBox;
 
     private:
-        entt::registry Registry;
+        Runtime::EntityRegistry Registry;
 
         // TODO: this is temporary until serialization & it's implementation is achieved for dynamic worlds
-        EnttTripleBuffer Buffer;
+        // EnttTripleBuffer Buffer;
     };
 
     template <typename Type>
-    Type& MeowEngine::Asset::World::AddComponent(const entt::entity& entity) {
-        return Registry.emplace<Type>(entity);
+    Type& World::AddComponent(const Runtime::EntityHandle& handle) {
+        return Registry.emplace<Type>(handle.GetEntity());
     }
 
     template <typename Type>
-    Type& World::GetComponent(entt::entity entity) {
-        return Registry.get<Type>(entity);
+    Type& World::GetComponent(Runtime::EntityHandle handle) {
+        return Registry.get<Type>(handle.GetEntity());
     }
 }
 

@@ -33,8 +33,8 @@ namespace MeowEngine::Rendering {
         auto& ecs = Gameplay->GetWorld().GetRegistry();
 
         // selected transform handles
-        for (auto &&entity : Selector->SelectedEntities) {
-            auto transform = ecs.try_get<entity::Transform3DComponent>(entity);
+        for (auto &&handle : Selector->SelectedEntities) {
+            auto transform = ecs.try_get<entity::Transform3DComponent>(handle.GetEntity());
 
             if (transform != nullptr) {
                 Rendering::TransformHandleDrawData data {};
@@ -105,30 +105,30 @@ namespace MeowEngine::Rendering {
 
         // extract entities for tree panel
         auto view = ecs.view<Runtime::IdentityComponent, entity::InfoComponent, component::HierarchyComponent>();
-        std::function<void(entt::entity)> extractEntityHierarchy;
+        std::function<void(Runtime::EntityHandle)> extractEntityHierarchy;
 
         // dynamic method for getting the child entities
-        extractEntityHierarchy = [&ecs, &frame, &view, &extractEntityHierarchy](entt::entity entity) {
-            auto&& [identity, info, hierarchy] = view.get(entity);
+        extractEntityHierarchy = [&ecs, &frame, &view, &extractEntityHierarchy](Runtime::EntityHandle handle) {
+            auto&& [identity, info, hierarchy] = view.get(handle.GetEntity());
 
-            std::vector<uint32_t> childs;
-            entt::entity child = hierarchy.FirstChild;
+            std::vector<Runtime::EntityHandle> childs;
+            Runtime::EntityHandle child = hierarchy.FirstChild;
 
             // recursively expand and get all child uuid's for given entity parent
-            while (child != entt::null) {
+            while (child.GetIsValid()) {
                 extractEntityHierarchy(child);
 
                 // track child uuid (for render data)
-                auto childIdentity = ecs.get<Runtime::IdentityComponent>(child);
-                childs.push_back(childIdentity.GetGUID());
+                auto childIdentity = ecs.get<Runtime::IdentityComponent>(child.GetEntity());
+                childs.push_back(childIdentity.GetEntityHandle());
 
                 // select to next child to iterate
-                child = ecs.get<component::HierarchyComponent>(child).NextChildOfParent;
+                child = ecs.get<component::HierarchyComponent>(child.GetEntity()).NextChildOfParent;
             }
 
             // track the entity data (for render data)
-            frame.EntityHierarchyMap.emplace(identity.GetGUID(), RenderEntityHierarchy {
-                identity.GetGUID(), info.GetName(), std::move(childs)
+            frame.EntityHierarchyMap.emplace(identity.GetEntityHandle(), RenderEntityHierarchy {
+                identity.GetEntityHandle(), info.GetName(), std::move(childs)
             });
         };
 
@@ -136,20 +136,22 @@ namespace MeowEngine::Rendering {
         for (auto& entity : view) {
             auto&& hierarchy = ecs.get<component::HierarchyComponent>(entity);
 
+            auto parent = hierarchy.Parent.GetEntity();
+
             // only select root entities (we expand childs inside)
-            if (!ecs.valid(hierarchy.Parent)) {
+            if (!hierarchy.Parent.GetIsValid()) {
                 // track entity guid (only root)
                 auto&& identity = ecs.get<Runtime::IdentityComponent>(entity);
-                frame.RootEntities.push_back(identity.GetGUID());
+                frame.RootEntities.push_back(identity.GetEntityHandle());
 
-                extractEntityHierarchy(entity);
+                extractEntityHierarchy(identity.GetEntityHandle());
             }
         }
 
         // track selected entities
-        for (const auto entity : Selector->SelectedEntities) {
-            auto identity = ecs.get<Runtime::IdentityComponent>(entity);
-            frame.SelectedEntities.emplace(identity.GetGUID());
+        for (const auto handle : Selector->SelectedEntities) {
+            // auto identity = ecs.get<Runtime::IdentityComponent>(handle.GetEntity());
+            frame.SelectedEntities.emplace(handle);
         }
 
         // world inspector (copy selected entity)
@@ -157,18 +159,18 @@ namespace MeowEngine::Rendering {
             auto lastSelectedEntity = Selector->SelectedEntities[Selector->SelectedEntities.size() - 1];
 
             // track last selected entity guid
-            auto identity = ecs.get<Runtime::IdentityComponent>(lastSelectedEntity);
-            frame.LastSelectedEntity = identity.GetGUID();
+            auto identity = ecs.get<Runtime::IdentityComponent>(lastSelectedEntity.GetEntity());
+            frame.LastSelectedEntity = lastSelectedEntity;
 
             // track component data for last selected entity
-            if (ecs.valid(lastSelectedEntity)) {
+            if (ecs.valid(lastSelectedEntity.GetEntity())) {
                 // for entity if a component exists capture it's type, name & data & create a relfected clone
-                for (pair<unsigned int, entt::basic_sparse_set<>&> component: ecs.storage()) {
+                for (pair<unsigned int, entt::basic_sparse_set<Runtime::Entity>&> component: ecs.storage()) {
                     // find the component type, name and object data from ecs registry
-                    if (component.second.contains(lastSelectedEntity)) {
+                    if (component.second.contains(lastSelectedEntity.GetEntity())) {
                         const entt::id_type componentType = component.first;
                         const std::string componentName = MeowEngine::GetReflection().GetComponentName(componentType);
-                        void* componentObject = component.second.value(lastSelectedEntity);
+                        void* componentObject = component.second.value(lastSelectedEntity.GetEntity());
 
                         void* clonedComponent = GetReflection().CopyComponentData(componentType, componentName, componentObject);
 

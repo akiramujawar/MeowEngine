@@ -7,19 +7,20 @@
 
 #include <cstdint>
 #include <Public/Messaging/Include.hpp>
+#include "EntityHandle.hpp"
 
 namespace MeowEngine::Messaging {
     class SelectEntityCommand : public ICommand {
     public:
-        SelectEntityCommand(uint32_t guid, bool bIsCtrlSelect) {
-            GUID = guid;
+        SelectEntityCommand(Runtime::EntityHandle handle, bool bIsCtrlSelect) {
+            Handle = handle;
             IsCtrlSelect = bIsCtrlSelect;
         }
 
         void Execute(MessageInitData& context) override;
 
     private:
-        uint32_t GUID;
+        Runtime::EntityHandle Handle;
         bool IsCtrlSelect;
     };
 }

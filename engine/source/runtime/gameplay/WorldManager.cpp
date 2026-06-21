@@ -14,7 +14,7 @@
 #include "World.hpp"
 #include "DefaultWorld.hpp"
 
-#include "SaveWorldRequest.hpp"
+#include "SaveTempWorldRequest.hpp"
 
 namespace MeowEngine::Runtime {
     WorldManager::WorldManager() {
@@ -57,10 +57,10 @@ namespace MeowEngine::Runtime {
             MeowService().RequestQueue.Push(
                 Messaging::ThreadType::MAIN,
                 Messaging::ThreadType::MAIN,
-                std::make_unique<Messaging::SaveWorldRequest>(ActiveWorldHandle)
+                std::make_unique<Messaging::SaveTempWorldRequest>(ActiveWorldHandle)
             );
 
-            // preselected directory -> import -> select file -> load? -> process -> save -> update database & directory
+            //  TODO: preselected directory -> import -> select file -> load? -> process -> save -> update database & directory
             // select folder -> temp asset -> get data -> save -> update database & directory (add key) -> update cache with updated handle (update key)
 
             // if create manually file

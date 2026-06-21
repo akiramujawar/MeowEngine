@@ -13,6 +13,7 @@
 
 #include "hierarchy_component.hpp"
 #include "Selector.hpp"
+#include "EntityID.hpp"
 
 namespace MeowEngine::Runtime {
     class GameplaySystem;
@@ -31,7 +32,7 @@ namespace MeowEngine::Editor {
         void Draw(Rendering::RenderContext& renderContext);
 
     private:
-        void DrawHierarchy(uint32_t guid, Rendering::RenderContext& renderContext);
+        void DrawHierarchy(Runtime::EntityHandle guid, Rendering::RenderContext& renderContext);
 
     private:
         const ImGuiTreeNodeFlags DefaultSelectableFlags;

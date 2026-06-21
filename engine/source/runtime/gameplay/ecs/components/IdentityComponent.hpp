@@ -7,22 +7,29 @@
 
 #include <component_base.hpp>
 
+#include "EntityHandle.hpp"
+
 namespace MeowEngine::Runtime {
     /**
      * Used as identifier. This can help with component references.
      */
-    class IdentityComponent : public MeowEngine::entity::ComponentBase {
+    class IdentityComponent : public entity::ComponentBase {
     public:
         REFLECT_COMPONENT(IdentityComponent)
         static void Reflect();
 
         IdentityComponent();
 
-        [[nodiscard]] uint32_t GetGUID() const;
-        void SetGUID(uint32_t guid);
+        [[nodiscard]] uint64_t GetGUIDInt() const { return Handle.GetGUIDInt(); }
+        [[nodiscard]] EntityID GetGUID() const { return Handle.GetGUID(); };
+        [[nodiscard]] Entity GetEntity() const { return Handle.GetEntity(); };
+        [[nodiscard]] EntityHandle GetEntityHandle() const { return Handle; };
+
+        void Set(EntityID guid, Entity entity);
+        void Set(EntityHandle entity);
 
     private:
-        uint32_t GUID;
+        EntityHandle Handle;
     };
 }
 

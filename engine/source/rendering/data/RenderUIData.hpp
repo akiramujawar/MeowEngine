@@ -6,16 +6,17 @@
 #define MEOWENGINE_RENDERUIDATA_HPP
 
 #include <Public/Core/Include.hpp>
+#include "EntityHandle.hpp"
 
 namespace MeowEngine::Rendering {
     /**
      * Data used for drawing entities in Tree Panel
      */
     struct RenderEntityHierarchy {
-        uint32_t GUID;
+        Runtime::EntityHandle Handle;
         String Name;
 
-        std::vector<uint32_t> Childs;
+        std::vector<Runtime::EntityHandle> Childs;
     };
 
     struct RenderEntityComponent {
@@ -25,26 +26,30 @@ namespace MeowEngine::Rendering {
     };
 
     struct RenderUIData {
+        RenderUIData() {
+            LastSelectedEntity = Runtime::EntityHandle();
+        }
+
         /**
          * We track only the roots for tree panel and
          * then recursively expand the childs using @EntityHierarchyMap
          */
-        std::vector<uint32_t> RootEntities;
+        std::vector<Runtime::EntityHandle> RootEntities;
 
         /**
          * All entities to be listed in tree panel
          */
-        std::unordered_map<uint32_t, RenderEntityHierarchy> EntityHierarchyMap;
+        std::unordered_map<Runtime::EntityHandle, RenderEntityHierarchy> EntityHierarchyMap;
 
         /**
          * All the selected entities (are same for scene & ui (tree panel))
          */
-        std::unordered_set<uint32_t> SelectedEntities;
+        std::unordered_set<Runtime::EntityHandle> SelectedEntities;
 
         /**
          * Latest selected entity
          */
-        uint32_t LastSelectedEntity;
+        Runtime::EntityHandle LastSelectedEntity;
 
         /**
          * A reflected clone of components attached to last selected entity

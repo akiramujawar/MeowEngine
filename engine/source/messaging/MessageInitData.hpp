@@ -12,6 +12,7 @@ namespace MeowEngine {
     }
 
     namespace Runtime {
+        class WorldManager;
         class GameplaySystem;
     }
 
@@ -26,6 +27,7 @@ namespace MeowEngine::Messaging {
         Editor::FileDialog* FileDialog;
 
         Asset::AssetManager* AssetManager;
+        Runtime::WorldManager* WorldManager;
         Runtime::GameplaySystem* Gameplay;
     };
 }

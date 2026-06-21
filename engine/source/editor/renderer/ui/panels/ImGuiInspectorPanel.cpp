@@ -45,7 +45,7 @@ namespace MeowEngine::Editor {
                     );
 
                     if (change != nullptr) {
-                        change->GUID = renderContext.UIData->LastSelectedEntity;
+                        change->Handle = renderContext.UIData->LastSelectedEntity;
                         change->ComponentType = data.Type;
 
                         renderContext.CommandQueue->Push(

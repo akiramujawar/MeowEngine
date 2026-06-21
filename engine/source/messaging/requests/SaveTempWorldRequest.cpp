@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 18/06/26.
 //
 
-#include "SaveWorldRequest.hpp"
+#include "SaveTempWorldRequest.hpp"
 
 #include "Public/Core/Include.hpp"
 #include "FileDialog.hpp"
@@ -12,20 +12,26 @@
 
 
 namespace MeowEngine::Messaging {
-    SaveWorldRequest::SaveWorldRequest(const Asset::AssetHandle& handle)
+    SaveTempWorldRequest::SaveTempWorldRequest(const Asset::AssetHandle& handle)
         : WorldHandle(handle) {}
 
-    bool SaveWorldRequest::ExecuteRequest(MessageInitData& context) {
+    bool SaveTempWorldRequest::ExecuteRequest(MessageInitData& context) {
         context.FileDialog->ShowSaveDirectoryPopup(DirectoryPath);
 
         return true;
     }
 
-    void SaveWorldRequest::ExecuteResponse(MessageInitData& context) {
+    void SaveTempWorldRequest::ExecuteResponse(MessageInitData& context) {
         MeowEngine::Log("Save Directory Selected", DirectoryPath);
         auto path = Path(DirectoryPath);
         path.ReplaceExtension("meowdata");
+
         context.AssetManager->CreateAndSaveEmptyAsset(WorldHandle, Asset::AssetType::WORLD, path);
-        context.AssetManager->SaveTempAsset<Asset::World>(WorldHandle, path);
+        auto handle = context.AssetManager->SaveTempAsset<Asset::World>(WorldHandle, path);
+
+        // for testing
+        // since for dynamic loading we need build asset directory and use it in asset panel
+        context.AssetManager->UnloadAsset(handle);
+        context.AssetManager->LoadAsset<Asset::World>(handle);
     }
 }

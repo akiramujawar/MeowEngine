@@ -130,16 +130,6 @@ namespace MeowEngine {
 // physics thread
 // workers
 
-// the flow - grpahics
-// Graphics::GraphicsDevice GraphicsDevice;
-// Rendering::Renderer Renderer;
-// -- UIRenderer => accesses runtime & editor ui render builder
-// -- WorldRendere => access runtime & editor world render builder
-//
-// Editor::EditorModule Editor; => accesses runtime module
-// Runtime::RuntimeModule Runtime; => isolate from editor & renderer
-// Physics::PhysicsModule Physics; => accesses runtime module
-
 // physics result inside physics - takes physics snapshot to apply data
 // runtime contains physics snapshot & render snapshot - takes physics results to apply data
 
@@ -162,5 +152,13 @@ namespace MeowEngine {
 // engine needs to process input differently - like close, open, user events (will replace with commands / requests in future)
 // scene needs to use input differently - move, look around, trigger scene events
 // ui needs to use input differetntly - drag n drop, imgui, button click, open tracy client etc...
+
+
+// ShaderAssetImporter
+// ShaderAsset
+// ShaderSerializer
+// -- AssetRegistry::GetPath(assethandle)
+// -- ShaderAssetImporter::Load(path)
+// -- ShaderAsset
 
 #endif //MEOWENGINE_ENGINE_HPP

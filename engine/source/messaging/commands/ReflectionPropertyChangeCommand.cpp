@@ -16,8 +16,9 @@ namespace MeowEngine::Messaging {
     void ReflectionPropertyChangeCommand::Execute(MessageInitData& context) {
         auto& world = context.Gameplay->GetWorld();
         auto& ecs = world.GetRegistry();
+        // auto handle = world.FindHandle(static_cast<Runtime::EntityID>(Change->GUID));
 
-        GetReflection().ApplyPropertyChange(*Change, world.GetEntity(Change->GUID), ecs);
+        GetReflection().ApplyPropertyChange(*Change, Change->Handle, ecs);
     }
 
 }

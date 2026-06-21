@@ -7,16 +7,16 @@
 
 namespace MeowEngine::Runtime {
     void IdentityComponent::Reflect() {
-        REGISTER_PROPERTY(IdentityComponent, GUID, uint32_t, false, false)
+        REGISTER_PROPERTY(IdentityComponent, Handle, EntityHandle, false, false)
     }
 
-    IdentityComponent::IdentityComponent() : GUID(Core::UUID::GenerateUUID()) {}
-
-    uint32_t IdentityComponent::GetGUID() const {
-        return GUID;
+    IdentityComponent::IdentityComponent() : Handle() {}
+    void IdentityComponent::Set(const EntityID guid, const Entity entity) {
+        Handle = EntityHandle::Create(guid, entity);
     }
 
-    void IdentityComponent::SetGUID(const uint32_t guid) {
-        GUID = guid;
+    void IdentityComponent::Set(EntityHandle entity) {
+        Handle = entity;
     }
+
 }

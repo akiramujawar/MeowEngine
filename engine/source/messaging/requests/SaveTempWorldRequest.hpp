@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 18/06/26.
 //
 
-#ifndef MEOWENGINE_SAVEWORLDREQUEST_HPP
-#define MEOWENGINE_SAVEWORLDREQUEST_HPP
+#ifndef MEOWENGINE_SAVETEMPWORLDREQUEST_HPP
+#define MEOWENGINE_SAVETEMPWORLDREQUEST_HPP
 
 #include <string>
 
@@ -11,9 +11,9 @@
 #include "AssetHandle.hpp"
 
 namespace MeowEngine::Messaging {
-    class SaveWorldRequest : public IRequest {
+    class SaveTempWorldRequest : public IRequest {
     public:
-        SaveWorldRequest(const Asset::AssetHandle& handle);
+        SaveTempWorldRequest(const Asset::AssetHandle& handle);
         // ~SaveWorldRequest() override;
 
         bool ExecuteRequest(MessageInitData& context) override;
@@ -26,4 +26,4 @@ namespace MeowEngine::Messaging {
 }
 
 
-#endif //MEOWENGINE_SAVEWORLDREQUEST_HPP
+#endif //MEOWENGINE_SAVETEMPWORLDREQUEST_HPP

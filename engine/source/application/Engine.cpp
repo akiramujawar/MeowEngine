@@ -139,9 +139,10 @@ namespace MeowEngine {
         // -- messaging
         Messaging::MessageInitData messageInit {};
         messageInit.Selector = &Editor.GetSelector();
-        messageInit.Gameplay = &Runtime.GetGameplay();
         messageInit.FileDialog = &Editor.GetFileDialog();
         messageInit.AssetManager = &AssetManager;
+        messageInit.WorldManager = &Runtime.GetWorldManager();
+        messageInit.Gameplay = &Runtime.GetGameplay();
 
         CommandQueue.Init(messageInit);
         RequestQueue.Init(messageInit);

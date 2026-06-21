@@ -12,6 +12,7 @@ namespace MeowEngine::Editor {
     public:
         DefaultWorld();
         ~DefaultWorld();
+
     private:
         void CreateCamera();
         void CreateGrid();
@@ -22,7 +23,7 @@ namespace MeowEngine::Editor {
         void CreateReflectionTest();
 
         void CreateEmptyLine();
-        entt::entity CreateDefaultEntity(std::string name);
+        Runtime::EntityHandle CreateDefaultEntity(std::string name);
     };
 }
 

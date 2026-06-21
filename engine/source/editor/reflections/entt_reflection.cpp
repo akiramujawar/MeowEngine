@@ -41,8 +41,9 @@ namespace MeowEngine {
         Properties[inClassName].push_back(inProperty);
     }
 
-    void EnttReflection::ApplyPropertyChange(ReflectionPropertyChange& inPropertyChange, entt::entity entity, entt::registry& inRegistry) {
-        entt::basic_registry<>::common_type *componentStorage = inRegistry.storage(inPropertyChange.ComponentType);
+    void EnttReflection::ApplyPropertyChange(ReflectionPropertyChange& inPropertyChange, Runtime::EntityHandle handle, Runtime::EntityRegistry& inRegistry) {
+        auto entity = handle.GetEntity();
+        entt::basic_registry<Runtime::Entity>::common_type *componentStorage = inRegistry.storage(inPropertyChange.ComponentType);
         std::string componentName = GetComponentName(inPropertyChange.ComponentType);
 
         void* componentObject = componentStorage->value(entity);
