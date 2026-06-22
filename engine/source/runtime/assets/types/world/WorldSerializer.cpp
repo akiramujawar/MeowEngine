@@ -115,11 +115,18 @@ namespace MeowEngine::Asset {
 
         // get all the guid's and entities & collect EntityHandles
         std::unordered_map<Runtime::EntityID, Runtime::EntityHandle> handles;
+        std::vector<Runtime::EntityID> guids;
         size_t entityCount = serializer.ReadSize();
 
         for (auto i = 0; i < entityCount; i++) {
             const auto guidInt = serializer.ReadUInt64();
             const auto guid = Runtime::EntityID {guidInt};
+            guids.push_back(guid);
+        }
+
+        // reverse the order of creation to match the original order
+        std::reverse(guids.begin(), guids.end());
+        for (auto guid : guids) {
             auto handle = world.AddEntity(guid);
 
             handles.try_emplace(guid, handle);

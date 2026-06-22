@@ -9,17 +9,13 @@
 #include "EntityHandle.hpp"
 
 namespace MeowEngine::component {
+    // TODO: serialize this (update macro for properties which need to be hidden)
     class HierarchyComponent : public entity::ComponentBase {
     public:
         REFLECT_COMPONENT(HierarchyComponent)
         static void Reflect() {}
 
         HierarchyComponent();
-        // HierarchyComponent(const entt::entity& pSelf,
-        //                    const entt::entity& pParent,
-        //                    const entt::entity& pFirstChild,
-        //                    const entt::entity& pNext,
-        //                    const entt::entity& pPrevious);
         ~HierarchyComponent() override = default;
 
     public:

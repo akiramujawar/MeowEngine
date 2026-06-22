@@ -16,6 +16,10 @@ namespace MeowEngine::Core::Types {
         Value.assign(string);
     }
 
+    String::String(const String& string) {
+        Value.assign(string.Value);
+    }
+
     std::vector<std::string> String::SplitR(const std::string& pDelimiter) const {
         size_t nextIndex = 0;
         std::vector<std::string> names;
@@ -49,7 +53,15 @@ namespace MeowEngine::Core::Types {
         return Value.data();
     }
 
+    size_t String::Size() {
+        return Value.size();
+    }
+
     std::string String::GetRawString() {
         return { Value };
+    }
+
+    void String::Resize(size_t size) {
+        Value.resize(size);
     }
 }

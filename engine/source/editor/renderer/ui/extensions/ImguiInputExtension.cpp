@@ -298,7 +298,9 @@ namespace MeowEngine::Editor {
                 ImGui::BeginDisabled(true);
             }
 
-            if (ImGui::InputText(uniqueName.c_str(), changeHolder.Data(), 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
+            changeHolder.Resize(32);
+            if (ImGui::InputText(uniqueName.c_str(), changeHolder.Data(), changeHolder.Size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
+                changeHolder.Resize(strlen(changeHolder.Data()));
                 change = new MeowEngine::ReflectionPropertyChange(
                     inProperty.Name,
                     new String(changeHolder),

@@ -11,6 +11,7 @@ namespace MeowEngine::Runtime {
     }
 
     IdentityComponent::IdentityComponent() : Handle() {}
+
     void IdentityComponent::Set(const EntityID guid, const Entity entity) {
         Handle = EntityHandle::Create(guid, entity);
     }

@@ -7,7 +7,7 @@
 
 #include <World.hpp>
 
-namespace MeowEngine::Editor {
+namespace MeowEngine::Runtime {
     class DefaultWorld : public Asset::World {
     public:
         DefaultWorld();
@@ -23,7 +23,7 @@ namespace MeowEngine::Editor {
         void CreateReflectionTest();
 
         void CreateEmptyLine();
-        Runtime::EntityHandle CreateDefaultEntity(std::string name);
+        EntityHandle CreateDefaultEntity(std::string name);
     };
 }
 

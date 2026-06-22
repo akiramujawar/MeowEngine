@@ -3,35 +3,35 @@
 
 ## Meow Engine v0.5
 - [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
+- [ ] Reimplementing physics with new architecture for multithreaded synchronisation
 - [x] Populating enums, pointers classes in edit panel
 - [x] Automated component registration in triple buffer
 - [x] Adding Rotations & Scaling to transform & physics bodies
 - [ ] Adding navigation to github / go back for web builds
 - [x] Build a new architecture for multithreading (using Scheduler)
-- [ ] Implement job system for multithreading
-- [ ] Reimplementing physics with new architecture for synchronisation
-- [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
 - [x] Position, Scale, Rotation handles for selected objects
 - [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
 - [x] File Manager (show directories, files, rename, move & delete & import)
-- [ ] Creating support for multi-scene compilation
 - [x] Simple tool for importing files like textures/meshes
-- [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
 - [ ] Implement Tracy throughout engine for performance profiling
 - [ ] For memory error detector: valgrind / address sanitizer
 - [x] Create Unique ID generator for items
-- [ ] Documenting done items and different approaches and used libraries
 - [x] Hierarchy for entities
-- [ ] Reworking asset loading pipeline
-- [ ] Render loading pipeline (shaders, textures, meshes)
-- [x] Refactor cmake
+- [x] Reworking asset loading pipeline
+- [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
+- [ ] Creating support for multi-scene compilation
 - [ ] Improving current shader pipeline to handle shaders dynamically
+- [ ] Render loading pipeline (shaders, textures, meshes)
+- [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
+- [x] Refactor cmake
 - [x] Find a way to isolate and build code while developing simulations
-- [ ] Play & Pause & Stop
-- [ ] Reworking engine to utilise new mathematical library
-- [ ] Decoupling SDL events with the help of messaging system
 
 ## Meow Engine v0.6
+- [ ] Reworking engine to utilise new mathematical library
+- [ ] Decoupling SDL events with the help of messaging system
+- [ ] Play & Pause & Stop
+- [ ] Documenting done items and different approaches and used libraries
+- [ ] Implement job system for multithreading
 - [ ] Selecting objects in scene renderer (world)
 - [x] Compilation of physx for web
 - [x] Single thread app builds for web

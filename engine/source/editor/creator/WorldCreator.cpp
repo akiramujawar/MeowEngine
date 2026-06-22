@@ -9,7 +9,7 @@
 
 namespace MeowEngine::Editor {
     void WorldCreator::CreateDefault(std::string path) {
-        Asset::World* world = new DefaultWorld();
+        // Asset::World* world = new DefaultWorld();
         // Runtime::WorldSerializer::Serialize("", *world);
     }
 }

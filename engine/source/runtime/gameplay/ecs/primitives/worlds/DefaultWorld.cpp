@@ -18,7 +18,7 @@
 #include <sky_box_component.hpp>
 #include <reflection_test_component.hpp>
 
-namespace MeowEngine::Editor {
+namespace MeowEngine::Runtime {
     DefaultWorld::DefaultWorld() {
         // editor entities
         CreateEmptyLine();
@@ -148,7 +148,7 @@ namespace MeowEngine::Editor {
         CreateDefaultEntity("----------------------");
     }
 
-    Runtime::EntityHandle DefaultWorld::CreateDefaultEntity(std::string name) {
+    EntityHandle DefaultWorld::CreateDefaultEntity(std::string name) {
         const auto entity = AddEntity();
 
         auto& info = GetComponent<entity::InfoComponent>(entity);

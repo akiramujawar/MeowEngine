@@ -21,6 +21,7 @@ namespace MeowEngine::Core::Types {
 
         String();
         explicit String(const std::string& string);
+        String(const String& string);
 
         /**
          * Split from end to start
@@ -30,8 +31,11 @@ namespace MeowEngine::Core::Types {
         [[nodiscard]] std::vector<std::string> SplitR(const std::string& pDelimiter) const;
 
         [[nodiscard]] const char* CStr() const;
-        char* Data();
+        [[nodiscard]] char* Data();
+        size_t Size();
+
         std::string GetRawString();
+        void Resize(size_t size);
 
     private:
         std::string Value;

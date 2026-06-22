@@ -36,8 +36,8 @@ namespace MeowEngine::Runtime {
             ActiveWorldHandle = handle;
         }
         else {
-            const auto tempHandle = assetManager.CreateTempAsset<Editor::DefaultWorld>();
-            auto* tempWorld = assetManager.GetAsset<Editor::DefaultWorld>(tempHandle);
+            const auto tempHandle = assetManager.CreateTempAsset<DefaultWorld>();
+            auto* tempWorld = assetManager.GetAsset<DefaultWorld>(tempHandle);
 
             Gameplay->SetWorld(tempWorld);
             ActiveWorldHandle = tempHandle;
