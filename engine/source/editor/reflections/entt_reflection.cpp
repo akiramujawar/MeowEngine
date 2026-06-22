@@ -10,8 +10,8 @@
 
 namespace MeowEngine {
 
-    bool EnttReflection::HasComponent(entt::id_type inId) {
-        return ComponentMap.find(inId) != ComponentMap.end();
+    bool EnttReflection::HasComponent(Runtime::ComponentID inId) {
+        return RuntimeComponentMap.find(inId) != RuntimeComponentMap.end();
     }
 
     bool EnttReflection::HasProperty(std::string inPropertyName) {
@@ -22,8 +22,8 @@ namespace MeowEngine {
         return Enums.find(inPropertyName) != Enums.end();
     }
 
-    std::string EnttReflection::GetComponentName(entt::id_type inId) {
-        return ComponentMap[inId].ClassName;
+    std::string EnttReflection::GetComponentName(Runtime::ComponentID inId) {
+        return RuntimeComponentMap[inId].ClassName;
     }
 
     std::vector<ReflectionProperty> EnttReflection::GetProperties(std::string inClassName) {
@@ -32,6 +32,16 @@ namespace MeowEngine {
 
     std::vector<std::string> EnttReflection::GetEnumValues(std::string pEnumName) {
         return Enums[pEnumName];
+    }
+
+    ReflectionProperty* EnttReflection::GetProperty(const std::string& className, const std::string& propertyName) {
+        for (auto& property : Properties[className]) {
+            if (property.Name == propertyName) {
+                return &property;
+            }
+        }
+
+        return nullptr;
     }
 
     void EnttReflection::RegisterProperty(std::string inClassName, ReflectionProperty inProperty) {
@@ -134,16 +144,16 @@ namespace MeowEngine {
         // end --
     }
 
-    void* EnttReflection::CopyComponentData(entt::id_type type, const std::string& name, void* from) {
-        void* to = ComponentMap[type].Construct();
+    void* EnttReflection::CopyComponentData(Runtime::ComponentID type, const std::string& name, void* from) {
+        void* to = RuntimeComponentMap[type].Construct();
 
         CopyPropertyData(name, to, from);
 
         return to;
     }
 
-    void EnttReflection::DeleteComponentData(entt::id_type type, void* from) {
-        ComponentMap[type].Destruct(from);
+    void EnttReflection::DeleteComponentData(Runtime::ComponentID type, void* from) {
+        RuntimeComponentMap[type].Destruct(from);
     }
 
     void EnttReflection::CopyPropertyData(const std::string& className, void* to, void* from) {
@@ -153,17 +163,17 @@ namespace MeowEngine {
             // need to handle primitives, struct / classes & enums, pointers
 
             switch(property.Type) {
-                case NOT_DEFINED:
+                case PropertyType::NOT_DEFINED:
                     break;
-                case PRIMITIVE: {
+                case PropertyType::PRIMITIVE: {
                     auto data = property.Get(from);
                     property.Set(to, data);
 
                     break;
                 }
-                case ARRAY:
+                case PropertyType::ARRAY:
                     break;
-                case POINTER: {
+                case PropertyType::POINTER: {
                     if (property.IsMObject) {
                         void* toPointer = property.Get(to);
                         void* fromPointer = property.Get(from);
@@ -177,14 +187,14 @@ namespace MeowEngine {
                     }
                 }
                     break;
-                case ENUM: {
+                case PropertyType::ENUM: {
                     auto data = property.Get(from);
                     property.Set(to, data);
 
                     break;
                 }
                     break;
-                case CLASS_OR_STRUCT: {
+                case PropertyType::CLASS_OR_STRUCT: {
                     if (property.TypeId == typeid(String) ||
                         property.TypeId == typeid(Vector3) ||
                         property.TypeId == typeid(Quaternion))

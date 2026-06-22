@@ -7,6 +7,8 @@
 
 #include "entt.hpp"
 #include "Entity.hpp"
+#include "ComponentID.hpp"
+#include "EntityHandle.hpp"
 
 namespace MeowEngine::Runtime {
     using EntityRegistry = entt::basic_registry<Entity>;

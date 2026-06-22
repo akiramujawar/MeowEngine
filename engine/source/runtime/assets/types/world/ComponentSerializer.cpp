@@ -10,66 +10,127 @@
 namespace MeowEngine::Asset {
 
     void ComponentSerializer::Serialize(Serialization::Serializer& serializer, void* instance, const std::string& className) {
-        // properties
+        MeowEngine::Log("ComponentSerializer::Serialize", "");
+
         auto properties = GetReflection().GetProperties(className);
+        serializer.WriteSize(properties.size());
         for (auto& property : properties) {
+            serializer.WriteInt(static_cast<int>(property.Type));
+            serializer.WriteString(property.Name);
+            serializer.WriteString(property.TypeName);
+
             switch (property.Type) {
                 case PropertyType::PRIMITIVE: {
                     auto data = property.Get(instance);
                     if (property.TypeId == typeid(int)) {
                         int value = *static_cast<int*>(data);
-                        std::string name = property.Name;
-
-                        serializer.WriteString(name);
                         serializer.WriteInt(value);
                     }
                     else if (property.TypeId == typeid(float)) {
                         float value = *static_cast<float*>(data);
-                        std::string name = property.Name;
-
-                        serializer.WriteString(name);
                         serializer.WriteFloat(value);
                     }
                     break;
                 }
                 case PropertyType::CLASS_OR_STRUCT: {
-                    if (property.TypeId == typeid(MeowEngine::String)) {
-                        auto data = property.Get(instance);
-                        MeowEngine::String valueObject = *static_cast<MeowEngine::String*>(data);
-                        std::string value = valueObject.GetRawString();
-
-                        std::string name = property.Name;
-
-                        serializer.WriteString(name);
+                    auto data = property.Get(instance);
+                    if (property.TypeId == typeid(String)) {
+                        auto valueObject = *static_cast<String*>(data);
+                        auto value = valueObject.GetRawString();
                         serializer.WriteString(value);
                     }
                     else {
-                        auto data = property.Get(instance);
-                        std::string name = property.TypeName;
-
-                        Serialize(serializer, data, name);
+                        Serialize(serializer, data, property.TypeName);
                     }
-
-
                     break;
                 }
-                case MeowEngine::POINTER: {
-
+                case PropertyType::POINTER: {
+                    break;
                 }
                 case PropertyType::ENUM: {
                     auto data = property.Get(instance);
-                    // MeowEngine::Object* dataObject = static_cast<MeowEngine::Object*>(data);
-                    std::string name = property.Name;
                     int value = *static_cast<int*>(data);
-
-                    serializer.WriteString(name);
                     serializer.WriteInt(value);
+
+                    break;
                 }
-                case PropertyType::ARRAY: {}
+                case PropertyType::ARRAY: {
+
+                    break;
+                }
                 case PropertyType::NOT_DEFINED: {}
             }
         }
     }
 
-    void ComponentSerializer::Deserialize(Serialization::Serializer& serializer, void* instance, const std::string&  className) {}
+    void ComponentSerializer::Deserialize(Serialization::Serializer& serializer, void* instance, const std::string&  className) {
+        MeowEngine::Log("ComponentSerializer::Deserialize", "");
+
+        // properties
+        auto properties = GetReflection().GetProperties(className);
+        auto propertyCount = serializer.ReadSize();
+        for (int i = 0 ; i < propertyCount ; i++) {
+            auto type = static_cast<PropertyType>(serializer.ReadInt());
+            auto propertyName = serializer.ReadString();
+            auto typeName = serializer.ReadString();
+
+            ReflectionProperty* property = GetReflection().GetProperty(className, propertyName);
+
+            // deserialize need to happen even if property doesn't exist
+            switch (type) {
+                case PropertyType::PRIMITIVE: {
+                    if (typeName == "int") {
+                        auto value = serializer.ReadInt();
+                        if (property != nullptr) {
+                            property->Set(instance, &value);
+                        }
+                    }
+                    else if (typeName == "float") {
+                        auto value = serializer.ReadFloat();
+                        if (property != nullptr) {
+                            property->Set(instance, &value);
+                        }
+                    }
+
+                    break;
+                }
+                case PropertyType::CLASS_OR_STRUCT: {
+                    if (typeName == "String") {
+                        auto data = serializer.ReadString();
+                        auto stringValue = String(data);
+                        if (property != nullptr) {
+                            property->Set(instance, &stringValue);
+                        }
+                    }
+                    else {
+                        auto data = property->Get(instance);
+
+                        // TODO: test what happens if a property class is removed
+                        Deserialize(serializer, data, typeName);
+                    }
+
+
+                    break;
+                }
+                case PropertyType::POINTER: {
+                    break;
+                }
+                case PropertyType::ENUM: {
+                    auto value = serializer.ReadInt();
+                    if (property != nullptr) {
+                        property->Set(instance, &value);
+                    }
+                    break;
+                }
+                case PropertyType::ARRAY: {
+                    break;
+                }
+                case PropertyType::NOT_DEFINED: {}
+                default:
+                    break;
+            }
+
+        }
+
+    }
 }

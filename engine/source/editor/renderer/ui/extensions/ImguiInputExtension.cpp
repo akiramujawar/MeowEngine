@@ -21,29 +21,29 @@ namespace MeowEngine::Editor {
 
 
             switch (property.Type) {
-                case MeowEngine::NOT_DEFINED:
+                case PropertyType::NOT_DEFINED:
                     break;
-                case MeowEngine::PRIMITIVE: {
+                case PropertyType::PRIMITIVE: {
                     MeowEngine::ReflectionPropertyChange::Assign(change,
                                                                  ImGuiInputExtension::ShowPrimitive(property, inObject,
                                                                                                     pIsEditable));
                     break;
                 }
-                case MeowEngine::ARRAY:
+                case PropertyType::ARRAY:
                     MeowEngine::ReflectionPropertyChange::Assign(change,
                                                                  ImGuiInputExtension::ShowArray(property, inObject));
                     break;
-                case MeowEngine::POINTER:
+                case PropertyType::POINTER:
                     MeowEngine::ReflectionPropertyChange::Assign(change,
                                                                  ImGuiInputExtension::ShowPointer(property, inObject,
                                                                                                   pIsEditable));
                     break;
-                case MeowEngine::ENUM:
+                case PropertyType::ENUM:
                     MeowEngine::ReflectionPropertyChange::Assign(change,
                                                                  ImGuiInputExtension::ShowEnum(property, inObject,
                                                                                                pIsEditable));
                     break;
-                case MeowEngine::CLASS_OR_STRUCT: {
+                case PropertyType::CLASS_OR_STRUCT: {
                     MeowEngine::ReflectionPropertyChange::Assign(change,
                                                                  ImGuiInputExtension::ShowClassOrStruct(property,
                                                                                                         inObject,

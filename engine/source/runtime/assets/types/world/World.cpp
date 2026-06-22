@@ -14,8 +14,11 @@
 namespace MeowEngine::Asset {
     World::World()
         : ActiveCamera()
-        , SkyBox()
-    {}
+        , SkyBox() {
+        // create a invalid entity (default: Entity::INVALID
+        // as Registry creates auto creates entity with id = 0
+        auto entity = Registry.create();
+    }
 
     Runtime::EntityHandle World::AddEntity() {
         const auto id = Runtime::EntityID {Core::UUID::GenerateUUID()};
@@ -47,7 +50,7 @@ namespace MeowEngine::Asset {
         return Runtime::EntityHandle {};
     }
 
-    bool World::Has(const Runtime::EntityHandle& handle) {
+    bool World::HasEntity(const Runtime::EntityHandle& handle) {
         const auto view = Registry.view<Runtime::IdentityComponent>();
         for (const auto entity : view) {
             const auto& identity = view.get<Runtime::IdentityComponent>(entity);

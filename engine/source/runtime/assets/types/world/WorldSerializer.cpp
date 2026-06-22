@@ -4,72 +4,31 @@
 
 #include <WorldSerializer.hpp>
 
-// #include <Public/IO.hpp>
-#include "MeowService.hpp"
+#include "Public/IO/Include.hpp"
 #include "AssetSerializer.hpp"
 #include "ComponentSerializer.hpp"
 
-// #include "hierarchy_component.hpp"
 #include "info_component.hpp"
-#include "hierarchy_component.hpp"
-#include "entt.hpp"
-#include <Project.hpp>
-
+#include "reflection_test_component.hpp"
 #include "IdentityComponent.hpp"
+#include "ComponentID.hpp"
 
-
-// #define TEST(Registry, Type, Entity, Args) \
-//     Registry.emplace<Type>(Entity, Args);
-//
-// #define TEST2(Registry, Type, Entity, Args) TEST(Registry, Type, Entity, Args)
-
-// template<typename ComponentType>
-// void* AddComponent(entt::registry& registry, entt::entity &inEntity) {
-//     auto* test = new ComponentType();
-//
-//     registry.emplace<MeowEngine::entity::InfoComponent>(inEntity, std::move(test));
-//
-//     return static_cast<void*>(test);
-// }
-//
-// std::map<std::string, void*(*)(entt::registry& registry, entt::entity &inEntity)> AddComponentMap;
-
-template<typename ComponentType>
-void* AddComponent(entt::registry& registry, entt::entity &inEntity) {
-    auto& test = registry.emplace<ComponentType>(inEntity);
-
-    return &test;
-}
-
-std::map<std::string, void*(*)(entt::registry& registry, entt::entity& inEntity)> AddComponentMap;
-
-void Test123() {
-    AddComponentMap["InfoComponent"] = &AddComponent<MeowEngine::entity::InfoComponent>;
-
-    // AddComponentMap.try_emplace(
-    //     "InfoComponent",
-    //     &AddComponent<MeowEngine::entity::InfoComponent>
-    // );
-    // AddComponentMap["HierarchyComponent"] = &AddComponent<MeowEngine::component::HierarchyComponent>;
-
-}
-
-std::map<int32_t, entt::entity> entityGUID_Map;
 
 namespace MeowEngine::Asset {
     bool WorldSerializer::Serialize(const FileSystem::Path& path, World& world) {
         MeowEngine::Log("WorldSerializer::Serialize", "");
 
-        // template world data for testing
-        auto testWorld = Asset::World();
-        auto& registry = testWorld.GetRegistry();
+        // // template world data for testing
+        // auto testWorld = Asset::World();
+        // auto& registry = testWorld.GetRegistry();
+        //
+        // Runtime::EntityHandle testEntity = testWorld.AddEntity();
+        // auto& info = testWorld.GetComponent<entity::InfoComponent>(testEntity);
+        // auto& reflection = testWorld.AddComponent<entity::ReflectionTestComponent>(testEntity);
+        // reflection.Init();
+        // info.SetName(String("testEntity"));
 
-        Runtime::EntityHandle testEntity = testWorld.AddEntity();
-        auto& info = testWorld.GetComponent<entity::InfoComponent>(testEntity);
-        // auto info = registry.emplace<entity::InfoComponent>(testEntity.GetEntity());
-        // auto hierarchy = registry.emplace<component::HierarchyComponent>(testEntity.GetEntity());
-        info.SetName(String("testEntity"));
-        // hierarchy.Self = testEntity;
+        auto& registry = world.GetRegistry();
 
         // read existing header
         auto readSerializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
@@ -85,7 +44,7 @@ namespace MeowEngine::Asset {
         AssetSerializer::WriteHeader(writeSerializer, header);
 
         // save entity count
-        size_t entityCount = registry.storage<Runtime::Entity>().size();
+        size_t entityCount = registry.storage<Runtime::Entity>().size() - 1;
         writeSerializer.WriteSize(entityCount);
 
         // save all guids
@@ -113,16 +72,16 @@ namespace MeowEngine::Asset {
             writeSerializer.WriteUInt16(componentCount);
 
             // serialize & save component data
-            // component = vector storage of that component for every entity using it
             for (auto&& [id, component]: registry.storage()) {
                 if (component.contains(entity)) {
-                    const entt::id_type type = id;
+                    const Runtime::ComponentID type = id;
                     const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
+
                     writeSerializer.WriteString(componentName);
 
                     // properties
                     void* componentObject = component.value(entity);
-                    Asset::ComponentSerializer::Serialize(writeSerializer, componentObject, componentName);
+                    ComponentSerializer::Serialize(writeSerializer, componentObject, componentName);
                 }
             }
         });
@@ -154,46 +113,36 @@ namespace MeowEngine::Asset {
             return false;
         }
 
-        size_t entityCount;
-        entityCount = serializer.ReadSize();
-        // stream.Read(&entityCount, sizeof(size_t));
-
-        std::unordered_set<Runtime::EntityHandle> handles;
+        // get all the guid's and entities & collect EntityHandles
+        std::unordered_map<Runtime::EntityID, Runtime::EntityHandle> handles;
+        size_t entityCount = serializer.ReadSize();
 
         for (auto i = 0; i < entityCount; i++) {
-            const auto guid = serializer.ReadUInt64();
-            auto handle = world.AddEntity(Runtime::EntityID {guid});
+            const auto guidInt = serializer.ReadUInt64();
+            const auto guid = Runtime::EntityID {guidInt};
+            auto handle = world.AddEntity(guid);
 
-            handles.insert(handle);
+            handles.try_emplace(guid, handle);
         }
 
         // for each serialized item
         // get handle -> get entity -> serialize
+        for (auto i = 0 ; i < entityCount; i++) {
+            const auto guidInt = serializer.ReadUInt64();
+            const auto guid = Runtime::EntityID {guidInt};
+            const auto componentCount = serializer.ReadUInt16();
 
-        // for all serialized entities
-        // find -> add
+            // add components
+            for (auto j = 0; j < componentCount; j++) {
+                std::string componentName = serializer.ReadString();
+                auto addComponentMethod = GetReflection().GetAddComponentCallback(componentName);
+                auto handle = handles.find(guid);
 
-            // auto instance = AddComponentMap["InfoComponent"](registry, entity);
-
-            // ComponentSerializer::Deserialize(serializer, instance, "InfoComponent");
-
-            // world.GetBuffer().AddComponent<Runtime::IdentityComponent>(entity);
-            // add component - multithread
-            // set data for a component - multithread
-            // through component->method->(dyanmic args)
-
-            // auto entity = registry.create();
-            // uint32_t guid;
-            // stream.Read(&guid, sizeof(uint32_t));
-
-            // AddComponentMap["IdentityComponent"](registry, entity);
-
-            // first read counts of entity
-            // read the guid's and assign for that count
-            // read guid
-            // read the components
-            // find the entity and process to attach components & it's assign data
-
+                // set properties
+                void* componentObject = addComponentMethod(world, handle->second);
+                ComponentSerializer::Deserialize(serializer, componentObject, componentName);
+            }
+        }
 
         AssetSerializer::CloseSerializer(serializer);
 

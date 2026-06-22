@@ -11,7 +11,7 @@
 using namespace std;
 
 namespace MeowEngine {
-    enum PropertyType {
+    enum class PropertyType : int {
         NOT_DEFINED,
         PRIMITIVE,
         ARRAY,

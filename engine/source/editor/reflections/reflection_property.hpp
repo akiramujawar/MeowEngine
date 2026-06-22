@@ -14,8 +14,13 @@ using namespace std;
 namespace MeowEngine {
     struct ReflectionProperty {
         std::string Name; // name of property
-        MeowEngine::PropertyType Type; // type of class
+        PropertyType Type; // type of class
         const type_info& TypeId; // type id of class
+
+        /**
+         * Type of property can be a class/struct/primitive/enum
+         * e.g. int, float, enum class name, class or struct name
+         */
         std::string TypeName; // name of class
         bool IsEditable; // can property be edited in ui
         bool IsMObject; // is the property derived from MObject

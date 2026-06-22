@@ -10,8 +10,6 @@
 #include "EntityRegistry.hpp"
 #include "EntityHandle.hpp"
 
-// #include "entt_triple_buffer.hpp"
-
 namespace MeowEngine::Asset {
     /**
      * Represents ECS & actions which can be performed on world entities
@@ -30,20 +28,24 @@ namespace MeowEngine::Asset {
         Runtime::EntityHandle FindHandle(Runtime::EntityID guid);
 
         void RemoveEntity(Runtime::EntityID guid);
-        bool Has(const Runtime::EntityHandle& handle);
+        bool HasEntity(const Runtime::EntityHandle& handle);
+        template <typename Type>
+        bool HasComponent(const Runtime::EntityHandle& handle) const;
 
         template<typename Type>
-        Type& AddComponent(const Runtime::EntityHandle& entity);
+        Type& AddComponent(const Runtime::EntityHandle& handle);
 
         template<typename Type>
-        void RemoveComponent(Runtime::EntityHandle entity);
+        static void* AddComponentToWorld(World& world, const Runtime::EntityHandle& handle);
 
         template<typename Type>
-        Type& GetComponent(Runtime::EntityHandle entity);
+        void RemoveComponent(Runtime::EntityHandle handle);
+
+        template<typename Type>
+        Type& GetComponent(Runtime::EntityHandle handle);
 
         [[nodiscard]] Runtime::EntityRegistry& GetRegistry() { return Registry; }
         [[nodiscard]] const Runtime::EntityRegistry& GetRegistry() const { return Registry; }
-        // EnttTripleBuffer& GetBuffer() { return Buffer; }
 
     public:
         Runtime::EntityHandle ActiveCamera;
@@ -51,14 +53,25 @@ namespace MeowEngine::Asset {
 
     private:
         Runtime::EntityRegistry Registry;
-
-        // TODO: this is temporary until serialization & it's implementation is achieved for dynamic worlds
-        // EnttTripleBuffer Buffer;
     };
+
+    template <typename Type>
+    bool World::HasComponent(const Runtime::EntityHandle& handle) const {
+        return Registry.any_of<Type>(handle.GetEntity());
+    }
 
     template <typename Type>
     Type& World::AddComponent(const Runtime::EntityHandle& handle) {
         return Registry.emplace<Type>(handle.GetEntity());
+    }
+
+    template <typename Type>
+    void* World::AddComponentToWorld(World& world, const Runtime::EntityHandle& handle) {
+        if (world.HasComponent<Type>(handle)) {
+            return &world.GetComponent<Type>(handle);
+        }
+
+        return &world.AddComponent<Type>(handle);
     }
 
     template <typename Type>

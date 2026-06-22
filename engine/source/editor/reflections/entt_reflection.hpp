@@ -13,17 +13,22 @@
 #include "EntityRegistry.hpp"
 
 #include <log.hpp>
-//
-// #include <entt_triple_buffer.hpp>
-// #include <entt_single_buffer.hpp>
 
 #include <ReflectComponent.hpp>
 #include <reflection_property.hpp>
 #include <reflection_property_change.hpp>
 
+#include "World.hpp"
+#include <functional>
+
 using namespace std;
 
 namespace MeowEngine {
+    /**
+     *
+     */
+    using AddComponentCallback = std::function<void*(Asset::World&, const Runtime::EntityHandle&)>;
+
     class EnttReflection {
 
     public:
@@ -34,24 +39,27 @@ namespace MeowEngine {
             MeowEngine::Log("EnttReflection", "Destructed");
         }
 
-        bool HasComponent(entt::id_type inId);
+        bool HasComponent(Runtime::ComponentID inId);
         bool HasProperty(std::string inPropertyName);
         bool HasEnum(std::string inPropertyName);
 
-        std::string GetComponentName(entt::id_type inId);
+        std::string GetComponentName(Runtime::ComponentID inId);
         std::vector<ReflectionProperty> GetProperties(std::string inClassName);
         std::vector<std::string> GetEnumValues(std:: string pEnumName);
+        ReflectionProperty* GetProperty(const std::string& className, const std::string& propertyName);
 
         // Register types (these are extended by macros in wrapper class)
         template<typename Type>
         void RegisterComponent(ReflectionComponent inComponent) {
             MeowEngine::Log("RegisterComponent", inComponent.ClassName);
 
-            entt::id_type componentId = entt::type_hash<Type>().value();
+            Runtime::ComponentID componentId = entt::type_hash<Type>().value();
 
             if(!HasComponent(componentId)) {
-                ComponentMap[componentId] = inComponent;
+                RuntimeComponentMap[componentId] = inComponent;
             }
+
+            AddComponentCallbackMap.try_emplace(inComponent.ClassName, &Asset::World::AddComponentToWorld<Type>);
         }
 
         /**
@@ -72,49 +80,6 @@ namespace MeowEngine {
                 Enums[inEnumName].push_back(i.data());
             }
         }
-
-        // /**
-        //  * Pointer Method which holds a component template type to be passed to entt buffer
-        //  * for registration
-        //  * The callback is registered in runtime initialisation
-        //  * & executed on engine start (after entt buffer is created)
-        //  * @param pCallback
-        //  */
-        // void AddInitialiseComponentCallback(void(*pCallback)(void*)) {
-        //     ComponentBufferRegistryCallbacks.push_back(pCallback);
-        // }
-
-//         /**
-//          * Currently it only initialises components for entt buffer, but as this is called on scene start,
-//          * we can additionally use this process other things related to components
-//          */
-// #ifdef __MULTI_THREAD__
-//         void InitialiseComponents(MeowEngine::EnttTripleBuffer& pBuffer) {
-// #elif __SINGLE_THREAD__
-//         void InitialiseComponents(MeowEngine::EnttSingleBuffer& pBuffer) {
-// #endif
-//             for(auto callback : ComponentBufferRegistryCallbacks) {
-//                 callback(&pBuffer);
-//             }
-//         }
-//
-//         /**
-//          * This is cached in runtime initialisation and the used to register
-//          * all the components with entt system in a buffer
-//          *
-//          * NOTE: this method isn't necessarily required to be a part of entt reflection class
-//          * @tparam Type
-//          * @param pEnttBuffer
-//          */
-//         template<typename Type>
-//         static void RegisterComponentOnEnttBuffer(void* pEnttBuffer) {
-// #ifdef __MULTI_THREAD__
-//             auto buffer = static_cast<MeowEngine::EnttTripleBuffer*>(pEnttBuffer);
-// #elif __SINGLE_THREAD__
-//             auto buffer = static_cast<MeowEngine::EnttSingleBuffer*>(pEnttBuffer);
-// #endif
-//             buffer->RegisterComponent<Type>();
-//         }
 
         void ApplyPropertyChange(ReflectionPropertyChange& inPropertyChange, Runtime::EntityHandle handle, Runtime::EntityRegistry& inRegistry);
 
@@ -137,16 +102,31 @@ namespace MeowEngine {
             void* inChangedData
         );
 
-        void* CopyComponentData(entt::id_type type, const std::string& name, void* from);
-        void DeleteComponentData(entt::id_type type, void* from);
+        void* CopyComponentData(Runtime::ComponentID type, const std::string& name, void* from);
+        void DeleteComponentData(Runtime::ComponentID type, void* from);
 
         void CopyPropertyData(const std::string& className, void* to, void* from);
+
+        AddComponentCallback GetAddComponentCallback(const std::string& componentName) {
+            auto iterator = AddComponentCallbackMap.find(componentName);
+            if (iterator != AddComponentCallbackMap.end()) {
+                return iterator->second;
+            }
+
+            return nullptr;
+        }
 
     private:
         /**
          * component and methods to perform actions on component (like fresh construction)
          */
-        std::unordered_map<entt::id_type, ReflectionComponent> ComponentMap;
+        std::unordered_map<Runtime::ComponentID, ReflectionComponent> RuntimeComponentMap;
+
+        /**
+         *
+         */
+        std::unordered_map<std::string, AddComponentCallback> AddComponentCallbackMap;
+        std::unordered_map<std::string, std::function<void(Runtime::EntityHandle)>&> commmmm;
 
         /**
          * class name, reflected property list
@@ -158,7 +138,6 @@ namespace MeowEngine {
          */
         std::unordered_map<std::string, std::vector<std::string>> Enums;
 
-        // std::vector<void(*)(void*)> ComponentBufferRegistryCallbacks;
     };
 
 }

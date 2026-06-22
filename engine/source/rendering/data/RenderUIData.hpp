@@ -20,7 +20,7 @@ namespace MeowEngine::Rendering {
     };
 
     struct RenderEntityComponent {
-        entt::id_type Type;
+        Runtime::ComponentID Type;
         std::string Name;
         void* DataObject; // TODO: as rework in future try replacing void* with Engine Object
     };

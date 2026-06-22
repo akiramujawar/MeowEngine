@@ -14,7 +14,8 @@ namespace MeowEngine::entity {
     MeowEngine::entity::InfoComponent::InfoComponent() {}
 
     MeowEngine::entity::InfoComponent::InfoComponent(std::string name)
-    : Name(name) {}
+        : Name(name)
+    {}
 
     void InfoComponent::SetName(const String& name) {
         Name = name;
@@ -24,9 +25,3 @@ namespace MeowEngine::entity {
         return Name;
     }
 }
-
-//int MeowEngine::entity::InfoComponent::s_GetNewId() {
-//    return s_IdCounter++;
-//}
-
-//int MeowEngine::entity::InfoComponent::s_IdCounter = 0;

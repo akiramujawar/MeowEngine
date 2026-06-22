@@ -5,6 +5,11 @@
 #ifndef MEOWENGINE_COMPONENTID_HPP
 #define MEOWENGINE_COMPONENTID_HPP
 
-// enum class ObjectID : std::uint32_t {};
+#include "cstdlib"
+
+namespace MeowEngine::Runtime {
+    // enum  ComponentID : std::uint32_t {};
+    using ComponentID = std::uint32_t;
+}
 
 #endif //MEOWENGINE_COMPONENTID_HPP
