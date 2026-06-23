@@ -5,6 +5,7 @@
 #ifndef MEOWENGINE_PATH_HPP
 #define MEOWENGINE_PATH_HPP
 
+
 #include "String.hpp"
 
 namespace MeowEngine::Core::IO::FileSystem {
@@ -28,6 +29,9 @@ namespace MeowEngine::Core::IO::FileSystem {
         Path operator+= (const char* path) const;
         Path operator+= (const std::string_view& path) const;
         Path operator+= (const Path& path) const;
+
+        bool operator==(const Path& handle) const;
+        bool operator!=(const Path& handle) const;
 
         /**
          * Full path of file/folder
@@ -57,8 +61,15 @@ namespace MeowEngine::Core::IO::FileSystem {
         std::string CurrentPath;
 
     };
-
 }
 
+namespace std {
+    template <>
+    struct std::hash<MeowEngine::Core::IO::FileSystem::Path> {
+        std::size_t operator()(const MeowEngine::Core::IO::FileSystem::Path& path) const noexcept {
+            return std::hash<std::string>()(path.GetRawString());
+        }
+    };
+}
 
 #endif //MEOWENGINE_PATH_HPP

@@ -83,6 +83,13 @@ namespace MeowEngine::Core::IO::FileSystem {
         return Path { newPath.string() };
     }
 
+    bool Path::operator==(const Path& handle) const {
+        return CurrentPath == handle.CurrentPath;
+    }
+    bool Path::operator!=(const Path& handle) const {
+        return CurrentPath != handle.CurrentPath;
+    }
+
     bool Path::IsAbsolute() const {
         filesystem::path currentPath { CurrentPath };
         return currentPath.is_absolute();
