@@ -42,7 +42,7 @@ namespace MeowEngine {
 
     public:
         Asset::AssetManager& AssetManager;
-        Runtime::Project& Project;
+        Runtime::ConfigManager& Project;
         Runtime::WorldManager& WorldManager;
 
         Messaging::CommandQueue& CommandQueue;

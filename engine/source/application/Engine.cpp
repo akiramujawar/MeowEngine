@@ -63,6 +63,8 @@ namespace MeowEngine {
     void Engine::Open() {
         IsRunning = true;
 
+        ConfigManager.Setup();
+
         Init();
         Load();
 
@@ -81,8 +83,6 @@ namespace MeowEngine {
     }
 
     void Engine::Init() {
-        Project.Init();
-
         // on create
         // - create window - graphics
         // - create context - graphics
@@ -113,7 +113,7 @@ namespace MeowEngine {
         // -- editor
         Editor::EditorInitData editorInit {};
         editorInit.GraphicsDevice = &GraphicsDevice;
-        editorInit.Project = &Project;
+        editorInit.Project = &ConfigManager;
 
         Editor.Init(editorInit);
 
@@ -127,7 +127,7 @@ namespace MeowEngine {
         // -- rendering
         // TODO: renderer.load so that imgui can load layout (currently inside init)
         Rendering::RendererInitData renderInit {};
-        renderInit.Project = &Project;
+        renderInit.Project = &ConfigManager;
         renderInit.GraphicsDevice = &GraphicsDevice;
         renderInit.InputDevice = &InputDevice;
         renderInit.Gameplay = &Runtime.GetGameplay();
@@ -149,7 +149,7 @@ namespace MeowEngine {
 
         MeowServiceInitData meowServiceInit {
             AssetManager,
-            Project,
+            ConfigManager,
             Runtime.GetWorldManager(),
             CommandQueue,
             RequestQueue,

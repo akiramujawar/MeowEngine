@@ -12,7 +12,7 @@ namespace MeowEngine {
     }
 
     namespace Runtime {
-        class Project;
+        class ConfigManager;
         class WorldManager;
     }
 
@@ -30,7 +30,7 @@ namespace MeowEngine {
 namespace MeowEngine {
     struct MeowServiceInitData {
         Asset::AssetManager& AssetManager;
-        Runtime::Project& Project;
+        Runtime::ConfigManager& Project;
         Runtime::WorldManager& WorldManager;
 
         Messaging::CommandQueue& CommandQueue;

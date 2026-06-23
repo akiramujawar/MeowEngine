@@ -6,15 +6,15 @@
 
 #include "Public/IO/Include.hpp"
 #include "MeowService.hpp"
-#include "Project.hpp"
+#include "ConfigManager.hpp"
 
 namespace MeowEngine::Asset {
     void AssetDirectory::Init() {}
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
     void AssetDirectory::Load() {
-        const auto engineRootPath = MeowService().Project.Settings.GetEngineRootPath();
-        const auto sandboxRootPath = MeowService().Project.Settings.GetSandboxRootPath();
+        const auto engineRootPath = MeowService().Project.Paths.GetEngineRootPath();
+        const auto sandboxRootPath = MeowService().Project.Paths.GetSandboxRootPath();
 
         MeowEngine::Log("AssetDirectory::Load", {"EnginePath", engineRootPath.GetRawString()});
         MeowEngine::Log("AssetDirectory::Load", {"SandboxPath", sandboxRootPath.GetRawString()});

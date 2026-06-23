@@ -2,21 +2,21 @@
 // Created by Akira Mujawar on 26/02/26.
 //
 
-#ifndef MEOWENGINE_PROJECTSETTINGS_HPP
-#define MEOWENGINE_PROJECTSETTINGS_HPP
+#ifndef MEOWENGINE_PATHCONTEXT_HPP
+#define MEOWENGINE_PATHCONTEXT_HPP
 
 #include <string>
 
 #include <Public/IO/Include.hpp>
 
 namespace MeowEngine::Settings {
-    class ProjectSettings {
+    class PathContext {
     public:
-        ProjectSettings()
+        PathContext()
         : EngineRootPath("") // TODO: we retrieve this from Sandbox.txt
         , SandboxRootPath("")
         , ExecutablePath("")
-        , MeowProjectPathE("")
+        , MeowProjectPath("")
         , EngineAssetRegistryPath("")
         , SandboxAssetRegistryPath("") {}
 
@@ -39,7 +39,7 @@ namespace MeowEngine::Settings {
 
             auto meowProject = SandboxRootPath + SandboxRootPath.GetName();
             meowProject.ReplaceExtension(".meowproject");
-            MeowProjectPathE = meowProject;
+            MeowProjectPath = meowProject;
         }
 
         /**
@@ -75,7 +75,7 @@ namespace MeowEngine::Settings {
         // only use while running editor (@EngineRootPath & @SandboxRootPath)
         Path EngineRootPath;
         Path SandboxRootPath;
-        Path MeowProjectPathE;
+        Path MeowProjectPath;
 
         // for runtime
         Path ExecutablePath;
@@ -85,7 +85,7 @@ namespace MeowEngine::Settings {
     };
 }
 
-#endif //MEOWENGINE_PROJECTSETTINGS_HPP
+#endif //MEOWENGINE_PATHCONTEXT_HPP
 
 // console - static path?
 // panel to open project. we feed that path open project?

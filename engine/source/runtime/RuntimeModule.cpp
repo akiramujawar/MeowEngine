@@ -8,7 +8,7 @@
 #include <log.hpp>
 
 #include "MeowService.hpp"
-#include "Project.hpp"
+#include "ConfigManager.hpp"
 
 namespace MeowEngine::Runtime {
     RuntimeModule::RuntimeModule() {
@@ -24,7 +24,7 @@ namespace MeowEngine::Runtime {
     }
 
     void RuntimeModule::Load() {
-        WorldManager.Load(MeowService().Project.Config.LaunchWorldHandle);
+        WorldManager.Load(MeowService().Project.SandboxConfig.LaunchWorldHandle);
     }
 
     void RuntimeModule::Schedule(Threading::Scheduler& scheduler) {

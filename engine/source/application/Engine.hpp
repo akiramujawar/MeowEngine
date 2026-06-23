@@ -26,7 +26,7 @@
 #include <RuntimeModule.hpp>
 #include <PhysicsModule.hpp>
 
-#include <Project.hpp>
+#include <ConfigManager.hpp>
 #include <AssetManager.hpp>
 
 
@@ -99,7 +99,7 @@ namespace MeowEngine {
         std::unique_ptr<Application::IExecutor> Executor;
 
         // essentials
-        Runtime::Project Project;
+        Runtime::ConfigManager ConfigManager;
         Asset::AssetManager AssetManager;
         Input::InputDevice InputDevice;
         Core::Timing Timing;

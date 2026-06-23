@@ -10,13 +10,13 @@ namespace MeowEngine::Graphics {
 }
 
 namespace MeowEngine::Runtime {
-    class Project;
+    class ConfigManager;
 }
 
 namespace MeowEngine::Editor {
     struct EditorInitData {
         Graphics::GraphicsDevice* GraphicsDevice;
-        Runtime::Project* Project;
+        Runtime::ConfigManager* Project;
     };
 }
 

@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_RENDERERCONTEXT_HPP
 #define MEOWENGINE_RENDERERCONTEXT_HPP
 
-#include <Project.hpp>
+#include <ConfigManager.hpp>
 #include <GraphicsDevice.hpp>
 #include <InputDevice.hpp>
 #include <GameplaySystem.hpp>
@@ -14,7 +14,7 @@
 
 namespace MeowEngine::Rendering {
     struct RendererInitData {
-        Runtime::Project* Project;
+        Runtime::ConfigManager* Project;
         Graphics::GraphicsDevice* GraphicsDevice;
         Input::InputDevice* InputDevice;
         Runtime::GameplaySystem* Gameplay;

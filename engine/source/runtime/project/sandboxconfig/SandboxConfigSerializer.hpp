@@ -6,7 +6,7 @@
 #define MEOWENGINE_APPLICATIONCONFIGSERIALIZER_HPP
 
 
-class ApplicationConfigSerializer {};
+class SandboxConfigSerializer {};
 
 
 #endif //MEOWENGINE_APPLICATIONCONFIGSERIALIZER_HPP

@@ -5,7 +5,7 @@
 #include <EditorModule.hpp>
 
 #include <EditorInitData.hpp>
-#include <Project.hpp>
+#include <ConfigManager.hpp>
 
 namespace MeowEngine::Editor {
 
@@ -18,9 +18,9 @@ namespace MeowEngine::Editor {
     }
 
     void EditorModule::Init(EditorInitData& context) {
-        context.Project->Settings.InitDevelopment();
+        // context.Project->Paths.InitDevelopment();
 
-        Selector.Init(context.Project->Settings.GetSandboxRootPath());
+        Selector.Init(context.Project->Paths.GetSandboxRootPath());
         FileDialog.Init(context);
     }
 

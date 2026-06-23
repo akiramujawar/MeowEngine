@@ -79,7 +79,7 @@ namespace MeowEngine::Rendering {
 #ifdef __WEB__
         LoadIniFromFileSystem();
 #else
-        auto path = context.Project->Settings.GetExecutablePath() + "assets/Layout.ini";
+        auto path = context.Project->Paths.GetExecutablePath() + "assets/Layout.ini";
         MeowEngine::Log("ImGui Layout Path", path.GetRawString());
         io.IniFilename = path.GetRawString().c_str();
 
@@ -88,7 +88,7 @@ namespace MeowEngine::Rendering {
     }
 
     void ImGuiRender::SaveLayout() {
-        auto path = MeowService().Project.Settings.GetExecutablePath() + "assets/Layout.ini";
+        auto path = MeowService().Project.Paths.GetExecutablePath() + "assets/Layout.ini";
         ImGui::SaveIniSettingsToDisk(path.CStr());
 
         MeowEngine::Log("ImGui Layout Path", path.GetRawString());

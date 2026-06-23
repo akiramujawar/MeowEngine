@@ -13,7 +13,7 @@
 
 #include <AssetManager.hpp>
 #include <AssetRegistrySerializer.hpp>
-#include <Project.hpp>
+#include <ConfigManager.hpp>
 
 
 namespace {

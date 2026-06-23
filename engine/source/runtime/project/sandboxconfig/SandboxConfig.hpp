@@ -2,13 +2,13 @@
 // Created by Akira Mujawar on 17/06/26.
 //
 
-#ifndef MEOWENGINE_APPLICATIONCONFIG_HPP
-#define MEOWENGINE_APPLICATIONCONFIG_HPP
+#ifndef MEOWENGINE_SANDBOXCONFIG_HPP
+#define MEOWENGINE_SANDBOXCONFIG_HPP
 
 #include "AssetHandle.hpp"
 
 namespace MeowEngine::Asset {
-    struct ApplicationConfig {
+    struct SandboxConfig {
         /**
          * Initial world to load with
          */
@@ -19,4 +19,4 @@ namespace MeowEngine::Asset {
     };
 }
 
-#endif //MEOWENGINE_APPLICATIONCONFIG_HPP
+#endif //MEOWENGINE_SANDBOXCONFIG_HPP
