@@ -27,4 +27,7 @@ namespace MeowEngine::Runtime {
         return handle;
     }
 
+    EntityHandle EntityHandle::Invalid() {
+        return EntityHandle();
+    }
 }

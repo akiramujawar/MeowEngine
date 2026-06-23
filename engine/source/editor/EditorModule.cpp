@@ -18,9 +18,9 @@ namespace MeowEngine::Editor {
     }
 
     void EditorModule::Init(EditorInitData& context) {
-        context.Project->Settings.InitE();
+        context.Project->Settings.InitDevelopment();
 
-        Selector.Init(context.Project->Settings.GetSandboxRootPathE());
+        Selector.Init(context.Project->Settings.GetSandboxRootPath());
         FileDialog.Init(context);
     }
 

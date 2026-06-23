@@ -13,8 +13,8 @@ namespace MeowEngine::Settings {
     class ProjectSettings {
     public:
         ProjectSettings()
-        : EngineRootPathE("") // TODO: we retrieve this from Sandbox.txt
-        , SandboxRootPathE("")
+        : EngineRootPath("") // TODO: we retrieve this from Sandbox.txt
+        , SandboxRootPath("")
         , ExecutablePath("")
         , MeowProjectPathE("")
         , EngineAssetRegistryPath("")
@@ -33,11 +33,11 @@ namespace MeowEngine::Settings {
             SandboxAssetRegistryPath = sandboxAssetRegistry;
         }
 
-        void InitE() {
+        void InitDevelopment() {
             // we can get engine path by reading project metadata
-            SandboxRootPathE = ExecutablePath.GetParent().GetParent();
+            SandboxRootPath = ExecutablePath.GetParent().GetParent();
 
-            auto meowProject = SandboxRootPathE + SandboxRootPathE.GetName();
+            auto meowProject = SandboxRootPath + SandboxRootPath.GetName();
             meowProject.ReplaceExtension(".meowproject");
             MeowProjectPathE = meowProject;
         }
@@ -46,16 +46,16 @@ namespace MeowEngine::Settings {
          * NOTE: Only use inside editor code
          * @return
          */
-        const Path& GetEngineRootPathE() {
-            return EngineRootPathE;
+        const Path& GetEngineRootPath() {
+            return EngineRootPath;
         }
 
         /**
          * NOTE: Only use inside editor code
          * @return
          */
-        const Path& GetSandboxRootPathE() {
-            return SandboxRootPathE;
+        const Path& GetSandboxRootPath() {
+            return SandboxRootPath;
         }
 
         const Path& GetExecutablePath() {
@@ -73,8 +73,8 @@ namespace MeowEngine::Settings {
     private:
         // - for editor only
         // only use while running editor (@EngineRootPath & @SandboxRootPath)
-        Path EngineRootPathE;
-        Path SandboxRootPathE;
+        Path EngineRootPath;
+        Path SandboxRootPath;
         Path MeowProjectPathE;
 
         // for runtime

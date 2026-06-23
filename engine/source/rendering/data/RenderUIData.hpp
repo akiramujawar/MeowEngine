@@ -27,7 +27,7 @@ namespace MeowEngine::Rendering {
 
     struct RenderUIData {
         RenderUIData() {
-            LastSelectedEntity = Runtime::EntityHandle();
+            LastSelectedEntity = Runtime::EntityHandle::Invalid();
         }
 
         /**
@@ -56,7 +56,7 @@ namespace MeowEngine::Rendering {
          */
         std::vector<RenderEntityComponent> LastSelectedEntityComponents;
 
-        // NOTE: create a StringHash which will contain guid. Then we can use to compare guid's
+        // NOTE: create a StringHash / StringView which will contain guid. Then we can use to compare guid's
         // think it through as it can optimise lot more even for assigning string values.
         String SelectedDirectoryPath;
         String SelectedAssetPath;

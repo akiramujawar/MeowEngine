@@ -190,6 +190,9 @@ namespace MeowEngine::Rendering {
     }
 
     void RenderEditorExtractor::Clear(RenderSceneData& sceneData, RenderUIData& uiData) {
+        // TODO: for now we clear every frame, but later make on trigger basis
+        // we dont need to copy data which has low update frequency.
+
         // clear scene data
         sceneData.BoxColliders.clear();
         sceneData.SphereColliders.clear();

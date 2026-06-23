@@ -24,6 +24,7 @@ namespace MeowEngine::Runtime {
         friend class IdentityComponent;
 
         explicit EntityHandle();
+        static EntityHandle Invalid();
 
         [[nodiscard]] bool GetIsValid() const { return IsValid; };
         [[nodiscard]] Entity GetEntity() const { return Entity; }
@@ -35,6 +36,7 @@ namespace MeowEngine::Runtime {
 
     private:
         static EntityHandle Create(const EntityID guid, const Entity entity);
+
 
     private:
         bool IsValid;

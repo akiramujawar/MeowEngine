@@ -7,6 +7,9 @@
 
 #include <map>
 
+#include "Public/Core/Forward.hpp"
+#include "Path.hpp" // for hash unordered_map
+
 #include "DirectoryFolder.hpp"
 
 namespace MeowEngine::Asset {
@@ -14,6 +17,8 @@ namespace MeowEngine::Asset {
      * NOTE: use this for reading file system (in asset panel)
      */
     class AssetDirectory {
+        using FolderMap = std::unordered_map<Path, DirectoryFolder>;
+
     public:
         AssetDirectory() = default;
         ~AssetDirectory() = default;
@@ -21,10 +26,26 @@ namespace MeowEngine::Asset {
         void Init();
         void Load();
 
-        std::vector<std::string> GetPaths(std::string path);
+        std::vector<std::string> GetAssets(std::string directoryPaths);
 
     private:
-        std::map<std::string, DirectoryFolder> Views;
+        void FindFolders(const Path& path, FolderMap& folderMap);
+
+    private:
+        // all directory paths and assets inside them
+        FolderMap EngineSourceFolderMap;
+        FolderMap EngineShaderFolderMap;
+        FolderMap EngineAssetsFolderMap;
+
+        FolderMap SandboxSourceFolderMap;
+        FolderMap SandboxShaderFolderMap;
+        FolderMap SandboxAssetsFolderMap;
+
+        // write letters
+        // directory setup
+        // directory extraction
+        // directory usage
+
     };
 }
 

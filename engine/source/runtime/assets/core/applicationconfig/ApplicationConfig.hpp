@@ -9,6 +9,9 @@
 
 namespace MeowEngine::Asset {
     struct ApplicationConfig {
+        /**
+         * Initial world to load with
+         */
         AssetHandle LaunchWorldHandle;
 
         int WindowWidth;

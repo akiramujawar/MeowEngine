@@ -23,11 +23,13 @@ namespace MeowEngine::Asset {
 
     void AssetManager::Init(const AssetManagerInitData& context) {
         MeowEngine::Log("AssetManager", "Init");
+
+        Directory.Init();
     }
 
     void AssetManager::LoadDatabase() {
         Registry.Load();
-        // Direcotry.Load();
+        Directory.Load();
     }
 
     void AssetManager::SaveDatabase() {}

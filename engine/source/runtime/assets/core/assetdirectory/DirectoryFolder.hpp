@@ -6,12 +6,11 @@
 #define MEOWENGINE_DIRECTORYFOLDER_HPP
 
 #include <vector>
+#include "Public/Core/Forward.hpp"
 
 namespace MeowEngine::Asset {
     struct DirectoryFolder {
-        std::string Path;
-
-        std::vector<std::string> AssetPaths;
+        std::vector<Path> Paths;
     };
 }
 
