@@ -13,7 +13,7 @@ namespace MeowEngine::Rendering {
     public:
         RenderEditorExtractor();
 
-        void Init(const RenderExtractorInitData& frame) override;
+        void Init(const RenderExtractorInitData& context) override;
 
         void ExtractScene(RenderSceneData& frame) override;
         void ExtractUI(RenderUIData& frame) override;
@@ -22,6 +22,7 @@ namespace MeowEngine::Rendering {
     private:
         Runtime::GameplaySystem* Gameplay;
         Editor::Selector* Selector;
+        Asset::AssetManager* AssetManager;
     };
 }
 

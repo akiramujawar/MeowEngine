@@ -14,8 +14,7 @@
 #include <RenderUIData.hpp>
 
 namespace MeowEngine::Rendering {
-    class RenderExtractorInitData;
-
+    struct  RenderExtractorInitData;
 
     class RenderExtractor {
     public:

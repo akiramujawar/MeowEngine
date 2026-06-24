@@ -24,7 +24,7 @@ namespace MeowEngine::Asset {
     void AssetManager::Init(const AssetManagerInitData& context) {
         MeowEngine::Log("AssetManager", "Init");
 
-        Directory.Init();
+        Directory.Init(Registry);
     }
 
     void AssetManager::LoadDatabase() {

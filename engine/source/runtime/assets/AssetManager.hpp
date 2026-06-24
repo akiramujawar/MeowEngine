@@ -29,6 +29,8 @@ namespace MeowEngine::Asset {
         void SaveDatabase();
         void RebuildDatabase();
 
+        AssetDirectory& GetDirectory() { return Directory; };
+
         bool CreateAndSaveEmptyAsset(const AssetHandle& handle, AssetType type,  const Path& path);
 
         template<typename AssetType>
@@ -65,7 +67,6 @@ namespace MeowEngine::Asset {
         AssetCache Cache;
         AssetDatabase Registry;
         AssetDirectory Directory;
-
     };
 
     template <typename AssetType>

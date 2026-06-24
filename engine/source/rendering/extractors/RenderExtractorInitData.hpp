@@ -9,6 +9,10 @@ namespace MeowEngine::Runtime {
     class GameplaySystem;
 }
 
+namespace MeowEngine::Asset {
+    class AssetManager;
+}
+
 namespace MeowEngine::Editor {
     class Selector;
 }
@@ -17,6 +21,7 @@ namespace MeowEngine::Rendering {
     struct RenderExtractorInitData {
         Runtime::GameplaySystem* Gameplay;
         Editor::Selector* Selector;
+        Asset::AssetManager* AssetManager;
     };
 }
 

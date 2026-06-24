@@ -5,8 +5,9 @@
 #ifndef MEOWENGINE_ASSETREGISTRY_HPP
 #define MEOWENGINE_ASSETREGISTRY_HPP
 
-#include <map>
+#include <unordered_map>
 
+#include "Public/Core/Include.hpp"
 #include "AssetMetadata.hpp"
 #include "AssetHandle.hpp"
 
@@ -39,12 +40,15 @@ namespace MeowEngine::Asset {
 
         [[nodiscard]] uint32_t GetSize() const;
         [[nodiscard]] bool Has(const AssetHandle& handle) const;
-        [[nodiscard]] bool Has(const std::string& path) const;
+        [[nodiscard]] bool Has(const Path& path) const;
 
-        [[nodiscard]] const std::string& GetPath(const AssetHandle& handle) const;
+        [[nodiscard]] const Path& GetPath(const AssetHandle& handle) const;
         [[nodiscard]] AssetType GetType(const AssetHandle& handle) const;
-        [[nodiscard]] AssetMetadata& GetMetadata(const AssetHandle& handle);
+
+        [[nodiscard]] const AssetMetadata& GetMetadata(const AssetHandle& handle);
+        [[nodiscard]] const AssetMetadata& GetMetadata(const Path& path) const;
         [[nodiscard]] const AssetMetadata& GetMetadata(const AssetHandle& handle) const;
+
 
         // AssetCreator.hpp - creates engine types like resolver.txt, world etc...
         // AssetParser.hpp - can be the asset loader itself
@@ -61,7 +65,7 @@ namespace MeowEngine::Asset {
         // redirect
     private:
         std::unordered_map<AssetHandle, AssetMetadata> MetadataMap;
-        std::unordered_map<std::string, AssetMetadata> PathMap;
+        std::unordered_map<Path, AssetMetadata> PathMap;
     };
 }
 

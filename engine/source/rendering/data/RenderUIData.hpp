@@ -7,6 +7,8 @@
 
 #include <Public/Core/Include.hpp>
 #include "EntityHandle.hpp"
+#include "FolderCache.hpp"
+#include "AssetDirectory.hpp"
 
 namespace MeowEngine::Rendering {
     /**
@@ -26,7 +28,7 @@ namespace MeowEngine::Rendering {
     };
 
     struct RenderUIData {
-        RenderUIData() {
+        RenderUIData() : SelectedFolderPath(""), SelectedFilePath("") {
             LastSelectedEntity = Runtime::EntityHandle::Invalid();
         }
 
@@ -58,8 +60,12 @@ namespace MeowEngine::Rendering {
 
         // NOTE: create a StringHash / StringView which will contain guid. Then we can use to compare guid's
         // think it through as it can optimise lot more even for assigning string values.
-        String SelectedDirectoryPath;
-        String SelectedAssetPath;
+        Path SelectedFolderPath;
+        Path SelectedFilePath;
+
+        std::vector<Asset::DirectoryAsset> FilesInSelectedFolder;
+        Asset::FolderCache EngineDirectoryMap;
+        Asset::FolderCache SandboxDirectoryMap;
     };
 }
 

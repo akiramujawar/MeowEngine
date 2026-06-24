@@ -5,41 +5,36 @@
 #ifndef MEOWENGINE_ASSETDIRECTORY_HPP
 #define MEOWENGINE_ASSETDIRECTORY_HPP
 
-#include <map>
-
 #include "Public/Core/Forward.hpp"
 #include "Path.hpp" // for hash unordered_map
 
-#include "DirectoryFolder.hpp"
+#include "FolderCache.hpp"
+#include "FileCache.hpp"
 
 namespace MeowEngine::Asset {
+    class AssetDatabase;
+
     /**
      * NOTE: use this for reading file system (in asset panel)
      */
     class AssetDirectory {
-        using FolderMap = std::unordered_map<Path, DirectoryFolder>;
-
     public:
         AssetDirectory() = default;
         ~AssetDirectory() = default;
 
-        void Init();
+        void Init(AssetDatabase& database);
         void Load();
 
-        std::vector<std::string> GetAssets(std::string directoryPaths);
+        std::vector<DirectoryAsset> GetAssets(const Path& folderPath);
 
-    private:
-        void FindFolders(const Path& path, FolderMap& folderMap);
+    public:
+        // all directory paths
+        FolderCache EngineFolderCache;
+        FolderCache SandboxFolderCache;
 
-    private:
-        // all directory paths and assets inside them
-        FolderMap EngineSourceFolderMap;
-        FolderMap EngineShaderFolderMap;
-        FolderMap EngineAssetsFolderMap;
+        FileCache FileCache;
 
-        FolderMap SandboxSourceFolderMap;
-        FolderMap SandboxShaderFolderMap;
-        FolderMap SandboxAssetsFolderMap;
+        AssetDatabase* Database;
 
         // write letters
         // directory setup

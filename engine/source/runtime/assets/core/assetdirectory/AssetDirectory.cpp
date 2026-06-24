@@ -9,7 +9,9 @@
 #include "ConfigManager.hpp"
 
 namespace MeowEngine::Asset {
-    void AssetDirectory::Init() {}
+    void AssetDirectory::Init(AssetDatabase& database) {
+        Database = &database;
+    }
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
     void AssetDirectory::Load() {
@@ -19,28 +21,30 @@ namespace MeowEngine::Asset {
         MeowEngine::Log("AssetDirectory::Load", {"EnginePath", engineRootPath.GetRawString()});
         MeowEngine::Log("AssetDirectory::Load", {"SandboxPath", sandboxRootPath.GetRawString()});
 
-        FindFolders(engineRootPath + "engine/source", EngineSourceFolderMap);
-        FindFolders(engineRootPath + "engine/shaders", EngineShaderFolderMap);
-        FindFolders(engineRootPath + "engine/assets", EngineAssetsFolderMap);
+        EngineFolderCache.Bootstrap(
+            engineRootPath + "engine/source",
+            engineRootPath + "engine/shaders",
+            engineRootPath + "engine/assets"
+        );
 
-        FindFolders(sandboxRootPath + "source", SandboxSourceFolderMap);
-        FindFolders(sandboxRootPath + "shaders", SandboxShaderFolderMap);
-        FindFolders(sandboxRootPath + "assets", SandboxAssetsFolderMap);
+        SandboxFolderCache.Bootstrap(
+            sandboxRootPath + "source",
+            sandboxRootPath + "shaders",
+            sandboxRootPath + "assets"
+        );
 
+        EngineFolderCache.Load();
+        SandboxFolderCache.Load();
     }
 
-    // ReSharper disable once CppMemberFunctionMayBeStatic
-    void AssetDirectory::FindFolders(const Path& path, FolderMap& folderMap) {
-        const FileSystem::Directory directory { path };
-        const auto directories = directory.GetDirectories(true);
-
-        folderMap.try_emplace(path , DirectoryFolder{directories});
-
-        for (auto& subPath : directories) {
-            const auto subDirectory = FileSystem::Directory(subPath);
-            const auto subDirectories = subDirectory.GetDirectories(false);
-
-            folderMap.try_emplace(subPath , DirectoryFolder{subDirectories});
+    std::vector<DirectoryAsset> AssetDirectory::GetAssets(const Path& folderPath) {
+        if (FileCache.HasFile(folderPath)) {
+            return FileCache.Get(folderPath);
         }
+        else if (FileCache.IsValidFolder(folderPath)) {
+            return FileCache.LoadAndGet(folderPath, *Database);
+        }
+
+        return {};
     }
 }

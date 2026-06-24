@@ -32,7 +32,7 @@ namespace MeowEngine::Asset {
         MeowEngine::Log("AssetDatabase", "");
     }
 
-    bool AssetDatabase::Has(const AssetHandle& handle) {
+    bool AssetDatabase::Has(const AssetHandle& handle) const {
         if (SandboxRegistry.Has(handle)) {
             return true;
         }
@@ -43,24 +43,49 @@ namespace MeowEngine::Asset {
         return false;
     }
 
-    Path AssetDatabase::GetAssetPath(const AssetHandle& handle) {
+    bool AssetDatabase::Has(const Path& handle) const {
         if (SandboxRegistry.Has(handle)) {
-            const std::string& path = SandboxRegistry.GetPath(handle);
-
-            return Path {path};
+            return true;
         }
         else if (EngineRegistry.Has(handle)) {
-            const std::string& path = EngineRegistry.GetPath(handle);
+            return true;
+        }
 
-            return Path {path};
+        return false;
+    }
+
+    Path AssetDatabase::GetAssetPath(const AssetHandle& handle) const {
+        if (SandboxRegistry.Has(handle)) {
+            return SandboxRegistry.GetPath(handle);
+        }
+        else if (EngineRegistry.Has(handle)) {
+            return EngineRegistry.GetPath(handle);
         }
 
         MeowEngine::Log("AssetDatabase", "GetAssetPath: Cannot find path for handle", LogType::WARNING);
         return Path {""};
     }
 
-    AssetMetadata AssetDatabase::GetAssetMetadata(const AssetHandle& asset) {
-        MeowEngine::Log("AssetDatabase", "GetAssetMetadata Not implmented", LogType::ERROR);
+    AssetMetadata AssetDatabase::GetAssetMetadata(const AssetHandle& handle) const {
+        if (SandboxRegistry.Has(handle)) {
+            return SandboxRegistry.GetMetadata(handle);
+        }
+        else if (EngineRegistry.Has(handle)) {
+            return EngineRegistry.GetMetadata(handle);
+        }
+
+        return {AssetType::UNKNOWN, "", AssetHandle::Null};
+    }
+
+    AssetMetadata AssetDatabase::GetAssetMetadata(const Path& path) const {
+        if (SandboxRegistry.Has(path)) {
+            return SandboxRegistry.GetMetadata(path);
+        }
+        else if (EngineRegistry.Has(path)) {
+            return EngineRegistry.GetMetadata(path);
+        }
+
+        return {AssetType::UNKNOWN, "", AssetHandle::Null};
     }
 
     AssetHandle AssetDatabase::Add(const Path& path) {

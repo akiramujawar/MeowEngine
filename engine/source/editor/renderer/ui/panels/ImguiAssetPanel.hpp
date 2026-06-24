@@ -12,9 +12,11 @@
 #include "string"
 
 #include <Public/Core/Include.hpp>
-#include "opengl_thumbnail.hpp"
-
 #include <Public/IO/Forward.hpp>
+
+#include "opengl_thumbnail.hpp"
+#include "FolderCache.hpp"
+#include "DirectoryAsset.hpp"
 
 namespace MeowEngine::Rendering {
     struct RenderContext;
@@ -38,7 +40,10 @@ namespace MeowEngine::Editor {
     private:
         void ShowTableHeaders(ImVec2 availableSpace);
         void ShowTableContents();
-        void ShowDirectory(const std::string& pathString, const std::string& pathName);
+        void ShowLeftColumn(int flags);
+        void ShowRightColumn(int flags);
+
+        void ShowDirectory(const std::string& pathName, const Path& path, const Asset::FolderMap& map);
 
         void ShowSelectedDirectoryFiles();
 
@@ -65,8 +70,13 @@ namespace MeowEngine::Editor {
         OpenGLThumbnail unknownImage;
 
         // From render context
-        String SelectedDirectoryPath;
-        String SelectedAssetPath;
+        String SelectedFolderPath;
+        String SelectedFilePath;
+
+        Asset::FolderCache EngineFolderCache;
+        Asset::FolderCache SandboxFolderCache;
+        std::vector<Asset::DirectoryAsset> FilesInSelectedFolder;
+
         Messaging::CommandQueue* CommandQueue;
     };
 }

@@ -3,6 +3,7 @@
 //
 // Reference: https://asliceofrendering.com/scene%20helper/2020/01/05/InfiniteGrid/
 
+uniform mat4 u_mvp;
 uniform mat4 u_view;
 uniform mat4 u_projection;
 

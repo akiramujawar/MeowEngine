@@ -2,6 +2,7 @@
 // Created by Akira Mujawar on 03/07/24.
 //
 
+uniform mat4 u_mvp;
 uniform mat4 u_view;
 uniform mat4 u_projection;
 uniform vec3 position; // uniform is applied accross the shaders

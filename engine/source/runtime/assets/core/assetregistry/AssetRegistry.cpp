@@ -14,14 +14,14 @@ namespace MeowEngine::Asset {
             return;
         }
 
-        PathMap.try_emplace(entry.Path, entry);
+        PathMap.try_emplace(Path{entry.Path}, entry);
         MetadataMap.try_emplace(handle, entry);
     }
 
     void AssetRegistry::Remove(const AssetHandle& handle) {
         auto metadata = MetadataMap.find(handle)->second;
 
-        PathMap.erase(metadata.Path);
+        PathMap.erase(Path{metadata.Path});
         MetadataMap.erase(handle);
     }
 
@@ -47,22 +47,29 @@ namespace MeowEngine::Asset {
         return iterator != MetadataMap.end();
     }
 
-    bool AssetRegistry::Has(const std::string& path) const {
+    bool AssetRegistry::Has(const Path& path) const {
         const auto iterator = PathMap.find(path);
         return iterator != PathMap.end();
     }
 
-    const std::string& AssetRegistry::GetPath(const AssetHandle& handle) const {
-        return GetMetadata(handle).Path;
+    const Path& AssetRegistry::GetPath(const AssetHandle& handle) const {
+        return Path {GetMetadata(handle).Path};
     }
 
     AssetType AssetRegistry::GetType(const AssetHandle& handle) const {
         return GetMetadata(handle).Type;
     }
 
-    AssetMetadata& AssetRegistry::GetMetadata(const AssetHandle& handle) {
+    const AssetMetadata& AssetRegistry::GetMetadata(const AssetHandle& handle) {
         const auto iterator = MetadataMap.find(handle);
         assert(iterator != MetadataMap.end());
+
+        return iterator->second;
+    }
+
+    const AssetMetadata& AssetRegistry::GetMetadata(const Path& path) const {
+        const auto iterator = PathMap.find(path);
+        assert(iterator != PathMap.end());
 
         return iterator->second;
     }

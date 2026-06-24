@@ -22,10 +22,12 @@ namespace MeowEngine::Asset {
 
         void Load();
 
-        bool Has(const AssetHandle& handle);
+        [[nodiscard]] bool Has(const AssetHandle& handle) const;
+        [[nodiscard]] bool Has(const Path& handle) const;
 
-        Path GetAssetPath(const AssetHandle& handle);
-        AssetMetadata GetAssetMetadata(const AssetHandle& asset);
+        [[nodiscard]] Path GetAssetPath(const AssetHandle& handle) const;
+        [[nodiscard]] AssetMetadata GetAssetMetadata(const AssetHandle& handle) const;
+        [[nodiscard]] AssetMetadata GetAssetMetadata(const Path& path) const;
 
         AssetHandle Add(const Path& path);
         void Remove(const AssetHandle& handle);

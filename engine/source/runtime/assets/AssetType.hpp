@@ -10,6 +10,7 @@ namespace MeowEngine::Asset {
         // misc / core
         UNKNOWN = 0,
         PROJECT = 1,
+        FOLDER = 2,
 
         // file types
         TEXTURE = 101,

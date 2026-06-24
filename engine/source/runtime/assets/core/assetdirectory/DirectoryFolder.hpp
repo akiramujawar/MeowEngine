@@ -10,7 +10,7 @@
 
 namespace MeowEngine::Asset {
     struct DirectoryFolder {
-        std::vector<Path> Paths;
+        std::vector<Path> Folders;
     };
 }
 

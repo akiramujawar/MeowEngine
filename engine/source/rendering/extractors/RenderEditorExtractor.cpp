@@ -10,6 +10,7 @@
 // runtime
 #include <GameplaySystem.hpp>
 #include <World.hpp>
+#include "AssetManager.hpp"
 
 // editor
 #include <Selector.hpp>
@@ -24,9 +25,10 @@
 namespace MeowEngine::Rendering {
     RenderEditorExtractor::RenderEditorExtractor() {}
 
-    void RenderEditorExtractor::Init(const RenderExtractorInitData& frame) {
-        Gameplay = frame.Gameplay;
-        Selector = frame.Selector;
+    void RenderEditorExtractor::Init(const RenderExtractorInitData& context) {
+        Gameplay = context.Gameplay;
+        Selector = context.Selector;
+        AssetManager = context.AssetManager;
     }
 
     void RenderEditorExtractor::ExtractScene(RenderSceneData& frame) {
@@ -185,8 +187,15 @@ namespace MeowEngine::Rendering {
         }
 
         // cache the selected file / folder
-        frame.SelectedDirectoryPath = String(Selector->SelectedDirectoryPath);
-        frame.SelectedAssetPath = String(Selector->SelectedAssetPath);
+        frame.SelectedFolderPath = Path(Selector->SelectedDirectoryPath);
+        frame.SelectedFilePath = Path(Selector->SelectedAssetPath);
+
+        // for now, we shallow copy
+        // TODO: implement this properly before multithreading to avoid race coniditons
+        frame.EngineDirectoryMap = AssetManager->GetDirectory().EngineFolderCache;
+        frame.SandboxDirectoryMap = AssetManager->GetDirectory().SandboxFolderCache;
+
+        frame.FilesInSelectedFolder = AssetManager->GetDirectory().GetAssets(frame.SelectedFolderPath);
     }
 
     void RenderEditorExtractor::Clear(RenderSceneData& sceneData, RenderUIData& uiData) {

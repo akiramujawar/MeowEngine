@@ -6,7 +6,7 @@
 #define MEOWENGINE_IRENDEREXTRACTOR_HPP
 
 namespace MeowEngine::Rendering {
-    class RenderExtractorInitData;
+    struct  RenderExtractorInitData;
     struct RenderSceneData;
     struct RenderUIData;
 
