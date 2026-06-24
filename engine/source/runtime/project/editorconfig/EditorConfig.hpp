@@ -8,7 +8,10 @@
 #include "AssetHandle.hpp"
 
 namespace MeowEngine::Asset {
-    struct EditorConfig {};
+    struct EditorConfig {
+        // engine root path
+        // handles for asset thumbnails
+    };
 }
 
 

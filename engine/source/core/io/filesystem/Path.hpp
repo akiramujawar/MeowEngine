@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_PATH_HPP
 #define MEOWENGINE_PATH_HPP
 
-
+#include "Public/Core/Forward.hpp"
 #include "String.hpp"
 
 namespace MeowEngine::Core::IO::FileSystem {
@@ -20,7 +20,7 @@ namespace MeowEngine::Core::IO::FileSystem {
         [[nodiscard]] const char* CStr() const;
         [[nodiscard]] std::string_view GetStringView() const;
         [[nodiscard]] const std::string& GetRawString() const;
-        [[nodiscard]] const Types::String& GetString() const;
+        [[nodiscard]] String GetString() const;
         
         Path operator+ (const char* path) const;
         Path operator+ (const std::string_view& path) const;

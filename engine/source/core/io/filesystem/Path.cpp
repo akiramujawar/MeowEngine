@@ -37,8 +37,8 @@ namespace MeowEngine::Core::IO::FileSystem {
     }
 
 
-    const Types::String& Path::GetString() const {
-        return Types::String(CurrentPath);
+    String Path::GetString() const {
+        return String(CurrentPath);
     }
     
     Path Path::operator+ (const char* path) const {

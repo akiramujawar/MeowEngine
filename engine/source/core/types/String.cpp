@@ -20,6 +20,12 @@ namespace MeowEngine::Core::Types {
         Value.assign(string.Value);
     }
 
+    String& String::operator=(const String& string) {
+        Value.assign(string.Value);
+
+        return *this;
+    }
+
     std::vector<std::string> String::SplitR(const std::string& pDelimiter) const {
         size_t nextIndex = 0;
         std::vector<std::string> names;
@@ -53,7 +59,7 @@ namespace MeowEngine::Core::Types {
         return Value.data();
     }
 
-    size_t String::Size() {
+    size_t String::Size() const {
         return Value.size();
     }
 

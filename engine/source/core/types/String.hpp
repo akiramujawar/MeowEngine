@@ -23,6 +23,8 @@ namespace MeowEngine::Core::Types {
         explicit String(const std::string& string);
         String(const String& string);
 
+        String& operator=(const String& string);
+
         /**
          * Split from end to start
          * @param pDelimiter
@@ -32,7 +34,7 @@ namespace MeowEngine::Core::Types {
 
         [[nodiscard]] const char* CStr() const;
         [[nodiscard]] char* Data();
-        size_t Size();
+        [[nodiscard]] size_t Size() const;
 
         std::string GetRawString();
         void Resize(size_t size);
