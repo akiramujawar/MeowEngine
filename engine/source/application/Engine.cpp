@@ -121,6 +121,7 @@ namespace MeowEngine {
         Rendering::RenderExtractorInitData extractorInit {};
         extractorInit.Gameplay = &Runtime.GetGameplay();
         extractorInit.Selector = &Editor.GetSelector();
+        extractorInit.AssetManager = &AssetManager;
 
         RenderExtractor.Init(extractorInit);
 

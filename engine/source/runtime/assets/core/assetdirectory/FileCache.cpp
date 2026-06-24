@@ -4,10 +4,11 @@
 
 #include "FileCache.hpp"
 
+#include "AssetDirectory.hpp"
 #include "Public/Core/Include.hpp"
 #include "Public/IO/Include.hpp"
 
-#include "AssetDatabase.hpp"
+#include "AssetSerializer.hpp"
 
 namespace MeowEngine::Asset {
     bool FileCache::HasFile(const Path& path) {
@@ -25,7 +26,7 @@ namespace MeowEngine::Asset {
         return iterator->second;
     }
 
-    std::vector<DirectoryAsset> FileCache::LoadAndGet(const Path& path, const AssetDatabase& database) {
+    std::vector<DirectoryAsset> FileCache::LoadAndGet(const Path& path) {
         FileSystem::Directory directory(path);
         auto subPaths = directory.GetAll(false);
         std::vector<DirectoryAsset> result;
@@ -36,7 +37,6 @@ namespace MeowEngine::Asset {
                 DirectoryAsset asset {
                     true,
                     subPath,
-                    subPath,
                     subPath.GetName().GetString(),
                     AssetType::FOLDER,
                     AssetHandle::Null,
@@ -45,20 +45,45 @@ namespace MeowEngine::Asset {
 
                 result.push_back(asset);
             }
-            // for asset from database we retrieve the essential data
-            else if (database.Has(subPath)) {
-                auto metadata = database.GetAssetMetadata(subPath);
-                DirectoryAsset asset {
-                    false,
-                    subPath,
-                    subPath,
-                    subPath.GetName().GetString(),
-                    metadata.Type,
-                    AssetHandle::Null,
-                    metadata.Handle,
-                };
+            else {
+                AssetHeader header;
+                bool isValidEngineAsset = false;
 
-                result.push_back(asset);
+                // read file get header & validity of asset (engine asset or not)
+                {
+                    auto serializer = AssetSerializer::OpenSerializer(subPath, FileSystem::FileMode::READ);
+                    isValidEngineAsset = AssetSerializer::ReadHeader(serializer, header);
+
+                    AssetSerializer::CloseSerializer(serializer);
+                }
+
+                if (isValidEngineAsset) {
+                    DirectoryAsset asset {
+                        false,
+                        subPath,
+                        subPath.GetName().GetString(),
+                        static_cast<AssetType>(header.Type),
+                        AssetHandle::Null,
+                        AssetHandle::Create(header.UUID)
+                    };
+
+                    result.push_back(asset);
+                }
+                else {
+                    auto assetType = AssetDirectory::GetAssetTypeByExtension(subPath);
+
+                    DirectoryAsset asset {
+                        false,
+                        subPath,
+                        subPath.GetName().GetString(),
+                        assetType,
+                        AssetHandle::Null,
+                        AssetHandle::Null,
+                    };
+
+                    result.push_back(asset);
+                }
+
             }
         }
 
@@ -66,4 +91,7 @@ namespace MeowEngine::Asset {
         return result;
     }
 
+    void FileCache::Clear() {
+        Files.clear();
+    }
 }

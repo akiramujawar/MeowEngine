@@ -133,7 +133,8 @@ namespace MeowEngine::Asset {
     void AssetDatabase::Remove(const AssetHandle& handle) {}
 
     void AssetDatabase::Rebuild() {
-        const auto sandboxAssetsPath = MeowService().Project.Paths.GetExecutablePath() + "assets";
+        const auto sandboxAssetsPath = "assets";
+        // const auto sandboxAssetsPath = MeowService().Project.Paths.GetExecutablePath() + "assets";
         const auto sandboxAssetRegistryPath = MeowService().Project.Paths.GetSandboxAssetResolverPath();
         UpdateAssetHandles(sandboxAssetsPath, SandboxRegistry);
         AssetRegistrySerializer::Serialize(
@@ -141,7 +142,8 @@ namespace MeowEngine::Asset {
         );
 
         // when running as client we don't run this.
-        const auto engineAssetsPath = MeowService().Project.Paths.GetExecutablePath() + "engine/assets";
+        const auto engineAssetsPath = "engine/assets";
+        // const auto engineAssetsPath = MeowService().Project.Paths.GetExecutablePath() + "engine/assets";
         const auto engineAssetRegistryPath = MeowService().Project.Paths.GetEngineAssetResolverPath();
         UpdateAssetHandles(engineAssetsPath, EngineRegistry);
         AssetRegistrySerializer::Serialize(

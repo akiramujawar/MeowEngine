@@ -11,6 +11,10 @@ namespace MeowEngine::Asset {
         UNKNOWN = 0,
         PROJECT = 1,
         FOLDER = 2,
+        HPP = 3,
+        CPP = 4,
+        VERTEX = 5,
+        FRAGMENT = 6,
 
         // file types
         TEXTURE = 101,

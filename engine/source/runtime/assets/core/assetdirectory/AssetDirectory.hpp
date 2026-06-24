@@ -12,8 +12,6 @@
 #include "FileCache.hpp"
 
 namespace MeowEngine::Asset {
-    class AssetDatabase;
-
     /**
      * NOTE: use this for reading file system (in asset panel)
      */
@@ -22,10 +20,12 @@ namespace MeowEngine::Asset {
         AssetDirectory() = default;
         ~AssetDirectory() = default;
 
-        void Init(AssetDatabase& database);
+        void Init();
         void Load();
+        void Rebuild();
 
         std::vector<DirectoryAsset> GetAssets(const Path& folderPath);
+        static AssetType GetAssetTypeByExtension(const Path& path);
 
     public:
         // all directory paths
@@ -34,7 +34,6 @@ namespace MeowEngine::Asset {
 
         FileCache FileCache;
 
-        AssetDatabase* Database;
 
         // write letters
         // directory setup

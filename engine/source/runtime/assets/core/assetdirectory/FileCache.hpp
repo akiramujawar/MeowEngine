@@ -19,7 +19,8 @@ namespace MeowEngine::Asset {
         bool HasFile(const Path& path);
         bool IsValidFolder(const Path& path);
         std::vector<DirectoryAsset> Get(const Path& path);
-        std::vector<DirectoryAsset> LoadAndGet(const Path& path, const AssetDatabase& database);
+        std::vector<DirectoryAsset> LoadAndGet(const Path& path);
+        void Clear();
 
     private:
         AssetMap Files;

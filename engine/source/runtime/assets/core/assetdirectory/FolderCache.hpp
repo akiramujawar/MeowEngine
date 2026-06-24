@@ -19,6 +19,7 @@ namespace MeowEngine::Asset {
         void Bootstrap(const Path& sourcePath, const Path& shaderPath, const Path& assetPath);
         void Load();
         void FindFolders(const Path& path, FolderMap& folderMap);
+        void Clear();
 
         FolderMap SourceFolderMap;
         FolderMap ShaderFolderMap;

@@ -24,7 +24,7 @@ namespace MeowEngine::Asset {
     void AssetManager::Init(const AssetManagerInitData& context) {
         MeowEngine::Log("AssetManager", "Init");
 
-        Directory.Init(Registry);
+        Directory.Init();
     }
 
     void AssetManager::LoadDatabase() {
@@ -36,7 +36,7 @@ namespace MeowEngine::Asset {
 
     void AssetManager::RebuildDatabase() {
         Registry.Rebuild();
-        // Directory.RebuildE();
+        Directory.Rebuild();
     }
 
     bool AssetManager::CreateAndSaveEmptyAsset(const AssetHandle& handle, AssetType type,  const Path& path) {

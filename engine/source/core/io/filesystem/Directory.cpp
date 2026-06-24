@@ -31,11 +31,21 @@ namespace MeowEngine::Core::IO::FileSystem {
         }
 
         // collect only files
-        for (auto entry: filesystem::directory_iterator{CurrentPath.GetRawString()}) {
-            if(entry.is_regular_file()) {
-                files.push_back(Path(entry.path().string()));
+        if (includeSubDirectories) {
+            for (const auto& entry: filesystem::recursive_directory_iterator{CurrentPath.GetRawString()}) {
+                if(entry.is_regular_file()) {
+                    files.push_back(Path(entry.path().string()));
+                }
             }
         }
+        else {
+            for (const auto& entry: filesystem::directory_iterator{CurrentPath.GetRawString()}) {
+                if(entry.is_regular_file()) {
+                    files.push_back(Path(entry.path().string()));
+                }
+            }
+        }
+
 
         return files;
     }
@@ -49,9 +59,18 @@ namespace MeowEngine::Core::IO::FileSystem {
         }
 
         // collect only folders
-        for (auto entry: filesystem::directory_iterator{CurrentPath.CStr()}) {
-            if(entry.is_directory()) {
-                files.push_back(Path(entry.path().string()));
+        if (includeSubDirectories) {
+            for (const auto& entry : filesystem::recursive_directory_iterator(CurrentPath.CStr())) {
+                if (entry.is_directory()) {
+                    files.emplace_back(entry.path().string());
+                }
+             }
+        }
+        else {
+            for (const auto& entry: filesystem::directory_iterator{CurrentPath.CStr()}) {
+                if(entry.is_directory()) {
+                    files.emplace_back(Path(entry.path().string()));
+                }
             }
         }
 
@@ -67,8 +86,15 @@ namespace MeowEngine::Core::IO::FileSystem {
         }
 
         // collect only folders
-        for (auto entry: filesystem::directory_iterator{CurrentPath.CStr()}) {
-            files.push_back(Path(entry.path().string()));
+        if (includeSubDirectories) {
+            for (auto entry: filesystem::recursive_directory_iterator{CurrentPath.CStr()}) {
+                files.push_back(Path(entry.path().string()));
+            }
+        }
+        else {
+            for (auto entry: filesystem::directory_iterator{CurrentPath.CStr()}) {
+                files.push_back(Path(entry.path().string()));
+            }
         }
 
         return files;

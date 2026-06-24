@@ -21,15 +21,24 @@ namespace MeowEngine::Asset {
 
     void FolderCache::FindFolders(const Path& path, FolderMap& folderMap) {
         const FileSystem::Directory directory { path };
-        const auto directories = directory.GetDirectories(true);
 
+        // add root folder folders
+        const auto directories = directory.GetDirectories(false);
         folderMap.try_emplace(path , DirectoryFolder{directories});
 
-        for (auto& subPath : directories) {
+        // add all subfolders and create directory folder containing subfolders
+        const auto directoriesRecursive = directory.GetDirectories(true);
+        for (auto& subPath : directoriesRecursive) {
             const auto subDirectory = FileSystem::Directory(subPath);
             const auto subDirectories = subDirectory.GetDirectories(false);
 
             folderMap.try_emplace(subPath , DirectoryFolder{subDirectories});
         }
+    }
+
+    void FolderCache::Clear() {
+        SourceFolderMap.clear();
+        ShaderFolderMap.clear();
+        AssetsFolderMap.clear();
     }
 }
