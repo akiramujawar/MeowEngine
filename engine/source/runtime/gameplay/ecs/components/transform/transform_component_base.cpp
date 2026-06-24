@@ -4,6 +4,6 @@
 
 #include "transform_component_base.hpp"
 
-using MeowEngine::entity::TransformComponentBase;
+using MeowEngine::Runtime::TransformComponentBase;
 
 TransformComponentBase::TransformComponentBase() {}

@@ -27,23 +27,23 @@ namespace MeowEngine::Rendering {
         auto& ecs = world.GetRegistry();
 
         // meshes
-        auto meshesView = ecs.view<entity::MeshRenderComponent, entity::Transform3DComponent>();
+        auto meshesView = ecs.view<Runtime::MeshRenderComponent, Runtime::Transform3DComponent>();
         for (auto &&entity : meshesView) {
             auto&& [mesh, transform] = meshesView.get(entity);
             Rendering::MeshDrawData data;
-            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
-            data.Mesh = MeshRenderHandle(Asset::AssetHandle::Null); // this doesn't exist
-            data.Texture = TextureRenderHandle(Asset::AssetHandle::Null); // this doesn't exist
+            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
+            data.Mesh = MeshRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
+            data.Texture = TextureRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
             data.TransformMatrix = transform.TransformMatrix; // this doesnt exist
 
             frame.Meshes.push_back(data);
         }
 
         // sky box
-        auto skyBox = ecs.try_get<entity::SkyBoxComponent>(world.SkyBox.GetEntity());
+        auto skyBox = ecs.try_get<Runtime::SkyBoxComponent>(world.SkyBox.GetEntity());
         if (skyBox != nullptr) {
             SkyboxDrawData data;
-            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
             data.TransformMatrix = glm::mat4(1.0f); // camera
 
             frame.Skybox = data;

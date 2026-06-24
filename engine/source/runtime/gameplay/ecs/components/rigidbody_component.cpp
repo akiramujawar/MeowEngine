@@ -5,21 +5,21 @@
 #include "rigidbody_component.hpp"
 #include "log.hpp"
 
-void MeowEngine::entity::RigidbodyComponent::Reflect(){
+void MeowEngine::Runtime::RigidbodyComponent::Reflect(){
     REGISTER_POINTER(RigidbodyComponent, DynamicBody, physx::PxRigidDynamic*, false, false)
 }
 
-MeowEngine::entity::RigidbodyComponent::RigidbodyComponent()
+MeowEngine::Runtime::RigidbodyComponent::RigidbodyComponent()
 : QuaternionCachedDelta(Quaternion::Identity())
 , QuaternionDelta(Quaternion::Identity()) {
 
 }
 
-void MeowEngine::entity::RigidbodyComponent::SetPhysicsBody(physx::PxRigidDynamic *inBody) {
+void MeowEngine::Runtime::RigidbodyComponent::SetPhysicsBody(physx::PxRigidDynamic *inBody) {
     DynamicBody = inBody;
 }
 
-physx::PxRigidDynamic* MeowEngine::entity::RigidbodyComponent::GetPhysicsBody() {
+physx::PxRigidDynamic* MeowEngine::Runtime::RigidbodyComponent::GetPhysicsBody() {
     return DynamicBody;
 }
 
@@ -93,12 +93,12 @@ void RigidbodyComponent::OverrideTransform(Transform3DComponent &inTransform) {
     DynamicBody->setGlobalPose(pose);
 }
 
-void MeowEngine::entity::RigidbodyComponent::CacheDelta(Vector3 inDelta, Quaternion pDelta) {
+void MeowEngine::Runtime::RigidbodyComponent::CacheDelta(Vector3 inDelta, Quaternion pDelta) {
     PositionCachedDelta += inDelta;
     QuaternionCachedDelta = Quaternion::Multiply(QuaternionCachedDelta, pDelta);
 }
 
-void MeowEngine::entity::RigidbodyComponent::AddDelta(Vector3 inDelta, Quaternion pDelta) {
+void MeowEngine::Runtime::RigidbodyComponent::AddDelta(Vector3 inDelta, Quaternion pDelta) {
     PositionDelta += inDelta + PositionCachedDelta;
     QuaternionDelta = Quaternion::Multiply(QuaternionDelta, pDelta);
     QuaternionDelta = Quaternion::Multiply(QuaternionDelta, QuaternionCachedDelta);

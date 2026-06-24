@@ -7,9 +7,9 @@
 
 #include "collider_shape_base.hpp"
 
-namespace MeowEngine::entity {
+namespace MeowEngine::Runtime {
 
-    class SphereColliderShape : public entity::ColliderShapeBase {
+    class SphereColliderShape : public Runtime::ColliderShapeBase {
     public:
         REFLECT_MObject(SphereColliderShape)
         static void Reflect();

@@ -8,8 +8,8 @@
 #include "transform_component_base.hpp"
 #include "Public/Math.hpp"
 
-namespace MeowEngine::entity {
-    class Transform3DComponent : public MeowEngine::entity::TransformComponentBase {
+namespace MeowEngine::Runtime {
+    class Transform3DComponent : public MeowEngine::Runtime::TransformComponentBase {
     public:
         REFLECT_COMPONENT(Transform3DComponent)
         static void Reflect();

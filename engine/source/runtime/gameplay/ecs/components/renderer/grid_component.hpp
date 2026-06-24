@@ -6,9 +6,10 @@
 #define MEOWENGINE_GRID_COMPONENT_HPP
 
 #include "render_component_base.hpp"
+#include "AssetHandle.hpp"
 
-namespace MeowEngine::component {
-    class GridComponent : public entity::RenderComponentBase {
+namespace MeowEngine::Runtime {
+    class GridComponent : public Runtime::RenderComponentBase {
     public:
         REFLECT_COMPONENT(GridComponent)
         static void Reflect();
@@ -16,6 +17,10 @@ namespace MeowEngine::component {
         explicit GridComponent();
         explicit GridComponent(MeowEngine::assets::ShaderPipelineType shaderPipelineType);
         virtual ~GridComponent() = default;
+
+    private:
+        Asset::AssetHandle FragmentShader;
+        Asset::AssetHandle VertexShader;
     };
 }
 

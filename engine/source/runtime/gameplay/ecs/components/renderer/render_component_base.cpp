@@ -5,9 +5,9 @@
 #include "render_component_base.hpp"
 #include <log.hpp>
 
-using MeowEngine::entity::RenderComponentBase;
+using MeowEngine::Runtime::RenderComponentBase;
 
-void MeowEngine::entity::RenderComponentBase::Reflect() {
+void MeowEngine::Runtime::RenderComponentBase::Reflect() {
     REGISTER_ENUM(RenderComponentBase, Shader, MeowEngine::assets::ShaderPipelineType, false);
 }
 

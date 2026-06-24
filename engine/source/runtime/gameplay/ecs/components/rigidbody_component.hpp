@@ -5,14 +5,14 @@
 #ifndef MEOWENGINE_RIGIDBODY_COMPONENT_HPP
 #define MEOWENGINE_RIGIDBODY_COMPONENT_HPP
 
-#include <component_base.hpp>
+#include <ComponentBase.hpp>
 #include <transform3d_component.hpp>
 #include "PxPhysicsAPI.h"
 
-using namespace MeowEngine::entity;
+using namespace MeowEngine::Runtime;
 
-namespace MeowEngine::entity {
-    class RigidbodyComponent : public MeowEngine::entity::ComponentBase {
+namespace MeowEngine::Runtime {
+    class RigidbodyComponent : public MeowEngine::Runtime::ComponentBase {
     public:
         REFLECT_COMPONENT(RigidbodyComponent)
         static void Reflect();
@@ -25,14 +25,14 @@ namespace MeowEngine::entity {
          * SyncTransformAndRigidbody()
          * @param inTransform
          */
-        void UpdateTransform(entity::Transform3DComponent& inTransform);
+        void UpdateTransform(Runtime::Transform3DComponent& inTransform);
 
         /**
          * update rigidbody transform using transform
          * SyncRigidbody
          * @param inTransform
          */
-        void OverrideTransform(entity::Transform3DComponent& inTransform);
+        void OverrideTransform(Runtime::Transform3DComponent& inTransform);
 
         void AddDelta(Vector3 inDelta, Quaternion pDelta);
         void CacheDelta(Vector3 inDelta, Quaternion pDelta);

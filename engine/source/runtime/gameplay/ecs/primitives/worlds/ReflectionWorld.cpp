@@ -19,7 +19,7 @@ namespace MeowEngine::Runtime {
 
     void ReflectionWorld::CreateCamera() {
         const auto entity = AddEntity();
-        auto& info = GetComponent<entity::InfoComponent>(entity);
+        auto& info = GetComponent<Runtime::InfoComponent>(entity);
         // auto& transform = AddComponent<entity::Transform3DComponent>(entity);
         //
         // // tree.Self = entity;
@@ -36,7 +36,7 @@ namespace MeowEngine::Runtime {
 
     void ReflectionWorld::CreateEmtpy(std::string name) {
         const auto entity = AddEntity();
-        auto& info = GetComponent<entity::InfoComponent>(entity);
+        auto& info = GetComponent<Runtime::InfoComponent>(entity);
 
         info.SetName(String(name));
     }

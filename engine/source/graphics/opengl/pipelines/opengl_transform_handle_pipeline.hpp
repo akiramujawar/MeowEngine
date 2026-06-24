@@ -28,8 +28,8 @@ namespace MeowEngine::pipeline {
     public:
         void Render(
             const OpenGLAssetManager& assetManager,
-            const entity::TransformHandleComponent* renderComponent,
-            const entity::Transform3DComponent* transform3DComponent,
+            const Runtime::TransformHandleComponent* renderComponent,
+            const Runtime::Transform3DComponent* transform3DComponent,
             const PerspectiveCamera* camera
         ) const;
 

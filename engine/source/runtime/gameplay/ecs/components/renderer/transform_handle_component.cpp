@@ -4,17 +4,17 @@
 
 #include "transform_handle_component.hpp"
 
-using MeowEngine::entity::TransformHandleComponent;
+using MeowEngine::Runtime::TransformHandleComponent;
 
 void TransformHandleComponent::Reflect() {
     REGISTER_ENUM(TransformHandleComponent, Shader, MeowEngine::assets::ShaderPipelineType, false)
 }
 
 TransformHandleComponent::TransformHandleComponent()
-    : MeowEngine::entity::RenderComponentBase(MeowEngine::assets::ShaderPipelineType::TRANSFORM_HANDLE) {
+    : MeowEngine::Runtime::RenderComponentBase(MeowEngine::assets::ShaderPipelineType::TRANSFORM_HANDLE) {
 }
 
 TransformHandleComponent::TransformHandleComponent(MeowEngine::assets::ShaderPipelineType shaderPipelineType)
-    : MeowEngine::entity::RenderComponentBase(shaderPipelineType) {
+    : MeowEngine::Runtime::RenderComponentBase(shaderPipelineType) {
 
 }

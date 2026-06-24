@@ -60,7 +60,7 @@ namespace MeowEngine::Asset {
     template<>
     std::unique_ptr<World> AssetManager::LoadAssetInternal<World>(const AssetHandle& handle) {
         // actual code
-        const auto path = Registry.GetAssetPath(handle);
+        const auto& path = Registry.GetAssetPath(handle);
         auto world = std::make_unique<World>();
 
         if (!WorldSerializer::Deserialize(path, *world)) {

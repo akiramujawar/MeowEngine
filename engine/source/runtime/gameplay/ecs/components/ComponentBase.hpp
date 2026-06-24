@@ -7,7 +7,7 @@
 
 #include "Public/Core/Include.hpp"
 
-namespace MeowEngine::entity {
+namespace MeowEngine::Runtime {
 
     class ComponentBase : Object {
         std::string GetClassName() override {

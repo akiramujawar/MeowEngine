@@ -28,7 +28,7 @@ namespace MeowEngine::pipeline {
     public:
         void Render(
             const MeowEngine::OpenGLAssetManager& assetManager,
-            const MeowEngine::entity::RenderComponentBase* renderComponent,
+            const MeowEngine::Runtime::RenderComponentBase* renderComponent,
             const MeowEngine::PerspectiveCamera* camera
         ) const;
 

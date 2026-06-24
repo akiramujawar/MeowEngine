@@ -7,8 +7,8 @@
 
 #include "render_component_base.hpp"
 
-namespace MeowEngine::entity {
-    class TransformHandleComponent : public MeowEngine::entity::RenderComponentBase {
+namespace MeowEngine::Runtime {
+    class TransformHandleComponent : public MeowEngine::Runtime::RenderComponentBase {
     public:
         REFLECT_COMPONENT(TransformHandleComponent)
         static void Reflect();

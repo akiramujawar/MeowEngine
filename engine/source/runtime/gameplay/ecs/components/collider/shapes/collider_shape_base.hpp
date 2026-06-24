@@ -10,7 +10,7 @@
 #include "Public/Core/Include.hpp"
 #include <collider_shape_type.hpp>
 
-namespace MeowEngine::entity {
+namespace MeowEngine::Runtime {
     /**
      * This class is cached as pointer and extended by child classes
      * for clear definitions like a box, sphere, mesh colliders
@@ -27,7 +27,7 @@ namespace MeowEngine::entity {
             return *dynamic_cast<Type*>(this);
         }
 
-        entity::ColliderType& GetType() { return Type; };
+        Runtime::ColliderType& GetType() { return Type; };
 
         virtual physx::PxGeometry& GetGeometry() = 0;
         virtual physx::PxMaterial& GetMaterial() = 0;
@@ -38,7 +38,7 @@ namespace MeowEngine::entity {
         virtual void CreateShape(physx::PxPhysics*) = 0;
 
     protected:
-        MeowEngine::entity::ColliderType Type;
+        MeowEngine::Runtime::ColliderType Type;
     };
 }
 

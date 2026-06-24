@@ -23,7 +23,7 @@ namespace MeowEngine {
         std::vector<glm::mat4> boxColliders;
         std::vector<glm::mat4> sphereColliders;
 
-        for(auto &&[entity, transform, collider]: registry.view<entity::Transform3DComponent, entity::ColliderComponent>().each()) {
+        for(auto &&[entity, transform, collider]: registry.view<Runtime::Transform3DComponent, Runtime::ColliderComponent>().each()) {
             Matrix4x4 rotationMatrix = transform.Rotation.GetRotationMatrix4x4();
 
             glm::mat4 rotation4Matrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(rotationMatrix);
@@ -42,19 +42,19 @@ namespace MeowEngine {
 
             // get the colliders, cast as per the types and calculate their transform matrix
             // & segregate them into for instance rendering
-            entity::ColliderShapeBase& data = collider.GetColliderData();
+            Runtime::ColliderShapeBase& data = collider.GetColliderData();
 
             switch (data.GetType()) {
-                case entity::ColliderType::BOX: {
-                    auto& shape = data.Cast<entity::BoxColliderShape>();
+                case Runtime::ColliderType::BOX: {
+                    auto& shape = data.Cast<Runtime::BoxColliderShape>();
 
                     transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Size.X, transform.Scale.Y * shape.Size.Y,transform.Scale.Z * shape.Size.Z));
                     boxColliders.push_back(transformMatrix);
 
                     break;
                 }
-                case entity::ColliderType::SPHERE: {
-                    auto &shape = data.Cast<entity::SphereColliderShape>();
+                case Runtime::ColliderType::SPHERE: {
+                    auto &shape = data.Cast<Runtime::SphereColliderShape>();
                     transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Radius, transform.Scale.Y * shape.Radius, transform.Scale.Z * shape.Radius));
                     sphereColliders.push_back(transformMatrix);
                     break;

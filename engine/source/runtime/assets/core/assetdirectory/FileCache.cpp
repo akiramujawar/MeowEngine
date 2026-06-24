@@ -39,8 +39,8 @@ namespace MeowEngine::Asset {
                     subPath,
                     subPath.GetName().GetString(),
                     AssetType::FOLDER,
-                    AssetHandle::Null,
-                    AssetHandle::Null,
+                    AssetHandle::Invalid,
+                    AssetHandle::Invalid,
                 };
 
                 result.push_back(asset);
@@ -63,7 +63,7 @@ namespace MeowEngine::Asset {
                         subPath,
                         subPath.GetName().GetString(),
                         static_cast<AssetType>(header.Type),
-                        AssetHandle::Null,
+                        AssetHandle::Invalid,
                         AssetHandle::Create(header.UUID)
                     };
 
@@ -77,8 +77,8 @@ namespace MeowEngine::Asset {
                         subPath,
                         subPath.GetName().GetString(),
                         assetType,
-                        AssetHandle::Null,
-                        AssetHandle::Null,
+                        AssetHandle::Invalid,
+                        AssetHandle::Invalid,
                     };
 
                     result.push_back(asset);

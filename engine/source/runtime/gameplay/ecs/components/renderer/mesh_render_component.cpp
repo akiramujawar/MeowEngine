@@ -5,9 +5,9 @@
 #include "mesh_render_component.hpp"
 #include <log.hpp>
 
-using MeowEngine::entity::MeshRenderComponent;
+using MeowEngine::Runtime::MeshRenderComponent;
 
-void MeowEngine::entity::MeshRenderComponent::Reflect() {
+void MeowEngine::Runtime::MeshRenderComponent::Reflect() {
     REGISTER_POINTER(MeshRenderComponent, MeshInstance, MeowEngine::StaticMeshInstance*, false, false)
 }
 

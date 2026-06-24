@@ -6,10 +6,10 @@
 #define MEOWENGINE_INFO_COMPONENT_HPP
 
 #include <String.hpp>
-#include <component_base.hpp>
+#include <ComponentBase.hpp>
 
-namespace MeowEngine::entity {
-    struct InfoComponent : public MeowEngine::entity::ComponentBase {
+namespace MeowEngine::Runtime {
+    struct InfoComponent : public MeowEngine::Runtime::ComponentBase {
     public:
         REFLECT_COMPONENT(InfoComponent)
         static void Reflect();

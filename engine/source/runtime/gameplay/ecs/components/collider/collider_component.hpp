@@ -5,32 +5,32 @@
 #ifndef MEOWENGINE_COLLIDER_COMPONENT_HPP
 #define MEOWENGINE_COLLIDER_COMPONENT_HPP
 
-#include <component_base.hpp>
+#include <ComponentBase.hpp>
 //#include <collider_type.hpp>
 
 #include <box_collider_shape.hpp>
 #include "sphere_collider_shape.hpp"
 
-namespace MeowEngine::entity {
-    class ColliderComponent : public MeowEngine::entity::ComponentBase {
+namespace MeowEngine::Runtime {
+    class ColliderComponent : public MeowEngine::Runtime::ComponentBase {
 
     public:
         REFLECT_COMPONENT(ColliderComponent)
         static void Reflect();
 
         ColliderComponent() = default;
-        ColliderComponent(entity::BoxColliderShape inData);
-        ColliderComponent(entity::SphereColliderShape inData);
+        ColliderComponent(Runtime::BoxColliderShape inData);
+        ColliderComponent(Runtime::SphereColliderShape inData);
         virtual ~ColliderComponent() = default;
 
         void SetPhysicsBody(physx::PxActor* inActor);
 
-        entity::ColliderShapeBase& GetColliderData();
+        Runtime::ColliderShapeBase& GetColliderData();
 
     private:
         // TODO: We need to support, multiple colliders attached as shapes to a rigidbody
         // TODO: Hence we will be refactoring pointer into vector array
-        entity::ColliderShapeBase* Data;
+        Runtime::ColliderShapeBase* Data;
 
         // TODO: This is null on render thread. Why was this not null randomly while debugging?
         physx::PxActor* Body;

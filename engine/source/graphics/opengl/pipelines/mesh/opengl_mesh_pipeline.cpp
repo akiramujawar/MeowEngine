@@ -29,8 +29,8 @@ OpenGLMeshPipeline::~OpenGLMeshPipeline() {
 
 void OpenGLMeshPipeline::Render(
         const MeowEngine::OpenGLAssetManager &assetManager,
-        const MeowEngine::entity::MeshRenderComponent* meshRenderComponent,
-        const MeowEngine::entity::Transform3DComponent* transform3DComponent) const {
+        const MeowEngine::Runtime::MeshRenderComponent* meshRenderComponent,
+        const MeowEngine::Runtime::Transform3DComponent* transform3DComponent) const {
 
 //     const MeowEngine::StaticMeshInstance& staticMeshInstance = meshRenderComponent->GetMeshInstance();
 //     const Rendering::GLMeshResource& mesh = assetManager.GetStaticMesh(staticMeshInstance.GetMesh());

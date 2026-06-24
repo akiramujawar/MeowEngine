@@ -8,8 +8,8 @@
 #include "render_component_base.hpp"
 #include "static_mesh_instance.hpp"
 
-namespace MeowEngine::entity {
-    class MeshRenderComponent : public MeowEngine::entity::RenderComponentBase {
+namespace MeowEngine::Runtime {
+    class MeshRenderComponent : public MeowEngine::Runtime::RenderComponentBase {
 
     public:
         REFLECT_COMPONENT(MeshRenderComponent)

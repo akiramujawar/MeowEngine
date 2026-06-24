@@ -74,7 +74,7 @@ namespace MeowEngine::Asset {
             return EngineRegistry.GetMetadata(handle);
         }
 
-        return {AssetType::UNKNOWN, "", AssetHandle::Null};
+        return {AssetType::UNKNOWN, "", AssetHandle::Invalid};
     }
 
     AssetMetadata AssetDatabase::GetAssetMetadata(const Path& path) const {
@@ -85,7 +85,7 @@ namespace MeowEngine::Asset {
             return EngineRegistry.GetMetadata(path);
         }
 
-        return {AssetType::UNKNOWN, "", AssetHandle::Null};
+        return {AssetType::UNKNOWN, "", AssetHandle::Invalid};
     }
 
     AssetHandle AssetDatabase::Add(const Path& path) {
@@ -120,7 +120,7 @@ namespace MeowEngine::Asset {
             MeowEngine::Log("AssetDatabase", "Invalid path to add");
         }
 
-        return AssetHandle::Null;
+        return AssetHandle::Invalid;
 
         // if (IsEnginePath(path)) {
         //     // get header

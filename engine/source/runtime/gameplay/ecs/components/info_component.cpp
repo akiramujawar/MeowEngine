@@ -6,14 +6,14 @@
 #include <log.hpp>
 #include "reflection_macro_wrapper.hpp"
 
-namespace MeowEngine::entity {
-    void MeowEngine::entity::InfoComponent::Reflect() {
+namespace MeowEngine::Runtime {
+    void MeowEngine::Runtime::InfoComponent::Reflect() {
         REGISTER_PROPERTY(InfoComponent, Name, String, true, true);
     }
 
-    MeowEngine::entity::InfoComponent::InfoComponent() {}
+    MeowEngine::Runtime::InfoComponent::InfoComponent() {}
 
-    MeowEngine::entity::InfoComponent::InfoComponent(std::string name)
+    MeowEngine::Runtime::InfoComponent::InfoComponent(std::string name)
         : Name(name)
     {}
 

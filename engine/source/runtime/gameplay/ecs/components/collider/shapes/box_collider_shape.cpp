@@ -6,7 +6,7 @@
 
 #include "reflection_macro_wrapper.hpp"
 
-using namespace MeowEngine::entity;
+using namespace MeowEngine::Runtime;
 
 void BoxColliderShape::Reflect() {
     REGISTER_PROPERTY_CALLBACK(BoxColliderShape, Size, Vector3, true, true, OnSizeReflect)
@@ -23,7 +23,7 @@ BoxColliderShape::BoxColliderShape()
 : Material(nullptr)
 , Shape(nullptr)
 , Geometry() {
-    Type = MeowEngine::entity::ColliderType::BOX;
+    Type = MeowEngine::Runtime::ColliderType::BOX;
     Size = Vector3(0.5f, 0.5f, 0.5f);
     StaticFriction = 0.6f;
     DynamicFriction = 0.6f;
@@ -34,7 +34,7 @@ BoxColliderShape::BoxColliderShape(const Vector3& inSize)
 : Material(nullptr)
 , Shape(nullptr)
 , Geometry() {
-    Type = MeowEngine::entity::ColliderType::BOX;
+    Type = MeowEngine::Runtime::ColliderType::BOX;
     Size = inSize;
     StaticFriction = 0.6f;
     DynamicFriction = 0.6f;

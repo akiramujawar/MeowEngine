@@ -8,8 +8,8 @@
 #include "collider_shape_base.hpp"
 #include "Public/Math.hpp"
 
-namespace MeowEngine::entity {
-    class BoxColliderShape : public entity::ColliderShapeBase {
+namespace MeowEngine::Runtime {
+    class BoxColliderShape : public Runtime::ColliderShapeBase {
     public:
         REFLECT_MObject(BoxColliderShape)
         static void Reflect();

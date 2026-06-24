@@ -9,7 +9,7 @@
 #include <rigidbody_component.hpp>
 #include <collider_component.hpp>
 
-using namespace MeowEngine::entity;
+using namespace MeowEngine::Runtime;
 
 MeowEngine::simulator::PhysXPhysicsSystem::PhysXPhysicsSystem() {
     gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
@@ -71,12 +71,12 @@ void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPh
     // quiet complex in runtime as we do a query check
     // also we currently only add rigidbody when we have all 3
     // that prevents us from adding extra colliders essentially leading to create a duplicate rigidbody with following logic
-    if(pPhysicsRegistry.all_of<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(pEntity)) {
-        auto [transform, collider, rigidbody] =  pPhysicsRegistry.get<entity::Transform3DComponent, entity::ColliderComponent, entity::RigidbodyComponent>(pEntity);
+    if(pPhysicsRegistry.all_of<Runtime::Transform3DComponent, Runtime::ColliderComponent, Runtime::RigidbodyComponent>(pEntity)) {
+        auto [transform, collider, rigidbody] =  pPhysicsRegistry.get<Runtime::Transform3DComponent, Runtime::ColliderComponent, Runtime::RigidbodyComponent>(pEntity);
 
         physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
 
-        entity::ColliderShapeBase& colliderData = collider.GetColliderData();
+        Runtime::ColliderShapeBase& colliderData = collider.GetColliderData();
         colliderData.CreateGeometry();
         colliderData.CreateMaterial(gPhysics);
         colliderData.CreateShape(gPhysics);
@@ -100,21 +100,21 @@ void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPh
 }
 
 void MeowEngine::simulator::PhysXPhysicsSystem::RemoveRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
-    if(pPhysicsRegistry.all_of<entity::RigidbodyComponent>(pEntity)) {
-        auto rigidbody = pPhysicsRegistry.get<entity::RigidbodyComponent>(pEntity);
+    if(pPhysicsRegistry.all_of<Runtime::RigidbodyComponent>(pEntity)) {
+        auto rigidbody = pPhysicsRegistry.get<Runtime::RigidbodyComponent>(pEntity);
         gScene->removeActor(*rigidbody.GetPhysicsBody());
     }
 }
 
 void MeowEngine::simulator::PhysXPhysicsSystem::SyncTransform(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
-    if(pPhysicsRegistry.all_of<entity::Transform3DComponent, entity::RigidbodyComponent>(pEntity)) {
-        auto [transform, rigidbody] = pPhysicsRegistry.get<entity::Transform3DComponent, entity::RigidbodyComponent>(pEntity);
+    if(pPhysicsRegistry.all_of<Runtime::Transform3DComponent, Runtime::RigidbodyComponent>(pEntity)) {
+        auto [transform, rigidbody] = pPhysicsRegistry.get<Runtime::Transform3DComponent, Runtime::RigidbodyComponent>(pEntity);
         rigidbody.OverrideTransform(transform);
     }
 }
 
 bool MeowEngine::simulator::PhysXPhysicsSystem::IsRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
-    auto view = pPhysicsRegistry.view<entity::Transform3DComponent, entity::RigidbodyComponent>();
+    auto view = pPhysicsRegistry.view<Runtime::Transform3DComponent, Runtime::RigidbodyComponent>();
 
     return view.contains(pEntity);
 }

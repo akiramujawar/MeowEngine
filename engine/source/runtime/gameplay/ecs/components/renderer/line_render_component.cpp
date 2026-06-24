@@ -5,9 +5,9 @@
 #include "line_render_component.hpp"
 #include <log.hpp>
 
-using MeowEngine::entity::LineRenderComponent;
+using MeowEngine::Runtime::LineRenderComponent;
 
-void MeowEngine::entity::LineRenderComponent::Reflect() {
+void MeowEngine::Runtime::LineRenderComponent::Reflect() {
 
 }
 

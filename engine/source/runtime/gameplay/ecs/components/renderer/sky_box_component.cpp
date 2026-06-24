@@ -5,14 +5,14 @@
 #include "sky_box_component.hpp"
 #include <log.hpp>
 
-using MeowEngine::entity::SkyBoxComponent;
+using MeowEngine::Runtime::SkyBoxComponent;
 
-void MeowEngine::entity::SkyBoxComponent::Reflect() {
+void MeowEngine::Runtime::SkyBoxComponent::Reflect() {
     REGISTER_ENUM(SkyBoxComponent, Shader, MeowEngine::assets::ShaderPipelineType, false)
 }
 
 SkyBoxComponent::SkyBoxComponent()
-    : MeowEngine::entity::RenderComponentBase(MeowEngine::assets::ShaderPipelineType::Default) {}
+    : MeowEngine::Runtime::RenderComponentBase(MeowEngine::assets::ShaderPipelineType::Default) {}
 
 SkyBoxComponent::SkyBoxComponent(MeowEngine::assets::ShaderPipelineType shaderPipelineType)
-    : MeowEngine::entity::RenderComponentBase(shaderPipelineType) {}
+    : MeowEngine::Runtime::RenderComponentBase(shaderPipelineType) {}

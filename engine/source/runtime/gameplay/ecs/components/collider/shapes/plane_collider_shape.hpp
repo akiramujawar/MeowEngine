@@ -10,7 +10,7 @@
 
 namespace MeowEngine {
 
-    class PlaneColliderShape : public entity::ColliderShapeBase {
+    class PlaneColliderShape : public Runtime::ColliderShapeBase {
 
     };
 

@@ -5,10 +5,10 @@
 #ifndef MEOWENGINE_CAMERA_COMPONENT_HPP
 #define MEOWENGINE_CAMERA_COMPONENT_HPP
 
-#include "component_base.hpp"
+#include "ComponentBase.hpp"
 
-namespace MeowEngine::entity {
-    struct CameraComponent : public MeowEngine::entity::ComponentBase {
+namespace MeowEngine::Runtime {
+    struct CameraComponent : public MeowEngine::Runtime::ComponentBase {
     public:
         REFLECT_COMPONENT(CameraComponent)
         static void Reflect();

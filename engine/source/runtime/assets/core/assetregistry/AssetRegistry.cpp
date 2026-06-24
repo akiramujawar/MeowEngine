@@ -52,7 +52,7 @@ namespace MeowEngine::Asset {
         return iterator != PathMap.end();
     }
 
-    const Path& AssetRegistry::GetPath(const AssetHandle& handle) const {
+    Path AssetRegistry::GetPath(const AssetHandle& handle) const {
         return Path {GetMetadata(handle).Path};
     }
 

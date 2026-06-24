@@ -4,21 +4,21 @@
 
 #include "grid_component.hpp"
 
-namespace MeowEngine::component {
+namespace MeowEngine::Runtime {
+    using Asset::AssetHandle;
 
     void GridComponent::Reflect() {
         REGISTER_ENUM(GridComponent, Shader, MeowEngine::assets::ShaderPipelineType, false)
+        REGISTER_PROPERTY(GridComponent, FragmentShader, AssetHandle, true, false);
+        REGISTER_PROPERTY(GridComponent, VertexShader, AssetHandle, true, false);
     }
 
-    GridComponent::GridComponent() : MeowEngine::entity::RenderComponentBase(
-            MeowEngine::assets::ShaderPipelineType::Grid
-    ){
-
-    }
+    GridComponent::GridComponent() : MeowEngine::Runtime::RenderComponentBase(
+            MeowEngine::assets::ShaderPipelineType::Grid)
+    {}
 
     GridComponent::GridComponent(MeowEngine::assets::ShaderPipelineType shaderPipelineType)
-            : MeowEngine::entity::RenderComponentBase(shaderPipelineType) {
-
-    }
+            : MeowEngine::Runtime::RenderComponentBase(shaderPipelineType)
+    {}
 
 } // MeowEngine::component

@@ -8,9 +8,9 @@
 
 #include "reflection_macro_wrapper.hpp"
 
-using MeowEngine::entity::Transform3DComponent;
+using MeowEngine::Runtime::Transform3DComponent;
 
-void MeowEngine::entity::Transform3DComponent::Reflect() {
+void MeowEngine::Runtime::Transform3DComponent::Reflect() {
     REGISTER_PROPERTY(Transform3DComponent, Position, Vector3, true, true);
     REGISTER_PROPERTY(Transform3DComponent, Scale, Vector3, true, true);
     REGISTER_PROPERTY(Transform3DComponent, Rotation, Quaternion, false, true);

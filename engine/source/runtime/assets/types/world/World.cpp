@@ -8,7 +8,7 @@
 // - essential components only -
 // don't couple all components in world (identity / hierarchy / info are exceptions)
 #include "IdentityComponent.hpp"
-#include "hierarchy_component.hpp"
+#include "HierarchyComponent.hpp"
 #include "info_component.hpp"
 
 namespace MeowEngine::Asset {
@@ -28,8 +28,8 @@ namespace MeowEngine::Asset {
     Runtime::EntityHandle World::AddEntity(const Runtime::EntityID guid) {
         const auto entity = Registry.create();
         auto& identity = Registry.emplace<Runtime::IdentityComponent>(entity);
-        auto& hierarchy = Registry.emplace<component::HierarchyComponent>(entity);
-        auto& info = Registry.emplace<entity::InfoComponent>(entity);
+        auto& hierarchy = Registry.emplace<Runtime::HierarchyComponent>(entity);
+        auto& info = Registry.emplace<Runtime::InfoComponent>(entity);
 
         identity.Set(guid, entity);
         hierarchy.Self = identity.GetEntityHandle();

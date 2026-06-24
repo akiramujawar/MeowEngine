@@ -18,7 +18,7 @@
 // components
 #include <IdentityComponent.hpp>
 #include <info_component.hpp>
-#include <hierarchy_component.hpp>
+#include <HierarchyComponent.hpp>
 #include <transform3d_component.hpp>
 #include <collider_component.hpp>
 
@@ -36,11 +36,11 @@ namespace MeowEngine::Rendering {
 
         // selected transform handles
         for (auto &&handle : Selector->SelectedEntities) {
-            auto transform = ecs.try_get<entity::Transform3DComponent>(handle.GetEntity());
+            auto transform = ecs.try_get<Runtime::Transform3DComponent>(handle.GetEntity());
 
             if (transform != nullptr) {
                 Rendering::TransformHandleDrawData data {};
-                data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+                data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
                 data.TransformMatrix = transform->TransformMatrix;
 
                 frame.TransformHandles.push_back(data);
@@ -48,29 +48,29 @@ namespace MeowEngine::Rendering {
         }
 
         // grid
-        frame.Grid.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+        frame.Grid.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
         frame.Grid.TransformMatrix = glm::mat4(1.0f); // camera mvp
 
         // physics colliders (box, sphere)
-        auto&& collidersView = ecs.view<entity::Transform3DComponent, entity::ColliderComponent>();
+        auto&& collidersView = ecs.view<Runtime::Transform3DComponent, Runtime::ColliderComponent>();
         for (auto &&entity : collidersView) {
             auto&& [transform, collider] = collidersView.get(entity);
 
             switch (collider.GetColliderData().GetType()) {
-                case entity::ColliderType::BOX: {
-                    auto shape = collider.GetColliderData().Cast<entity::BoxColliderShape>();
+                case Runtime::ColliderType::BOX: {
+                    auto shape = collider.GetColliderData().Cast<Runtime::BoxColliderShape>();
                     BoxColliderDrawData data;
-                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
                     data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.BoxColliders.push_back(data);
                     break;
                 }
 
-                case entity::ColliderType::SPHERE: {
-                    auto shape = collider.GetColliderData().Cast<entity::SphereColliderShape>();
+                case Runtime::ColliderType::SPHERE: {
+                    auto shape = collider.GetColliderData().Cast<Runtime::SphereColliderShape>();
                     SphereColliderDrawData data;
-                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Null, Asset::AssetHandle::Null);
+                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
                     data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.SphereColliders.push_back(data);
@@ -106,7 +106,7 @@ namespace MeowEngine::Rendering {
         auto& ecs = world.GetRegistry();
 
         // extract entities for tree panel
-        auto view = ecs.view<Runtime::IdentityComponent, entity::InfoComponent, component::HierarchyComponent>();
+        auto view = ecs.view<Runtime::IdentityComponent, Runtime::InfoComponent, Runtime::HierarchyComponent>();
         std::function<void(Runtime::EntityHandle)> extractEntityHierarchy;
 
         // dynamic method for getting the child entities
@@ -125,7 +125,7 @@ namespace MeowEngine::Rendering {
                 childs.push_back(childIdentity.GetEntityHandle());
 
                 // select to next child to iterate
-                child = ecs.get<component::HierarchyComponent>(child.GetEntity()).NextChildOfParent;
+                child = ecs.get<Runtime::HierarchyComponent>(child.GetEntity()).NextChildOfParent;
             }
 
             // track the entity data (for render data)
@@ -136,7 +136,7 @@ namespace MeowEngine::Rendering {
 
         // select only root entities and expand on them
         for (auto& entity : view) {
-            auto&& hierarchy = ecs.get<component::HierarchyComponent>(entity);
+            auto&& hierarchy = ecs.get<Runtime::HierarchyComponent>(entity);
 
             auto parent = hierarchy.Parent.GetEntity();
 

@@ -9,7 +9,7 @@
 
 #include <IdentityComponent.hpp>
 #include <info_component.hpp>
-#include <hierarchy_component.hpp>
+#include <HierarchyComponent.hpp>
 
 #include <transform_handle_component.hpp>
 #include <transform3d_component.hpp>
@@ -40,9 +40,9 @@ namespace MeowEngine::Runtime {
 
     void DefaultWorld::CreateCamera() {
         const auto entity = AddEntity();
-        auto& info = GetComponent<entity::InfoComponent>(entity);
+        auto& info = GetComponent<Runtime::InfoComponent>(entity);
         // auto& tree = AddComponent<component::HierarchyComponent>(entity);
-        auto& transform = AddComponent<entity::Transform3DComponent>(entity);
+        auto& transform = AddComponent<Runtime::Transform3DComponent>(entity);
 
         // tree.Self = entity;
         info.SetName(String("[EDITOR] Camera"));
@@ -58,7 +58,7 @@ namespace MeowEngine::Runtime {
 
     void DefaultWorld::CreateGrid() {
         const auto entity = AddEntity();
-        auto& info = GetComponent<entity::InfoComponent>(entity);
+        auto& info = GetComponent<Runtime::InfoComponent>(entity);
         // auto& tree = AddComponent<component::HierarchyComponent>(entity);
         // tree.Self = entity;
         info.SetName(String("[Editor] Grid"));
@@ -71,7 +71,7 @@ namespace MeowEngine::Runtime {
 
     void DefaultWorld::CreateSky() {
         const auto entity = AddEntity();
-        auto& info = GetComponent<entity::InfoComponent>(entity);
+        auto& info = GetComponent<Runtime::InfoComponent>(entity);
         // auto& tree = AddComponent<component::HierarchyComponent>(entity);
         // tree.Self = entity;
         info.SetName(String("Sky Box"));
@@ -84,7 +84,7 @@ namespace MeowEngine::Runtime {
 
     void DefaultWorld::CreateTransformHandle() {
         const auto entity = AddEntity();
-        auto& info = GetComponent<entity::InfoComponent>(entity);
+        auto& info = GetComponent<Runtime::InfoComponent>(entity);
         // auto& tree = AddComponent<component::HierarchyComponent>(entity);
         // tree.Self = entity;
         info.SetName(String("[EDITOR] TransformHandle"));
@@ -103,13 +103,13 @@ namespace MeowEngine::Runtime {
         const auto root121 = CreateDefaultEntity("Child121");
 
         {
-            auto& tree = GetComponent<component::HierarchyComponent>(root1);
+            auto& tree = GetComponent<Runtime::HierarchyComponent>(root1);
             tree.Self = root1;
             tree.FirstChild = root11;
         }
 
         {
-            auto& tree = GetComponent<component::HierarchyComponent>(root11);
+            auto& tree = GetComponent<Runtime::HierarchyComponent>(root11);
             tree.Self = root11;
             tree.Parent = root1;
             tree.FirstChild = root111;
@@ -117,13 +117,13 @@ namespace MeowEngine::Runtime {
         }
 
         {
-            auto& tree = GetComponent<component::HierarchyComponent>(root111);
+            auto& tree = GetComponent<Runtime::HierarchyComponent>(root111);
             tree.Self = root111;
             tree.Parent = root11;
         }
 
         {
-            auto& tree = GetComponent<component::HierarchyComponent>(root12);
+            auto& tree = GetComponent<Runtime::HierarchyComponent>(root12);
             tree.Self = root12;
             tree.Parent = root1;
             tree.FirstChild = root121;
@@ -131,7 +131,7 @@ namespace MeowEngine::Runtime {
         }
 
         {
-            auto& tree = GetComponent<component::HierarchyComponent>(root121);
+            auto& tree = GetComponent<Runtime::HierarchyComponent>(root121);
             tree.Self = root121;
             tree.Parent = root12;
         }
@@ -140,7 +140,7 @@ namespace MeowEngine::Runtime {
     void DefaultWorld::CreateReflectionTest() {
         auto entity = CreateDefaultEntity("[TEST] Reflection");
 
-        auto& reflection = AddComponent<entity::ReflectionTestComponent>(entity);
+        auto& reflection = AddComponent<Runtime::ReflectionTestComponent>(entity);
         reflection.Init();
     }
 
@@ -151,7 +151,7 @@ namespace MeowEngine::Runtime {
     EntityHandle DefaultWorld::CreateDefaultEntity(std::string name) {
         const auto entity = AddEntity();
 
-        auto& info = GetComponent<entity::InfoComponent>(entity);
+        auto& info = GetComponent<Runtime::InfoComponent>(entity);
         // auto& tree = AddComponent<component::HierarchyComponent>(entity);
 
         info.SetName(String(name));

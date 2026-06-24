@@ -8,8 +8,8 @@
 #include "render_component_base.hpp"
 
 // the grid will come in this
-namespace MeowEngine::entity {
-    class LineRenderComponent : public MeowEngine::entity::RenderComponentBase {
+namespace MeowEngine::Runtime {
+    class LineRenderComponent : public MeowEngine::Runtime::RenderComponentBase {
     public:
         REFLECT_COMPONENT(LineRenderComponent)
         static void Reflect();

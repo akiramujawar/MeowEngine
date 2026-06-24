@@ -42,7 +42,7 @@ namespace MeowEngine::Asset {
         [[nodiscard]] bool Has(const AssetHandle& handle) const;
         [[nodiscard]] bool Has(const Path& path) const;
 
-        [[nodiscard]] const Path& GetPath(const AssetHandle& handle) const;
+        [[nodiscard]] Path GetPath(const AssetHandle& handle) const;
         [[nodiscard]] AssetType GetType(const AssetHandle& handle) const;
 
         [[nodiscard]] const AssetMetadata& GetMetadata(const AssetHandle& handle);

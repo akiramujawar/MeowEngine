@@ -4,10 +4,10 @@
 
 #include "camera_component.hpp"
 
-void MeowEngine::entity::CameraComponent::Reflect() {
+void MeowEngine::Runtime::CameraComponent::Reflect() {
 
 }
 
-MeowEngine::entity::CameraComponent::CameraComponent() {
+MeowEngine::Runtime::CameraComponent::CameraComponent() {
 
 }

@@ -6,7 +6,7 @@
 
 #include "reflection_macro_wrapper.hpp"
 
-namespace MeowEngine::entity {
+namespace MeowEngine::Runtime {
     void SphereColliderShape::Reflect() {
         REGISTER_PROPERTY_CALLBACK(SphereColliderShape, Radius, float, true, true, OnRadiusReflect)
         REGISTER_PROPERTY_CALLBACK(SphereColliderShape, StaticFriction, float, true, true, OnMaterialReflect)
@@ -22,7 +22,7 @@ namespace MeowEngine::entity {
             : Material(nullptr)
             , Shape(nullptr)
             , Geometry() {
-        Type = MeowEngine::entity::ColliderType::SPHERE;
+        Type = MeowEngine::Runtime::ColliderType::SPHERE;
         Radius = 0.5f;
         StaticFriction = 1;
         DynamicFriction = 1;
@@ -34,7 +34,7 @@ namespace MeowEngine::entity {
             : Material(nullptr)
             , Shape(nullptr)
             , Geometry() {
-        Type = MeowEngine::entity::ColliderType::SPHERE;
+        Type = MeowEngine::Runtime::ColliderType::SPHERE;
         Radius = inRadius;
         StaticFriction = 1;
         DynamicFriction = 1;

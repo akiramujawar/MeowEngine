@@ -18,8 +18,8 @@
 using MeowEngine::OpenGLRenderSystem;
 
 using namespace MeowEngine::pipeline;
-using namespace MeowEngine::entity;
-using namespace MeowEngine::component;
+using namespace MeowEngine::Runtime;
+using namespace MeowEngine::Runtime;
 
 using MeowEngine::assets::ShaderPipelineType;
 

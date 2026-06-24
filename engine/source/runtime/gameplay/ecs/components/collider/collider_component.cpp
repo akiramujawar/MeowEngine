@@ -6,26 +6,26 @@
 #include "reflection_macro_wrapper.hpp"
 #include <log.hpp>
 
-using namespace MeowEngine::entity;
+using namespace MeowEngine::Runtime;
 
 namespace MeowEngine {
-    void entity::ColliderComponent::Reflect() {
-        REGISTER_POINTER(ColliderComponent, Data, entity::ColliderShapeBase*, true, true);
+    void Runtime::ColliderComponent::Reflect() {
+        REGISTER_POINTER(ColliderComponent, Data, Runtime::ColliderShapeBase*, true, true);
         REGISTER_POINTER(ColliderComponent, Body, physx::PxActor*, false, false);
     }
 
-    ColliderComponent::ColliderComponent(entity::BoxColliderShape inData) {
+    ColliderComponent::ColliderComponent(Runtime::BoxColliderShape inData) {
         // TODO: remember to delete the object. currently tracy will be difficult as copy constructor instead of constructor
         // & manually keeping track of these things would be difficult, find a better solution for this
         Data = new BoxColliderShape(std::move(inData));
     }
 
-    ColliderComponent::ColliderComponent(entity::SphereColliderShape inData) {
+    ColliderComponent::ColliderComponent(Runtime::SphereColliderShape inData) {
         Data = new SphereColliderShape(std::move(inData));
     }
 
 
-    entity::ColliderShapeBase& ColliderComponent::GetColliderData() {
+    Runtime::ColliderShapeBase& ColliderComponent::GetColliderData() {
         return *Data;
     }
 

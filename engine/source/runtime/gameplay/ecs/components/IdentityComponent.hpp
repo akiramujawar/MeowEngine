@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_IDENTITYCOMPONENT_HPP
 #define MEOWENGINE_IDENTITYCOMPONENT_HPP
 
-#include <component_base.hpp>
+#include <ComponentBase.hpp>
 
 #include "EntityHandle.hpp"
 
@@ -13,7 +13,7 @@ namespace MeowEngine::Runtime {
     /**
      * Used as identifier. This can help with component references.
      */
-    class IdentityComponent : public entity::ComponentBase {
+    class IdentityComponent : public Runtime::ComponentBase {
     public:
         REFLECT_COMPONENT(IdentityComponent)
         static void Reflect();

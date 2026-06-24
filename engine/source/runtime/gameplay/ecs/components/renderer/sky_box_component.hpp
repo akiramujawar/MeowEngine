@@ -7,9 +7,9 @@
 
 #include "render_component_base.hpp"
 
-namespace MeowEngine::entity {
+namespace MeowEngine::Runtime {
     // This class is extended for mesh, debug & ui rendering
-    class SkyBoxComponent : public MeowEngine::entity::RenderComponentBase {
+    class SkyBoxComponent : public MeowEngine::Runtime::RenderComponentBase {
 
     public:
         REFLECT_COMPONENT(SkyBoxComponent)

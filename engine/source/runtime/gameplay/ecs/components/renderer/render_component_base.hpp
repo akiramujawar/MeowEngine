@@ -5,13 +5,13 @@
 #ifndef MEOWENGINE_RENDER_COMPONENT_BASE_HPP
 #define MEOWENGINE_RENDER_COMPONENT_BASE_HPP
 
-#include "component_base.hpp"
+#include "ComponentBase.hpp"
 //#include <static_mesh_instance.hpp>
 #include "asset_inventory.hpp"
 
-namespace MeowEngine::entity {
+namespace MeowEngine::Runtime {
     // This class is extended for mesh, debug & ui rendering
-    class RenderComponentBase : public MeowEngine::entity::ComponentBase {
+    class RenderComponentBase : public MeowEngine::Runtime::ComponentBase {
 
     public:
         REFLECT_COMPONENT(RenderComponentBase)

@@ -5,11 +5,11 @@
 #ifndef MEOWENGINE_TRANSFORM_COMPONENT_BASE_HPP
 #define MEOWENGINE_TRANSFORM_COMPONENT_BASE_HPP
 
-#include "component_base.hpp"
+#include "ComponentBase.hpp"
 #include "GLM_API.hpp"
 
-namespace MeowEngine::entity {
-class TransformComponentBase : public MeowEngine::entity::ComponentBase {
+namespace MeowEngine::Runtime {
+class TransformComponentBase : public MeowEngine::Runtime::ComponentBase {
 
     public:
         TransformComponentBase();

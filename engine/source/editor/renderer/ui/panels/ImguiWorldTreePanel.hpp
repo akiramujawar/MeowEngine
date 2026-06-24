@@ -11,7 +11,7 @@
 #include "ImguiAPI.hpp"
 #include "entt.hpp"
 
-#include "hierarchy_component.hpp"
+#include "HierarchyComponent.hpp"
 #include "Selector.hpp"
 #include "EntityID.hpp"
 
