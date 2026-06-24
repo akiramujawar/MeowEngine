@@ -5,7 +5,9 @@
 #ifndef MEOWENGINE_IMGUIASSETDRAGDROP_HPP
 #define MEOWENGINE_IMGUIASSETDRAGDROP_HPP
 
-#include "string"
+#include <string>
+#include "DirectoryAsset.hpp"
+
 
 namespace MeowEngine::Editor {
     class ImguiAssetDragDrop {
@@ -18,7 +20,7 @@ namespace MeowEngine::Editor {
          * @param name
          * @param imagePtr
          */
-        static void DragAsset(const std::string& path, const std::string& name, void* imagePtr);
+        static void DragAsset(const Asset::DirectoryAsset& path, const std::string& name, void* imagePtr);
         static void DropAsset(const std::string& moveToPath);
     };
 }

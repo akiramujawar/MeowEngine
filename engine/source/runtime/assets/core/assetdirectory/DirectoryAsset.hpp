@@ -15,7 +15,8 @@ namespace MeowEngine::Asset {
 
         bool IsFolder;
 
-        Path Path;
+        Path RelativePath;
+        Path AbsolutePath;
         String Name;
         AssetType Type;
         AssetHandle ThumbnailHandle;

@@ -7,12 +7,12 @@
 #include <Public/IO.hpp>
 
 namespace MeowEngine::Editor {
-    void ImguiAssetDragDrop::DragAsset(const std::string& path, const std::string& name, void* imagePtr) {
+    void ImguiAssetDragDrop::DragAsset(const Asset::DirectoryAsset& path, const std::string& name, void* imagePtr) {
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
             // NOTE: remember memory layout for char is ['a','b','c',...,'\0']
             // char is read until it hits '\0'
             // std::string::size() doesn't count '\0' hence we "+1" to calc total size
-            ImGui::SetDragDropPayload("DragAndDropAsset", path.c_str(), path.size() + 1); // +1
+            ImGui::SetDragDropPayload("DragAndDropAsset", path.AbsolutePath.CStr(), path.AbsolutePath.GetRawString().size() + 1); // +1
             
             float textWidth = ImGui::CalcTextSize(name.c_str()).x;
             float imageSize = 64;

@@ -282,22 +282,22 @@ namespace MeowEngine::Editor {
         FileSystem::Directory directory { path };
         std::vector<FileSystem::Path> assetPaths = directory.GetAll(false);
 
-        for(const auto& assetPath : assetPaths) {
+        for(const auto& file : FilesInSelectedFolder) {
             ImGui::TableNextColumn();
-            ShowThumbnail(assetPath);
+            ShowThumbnail(file);
         }
     }
 
-    void ImguiAssetPanel::ShowThumbnail(const FileSystem::Path& path) {
-        FileSystem::Path name = path.GetName();
+    void ImguiAssetPanel::ShowThumbnail(const Asset::DirectoryAsset& assetFile) {
+        // FileSystem::Path name = path.GetName();
         
         // TODO: Once we have our full system ready to load/unload assets we update this properly
         // TODO: remember we have check if its directory or not first. files without extensions will pretend to be folder with below logic
         // render resource -> try to get if not -> get asset -> load asset -> create resource using bitmap -> cache texture in asset cache
         // texture asset will be simplified format of bitmap
-        void* imagePtr = path.GetExtension().GetStringView().empty()? folderImage.GetTextureID() : unknownImage.GetTextureID();
+        void* imagePtr = assetFile.IsFolder? folderImage.GetTextureID() : unknownImage.GetTextureID();
         
-        ImGui::PushID(path.CStr());
+        ImGui::PushID(assetFile.AbsolutePath.CStr());
         
         ImVec2 thumbnailSize(100, 100);
         
@@ -305,7 +305,7 @@ namespace MeowEngine::Editor {
         if(ImGui::InvisibleButton("button", thumbnailSize)) {
             CommandQueue->Push(
                 Messaging::ThreadType::MAIN,
-                std::make_unique<Messaging::SelectAssetPathCommand>(String(path.GetRawString()))
+                std::make_unique<Messaging::SelectAssetPathCommand>(String(assetFile.AbsolutePath.GetRawString()))
             );
         }
 
@@ -335,7 +335,7 @@ namespace MeowEngine::Editor {
         );
     
         // calculate asset name text
-        ImVec2 textSize = ImGui::CalcTextSize(name.CStr());
+        ImVec2 textSize = ImGui::CalcTextSize(assetFile.Name.CStr());
         ImVec2 textPosition = ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 10);
         
         // hover effect
@@ -343,7 +343,7 @@ namespace MeowEngine::Editor {
         
         ImU32 backgroundColor = hovered? IM_COL32(90, 90, 90, 255) : IM_COL32(0,0,0,0);
         // if selected keep it highlighted with blue color
-        if(path.GetStringView() == SelectedFilePath.GetRawString()) {
+        if(assetFile.AbsolutePath.GetStringView() == SelectedFilePath.GetRawString()) {
             backgroundColor = IM_COL32(0, 137, 209, 255);
         }
         
@@ -352,11 +352,11 @@ namespace MeowEngine::Editor {
             if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
                 CommandQueue->Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SelectAssetPathCommand>(String(path.GetRawString()))
+                    std::make_unique<Messaging::SelectAssetPathCommand>(assetFile.AbsolutePath.GetString())
                 );
                 
                 ImGui::OpenPopup("ShowEditAssetMenu");
-                MeowEngine::Log("Asset Right Clicked: ", path.GetName().GetRawString());
+                MeowEngine::Log("Asset Right Clicked: ", assetFile.Name.CStr());
             }
         
             // show menu on right click
@@ -371,7 +371,7 @@ namespace MeowEngine::Editor {
                         textPosition.y,
                         max.x - min.x - 10,
                         ImGui::GetTextLineHeight(),
-                        path.GetRawString()
+                        assetFile.AbsolutePath.GetRawString()
                     );
                 }
                 
@@ -380,8 +380,10 @@ namespace MeowEngine::Editor {
         }
         
         // drag n drop
-        ImguiAssetDragDrop::DragAsset(path.GetRawString(), path.GetName().GetRawString(), imagePtr);
-        ImguiAssetDragDrop::DropAsset(path.GetRawString());
+        ImguiAssetDragDrop::DragAsset(assetFile, assetFile.Name.CStr(), imagePtr);
+        if (assetFile.IsFolder) {
+            ImguiAssetDragDrop::DropAsset(assetFile.AbsolutePath.GetRawString());
+        }
         
         drawList->AddRectFilled(min, max, backgroundColor, 6.0f);
     
@@ -393,8 +395,8 @@ namespace MeowEngine::Editor {
         );
 
         // show asset name text (if a asset is being renamed, don't show for it)
-        if(!(IsRenamingAsset && IsRenamingAsset->IsSamePath(path.GetRawString()))) {
-            drawList->AddText(textPosition, IM_COL32_WHITE, name.CStr());
+        if(!(IsRenamingAsset && IsRenamingAsset->IsSamePath(assetFile.AbsolutePath.GetRawString()))) {
+            drawList->AddText(textPosition, IM_COL32_WHITE, assetFile.Name.CStr());
         }
 
         ImGui::PopID();

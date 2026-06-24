@@ -36,6 +36,7 @@ namespace MeowEngine::Asset {
                 DirectoryAsset asset {
                     true,
                     subPath,
+                    subPath,
                     subPath.GetName().GetString(),
                     AssetType::FOLDER,
                     AssetHandle::Null,
@@ -49,6 +50,7 @@ namespace MeowEngine::Asset {
                 auto metadata = database.GetAssetMetadata(subPath);
                 DirectoryAsset asset {
                     false,
+                    subPath,
                     subPath,
                     subPath.GetName().GetString(),
                     metadata.Type,

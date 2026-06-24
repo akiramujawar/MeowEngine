@@ -52,7 +52,7 @@ namespace MeowEngine::Editor {
          * @param selectionData
          * @param path
          */
-        void ShowThumbnail(const FileSystem::Path& path);
+        void ShowThumbnail(const Asset::DirectoryAsset& assetFile);
         void ShowCreateAssetPopupMenu();
         
     private:
