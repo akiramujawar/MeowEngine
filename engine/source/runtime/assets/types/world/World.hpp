@@ -5,6 +5,7 @@
 #ifndef MEOWENGINETEST2_WORLD_HPP
 #define MEOWENGINETEST2_WORLD_HPP
 
+#include <unordered_map>
 
 #include "IAsset.hpp"
 #include "EntityRegistry.hpp"
@@ -15,6 +16,9 @@ namespace MeowEngine::Asset {
      * Represents ECS & actions which can be performed on world entities
      */
     class World : public IAsset {
+        friend class WorldSerializer;
+        friend class ComponentSerializer;
+
     public:
         World();
         ~World() override = default;
@@ -25,7 +29,7 @@ namespace MeowEngine::Asset {
          */
         Runtime::EntityHandle AddEntity();
         Runtime::EntityHandle AddEntity(Runtime::EntityID guid);
-        Runtime::EntityHandle FindHandle(Runtime::EntityID guid);
+        Runtime::EntityHandle GetHandle(Runtime::EntityID guid);
 
         void RemoveEntity(Runtime::EntityID guid);
         bool HasEntity(const Runtime::EntityHandle& handle);
@@ -47,12 +51,12 @@ namespace MeowEngine::Asset {
         [[nodiscard]] Runtime::EntityRegistry& GetRegistry() { return Registry; }
         [[nodiscard]] const Runtime::EntityRegistry& GetRegistry() const { return Registry; }
 
-    public:
         Runtime::EntityHandle ActiveCamera;
         Runtime::EntityHandle SkyBox;
 
     private:
         Runtime::EntityRegistry Registry;
+        std::unordered_map<Runtime::EntityID, Runtime::EntityHandle> RuntimeEntityMap;
     };
 
     template <typename Type>

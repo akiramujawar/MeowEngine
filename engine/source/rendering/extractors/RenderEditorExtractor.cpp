@@ -138,7 +138,7 @@ namespace MeowEngine::Rendering {
         for (auto& entity : view) {
             auto&& hierarchy = ecs.get<Runtime::HierarchyComponent>(entity);
 
-            auto parent = hierarchy.Parent.GetEntity();
+            // auto parent = hierarchy.Parent.GetEntity();
 
             // only select root entities (we expand childs inside)
             if (!hierarchy.Parent.GetIsValid()) {
@@ -146,6 +146,7 @@ namespace MeowEngine::Rendering {
                 auto&& identity = ecs.get<Runtime::IdentityComponent>(entity);
                 frame.RootEntities.push_back(identity.GetEntityHandle());
 
+                // dive deep into childs
                 extractEntityHierarchy(identity.GetEntityHandle());
             }
         }

@@ -129,6 +129,7 @@ namespace MeowEngine::Asset {
         for (auto guid : guids) {
             auto handle = world.AddEntity(guid);
 
+            // world.RuntimeEntityMap.try_emplace(guid, handle);
             handles.try_emplace(guid, handle);
         }
 
@@ -147,12 +148,13 @@ namespace MeowEngine::Asset {
 
                 // set properties
                 void* componentObject = addComponentMethod(world, handle->second);
-                ComponentSerializer::Deserialize(serializer, componentObject, componentName);
+                ComponentSerializer::Deserialize(serializer, world, componentObject, componentName);
             }
         }
 
         AssetSerializer::CloseSerializer(serializer);
 
+        MeowEngine::Log("WorldSerializer::Deserialize", "Finished");
         return true;
     }
 }

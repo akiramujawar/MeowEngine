@@ -10,7 +10,7 @@
 namespace MeowEngine::Asset {
 
     void ComponentSerializer::Serialize(Serialization::Serializer& serializer, void* instance, const std::string& className) {
-        MeowEngine::Log("ComponentSerializer::Serialize", "");
+        MeowEngine::Log("ComponentSerializer::Serialize", "Started");
 
         auto properties = GetReflection().GetProperties(className);
         serializer.WriteSize(properties.size());
@@ -57,8 +57,17 @@ namespace MeowEngine::Asset {
                 }
                 case PropertyType::ENUM: {
                     auto data = property.Get(instance);
-                    int value = *static_cast<int*>(data);
-                    serializer.WriteInt(value);
+                    if (property.TypeId == typeid(Runtime::EntityID)) {
+                        std::uint64_t value = *static_cast<std::uint64_t*>(data);
+                        serializer.WriteUInt64(value);
+                    }
+                    // if (property.TypeId == typeid(As)) { // asset id
+                    //
+                    // }
+                    else {
+                        int value = *static_cast<int*>(data);
+                        serializer.WriteInt(value);
+                    }
 
                     break;
                 }
@@ -71,8 +80,8 @@ namespace MeowEngine::Asset {
         }
     }
 
-    void ComponentSerializer::Deserialize(Serialization::Serializer& serializer, void* instance, const std::string&  className) {
-        MeowEngine::Log("ComponentSerializer::Deserialize", "");
+    void ComponentSerializer::Deserialize(Serialization::Serializer& serializer, World& world, void* instance, const std::string&  className) {
+        MeowEngine::Log("ComponentSerializer::Deserialize", "Started");
 
         // properties
         auto properties = GetReflection().GetProperties(className);
@@ -125,10 +134,8 @@ namespace MeowEngine::Asset {
                     else {
                         auto data = property->Get(instance);
 
-                        // TODO: test what happens if a property class is removed
-                        Deserialize(serializer, data, typeName);
+                        Deserialize(serializer, world, data, typeName);
                     }
-
 
                     break;
                 }
@@ -136,10 +143,19 @@ namespace MeowEngine::Asset {
                     break;
                 }
                 case PropertyType::ENUM: {
-                    auto value = serializer.ReadInt();
-                    if (property != nullptr) {
-                        property->Set(instance, &value);
+                    if (typeName == "EntityID" || typeName == "AssetID") {
+                        auto value = serializer.ReadUInt64();
+                        if (property != nullptr) {
+                            property->Set(instance, &value);
+                        }
                     }
+                    else {
+                        auto value = serializer.ReadInt();
+                        if (property != nullptr) {
+                            property->Set(instance, &value);
+                        }
+                    }
+
                     break;
                 }
                 case PropertyType::ARRAY: {
@@ -150,6 +166,14 @@ namespace MeowEngine::Asset {
                     break;
             }
 
+        }
+
+        // NOTE: Special case to reference runtime entities
+        if (className == "EntityHandle") {
+            auto* handle = static_cast<Runtime::EntityHandle*>(instance);
+            auto runtimeHandle = world.GetHandle(handle->GetGUID());
+
+            handle->SetEntity(runtimeHandle.GetEntity());
         }
 
     }

@@ -10,10 +10,12 @@
 #include "Public/IO/Forward.hpp"
 
 namespace MeowEngine::Asset {
+    class World;
+
     class ComponentSerializer {
     public:
         static void Serialize(Serialization::Serializer& serializer, void* instance, const std::string& className);
-        static void Deserialize(Serialization::Serializer& serializer, void* instance, const std::string& className);
+        static void Deserialize(Serialization::Serializer& serializer, World& world, void* instance, const std::string& className);
     };
 }
 

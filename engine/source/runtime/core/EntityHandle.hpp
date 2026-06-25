@@ -11,6 +11,8 @@
 #include "Entity.hpp"
 #include "EntityID.hpp"
 
+#include "ReflectValueClass.hpp"
+
 namespace MeowEngine::Asset {
     class World;
 }
@@ -20,21 +22,23 @@ namespace MeowEngine::Runtime {
      * Used as reference similar to AssetHandle, RenderHandler, ComponentHandle
      */
     struct EntityHandle {
-        friend class Asset::World;
-        friend class IdentityComponent;
+        REFLECT_VALUE(EntityHandle)
+        static void Reflect();
 
         explicit EntityHandle();
         static EntityHandle Invalid();
 
+        void SetEntity(Entity entity);
+
         [[nodiscard]] bool GetIsValid() const { return IsValid; };
         [[nodiscard]] Entity GetEntity() const { return Entity; }
         [[nodiscard]] EntityID GetGUID() const { return GUID; }
-        [[nodiscard]] uint64_t GetGUIDInt() const { return static_cast<std::uint64_t>(GUID); }
+        [[nodiscard]] std::uint64_t GetGUIDInt() const { return static_cast<std::uint64_t>(GUID); }
 
         bool operator==(const EntityHandle& handle) const;
         bool operator!=(const EntityHandle& handle) const;
 
-    private:
+        static EntityHandle Empty(const EntityID guid);
         static EntityHandle Create(const EntityID guid, const Entity entity);
 
 

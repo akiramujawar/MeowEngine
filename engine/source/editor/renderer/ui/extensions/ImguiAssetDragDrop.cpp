@@ -54,7 +54,20 @@ namespace MeowEngine::Editor {
         return isDropped;
     }
 
-    bool ImguiAssetDragDrop::DropAssetOnEntityHandleInput(Runtime::EntityHandle& asset) {}
+    bool ImguiAssetDragDrop::DropAssetOnEntityHandleInput(Runtime::EntityHandle& asset) {
+        bool isDropped = false;
+        if (ImGui::BeginDragDropTarget()) {
+            if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
+                MeowEngine::Log("AssetDragDrop::DropAssetOnEntityHandleInput", "Not Implemented");
+
+                isDropped = true;
+            }
+            ImGui::EndDragDropTarget();
+
+        }
+
+        return isDropped;
+    }
 
     void ImguiAssetDragDrop::DropAssetOnFolder(const std::string& moveToPath) {
         if (ImGui::BeginDragDropTarget()) {
