@@ -7,12 +7,12 @@
 #include <Public/IO.hpp>
 
 namespace MeowEngine::Editor {
-    void ImguiAssetDragDrop::DragAsset(const Asset::DirectoryAsset& path, const std::string& name, void* imagePtr) {
+    void ImguiAssetDragDrop::DragAsset(const Asset::DirectoryAsset& asset, const std::string& name, void* imagePtr) {
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
             // NOTE: remember memory layout for char is ['a','b','c',...,'\0']
             // char is read until it hits '\0'
             // std::string::size() doesn't count '\0' hence we "+1" to calc total size
-            ImGui::SetDragDropPayload("DragAndDropAsset", path.AbsolutePath.CStr(), path.AbsolutePath.GetRawString().size() + 1); // +1
+            ImGui::SetDragDropPayload("DragAndDropAsset", &asset, asset.AbsolutePath.GetRawString().size() + 1); // +1
             
             float textWidth = ImGui::CalcTextSize(name.c_str()).x;
             float imageSize = 64;
@@ -37,14 +37,33 @@ namespace MeowEngine::Editor {
             ImGui::EndDragDropSource();
         }
     }
-    
-    void ImguiAssetDragDrop::DropAsset(const std::string& moveToPath) {
+
+    bool ImguiAssetDragDrop::DropAssetOnAssetHandleInput(Asset::AssetHandle& asset) {
+        bool isDropped = false;
+        if (ImGui::BeginDragDropTarget()) {
+            if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
+                auto* payloadData = static_cast<Asset::DirectoryAsset*>(payloadVoidPtr->Data);
+                asset = Asset::AssetHandle::Create(payloadData->FileHandle.GetUUID());
+
+                isDropped = true;
+            }
+            ImGui::EndDragDropTarget();
+
+        }
+
+        return isDropped;
+    }
+
+    bool ImguiAssetDragDrop::DropAssetOnEntityHandleInput(Runtime::EntityHandle& asset) {}
+
+    void ImguiAssetDragDrop::DropAssetOnFolder(const std::string& moveToPath) {
         if (ImGui::BeginDragDropTarget()) {
             // gets the asset path which needs to be moved & then using "moveToPath"
             // it moves the file/folder to new directory
             if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
-                const char* payloadData = (const char*)payloadVoidPtr->Data;
-                FileSystem::Path assetPath {payloadData};
+                auto* payloadData = static_cast<Asset::DirectoryAsset*>(payloadVoidPtr->Data);
+                // const char* payloadData = (const char*)payloadVoidPtr->Data;
+                FileSystem::Path assetPath {payloadData->AbsolutePath};
                 
                 if(FileSystem::FileSystem::IsDirectory(moveToPath.c_str())) {
                     FileSystem::FileSystem::Move(assetPath, moveToPath.c_str());

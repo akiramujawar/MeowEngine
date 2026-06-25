@@ -9,6 +9,9 @@
 #include <Public/Core/Include.hpp>
 #include <Public/Math.hpp>
 
+#include "AssetHandle.hpp"
+#include "ImguiAssetDragDrop.hpp"
+
 namespace MeowEngine::Editor {
 
     MeowEngine::ReflectionPropertyChange* ImGuiInputExtension::ShowProperty(const std::string& inClassName, void* inObject, bool pIsEditable) {
@@ -380,10 +383,65 @@ namespace MeowEngine::Editor {
                 ImGui::EndDisabled();
             }
         }
+        else if (inProperty.TypeId == typeid(Runtime::EntityHandle)) {
+            if (inProperty.IsEditable) {}
+            auto dataObject = static_cast<Object*>(inObject);
+
+            void* value = inProperty.Get(inObject);
+            auto changeHolder = *static_cast<Runtime::EntityHandle*>(value);
+            std::string uuid = std::to_string(changeHolder.GetGUIDInt());
+
+            ImGui::AlignTextToFramePadding();
+            ImGui::Text("%s", inProperty.Name.c_str());
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(200);
+            float availableSpace = ImGui::GetContentRegionAvail().x;
+            ImGui::SetNextItemWidth(availableSpace);
+
+            if (!(pIsEditable & inProperty.IsEditable)) {
+                ImGui::BeginDisabled(true);
+            }
+
+            ImGui::Button(changeHolder.GetIsValid() ? uuid.c_str() : "None", ImVec2(ImGui::GetContentRegionAvail().x, 0));
+            if (ImguiAssetDragDrop::DropAssetOnEntityHandleInput(changeHolder)) {
+                change = new MeowEngine::ReflectionPropertyChange(
+                    inProperty.Name,
+                    new Runtime::EntityHandle(changeHolder),
+                    [](void* inPointer) { delete static_cast<Runtime::EntityHandle*>(inPointer); }
+                );
+            }
+
+            if (!(pIsEditable & inProperty.IsEditable)) {
+                ImGui::EndDisabled();
+            }
+
+        }
+        else if (inProperty.TypeId == typeid(Asset::AssetHandle)) {
+            auto dataObject = static_cast<Object*>(inObject);
+
+            void* value = inProperty.Get(inObject);
+            Asset::AssetHandle changeHolder = *static_cast<Asset::AssetHandle*>(value);
+            std::string uuid = std::to_string(changeHolder.GetUUID());
+
+            ImGui::AlignTextToFramePadding();
+            ImGui::Text("%s", inProperty.Name.c_str());
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(200);
+            float availableSpace = ImGui::GetContentRegionAvail().x;
+            ImGui::SetNextItemWidth(availableSpace);
+
+            ImGui::Button(changeHolder.GetIsValid() ? uuid.c_str() : "None", ImVec2(ImGui::GetContentRegionAvail().x, 0));
+            if (ImguiAssetDragDrop::DropAssetOnAssetHandleInput(changeHolder)) {
+                change = new MeowEngine::ReflectionPropertyChange(
+                    inProperty.Name,
+                    new Asset::AssetHandle(changeHolder),
+                    [](void* inPointer) { delete static_cast<Asset::AssetHandle*>(inPointer); }
+                );
+            }
+
+        }
             // if we are unaware of manual type expand and show items inside the class / struct recursively
         else {
-//        ImGui::SetNextItemOpen(true, ImGuiCond_Once); // force opens the tree node
-
             if (inProperty.IsMObject) {
                 ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 20);
                 if (ImGui::TreeNode(inProperty.Name.c_str())) {
@@ -417,8 +475,6 @@ namespace MeowEngine::Editor {
                 // mention the type of class pointer & weather it is null
                 ImGui::Text("%s", inProperty.TypeName.c_str());
             }
-
-
         }
 
         return change;

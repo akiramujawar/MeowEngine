@@ -265,7 +265,7 @@ namespace MeowEngine::Editor {
             );
         }
     
-        ImguiAssetDragDrop::DropAsset(path.GetRawString());
+        ImguiAssetDragDrop::DropAssetOnFolder(path.GetRawString());
 
         if(!directoryFolder.Folders.empty() && isOpen){
             // show the child items in hierarchy
@@ -382,7 +382,7 @@ namespace MeowEngine::Editor {
         // drag n drop
         ImguiAssetDragDrop::DragAsset(assetFile, assetFile.Name.CStr(), imagePtr);
         if (assetFile.IsFolder) {
-            ImguiAssetDragDrop::DropAsset(assetFile.AbsolutePath.GetRawString());
+            ImguiAssetDragDrop::DropAssetOnFolder(assetFile.AbsolutePath.GetRawString());
         }
         
         drawList->AddRectFilled(min, max, backgroundColor, 6.0f);

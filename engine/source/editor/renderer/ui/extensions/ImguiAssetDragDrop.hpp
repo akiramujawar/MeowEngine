@@ -20,8 +20,10 @@ namespace MeowEngine::Editor {
          * @param name
          * @param imagePtr
          */
-        static void DragAsset(const Asset::DirectoryAsset& path, const std::string& name, void* imagePtr);
-        static void DropAsset(const std::string& moveToPath);
+        static void DragAsset(const Asset::DirectoryAsset& asset, const std::string& name, void* imagePtr);
+        static bool DropAssetOnAssetHandleInput(Asset::AssetHandle& asset);
+        static bool DropAssetOnEntityHandleInput(Runtime::EntityHandle& handle);
+        static void DropAssetOnFolder(const std::string& moveToPath);
     };
 }
 
