@@ -19,15 +19,19 @@
 - [x] Hierarchy for entities
 - [x] Reworking asset loading pipeline
 - [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
-- [ ] Creating support for multi-scene compilation
+- [x] Creating support for multi-scene compilation
 - [ ] Improving current shader pipeline to handle shaders dynamically
 - [ ] Render loading pipeline (shaders, textures, meshes)
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
-- [x] Refactor cmake
+- [ ] Messaging systems (command, request & event)
+- [ ] Config load & bootstrap for editor load
+- [x] Refactor cmake to have engine & standalone lib
 - [x] Find a way to isolate and build code while developing simulations
 
 ## Meow Engine v0.6
 - [ ] Reworking engine to utilise new mathematical library
+- [ ] Asset Directory needs to updated after actions (create/delete/move/rename)
+- [ ] Asset Database needs to be updated after actions (create/delete/move/rename)
 - [ ] Decoupling SDL events with the help of messaging system
 - [ ] Play & Pause & Stop
 - [ ] Documenting done items and different approaches and used libraries

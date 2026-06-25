@@ -27,6 +27,8 @@
 #include <CommandQueue.hpp>
 #include <SelectDirectoryPathCommand.hpp>
 #include <SelectAssetPathCommand.hpp>
+#include "LoadWorldCommand.hpp"
+
 #include "RebuildAndSaveAssetRegistry.hpp"
 
 #include "AssetManager.hpp"
@@ -311,6 +313,12 @@ namespace MeowEngine::Editor {
 
         if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
             MeowEngine::Log("Asset Selected: ", "Double Clicked");
+            if (assetFile.Type == Asset::AssetType::WORLD) {
+                CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::LoadWorldCommand>(assetFile.FileHandle)
+                );
+            }
         }
 
         // prepare from the draw commands

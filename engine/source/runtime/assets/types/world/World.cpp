@@ -10,7 +10,7 @@
 #include "IdentityComponent.hpp"
 #include "HierarchyComponent.hpp"
 #include "info_component.hpp"
-#include <iostream>
+
 namespace MeowEngine::Asset {
     World::World()
         : ActiveCamera()
@@ -37,14 +37,14 @@ namespace MeowEngine::Asset {
 
         RuntimeEntityMap.try_emplace(guid, hierarchy.Self);
 
-        for (auto& data : RuntimeEntityMap)
-        {
-            // std::cout << id << '\n';
-            auto entityID = static_cast<int>(data.second.GetEntity());
-            std::cout << entityID << " : " << data.second.GetGUIDInt() << '\n';
-            // std::cout << handle.GetEntity() << '\n';
-        }
-        std::cout<<"\n";
+        // for (auto& data : RuntimeEntityMap)
+        // {
+        //     // std::cout << id << '\n';
+        //     auto entityID = static_cast<int>(data.second.GetEntity());
+        //     std::cout << entityID << " : " << data.second.GetGUIDInt() << '\n';
+        //     // std::cout << handle.GetEntity() << '\n';
+        // }
+        // std::cout<<"\n";
 
         return identity.GetEntityHandle();
     }

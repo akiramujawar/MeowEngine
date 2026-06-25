@@ -13,6 +13,9 @@
 
 #include "World.hpp"
 #include "DefaultWorld.hpp"
+#include "AssetHandleWorld.hpp"
+#include "HierarchyWorld.hpp"
+#include "ReflectionWorld.hpp"
 
 #include "SaveTempWorldRequest.hpp"
 
@@ -59,14 +62,6 @@ namespace MeowEngine::Runtime {
                 Messaging::ThreadType::MAIN,
                 std::make_unique<Messaging::SaveTempWorldRequest>(ActiveWorldHandle)
             );
-
-            //  TODO: preselected directory -> import -> select file -> load? -> process -> save -> update database & directory
-            // select folder -> temp asset -> get data -> save -> update database & directory (add key) -> update cache with updated handle (update key)
-
-            // if create manually file
-            // handle it then
-            // opening of file
-            // then trigger load
         }
         else {
             auto& assetManager = MeowService().AssetManager;

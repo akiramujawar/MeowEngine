@@ -9,6 +9,7 @@
 #include "MessageInitData.hpp"
 #include "AssetManager.hpp"
 #include "World.hpp"
+#include "WorldManager.hpp"
 
 
 namespace MeowEngine::Messaging {
@@ -28,10 +29,5 @@ namespace MeowEngine::Messaging {
 
         context.AssetManager->CreateAndSaveEmptyAsset(WorldHandle, Asset::AssetType::WORLD, path);
         auto handle = context.AssetManager->SaveTempAsset<Asset::World>(WorldHandle, path);
-
-        // for testing
-        // since for dynamic loading we need build asset directory and use it in asset panel
-        context.AssetManager->UnloadAsset(handle);
-        context.AssetManager->LoadAsset<Asset::World>(handle);
     }
 }
