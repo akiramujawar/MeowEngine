@@ -7,7 +7,7 @@
 
 namespace MeowEngine::Runtime {
     void IdentityComponent::Reflect() {
-        // REGISTER_PROPERTY(IdentityComponent, Handle, EntityHandle, false, false)
+        REGISTER_PROPERTY(IdentityComponent, Handle, EntityHandle, false, false)
     }
 
     IdentityComponent::IdentityComponent() : Handle() {}

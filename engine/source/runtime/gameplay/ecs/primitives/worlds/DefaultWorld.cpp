@@ -63,10 +63,7 @@ namespace MeowEngine::Runtime {
         // tree.Self = entity;
         info.SetName(String("[Editor] Grid"));
 
-        // AddComponent<component::GridComponent>(
-        //     gridEntity,
-        //     assets::ShaderPipelineType::Grid
-        // );
+        AddComponent<Runtime::GridComponent>(entity);
     }
 
     void DefaultWorld::CreateSky() {

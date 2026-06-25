@@ -30,6 +30,14 @@ namespace MeowEngine::Asset {
                         float value = *static_cast<float*>(data);
                         serializer.WriteFloat(value);
                     }
+                    else if (property.TypeId == typeid(uint64_t)) {
+                        uint64_t value = *static_cast<uint64_t*>(data);
+                        serializer.WriteUInt64(value);
+                    }
+                    else if (property.TypeId == typeid(bool)) {
+                        bool value = *static_cast<bool*>(data);
+                        serializer.WriteBool(value);
+                    }
                     break;
                 }
                 case PropertyType::CLASS_OR_STRUCT: {
@@ -87,6 +95,18 @@ namespace MeowEngine::Asset {
                     }
                     else if (typeName == "float") {
                         auto value = serializer.ReadFloat();
+                        if (property != nullptr) {
+                            property->Set(instance, &value);
+                        }
+                    }
+                    else if (typeName == "uint64_t") {
+                        auto value = serializer.ReadUInt64();
+                        if (property != nullptr) {
+                            property->Set(instance, &value);
+                        }
+                    }
+                    else if (typeName == "bool") {
+                        auto value = serializer.ReadBool();
                         if (property != nullptr) {
                             property->Set(instance, &value);
                         }

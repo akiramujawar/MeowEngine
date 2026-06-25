@@ -98,7 +98,7 @@ namespace MeowEngine::Asset {
     }
 
     bool WorldSerializer::Deserialize(const FileSystem::Path& path, World& world) {
-        MeowEngine::Log("WorldSerializer::Deserialize", "");
+        MeowEngine::Log("WorldSerializer::Deserialize", path.GetRawString());
 
         // auto testWorld = World();
         auto& registry = world.GetRegistry();

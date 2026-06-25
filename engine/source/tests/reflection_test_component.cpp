@@ -5,24 +5,24 @@
 #include "reflection_test_component.hpp"
 #include "reflection_macro_wrapper.hpp"
 
-MeowEngine::entity::ReflectionTestComponent::ReflectionTestComponent()
+MeowEngine::Runtime::ReflectionTestComponent::ReflectionTestComponent()
 : Int(10)
 , IntCallback(12)
 , Object()
 , ObjectCallback()
-, Enum(entity::ColliderType::SPHERE)
-, EnumCallback(entity::ColliderType::SPHERE) {
+, Enum(Runtime::ColliderType::SPHERE)
+, EnumCallback(Runtime::ColliderType::SPHERE) {
     Pointer = new DummyClass();
     PointerCallback = new DummyClass();
 }
 
-void MeowEngine::entity::SubChildClass::Reflect() {
+void MeowEngine::Runtime::SubChildClass::Reflect() {
     REGISTER_PROPERTY(SubChildClass, MeshType, int, true, true);
     REGISTER_PROPERTY(SubChildClass, Size, float, true, true);
     REGISTER_PROPERTY(SubChildClass, Text, String, true, true);
 }
 
-void MeowEngine::entity::ChildClass::Reflect() {
+void MeowEngine::Runtime::ChildClass::Reflect() {
     REGISTER_PROPERTY(ChildClass, ChildMeshType, int, true, true);
     REGISTER_PROPERTY(ChildClass, ChildSize, float, true, true);
     REGISTER_PROPERTY(ChildClass, ChildText, String, true, true);
@@ -31,7 +31,7 @@ void MeowEngine::entity::ChildClass::Reflect() {
 //    MeowEngine::Reflection.Reflect<SubChildClass>();
 }
 
-void MeowEngine::entity::DummyClass::Reflect() {
+void MeowEngine::Runtime::DummyClass::Reflect() {
 //    MeowEngine::Reflection.Reflect<ChildClass>();
 //    MeowEngine::Reflection.Reflect<DummyClass>();
 
@@ -46,7 +46,7 @@ void MeowEngine::entity::DummyClass::Reflect() {
     REGISTER_POINTER(DummyClass, BasicClassNonNull, BasicClass*, true, false);
 }
 
-void MeowEngine::entity::ReflectionTestComponent::Reflect() {
+void MeowEngine::Runtime::ReflectionTestComponent::Reflect() {
     REGISTER_PROPERTY(ReflectionTestComponent, Int, int, true, true); // primitive
     REGISTER_PROPERTY_CALLBACK(ReflectionTestComponent, IntCallback, int, true, true, OnIntReflect); // primitive callback
 
@@ -56,6 +56,6 @@ void MeowEngine::entity::ReflectionTestComponent::Reflect() {
     REGISTER_POINTER(ReflectionTestComponent, Pointer, DummyClass*, true, true); // pointer object
     REGISTER_POINTER_CALLBACK(ReflectionTestComponent, PointerCallback, DummyClass*, true, true, OnPointerReflect); // pointer object callback
 
-    REGISTER_ENUM(ReflectionTestComponent, Enum, MeowEngine::entity::ColliderType, true); // enum
-    REGISTER_ENUM_CALLBACK(ReflectionTestComponent, EnumCallback, MeowEngine::entity::ColliderType, true, OnEnumReflect); // enum callback
+    REGISTER_ENUM(ReflectionTestComponent, Enum, MeowEngine::Runtime::ColliderType, true); // enum
+    REGISTER_ENUM_CALLBACK(ReflectionTestComponent, EnumCallback, MeowEngine::Runtime::ColliderType, true, OnEnumReflect); // enum callback
 }

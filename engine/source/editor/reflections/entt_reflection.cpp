@@ -4,6 +4,7 @@
 
 #include "entt_reflection.hpp"
 
+#include "AssetHandle.hpp"
 #include "Public/Core/Include.hpp"
 #include "Public/Math.hpp"
 #include "log.hpp"
@@ -117,6 +118,7 @@ namespace MeowEngine {
         std::vector<MeowEngine::ReflectionProperty> propertiesFromChanged = GetProperties(pChangedName);
         for(const MeowEngine::ReflectionProperty &property : propertiesFromChanged) {
             if(property.Name == inPropertyChange.PropertyName) {
+                Asset::AssetHandle* assetHandle = static_cast<Asset::AssetHandle*>(inPropertyChange.Data);
                 property.Set(inChangedData, inPropertyChange.Data);
                 break;
             }
@@ -197,7 +199,9 @@ namespace MeowEngine {
                 case PropertyType::CLASS_OR_STRUCT: {
                     if (property.TypeId == typeid(String) ||
                         property.TypeId == typeid(Vector3) ||
-                        property.TypeId == typeid(Quaternion))
+                        property.TypeId == typeid(Quaternion) ||
+                        property.TypeId == typeid(Runtime::EntityHandle) ||
+                        property.TypeId == typeid(Asset::AssetHandle))
                     {
                         auto data = property.Get(from);
                         property.Set(to, data);

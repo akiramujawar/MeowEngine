@@ -8,6 +8,7 @@
 // #include <cstdlib>
 #include <functional>
 #include "UUID.hpp"
+#include "reflection_macro_wrapper.hpp"
 
 namespace MeowEngine::Asset {
     /**
@@ -15,15 +16,18 @@ namespace MeowEngine::Asset {
      * NOTE: Is created internally by AssetRegistry only
      */
     struct AssetHandle {
-        AssetHandle();
-        ~AssetHandle();
+        REFLECT_VALUE(AssetHandle)
+        static void Reflect();
 
         /**
          * When a reference is not assigned
          */
-        static AssetHandle Null;
+        static AssetHandle Invalid;
 
-        [[nodiscard]] bool IsValid() const;
+        AssetHandle();
+        ~AssetHandle() = default;
+
+        [[nodiscard]] bool GetIsValid() const;
         [[nodiscard]] bool GetIsTemp() const;
         [[nodiscard]] uint64_t GetUUID() const;
 
@@ -31,10 +35,20 @@ namespace MeowEngine::Asset {
         bool operator==(const AssetHandle& handle) const;
         bool operator!=(const AssetHandle& handle) const;
 
+        static AssetHandle CreateInvalid() {
+            AssetHandle handle;
+            handle.IsValid = false;
+            handle.UUID = -1;
+            handle.IsTemp = true;
+
+            return handle;
+        }
+
         static AssetHandle CreateTemp() {
             AssetHandle handle;
             handle.UUID = Core::UUID::GenerateUUID();
             handle.IsTemp = true;
+            handle.IsValid = true;
 
             return handle;
         }
@@ -43,6 +57,7 @@ namespace MeowEngine::Asset {
             AssetHandle handle;
             handle.UUID = uuid;
             handle.IsTemp = false;
+            handle.IsValid = true;
 
             return handle;
         }
@@ -50,6 +65,7 @@ namespace MeowEngine::Asset {
     private:
         uint64_t UUID;
         bool IsTemp;
+        bool IsValid{};
     };
 }
 

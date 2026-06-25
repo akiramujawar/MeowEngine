@@ -8,9 +8,9 @@
 #include <String.hpp>
 #include <collider_shape_type.hpp>
 #include <log.hpp>
-#include "component_base.hpp"
+#include "ComponentBase.hpp"
 
-namespace MeowEngine::entity {
+namespace MeowEngine::Runtime {
     class BasicClass {
     public:
         int TestValue;
@@ -94,7 +94,7 @@ namespace MeowEngine::entity {
         BasicClass* BasicClassNonNull;
     };
 
-    class ReflectionTestComponent : public MeowEngine::entity::ComponentBase {
+    class ReflectionTestComponent : public MeowEngine::Runtime::ComponentBase {
     public:
         REFLECT_COMPONENT(ReflectionTestComponent)
         static void Reflect();
@@ -110,8 +110,8 @@ namespace MeowEngine::entity {
         DummyClass* Pointer;
         DummyClass* PointerCallback;
 
-        entity::ColliderType Enum;
-        entity::ColliderType EnumCallback;
+        Runtime::ColliderType Enum;
+        Runtime::ColliderType EnumCallback;
 
         void Init() {
             Int = 111;
@@ -123,8 +123,8 @@ namespace MeowEngine::entity {
             Pointer->Init();
             PointerCallback->Init();
 
-            Enum = entity::ColliderType::MESH;
-            EnumCallback = entity::ColliderType::CAPSULE;
+            Enum = Runtime::ColliderType::MESH;
+            EnumCallback = Runtime::ColliderType::CAPSULE;
         }
 
 

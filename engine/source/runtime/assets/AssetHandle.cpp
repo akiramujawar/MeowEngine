@@ -5,15 +5,22 @@
 #include <AssetHandle.hpp>
 
 namespace MeowEngine::Asset {
+    void AssetHandle::Reflect()  {
+        REGISTER_PROPERTY(AssetHandle, UUID, uint64_t, true, true);
+        REGISTER_PROPERTY(AssetHandle, IsTemp, bool, true, true);
+        REGISTER_PROPERTY(AssetHandle, IsValid, bool, true, true);
+    }
 
-    AssetHandle::AssetHandle() : UUID(-1) , IsTemp(false) {}
+    AssetHandle AssetHandle::Invalid = AssetHandle::CreateInvalid();
 
-    AssetHandle::~AssetHandle() = default;
+    AssetHandle::AssetHandle()
+        : UUID(-1) ,
+        IsTemp(false) ,
+        IsValid(false)
+    {}
 
-    AssetHandle AssetHandle::Null = AssetHandle::CreateTemp();
-
-    bool AssetHandle::IsValid() const {
-        return true;
+    bool AssetHandle::GetIsValid() const {
+        return IsValid;
     }
 
     bool AssetHandle::GetIsTemp() const {
