@@ -13,8 +13,8 @@ namespace MeowEngine::Asset {
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
     void AssetDirectory::Load() {
-        const auto engineRootPath = MeowService().Project.Paths.GetEngineRootPath();
-        const auto sandboxRootPath = MeowService().Project.Paths.GetSandboxRootPath();
+        const auto engineRootPath = MeowService().ConfigManager.Paths.GetEngineRootPath();
+        const auto sandboxRootPath = MeowService().ConfigManager.Paths.GetSandboxRootPath();
 
         // const Path engineRootPath = "";
         // const Path sandboxRootPath = "";
@@ -65,12 +65,6 @@ namespace MeowEngine::Asset {
         }
         else if (path.GetExtension() == ".cpp") {
             assetType = AssetType::CPP;
-        }
-        else if (path.GetExtension() == ".vert") {
-            assetType = AssetType::VERTEX;
-        }
-        else if (path.GetExtension() == ".frag") {
-            assetType = AssetType::FRAGMENT;
         }
 
         return assetType;

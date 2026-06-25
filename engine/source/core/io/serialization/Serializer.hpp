@@ -16,6 +16,12 @@ namespace MeowEngine::Core::IO::Serialization {
     public:
         explicit Serializer(FileSystem::Path fileName, FileSystem::Path path, std::shared_ptr<FileSystem::FileStream> stream);
 
+        /**
+         * Is all data read? then stop reading, please :)
+         * @return
+         */
+        bool IsEnd() const;
+
         void WriteSize(size_t size) const;
         void WriteInt(int value) const;
         void WriteUInt16(uint16_t value);
@@ -24,6 +30,7 @@ namespace MeowEngine::Core::IO::Serialization {
         void WriteFloat(float value) const;
         void WriteBool(bool value) const;
         void WriteString(const std::string& value) const;
+        void WriteByteVector(const std::vector<uint8_t>& data) const;
 
         template <typename Type>
         void Write(const Type& type) const;
@@ -36,6 +43,7 @@ namespace MeowEngine::Core::IO::Serialization {
         [[nodiscard]] float ReadFloat() const;
         [[nodiscard]] bool ReadBool() const;
         [[nodiscard]] std::string ReadString() const;
+        [[nodiscard]] std::vector<uint8_t> ReadByteVector() const;
 
         template<typename Type>
         Type Read() const;

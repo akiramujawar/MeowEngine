@@ -25,9 +25,11 @@ namespace MeowEngine::Core::IO::FileSystem {
 
     std::string File::ReadText(const std::string_view path) {
         FileStream stream;
-        std::string data;
-
         stream.Open(Path(path), FileMode::READ);
+
+        std::string data;
+        data.resize(stream.Size());
+
         stream.Read(data.data(), data.size());
         stream.Close();
 

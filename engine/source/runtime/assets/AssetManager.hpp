@@ -31,7 +31,7 @@ namespace MeowEngine::Asset {
 
         AssetDirectory& GetDirectory() { return Directory; };
 
-        bool CreateAndSaveEmptyAsset(const AssetHandle& handle, AssetType type,  const Path& path);
+        static bool CreateAndSaveEmptyAsset(const AssetHandle& handle, AssetType type,  const Path& path);
 
         template<typename AssetType>
         AssetHandle CreateTempAsset();

@@ -88,7 +88,7 @@ namespace MeowEngine::Rendering {
     }
 
     void ImGuiRender::SaveLayout() {
-        auto path = MeowService().Project.Paths.GetExecutablePath() + "assets/Layout.ini";
+        auto path = MeowService().ConfigManager.Paths.GetExecutablePath() + "assets/Layout.ini";
         ImGui::SaveIniSettingsToDisk(path.CStr());
 
         MeowEngine::Log("ImGui Layout Path", path.GetRawString());

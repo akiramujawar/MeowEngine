@@ -115,7 +115,7 @@ namespace MeowEngine::Asset {
         auto serializer = OpenSerializer(path, FileSystem::FileMode::WRITE);
 
         WriteHeader(serializer, header);
-        serializer.WriteUInt32(0);
+        // serializer.WriteUInt32(0);
 
         CloseSerializer(serializer);
 

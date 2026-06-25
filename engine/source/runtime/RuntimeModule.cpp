@@ -24,7 +24,7 @@ namespace MeowEngine::Runtime {
     }
 
     void RuntimeModule::Load() {
-        WorldManager.Load(MeowService().Project.SandboxConfig.LaunchWorldHandle);
+        WorldManager.Load(MeowService().ConfigManager.SandboxConfig.LaunchWorldHandle);
     }
 
     void RuntimeModule::Schedule(Threading::Scheduler& scheduler) {

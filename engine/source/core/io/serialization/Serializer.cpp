@@ -15,6 +15,12 @@ namespace MeowEngine::Core::IO::Serialization {
         , Path(std::move(path))
         , Stream(std::move(stream)) {}
 
+    bool Serializer::IsEnd() const {
+        auto test = Stream->Tell();
+        auto test1 = Stream->Size();
+        return Stream->Tell() == Stream->Size();
+    }
+
     void Serializer::WriteSize(const size_t size) const {
         Stream->Write(&size, sizeof(size_t));
     }
@@ -48,6 +54,12 @@ namespace MeowEngine::Core::IO::Serialization {
 
         Stream->Write(&valueSize, sizeof(size_t));
         Stream->Write(value.data(), valueSize);
+    }
+
+    void Serializer::WriteByteVector(const std::vector<uint8_t>& data) const {
+        auto size = data.size();
+        Stream->Write(&size, sizeof(size_t));
+        Stream->Write(data.data(), size);
     }
 
     size_t Serializer::ReadSize() const {
@@ -110,4 +122,13 @@ namespace MeowEngine::Core::IO::Serialization {
         return value;
     }
 
+    std::vector<uint8_t> Serializer::ReadByteVector() const {
+        size_t size;
+        Stream->Read(&size, sizeof(size_t));
+
+        std::vector<uint8_t> value(size);
+        Stream->Read(value.data(), size);
+
+        return value;
+    }
 }

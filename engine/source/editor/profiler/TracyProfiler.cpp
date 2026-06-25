@@ -50,7 +50,7 @@ namespace  MeowEngine::Editor {
 
         if (ProcessID == 0) {
             // Child process
-            auto profilerPath = MeowService().Project.Paths.GetExecutablePath() + "engine/dependencies/profiler/build/unix/Tracy-release";
+            auto profilerPath = MeowService().ConfigManager.Paths.GetExecutablePath() + "engine/dependencies/profiler/build/unix/Tracy-release";
             const char* path = profilerPath.CStr();
             if (execl(path, path, (char*) NULL) == -1) {
                 perror("execl");
