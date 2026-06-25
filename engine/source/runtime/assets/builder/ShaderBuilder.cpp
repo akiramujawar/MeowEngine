@@ -14,13 +14,13 @@ namespace MeowEngine::Asset {
     void ShaderBuilder::CreateShaderAssets() {
         const auto engineRootPath = MeowService().ConfigManager.Paths.GetEngineRootPath();
         const auto engineShaderRawPath = engineRootPath + "engine/shaders";
-        const auto engineShaderCachePath = engineRootPath + ".cache/shader";
+        const auto engineShaderCachePath = engineRootPath + ".cache/shaders";
 
         Create(engineShaderRawPath, engineShaderCachePath);
 
         const auto sandboxRootPath = MeowService().ConfigManager.Paths.GetSandboxRootPath();
         const auto sandboxShaderRawPath = sandboxRootPath + "shaders";
-        const auto sandboxShaderCachePath = sandboxRootPath + ".cache/shader";
+        const auto sandboxShaderCachePath = sandboxRootPath + ".cache/shaders";
 
         Create(sandboxShaderRawPath, sandboxShaderCachePath);
     }

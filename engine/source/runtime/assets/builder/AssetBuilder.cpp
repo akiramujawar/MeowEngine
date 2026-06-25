@@ -10,12 +10,6 @@
 
 namespace MeowEngine::Asset {
     void AssetBuilder::Build() {
-        // get path to engine shader folder
-        // put the cache in root .cache
-        // get path to sandbox shader folder
-        // put the cache in root .cache
-        // link in cmake as
-
         ShaderBuilder::CreateShaderAssets();
     }
 }

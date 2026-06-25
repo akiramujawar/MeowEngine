@@ -24,14 +24,14 @@ namespace MeowEngine::Asset {
 
         EngineFolderCache.Bootstrap(
             engineRootPath + "engine/source",
-            engineRootPath + "engine/shaders",
-            engineRootPath + "engine/assets"
+            "engine/shaders",
+            "engine/assets"
         );
 
         SandboxFolderCache.Bootstrap(
             sandboxRootPath + "source",
-            sandboxRootPath + "shaders",
-            sandboxRootPath + "assets"
+            "shaders",
+            "assets"
         );
 
         EngineFolderCache.Load();

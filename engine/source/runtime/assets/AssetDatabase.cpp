@@ -133,19 +133,25 @@ namespace MeowEngine::Asset {
     void AssetDatabase::Remove(const AssetHandle& handle) {}
 
     void AssetDatabase::Rebuild() {
-        const auto sandboxAssetsPath = "assets";
         // const auto sandboxAssetsPath = MeowService().Project.Paths.GetExecutablePath() + "assets";
         const auto sandboxAssetRegistryPath = MeowService().ConfigManager.Paths.GetSandboxAssetResolverPath();
-        UpdateAssetHandles(sandboxAssetsPath, SandboxRegistry);
+        SandboxRegistry.Clear();
+
+        UpdateAssetHandles("assets", SandboxRegistry);
+        UpdateAssetHandles("shaders", SandboxRegistry);
+
         AssetRegistrySerializer::Serialize(
             sandboxAssetRegistryPath, SandboxRegistry
         );
 
         // when running as client we don't run this.
-        const auto engineAssetsPath = "engine/assets";
         // const auto engineAssetsPath = MeowService().Project.Paths.GetExecutablePath() + "engine/assets";
         const auto engineAssetRegistryPath = MeowService().ConfigManager.Paths.GetEngineAssetResolverPath();
-        UpdateAssetHandles(engineAssetsPath, EngineRegistry);
+        EngineRegistry.Clear();
+
+        UpdateAssetHandles("engine/assets", EngineRegistry);
+        UpdateAssetHandles("engine/shaders", EngineRegistry);
+
         AssetRegistrySerializer::Serialize(
             engineAssetRegistryPath, EngineRegistry
         );
@@ -164,7 +170,6 @@ namespace MeowEngine::Asset {
     void AssetDatabase::UpdateAssetHandles(const Path& path, AssetRegistry& assetRegistry) {
         std::unordered_set<AssetHandle> verifiedHandles;
 
-        assetRegistry.Clear();
         CheckDirectoryForAssetHandles(path, assetRegistry, verifiedHandles);
     }
 

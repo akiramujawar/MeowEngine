@@ -66,6 +66,7 @@ namespace MeowEngine {
         ConfigManager.Setup();
 
         Init();
+        Build();
         Load();
 
 #if __WEB__
@@ -83,27 +84,9 @@ namespace MeowEngine {
     }
 
     void Engine::Init() {
-        // on create
-        // - create window - graphics
-        // - create context - graphics
-        // - init opengl - renderer
-        // - window clear context - graphics
-        // - transfer window for new context - graphics
-        // - select project path - project settings
-        // - update current directory - editor selector
-        // GraphicsDevice = Graphics::GraphicsDevice();
         Rendering::RenderCommand::Init(Rendering::GraphicsType::OPENGL);
 
-        // Select and set project path
-        // std::string projectPath;
-        // RenderThread->ShowPickFolderPopup(projectPath);
-        // Project.ProjectSettings.SetProjectPath(projectPath);
-
-        // Initialise
-        // TODO: later we will include everything here (like InputManager etc...)
-
         Asset::AssetManagerInitData assetManagerInit{};
-
         AssetManager.Init(assetManagerInit);
 
         // -- runtime
@@ -158,6 +141,13 @@ namespace MeowEngine {
         };
 
         MeowService::Init(meowServiceInit);
+    }
+
+    void Engine::Build() {
+        // any cache generation
+        // in current case our shaders
+        AssetBuilder.Build();
+        AssetManager.RebuildDatabase();
     }
 
     void Engine::Load() {

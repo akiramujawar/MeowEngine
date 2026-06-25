@@ -41,14 +41,27 @@ pushd builds/console || exit
         # shellcheck disable=SC2226
         ln -s "${ENGINE_PATH}/engine/assets"
     fi
+
+    if [ ! -d 'shaders' ]; then
+        echo "Linking Shaders"
+        # shellcheck disable=SC2226
+        ln -s "${ENGINE_PATH}/.cache/shaders"
+    fi
+
   popd || exit
 
   if [ ! -d 'assets' ]; then
       echo "Linking Example Project"
       # shellcheck disable=SC2226
       ln -s "${SANDBOX_PATH}"/assets
-#      mv examples project
   fi
+
+  if [ ! -d 'shaders' ]; then
+      echo "Linking Example Project"
+      # shellcheck disable=SC2226
+      ln -s "${SANDBOX_PATH}"/.cache/shaders
+  fi
+
 popd || exit
 
 echo "- Adding Frameworks @rpath to binary ..."

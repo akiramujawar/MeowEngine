@@ -8,9 +8,10 @@
 #pragma once
 
 #include <Public/Threading/Forward.hpp>
-#include <Timing.hpp>
 
 #include <IExecutor.hpp>
+#include "ConfigManager.hpp"
+#include <Timing.hpp>
 
 #include <CommandQueue.hpp>
 #include <EventBus.hpp>
@@ -26,8 +27,8 @@
 #include <RuntimeModule.hpp>
 #include <PhysicsModule.hpp>
 
-#include <ConfigManager.hpp>
 #include <AssetManager.hpp>
+#include "AssetBuilder.hpp"
 
 
 using namespace std;
@@ -59,6 +60,11 @@ namespace MeowEngine {
          * Initialise engine systems
          */
         void Init();
+
+        /**
+         * Convert all shaders into assets
+         */
+        void Build();
 
         /**
          * Load project and other engine specific assets
@@ -101,6 +107,7 @@ namespace MeowEngine {
         // essentials
         Runtime::ConfigManager ConfigManager;
         Asset::AssetManager AssetManager;
+        Asset::AssetBuilder AssetBuilder;
         Input::InputDevice InputDevice;
         Core::Timing Timing;
 
