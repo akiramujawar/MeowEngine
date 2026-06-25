@@ -27,7 +27,10 @@ namespace MeowEngine::Runtime {
 
     void ConfigManager::Load() {
         // NOTE: ONLY in engine editor builds
-        EditorConfig.Load(Paths.GetSandboxRootPath());
+        EditorConfig.LoadConfig(Paths.GetSandboxRootPath());
+        SandboxConfig.LoadConfig(Paths.GetSandboxRootPath());
+
+        // TODO: add a Standalone.yml for build runs (for standalone final builds)
     }
 
     void ConfigManager::Resolve() {

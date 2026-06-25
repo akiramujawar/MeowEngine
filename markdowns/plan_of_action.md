@@ -24,7 +24,7 @@
 - [ ] Render loading pipeline (shaders, textures, meshes)
 - [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
 - [ ] Messaging systems (command, request & event)
-- [ ] Config load & bootstrap for editor load
+- [x] Config load & bootstrap for editor load
 - [x] Refactor cmake to have engine & standalone lib
 - [x] Find a way to isolate and build code while developing simulations
 

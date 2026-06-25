@@ -14,7 +14,7 @@ namespace MeowEngine::Runtime {
     struct EditorConfig {
         // engine root path
         // handles for asset thumbnails
-        void Load(const Path& path);
+        void LoadConfig(const Path& path);
 
         std::string EngineRootPath;
     };

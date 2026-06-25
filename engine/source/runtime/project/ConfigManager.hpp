@@ -25,7 +25,7 @@ namespace MeowEngine::Runtime {
     public:
         Settings::PathContext Paths;
 
-        Asset::SandboxConfig SandboxConfig;
+        SandboxConfig SandboxConfig;
         EditorConfig EditorConfig;
 
         // paths load
