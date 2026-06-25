@@ -12,7 +12,8 @@ namespace MeowEngine::Editor {
             // NOTE: remember memory layout for char is ['a','b','c',...,'\0']
             // char is read until it hits '\0'
             // std::string::size() doesn't count '\0' hence we "+1" to calc total size
-            ImGui::SetDragDropPayload("DragAndDropAsset", &asset, asset.AbsolutePath.GetRawString().size() + 1); // +1
+            ImGui::SetDragDropPayload("DragAndDropAsset", &asset, sizeof(Asset::DirectoryAsset)); // +1
+            // MeowEngine::Log("Payload Start: ", std::to_string(asset.FileHandle.GetUUID()));
             
             float textWidth = ImGui::CalcTextSize(name.c_str()).x;
             float imageSize = 64;
@@ -43,6 +44,7 @@ namespace MeowEngine::Editor {
         if (ImGui::BeginDragDropTarget()) {
             if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
                 auto* payloadData = static_cast<Asset::DirectoryAsset*>(payloadVoidPtr->Data);
+                // MeowEngine::Log("Payload End: ", std::to_string(payloadData->FileHandle.GetUUID()));
                 asset = Asset::AssetHandle::Create(payloadData->FileHandle.GetUUID());
 
                 isDropped = true;
