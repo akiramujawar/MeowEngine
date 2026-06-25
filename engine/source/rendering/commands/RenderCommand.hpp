@@ -20,6 +20,7 @@ namespace MeowEngine::Rendering {
 
         // frame buffer stuff
         static void Clear();
+        static ISceneFrameBuffer& GetSceneFrameBuffer();
 
     private:
         static std::unique_ptr<IRenderAPI> Command;

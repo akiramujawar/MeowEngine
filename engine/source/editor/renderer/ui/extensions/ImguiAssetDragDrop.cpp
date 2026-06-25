@@ -45,7 +45,7 @@ namespace MeowEngine::Editor {
             if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
                 auto* payloadData = static_cast<Asset::DirectoryAsset*>(payloadVoidPtr->Data);
                 // MeowEngine::Log("Payload End: ", std::to_string(payloadData->FileHandle.GetUUID()));
-                asset = Asset::AssetHandle::Create(payloadData->FileHandle.GetUUID());
+                asset = Asset::AssetHandle::Create(payloadData->FileHandle.GetUUID()); // TODO: check for multithread support
 
                 isDropped = true;
             }

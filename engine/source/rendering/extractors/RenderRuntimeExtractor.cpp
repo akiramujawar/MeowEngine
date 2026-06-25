@@ -31,7 +31,7 @@ namespace MeowEngine::Rendering {
         for (auto &&entity : meshesView) {
             auto&& [mesh, transform] = meshesView.get(entity);
             Rendering::MeshDrawData data;
-            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
+            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
             data.Mesh = MeshRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
             data.Texture = TextureRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
             data.TransformMatrix = transform.TransformMatrix; // this doesnt exist
@@ -39,11 +39,18 @@ namespace MeowEngine::Rendering {
             frame.Meshes.push_back(data);
         }
 
+        // access grid component
+        // access shader asset handle
+        // load shader using asset manager
+        // create shader render handle
+        // if cannot load
+        // assign invalid handle
+
         // sky box
         auto skyBox = ecs.try_get<Runtime::SkyBoxComponent>(world.SkyBox.GetEntity());
         if (skyBox != nullptr) {
             SkyboxDrawData data;
-            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
+            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
             data.TransformMatrix = glm::mat4(1.0f); // camera
 
             frame.Skybox = data;

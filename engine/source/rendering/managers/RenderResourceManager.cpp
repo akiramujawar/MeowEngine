@@ -21,7 +21,7 @@ namespace MeowEngine::Rendering {
     // TextureRenderHandle RenderResourceManager::ResolveTextureHandle(Asset::AssetHandle bitmap) {}
 
     GLShaderResource& RenderResourceManager::GetShaderResource(ShaderRenderHandle asset) {
-        auto [iterator, inserted] = ShaderResources.try_emplace(asset, asset.VertexAsset, asset.FragmentAsset);
+        auto [iterator, inserted] = ShaderResources.try_emplace(asset, asset.AssetHandle);
 
         return iterator->second;
     }

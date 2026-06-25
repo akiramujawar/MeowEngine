@@ -9,6 +9,7 @@
 #include <RendererInitData.hpp>
 #include <GraphicsDevice.hpp>
 #include <RenderCommand.hpp>
+#include "WorldFrameBufferScope.hpp"
 
 #include <SkyBoxPass.hpp>
 #include <EditorOverlayPass.hpp>
@@ -21,9 +22,7 @@
 #include "RenderContext.hpp"
 
 namespace MeowEngine::Rendering {
-    SceneRenderer::SceneRenderer()
-        : SceneViewFrameBuffer(Graphics::GLWorldViewBuffer(1000, 500))
-    {
+    SceneRenderer::SceneRenderer() {
         MeowEngine::Log("SceneRenderer", "Constructed");
     }
 
@@ -34,48 +33,26 @@ namespace MeowEngine::Rendering {
     void SceneRenderer::Init(RendererInitData& context) {
         RuntimeSceneBuilder.Init();
         EditorSceneBuilder.Init();
+
+        RenderGraph.Clear();
+        RenderGraph.Add<SkyboxPass>();
+        RenderGraph.Add<EditorOverlayPass>();
+        RenderGraph.Add<GeometryPass>();
+        RenderGraph.Add<DebugPass>();
+        RenderGraph.Add<PostProcessPass>();
+        RenderGraph.Add<GizmoPass>();
     }
 
     void SceneRenderer::Schedule(Threading::Scheduler& scheduler, RenderContext& renderContext) {
-        scheduler.AddTask(
-            [this]() {
-                SceneViewFrameBuffer.Bind();
-            }
-        );
-
-        scheduler.AddTask(
-            []() {
-                RenderCommand::Clear();
-            }
-        );
-
-        // scheduler.AddTask({
-        //     [] {
-        //
-        //     }
-        // });
 
 
         scheduler.AddTask(
             [this, &renderContext]() {
                 renderContext.SceneData = &renderContext.Extractor->GetRenderSceneData().GetFinal();
 
-                RenderGraph.Clear();
-
-                RenderGraph.Add<SkyboxPass>();
-                RenderGraph.Add<EditorOverlayPass>();
-                RenderGraph.Add<GeometryPass>();
-                RenderGraph.Add<DebugPass>();
-                RenderGraph.Add<PostProcessPass>();
-                RenderGraph.Add<GizmoPass>();
-
+                WorldFrameBufferScope scope(RenderCommand::GetSceneFrameBuffer());
+                RenderCommand::Clear();
                 RenderGraph.Execute(renderContext);
-            }
-        );
-
-        scheduler.AddTask(
-            [this]() {
-                SceneViewFrameBuffer.Unbind();
             }
         );
 

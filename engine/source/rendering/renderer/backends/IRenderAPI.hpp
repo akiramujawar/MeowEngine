@@ -5,6 +5,11 @@
 #ifndef MEOWENGINE_IRENDERAPI_HPP
 #define MEOWENGINE_IRENDERAPI_HPP
 
+#include <memory>
+
+#include "ISceneFrameBuffer.hpp"
+
+
 namespace MeowEngine::Graphics {
     class GraphicsDevice;
 }
@@ -21,6 +26,8 @@ namespace MeowEngine::Rendering {
          * Clears screen space
          */
         virtual void Clear() = 0;
+
+        virtual std::shared_ptr<ISceneFrameBuffer> GetSceneFrameBuffer() = 0;
     };
 }
 

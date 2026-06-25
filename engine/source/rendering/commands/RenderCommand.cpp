@@ -23,5 +23,9 @@ namespace MeowEngine::Rendering {
         Command->Clear();
     }
 
+    ISceneFrameBuffer& RenderCommand::GetSceneFrameBuffer() {
+        return *Command->GetSceneFrameBuffer();
+    }
+
     std::unique_ptr<IRenderAPI> RenderCommand::Command = nullptr;
 }

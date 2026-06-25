@@ -14,6 +14,14 @@ namespace MeowEngine::Rendering {
         ~GLRender() override;
 
         void Clear() override;
+
+        std::shared_ptr<ISceneFrameBuffer> GetSceneFrameBuffer() override;
+
+    private:
+        /**
+         * Draws our game view onto a ui panel (which is a framebuffer)
+         */
+        std::shared_ptr<ISceneFrameBuffer> SceneViewFrameBuffer;
     };
 }
 

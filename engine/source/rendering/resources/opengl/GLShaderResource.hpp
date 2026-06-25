@@ -10,7 +10,7 @@
 
 namespace MeowEngine::Rendering {
     struct GLShaderResource {
-        GLShaderResource(Asset::AssetHandle vertex, Asset::AssetHandle fragment) {
+        GLShaderResource(Asset::AssetHandle handle) {
 
         }
 

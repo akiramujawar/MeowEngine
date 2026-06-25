@@ -40,7 +40,7 @@ namespace MeowEngine::Rendering {
 
             if (transform != nullptr) {
                 Rendering::TransformHandleDrawData data {};
-                data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
+                data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
                 data.TransformMatrix = transform->TransformMatrix;
 
                 frame.TransformHandles.push_back(data);
@@ -48,7 +48,7 @@ namespace MeowEngine::Rendering {
         }
 
         // grid
-        frame.Grid.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
+        frame.Grid.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
         frame.Grid.TransformMatrix = glm::mat4(1.0f); // camera mvp
 
         // physics colliders (box, sphere)
@@ -60,7 +60,7 @@ namespace MeowEngine::Rendering {
                 case Runtime::ColliderType::BOX: {
                     auto shape = collider.GetColliderData().Cast<Runtime::BoxColliderShape>();
                     BoxColliderDrawData data;
-                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
+                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
                     data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.BoxColliders.push_back(data);
@@ -70,7 +70,7 @@ namespace MeowEngine::Rendering {
                 case Runtime::ColliderType::SPHERE: {
                     auto shape = collider.GetColliderData().Cast<Runtime::SphereColliderShape>();
                     SphereColliderDrawData data;
-                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid, Asset::AssetHandle::Invalid);
+                    data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
                     data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.SphereColliders.push_back(data);
