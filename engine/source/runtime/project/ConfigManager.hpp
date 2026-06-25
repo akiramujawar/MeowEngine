@@ -26,7 +26,7 @@ namespace MeowEngine::Runtime {
         Settings::PathContext Paths;
 
         Asset::SandboxConfig SandboxConfig;
-        Asset::EditorConfig EditorConfig;
+        EditorConfig EditorConfig;
 
         // paths load
         // - deserialize EditorConfig

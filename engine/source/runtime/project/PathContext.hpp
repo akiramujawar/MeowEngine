@@ -16,7 +16,6 @@ namespace MeowEngine::Settings {
         : EngineRootPath("") // TODO: we retrieve this from Sandbox.txt
         , SandboxRootPath("")
         , ExecutablePath("")
-        , MeowProjectPath("")
         , EngineAssetRegistryPath("")
         , SandboxAssetRegistryPath("") {}
 
@@ -36,10 +35,6 @@ namespace MeowEngine::Settings {
         void InitDevelopment() {
             // we can get engine path by reading project metadata
             SandboxRootPath = ExecutablePath.GetParent().GetParent();
-
-            auto meowProject = SandboxRootPath + SandboxRootPath.GetName();
-            meowProject.ReplaceExtension(".meowproject");
-            MeowProjectPath = meowProject;
         }
 
         /**
@@ -70,12 +65,15 @@ namespace MeowEngine::Settings {
             return SandboxAssetRegistryPath;
         }
 
+        void SetEngineRootPath(const Path& path) {
+            EngineRootPath = path;
+        }
+
     private:
         // - for editor only
         // only use while running editor (@EngineRootPath & @SandboxRootPath)
         Path EngineRootPath;
         Path SandboxRootPath;
-        Path MeowProjectPath;
 
         // for runtime
         Path ExecutablePath;

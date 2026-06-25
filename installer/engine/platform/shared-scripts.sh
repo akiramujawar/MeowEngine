@@ -55,6 +55,22 @@ verify_frameworks_folder_exists() {
   popd || exit
 }
 
+fetch_third_party_yaml_cpp() {
+    verify_third_party_folder_exists
+    pushd libs/third-party
+      if [ ! -d "yamlcpp" ] ; then
+         echo "Fetching Yaml CPP"
+
+         git clone https://github.com/jbeder/yaml-cpp.git yamlcpp
+#         cd yamlcpp
+#         mkdir build
+#         cmake -DYAML_BUILD_SHARED_LIBS=OFF ..
+#
+#         make -j8
+      fi
+    popd
+}
+
 fetch_third_party_lib_native_file_dialog() {
   verify_third_party_folder_exists
 

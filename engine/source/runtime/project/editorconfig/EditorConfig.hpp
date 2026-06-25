@@ -5,12 +5,18 @@
 #ifndef MEOWENGINE_EDITORCONFIG_HPP
 #define MEOWENGINE_EDITORCONFIG_HPP
 
-#include "AssetHandle.hpp"
 
-namespace MeowEngine::Asset {
+#include <string>
+
+#include "Public/Core/Forward.hpp"
+
+namespace MeowEngine::Runtime {
     struct EditorConfig {
         // engine root path
         // handles for asset thumbnails
+        void Load(const Path& path);
+
+        std::string EngineRootPath;
     };
 }
 

@@ -4,8 +4,9 @@
 
 #include "ConfigManager.hpp"
 
+
 namespace MeowEngine::Runtime {
-    ConfigManager::ConfigManager() : Paths() {
+    ConfigManager::ConfigManager() : Paths(), SandboxConfig() {
         MeowEngine::Log("Project", "Constructed");
     }
 
@@ -25,10 +26,12 @@ namespace MeowEngine::Runtime {
     }
 
     void ConfigManager::Load() {
-        // TODO: load configs
+        // NOTE: ONLY in engine editor builds
+        EditorConfig.Load(Paths.GetSandboxRootPath());
     }
 
     void ConfigManager::Resolve() {
-        // TODO: use config to update engine path
+        // NOTE: ONLY in engine editor builds
+        Paths.SetEngineRootPath(Path {EditorConfig.EngineRootPath});
     }
 }

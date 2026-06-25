@@ -17,6 +17,7 @@ include(ConcurrentQueue.cmake)
 include(Entt.cmake)
 include(PhysX.cmake)
 include(ImGui.cmake)
+include (YamlCpp.cmake)
 
 if(NOT EMSCRIPTEN)
     include(Tracy.cmake)
