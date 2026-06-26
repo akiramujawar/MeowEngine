@@ -5,11 +5,11 @@
 #ifndef MEOWENGINE_MESH_RENDER_COMPONENT_HPP
 #define MEOWENGINE_MESH_RENDER_COMPONENT_HPP
 
-#include "render_component_base.hpp"
+#include "RenderComponent.hpp"
 #include "static_mesh_instance.hpp"
 
 namespace MeowEngine::Runtime {
-    class MeshRenderComponent : public MeowEngine::Runtime::RenderComponentBase {
+    class MeshRenderComponent : public RenderComponent {
 
     public:
         REFLECT_COMPONENT(MeshRenderComponent)

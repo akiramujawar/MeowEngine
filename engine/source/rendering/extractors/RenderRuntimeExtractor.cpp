@@ -14,12 +14,16 @@
 // components
 #include <mesh_render_component.hpp>
 #include <transform3d_component.hpp>
-#include "sky_box_component.hpp"
+
+#include "AssetManager.hpp"
+#include "ShaderAsset.hpp"
+#include "SkyBoxComponent.hpp"
 
 namespace MeowEngine::Rendering {
     void RenderRuntimeExtractor::Init(const RenderExtractorInitData& frame) {
         Gameplay = frame.Gameplay;
         Selector = frame.Selector;
+        AssetManager = frame.AssetManager;
     }
 
     void RenderRuntimeExtractor::ExtractScene(RenderSceneData& frame) {

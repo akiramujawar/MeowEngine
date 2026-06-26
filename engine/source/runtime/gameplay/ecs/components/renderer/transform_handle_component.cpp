@@ -4,17 +4,13 @@
 
 #include "transform_handle_component.hpp"
 
-using MeowEngine::Runtime::TransformHandleComponent;
+namespace MeowEngine::Runtime {
+    using Asset::AssetHandle;
 
-void TransformHandleComponent::Reflect() {
-    REGISTER_ENUM(TransformHandleComponent, Shader, MeowEngine::assets::ShaderPipelineType, false)
-}
+    void TransformHandleComponent::Reflect() {
+        REGISTER_PROPERTY(TransformHandleComponent, ShaderHandle, AssetHandle, true, false);
+    }
 
-TransformHandleComponent::TransformHandleComponent()
-    : MeowEngine::Runtime::RenderComponentBase(MeowEngine::assets::ShaderPipelineType::TRANSFORM_HANDLE) {
-}
-
-TransformHandleComponent::TransformHandleComponent(MeowEngine::assets::ShaderPipelineType shaderPipelineType)
-    : MeowEngine::Runtime::RenderComponentBase(shaderPipelineType) {
+    TransformHandleComponent::TransformHandleComponent() {}
 
 }

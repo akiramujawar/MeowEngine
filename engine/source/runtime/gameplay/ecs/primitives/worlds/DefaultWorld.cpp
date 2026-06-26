@@ -8,14 +8,14 @@
 #include <Public/Core/Include.hpp>
 
 #include <IdentityComponent.hpp>
-#include <info_component.hpp>
+#include <InfoComponent.hpp>
 #include <HierarchyComponent.hpp>
 
 #include <transform_handle_component.hpp>
 #include <transform3d_component.hpp>
-#include <camera_component.hpp>
-#include <grid_component.hpp>
-#include <sky_box_component.hpp>
+#include <PerspectiveCameraComponent.hpp>
+#include <GridComponent.hpp>
+#include <SkyBoxComponent.hpp>
 #include <reflection_test_component.hpp>
 
 namespace MeowEngine::Runtime {
@@ -40,50 +40,41 @@ namespace MeowEngine::Runtime {
 
     void DefaultWorld::CreateCamera() {
         const auto entity = AddEntity();
+        auto& identity = GetComponent<IdentityComponent>(entity);
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
-        // auto& tree = AddComponent<component::HierarchyComponent>(entity);
         auto& transform = AddComponent<Runtime::Transform3DComponent>(entity);
+        auto& camera = AddComponent<Runtime::PerspectiveCameraComponent>(entity);
 
-        // tree.Self = entity;
         info.SetName(String("[EDITOR] Camera"));
         transform.Position = Vector3(10,20,300);
         transform.Scale = Vector3(1,1,1);
         transform.Euler = Vector3(1,10,2);
         transform.Rotation = Quaternion(transform.Euler);
 
-        // AddComponent<entity::CameraComponent>(
-        //     cameraEntity
-        // );
+        ActiveCamera = identity.GetEntityHandle();
     }
 
     void DefaultWorld::CreateGrid() {
         const auto entity = AddEntity();
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
-        // auto& tree = AddComponent<component::HierarchyComponent>(entity);
-        // tree.Self = entity;
-        info.SetName(String("[Editor] Grid"));
-
         AddComponent<Runtime::GridComponent>(entity);
+
+        info.SetName(String("[Editor] Grid"));
     }
 
     void DefaultWorld::CreateSky() {
         const auto entity = AddEntity();
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
-        // auto& tree = AddComponent<component::HierarchyComponent>(entity);
-        // tree.Self = entity;
-        info.SetName(String("Sky Box"));
+        auto& identity = GetComponent<Runtime::IdentityComponent>(entity);
+        AddComponent<Runtime::SkyBoxComponent>(entity);
 
-        // AddComponent<entity::SkyBoxComponent>(
-        //         skyEntity,
-        //         assets::ShaderPipelineType::Sky
-        // );
+        info.SetName(String("Sky Box"));
+        SkyBox = identity.GetEntityHandle();
     }
 
     void DefaultWorld::CreateTransformHandle() {
         const auto entity = AddEntity();
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
-        // auto& tree = AddComponent<component::HierarchyComponent>(entity);
-        // tree.Self = entity;
         info.SetName(String("[EDITOR] TransformHandle"));
 
         // AddComponent<entity::TransformHandleComponent>(
@@ -147,12 +138,9 @@ namespace MeowEngine::Runtime {
 
     EntityHandle DefaultWorld::CreateDefaultEntity(std::string name) {
         const auto entity = AddEntity();
-
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
-        // auto& tree = AddComponent<component::HierarchyComponent>(entity);
 
         info.SetName(String(name));
-        // tree.Self = entity;
 
         return entity;
     }

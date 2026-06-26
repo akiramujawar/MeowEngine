@@ -23,6 +23,7 @@ namespace MeowEngine::Rendering {
     private:
         Runtime::GameplaySystem* Gameplay;
         Editor::Selector* Selector;
+        Asset::AssetManager* AssetManager;
     };
 }
 

@@ -7,7 +7,7 @@
 #include <Public/Math.hpp>
 #include <Public/Core/Include.hpp>
 #include <IdentityComponent.hpp>
-#include <info_component.hpp>
+#include <InfoComponent.hpp>
 
 namespace MeowEngine::Runtime {
     ReflectionWorld::ReflectionWorld() {

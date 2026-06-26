@@ -13,5 +13,5 @@ void MeowEngine::Runtime::MeshRenderComponent::Reflect() {
 
 MeshRenderComponent::MeshRenderComponent(MeowEngine::assets::ShaderPipelineType shader, MeowEngine::StaticMeshInstance *meshInstance)
     : MeshInstance(meshInstance) {
-    Shader = shader;
+
 }

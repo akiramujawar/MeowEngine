@@ -8,7 +8,7 @@
 #include <Public/Math.hpp>
 #include <Public/Core/Include.hpp>
 #include <IdentityComponent.hpp>
-#include <info_component.hpp>
+#include <InfoComponent.hpp>
 
 #include "HierarchyComponent.hpp"
 

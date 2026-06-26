@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 01/08/24.
 //
 
-#include "info_component.hpp"
+#include "InfoComponent.hpp"
 #include <log.hpp>
 #include "reflection_macro_wrapper.hpp"
 

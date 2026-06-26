@@ -13,7 +13,7 @@
 #include "opengl_transform_handle_pipeline.hpp"
 
 #include "transform_handle_component.hpp"
-#include "grid_component.hpp"
+#include "GridComponent.hpp"
 
 using MeowEngine::OpenGLRenderSystem;
 

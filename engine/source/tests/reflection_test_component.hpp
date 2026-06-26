@@ -8,7 +8,7 @@
 #include <String.hpp>
 #include <collider_shape_type.hpp>
 #include <log.hpp>
-#include "ComponentBase.hpp"
+#include "IComponent.hpp"
 
 namespace MeowEngine::Runtime {
     class BasicClass {
@@ -94,7 +94,7 @@ namespace MeowEngine::Runtime {
         BasicClass* BasicClassNonNull;
     };
 
-    class ReflectionTestComponent : public MeowEngine::Runtime::ComponentBase {
+    class ReflectionTestComponent : public MeowEngine::Runtime::IComponent {
     public:
         REFLECT_COMPONENT(ReflectionTestComponent)
         static void Reflect();

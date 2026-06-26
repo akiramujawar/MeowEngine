@@ -6,7 +6,7 @@
 
 #include <log.hpp>
 
-#include "info_component.hpp"
+#include "InfoComponent.hpp"
 
 #include <RenderContext.hpp>
 #include <RenderUIData.hpp>

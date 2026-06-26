@@ -5,14 +5,14 @@
 #ifndef MEOWENGINE_COLLIDER_COMPONENT_HPP
 #define MEOWENGINE_COLLIDER_COMPONENT_HPP
 
-#include <ComponentBase.hpp>
+#include <IComponent.hpp>
 //#include <collider_type.hpp>
 
 #include <box_collider_shape.hpp>
 #include "sphere_collider_shape.hpp"
 
 namespace MeowEngine::Runtime {
-    class ColliderComponent : public MeowEngine::Runtime::ComponentBase {
+    class ColliderComponent : public MeowEngine::Runtime::IComponent {
 
     public:
         REFLECT_COMPONENT(ColliderComponent)

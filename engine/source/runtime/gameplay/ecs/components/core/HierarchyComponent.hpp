@@ -5,12 +5,12 @@
 #ifndef MEOWENGINE_HIERARCHY_COMPONENT_HPP
 #define MEOWENGINE_HIERARCHY_COMPONENT_HPP
 
-#include "ComponentBase.hpp"
+#include "IComponent.hpp"
 #include "EntityHandle.hpp"
 
 namespace MeowEngine::Runtime {
     // TODO: serialize this (update macro for properties which need to be hidden)
-    class HierarchyComponent : public ComponentBase {
+    class HierarchyComponent : public IComponent {
     public:
         REFLECT_COMPONENT(HierarchyComponent)
         static void Reflect();

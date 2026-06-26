@@ -7,8 +7,8 @@
 #include <Public/Math.hpp>
 #include <Public/Core/Include.hpp>
 
-#include <info_component.hpp>
-#include "grid_component.hpp"
+#include <InfoComponent.hpp>
+#include "GridComponent.hpp"
 
 
 namespace MeowEngine::Runtime {

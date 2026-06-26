@@ -9,10 +9,15 @@
 
 namespace MeowEngine::Runtime {
 
-    class ComponentBase : Object {
-        std::string GetClassName() override {
-            return "ComponentBase";
-        };
+    class IComponent : Object {
+    protected:
+        IComponent() = default;
+        ~IComponent() override = default;
+
+    // public:
+    //     std::string GetClassName() override {
+    //         return "ComponentBase";
+    //     };
         // component method's like init & update - virtual
     };
 

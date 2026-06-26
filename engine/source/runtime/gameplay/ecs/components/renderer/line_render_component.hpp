@@ -5,16 +5,18 @@
 #ifndef MEOWENGINE_LINE_RENDER_COMPONENT_HPP
 #define MEOWENGINE_LINE_RENDER_COMPONENT_HPP
 
-#include "render_component_base.hpp"
+#include "RenderComponent.hpp"
+#include "GLM_API.hpp"
 
 // the grid will come in this
 namespace MeowEngine::Runtime {
-    class LineRenderComponent : public MeowEngine::Runtime::RenderComponentBase {
+    class LineRenderComponent : public RenderComponent {
     public:
         REFLECT_COMPONENT(LineRenderComponent)
         static void Reflect();
+
         LineRenderComponent() = default;
-        explicit LineRenderComponent(MeowEngine::assets::ShaderPipelineType shader, glm::vec3 start, glm::vec3 end);
+
 
 //        void Update(const glm::mat4 &projectionViewMatrix) override {
 ////            MeshInstance->Update(projectionViewMatrix);

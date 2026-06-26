@@ -8,7 +8,7 @@
 #include "AssetSerializer.hpp"
 #include "ComponentSerializer.hpp"
 
-#include "info_component.hpp"
+#include "InfoComponent.hpp"
 #include "reflection_test_component.hpp"
 #include "IdentityComponent.hpp"
 #include "ComponentID.hpp"

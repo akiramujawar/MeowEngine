@@ -17,7 +17,7 @@
 
 // components
 #include <IdentityComponent.hpp>
-#include <info_component.hpp>
+#include <InfoComponent.hpp>
 #include <HierarchyComponent.hpp>
 #include <transform3d_component.hpp>
 #include <collider_component.hpp>

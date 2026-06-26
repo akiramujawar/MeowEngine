@@ -34,7 +34,7 @@ namespace MeowEngine::Asset {
         void RemoveEntity(Runtime::EntityID guid);
         bool HasEntity(const Runtime::EntityHandle& handle);
         template <typename Type>
-        bool HasComponent(const Runtime::EntityHandle& handle) const;
+        [[nodiscard]] bool HasComponent(const Runtime::EntityHandle& handle) const;
 
         template<typename Type>
         Type& AddComponent(const Runtime::EntityHandle& handle);

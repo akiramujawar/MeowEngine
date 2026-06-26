@@ -5,14 +5,14 @@
 #ifndef MEOWENGINE_RIGIDBODY_COMPONENT_HPP
 #define MEOWENGINE_RIGIDBODY_COMPONENT_HPP
 
-#include <ComponentBase.hpp>
+#include <IComponent.hpp>
 #include <transform3d_component.hpp>
 #include "PxPhysicsAPI.h"
 
 using namespace MeowEngine::Runtime;
 
 namespace MeowEngine::Runtime {
-    class RigidbodyComponent : public MeowEngine::Runtime::ComponentBase {
+    class RigidbodyComponent : public MeowEngine::Runtime::IComponent {
     public:
         REFLECT_COMPONENT(RigidbodyComponent)
         static void Reflect();

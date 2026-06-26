@@ -9,7 +9,7 @@
 // don't couple all components in world (identity / hierarchy / info are exceptions)
 #include "IdentityComponent.hpp"
 #include "HierarchyComponent.hpp"
-#include "info_component.hpp"
+#include "InfoComponent.hpp"
 
 namespace MeowEngine::Asset {
     World::World()

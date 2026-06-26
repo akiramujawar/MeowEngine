@@ -18,7 +18,7 @@
 #include "box_collider_shape.hpp"
 #include "collider_component.hpp"
 
-#include "sky_box_component.hpp"
+#include "SkyBoxComponent.hpp"
 
 #include "rigidbody_component.hpp"
 
