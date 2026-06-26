@@ -9,7 +9,7 @@ namespace MeowEngine::Runtime {
     using Asset::AssetHandle;
 
     void LineRenderComponent::Reflect() {
-        REGISTER_PROPERTY(LineRenderComponent, ShaderHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(LineRenderComponent, ShaderAssetHandle, AssetHandle, true, false);
     }
 
     // LineRenderComponent::LineRenderComponent(MeowEngine::assets::ShaderPipelineType shader, glm::vec3 start, glm::vec3 end) {

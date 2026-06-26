@@ -13,6 +13,7 @@
 #include "AssetDirectory.hpp"
 
 #include "Path.hpp"
+#include "ShaderAsset.hpp"
 #include "World.hpp"
 
 namespace MeowEngine::Asset {
@@ -38,6 +39,8 @@ namespace MeowEngine::Asset {
 
         template<typename AssetType>
         AssetType* GetAsset(const AssetHandle& handle);
+
+        [[nodiscard]] bool HasAssetInDatabase(const AssetHandle& handle) const;
 
         template<typename AssetType>
         AssetType* LoadAsset(const AssetHandle& handle);
@@ -121,7 +124,7 @@ namespace MeowEngine::Asset {
     template <typename AssetType>
     void AssetManager::SaveAsset(const AssetHandle& handle) {
         const auto path = Registry.GetAssetPath(handle);
-        SaveAssetInternal<World>(handle, path);
+        SaveAssetInternal<AssetType>(handle, path);
     }
 
     template <typename AssetType>
@@ -138,7 +141,7 @@ namespace MeowEngine::Asset {
     template <typename AssetType>
     AssetType* AssetManager::GetAssetOrLoad(const AssetHandle& handle) {
         if (Cache.Has(handle)) {
-            return &Cache.Get<World>(handle);
+            return &Cache.Get<AssetType>(handle);
         }
 
         if (!Registry.Has(handle)) {
@@ -150,6 +153,8 @@ namespace MeowEngine::Asset {
     }
 
     template<> std::unique_ptr<World> AssetManager::LoadAssetInternal<World>(const AssetHandle& handle);
+    template<> std::unique_ptr<ShaderAsset> AssetManager::LoadAssetInternal<ShaderAsset>(const AssetHandle& handle);
+
     template<> void AssetManager::SaveAssetInternal<World>(const AssetHandle& handle, const Path& path);
 
 }

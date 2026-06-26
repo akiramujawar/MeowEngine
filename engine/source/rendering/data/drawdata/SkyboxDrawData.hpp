@@ -13,7 +13,8 @@ namespace MeowEngine::Rendering {
     struct SkyboxDrawData {
         ShaderRenderHandle Shader;
 
-        glm::mat4 TransformMatrix;
+        glm::mat4 CameraViewMatrix;
+        glm::mat4 CameraProjectionMatrix;
     };
 }
 

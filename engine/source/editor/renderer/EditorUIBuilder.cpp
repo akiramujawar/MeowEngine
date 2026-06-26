@@ -59,7 +59,7 @@ namespace MeowEngine::Editor {
 
         WorldInspectorPanel.Draw(renderContext);
         WorldTreePanel.Draw(renderContext);
-        WorldViewPanel.Draw(reinterpret_cast<void*>(frameBufferId), fps);
+        WorldViewPanel.Draw(fps);
         WorldSettingPanel.Draw();
         ProjectSettingPanel.Draw();
         EditorSettingPanel.Draw();

@@ -8,7 +8,7 @@ namespace MeowEngine::Runtime {
     using Asset::AssetHandle;
 
     void GridComponent::Reflect() {
-        REGISTER_PROPERTY(GridComponent, ShaderHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(GridComponent, ShaderAssetHandle, AssetHandle, true, false);
     }
 
     GridComponent::GridComponent() {}

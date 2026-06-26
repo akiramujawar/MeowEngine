@@ -9,7 +9,7 @@ namespace MeowEngine::Runtime {
     using Asset::AssetHandle;
 
     void MeowEngine::Runtime::SkyBoxComponent::Reflect() {
-        REGISTER_PROPERTY(SkyBoxComponent, ShaderHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(SkyBoxComponent, ShaderAssetHandle, AssetHandle, true, false);
     }
 
     SkyBoxComponent::SkyBoxComponent() {}

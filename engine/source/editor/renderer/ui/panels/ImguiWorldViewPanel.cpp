@@ -9,6 +9,7 @@
 #include <SDL_events.h>
 
 #include "UserDeviceInputType.hpp"
+#include "RenderCommand.hpp"
 
 namespace MeowEngine::Editor {
 
@@ -24,7 +25,7 @@ namespace MeowEngine::Editor {
 
     void ImGuiWorldViewPanel::Init() {}
 
-    void ImGuiWorldViewPanel::Draw(void* frameBufferId, const float& inFps) {
+    void ImGuiWorldViewPanel::Draw(const float& inFps) {
 
         ImGui::Begin("World View", &IsActive, WindowFlags);
         {
@@ -62,8 +63,9 @@ namespace MeowEngine::Editor {
                 SDL_PushEvent(&event);
             }
 
+            auto frameBufferID = Rendering::RenderCommand::GetSceneFrameBuffer().GetFrameTexture();
             ImGui::Image(
-                (ImTextureID) frameBufferId,
+                reinterpret_cast<ImTextureID>(frameBufferID) ,
                 ImGui::GetContentRegionAvail(),
                 ImVec2(0, 1),
                 ImVec2(1, 0)

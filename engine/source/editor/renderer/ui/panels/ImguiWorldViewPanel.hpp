@@ -19,7 +19,7 @@ namespace MeowEngine::Editor {
         ~ImGuiWorldViewPanel();
 
         void Init();
-        void Draw(void* frameBufferId, const float& inFps);
+        void Draw(const float& inFps);
 
     private:
         bool IsActive;

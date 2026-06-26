@@ -18,10 +18,10 @@ namespace MeowEngine::Runtime {
         ~RenderComponent() override = default;
 
     public:
-        [[nodiscard]] Asset::AssetHandle GetShaderHandle() const { return ShaderHandle; }
+        [[nodiscard]] Asset::AssetHandle GetShaderAssetHandle() const { return ShaderAssetHandle; }
 
     protected:
-        Asset::AssetHandle ShaderHandle;
+        Asset::AssetHandle ShaderAssetHandle;
     };
 }
 

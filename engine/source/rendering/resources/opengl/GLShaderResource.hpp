@@ -10,10 +10,14 @@
 
 namespace MeowEngine::Rendering {
     struct GLShaderResource {
-        GLShaderResource(Asset::AssetHandle handle) {
+        GLShaderResource(Asset::AssetHandle handle);
 
-        }
+        [[nodiscard]] std::uint32_t GetID() const { return ID; };
 
+    private:
+        std::uint32_t Compile(const std::uint32_t& shaderType, const std::string& shaderSource);
+
+    private:
         std::uint32_t ID;
     };
 }

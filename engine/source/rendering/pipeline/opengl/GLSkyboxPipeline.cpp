@@ -25,10 +25,17 @@ namespace MeowEngine::Rendering {
     }
 
     void GLSkyboxPipeline::Draw(RenderContext& context, SkyboxDrawData& data) const {
+        if (!data.Shader.IsValid()) {
+            return;
+        }
+
         const auto shader = context.ResourceManager->GetShaderResource(data.Shader);
 
-        glUseProgram(shader.ID);
-        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "u_mvp"), 1, GL_FALSE, &data.TransformMatrix[0][0]);
+        glUseProgram(shader.GetID());
+
+        // NOTE: how can we optimise this further?
+        glUniformMatrix4fv(glGetUniformLocation(shader.GetID(), "u_view"), 1, GL_FALSE, &data.CameraViewMatrix[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(shader.GetID(), "u_projection"), 1, GL_FALSE, &data.CameraProjectionMatrix[0][0]);
 
         glBindVertexArray(VertexArrayID);
         glDrawArrays(GL_TRIANGLES, 0, 6);

@@ -8,7 +8,7 @@ namespace MeowEngine::Runtime {
     using Asset::AssetHandle;
 
     void TransformHandleComponent::Reflect() {
-        REGISTER_PROPERTY(TransformHandleComponent, ShaderHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(TransformHandleComponent, ShaderAssetHandle, AssetHandle, true, false);
     }
 
     TransformHandleComponent::TransformHandleComponent() {}

@@ -59,4 +59,27 @@ namespace MeowEngine::Asset {
         return true;
     }
 
+    bool ShaderSerialization::Deserialize(const Path& path, ShaderAsset& asset) {
+        auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
+
+        AssetHeader header;
+        bool isValidAsset = AssetSerializer::ReadHeader(serializer, header);
+
+        if (!isValidAsset) {
+            return false;
+        }
+
+        std::array<std::string, static_cast<int>(ShaderType::SHADER_COUNT)> shaderSources;
+
+        for (int i = 0 ; i < shaderSources.size(); i++) {
+            auto type = serializer.ReadInt();
+            auto data = serializer.ReadString();
+
+            asset.SetSource(static_cast<ShaderType>(type), data);
+        }
+
+        AssetSerializer::CloseSerializer(serializer);
+
+        return true;
+    }
 }

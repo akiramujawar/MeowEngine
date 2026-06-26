@@ -12,11 +12,13 @@
 // #include "Public/IO/Forward.hpp"
 
 #include "ShaderType.hpp"
+#include "ShaderAsset.hpp"
 
 namespace MeowEngine::Asset {
     class ShaderSerialization {
     public:
         static bool Serialize(const Path& path, const std::string& data, ShaderType type);
+        static bool Deserialize(const Path& path, ShaderAsset& asset);
     };
 }
 

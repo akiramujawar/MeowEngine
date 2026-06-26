@@ -24,6 +24,8 @@ namespace MeowEngine::Rendering {
             return !(*this == handle);
         }
 
+        bool IsValid() override { return MeshAsset.GetIsValid(); };
+
         Asset::AssetHandle MeshAsset;
     };
 }

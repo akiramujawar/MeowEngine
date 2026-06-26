@@ -11,6 +11,7 @@
 #include "AssetSerializer.hpp"
 
 #include "WorldSerializer.hpp"
+#include "ShaderSerialization.hpp"
 
 namespace MeowEngine::Asset {
     AssetManager::AssetManager() {
@@ -49,6 +50,10 @@ namespace MeowEngine::Asset {
         return AssetSerializer::CreateEmptyMeowdata(path, header);
     }
 
+    bool AssetManager::HasAssetInDatabase(const AssetHandle& handle) const {
+        return Registry.Has(handle);
+    }
+
     void AssetManager::UnloadAsset(const AssetHandle& handle) {
         Cache.Remove(handle);
     }
@@ -64,7 +69,7 @@ namespace MeowEngine::Asset {
         auto world = std::make_unique<World>();
 
         if (!WorldSerializer::Deserialize(path, *world)) {
-            MeowEngine::Log("Asset", "Failed loading", LogType::ERROR);
+            MeowEngine::Log("World Asset", "Failed loading", LogType::ERROR);
             return nullptr;
         }
 
@@ -73,11 +78,26 @@ namespace MeowEngine::Asset {
     }
 
     template<>
+    std::unique_ptr<ShaderAsset> AssetManager::LoadAssetInternal<ShaderAsset>(const AssetHandle& handle) {
+        // actual code
+        const auto& path = Registry.GetAssetPath(handle);
+        auto asset = std::make_unique<ShaderAsset>();
+
+        if (!ShaderSerialization::Deserialize(path, *asset)) {
+            MeowEngine::Log("Shader Asset", "Failed loading", LogType::ERROR);
+            return nullptr;
+        }
+
+        // auto performs move as it's passed by value
+        return asset;
+    }
+
+    template<>
     void AssetManager::SaveAssetInternal<World>(const AssetHandle& handle, const Path& path) {
         auto world = GetAsset<World>(handle);
         if (world != nullptr) {
             if (!WorldSerializer::Serialize(path, *world)) {
-                MeowEngine::Log("Asset", "Failed saving", LogType::ERROR);
+                MeowEngine::Log("World Asset", "Failed saving", LogType::ERROR);
             }
         }
         else {

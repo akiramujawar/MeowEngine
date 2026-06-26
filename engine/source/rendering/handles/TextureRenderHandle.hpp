@@ -24,6 +24,8 @@ namespace MeowEngine::Rendering {
             return !(*this == handle);
         }
 
+        bool IsValid() override { return BitmapAsset.GetIsValid(); };
+
         Asset::AssetHandle BitmapAsset;
     };
 }

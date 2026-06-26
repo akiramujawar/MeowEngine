@@ -8,11 +8,14 @@
 #include <string>
 
 #include "IAsset.hpp"
+#include "ShaderType.hpp"
 
 namespace MeowEngine::Asset{
     struct ShaderAsset : IAsset {
         std::string VertexSource;
         std::string FragmentSource;
+
+        void SetSource(ShaderType type, const std::string& source);
     };
 }
 
