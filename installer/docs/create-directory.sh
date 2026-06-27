@@ -7,7 +7,7 @@ pushd engine || exit
 
   dot -Tpng directory-tree.dot -o directory-diagram.png
 
-  mv directory-diagram.png ../docs/
+  mv directory-diagram.png ../builds/docs
   rm directory-tree.dot
   rm directory-tree.txt
 

@@ -5,9 +5,14 @@
 #include <GameplaySystem.hpp>
 #include <log.hpp>
 
+#include "CameraSystem.hpp"
+#include "PerspectiveCameraComponent.hpp"
+
 namespace MeowEngine::Runtime {
     GameplaySystem::GameplaySystem() {
         MeowEngine::Log("GameplaySystem", "Constructed");
+
+        ComponentSystems.push_back(std::make_unique<CameraSystem>());
     }
 
     GameplaySystem::~GameplaySystem() {
@@ -25,6 +30,16 @@ namespace MeowEngine::Runtime {
     void GameplaySystem::Input() {}
 
     void GameplaySystem::Update() {
+        for (auto& system : ComponentSystems) {
+            system->Update(*World);
+        }
+    }
 
+    void GameplaySystem::SetViewport(const float& width, const float& height) {
+        World->GetComponent<PerspectiveCameraComponent>(World->ActiveCamera).SetViewport(width, height);
+    }
+
+    PerspectiveCameraComponent& GameplaySystem::GetCamera() const {
+        return World->GetComponent<PerspectiveCameraComponent>(World->ActiveCamera);
     }
 }
