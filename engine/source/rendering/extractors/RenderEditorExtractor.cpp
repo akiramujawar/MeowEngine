@@ -41,7 +41,7 @@ namespace MeowEngine::Rendering {
             if (transform != nullptr) {
                 Rendering::TransformHandleDrawData data {};
                 data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
-                data.TransformMatrix = transform->TransformMatrix;
+                // data.TransformMatrix = transform->TransformMatrix;
 
                 frame.TransformHandles.push_back(data);
             }
@@ -61,7 +61,7 @@ namespace MeowEngine::Rendering {
                     auto shape = collider.GetColliderData().Cast<Runtime::BoxColliderShape>();
                     BoxColliderDrawData data;
                     data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
-                    data.TransformMatrix = transform.TransformMatrix; // process collider transform
+                    // data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.BoxColliders.push_back(data);
                     break;
@@ -71,7 +71,7 @@ namespace MeowEngine::Rendering {
                     auto shape = collider.GetColliderData().Cast<Runtime::SphereColliderShape>();
                     SphereColliderDrawData data;
                     data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
-                    data.TransformMatrix = transform.TransformMatrix; // process collider transform
+                    // data.TransformMatrix = transform.TransformMatrix; // process collider transform
 
                     frame.SphereColliders.push_back(data);
 

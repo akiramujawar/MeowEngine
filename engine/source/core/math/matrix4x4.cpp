@@ -10,4 +10,8 @@ namespace MeowEngine::Core::Math {
 
     }
 
+    Matrix4x4 Matrix4x4::Identity() {
+        glm::mat4 identity = glm::mat4(1.0f);
+        return Matrix4X4FromGlm(identity);
+    }
 }

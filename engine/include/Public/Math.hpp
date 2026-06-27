@@ -12,15 +12,22 @@
 #include "quaternion.hpp"
 #include "matrix3x3.hpp"
 #include "matrix4x4.hpp"
+#include "MatrixTransform.hpp"
+#include "MatrixClip.hpp"
+#include "Transform.hpp"
 
 namespace MeowEngine {
     namespace Math = Core::Math;
 
-    using Core::Math::Vector2Int;
-    using Core::Math::Vector3;
-    using Core::Math::Quaternion;
-    using Core::Math::Matrix3x3;
-    using Core::Math::Matrix4x4;
+    using Math::Vector2Int;
+    using Math::Vector3;
+    using Math::Quaternion;
+    using Math::Matrix3x3;
+    using Math::Matrix4x4;
+    using Math::MatrixTransform;
+    using Math::MatrixClip;
+    using Math::Transform;
+
 }
 
 

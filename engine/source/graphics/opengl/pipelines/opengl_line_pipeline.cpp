@@ -28,27 +28,27 @@ void OpenGLLinePipeline::Render(
     const MeowEngine::Runtime::Transform3DComponent* transform3DComponent,
     const MeowEngine::PerspectiveCamera* camera) const {
 
-    glUseProgram(ShaderProgramID);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VertexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(lineRenderComponent->Vertices), lineRenderComponent->Vertices.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
-    // vertex shader
-    glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_mvp"), 1, GL_FALSE, &transform3DComponent->TransformMatrix[0][0]);
-    glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_worldPosition"),1, &transform3DComponent->Position[0]);
-    glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_cameraPosition"), 1, &camera->GetPosition()[0]);
-
-    // fragment shader
-    glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_color"), 1, &lineRenderComponent->LineColor[0]);
-    glUniform1f(glGetUniformLocation(ShaderProgramID, "u_maxDistance"), 20.0f);
-
-    glBindVertexArray(VertexArrayID);
-
-    glDrawArrays(GL_LINES, 0, 2);
+    // glUseProgram(ShaderProgramID);
+    //
+    // glBindBuffer(GL_ARRAY_BUFFER, VertexBufferID);
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(lineRenderComponent->Vertices), lineRenderComponent->Vertices.data(), GL_STATIC_DRAW);
+    //
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+    // glEnableVertexAttribArray(0);
+    //
+    // glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // glBindVertexArray(0);
+    //
+    // // vertex shader
+    // glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_mvp"), 1, GL_FALSE, &transform3DComponent->TransformMatrix[0][0]);
+    // glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_worldPosition"),1, &transform3DComponent->Position[0]);
+    // glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_cameraPosition"), 1, &camera->GetPosition()[0]);
+    //
+    // // fragment shader
+    // glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_color"), 1, &lineRenderComponent->LineColor[0]);
+    // glUniform1f(glGetUniformLocation(ShaderProgramID, "u_maxDistance"), 20.0f);
+    //
+    // glBindVertexArray(VertexArrayID);
+    //
+    // glDrawArrays(GL_LINES, 0, 2);
 }

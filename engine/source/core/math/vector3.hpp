@@ -7,6 +7,8 @@
 
 #include <Public/Reflection.hpp>
 
+#include "GLM_API.hpp"
+
 namespace MeowEngine::Core::Math {
 
     struct Vector3 {
@@ -178,6 +180,12 @@ namespace MeowEngine::Core::Math {
          * @return
          */
         Vector3 PerpendicularToProjection(const Vector3& in) const;
+
+        // -- GLM ------------------------
+
+        static glm::vec3 GlmFromVector3(const Vector3 value) {
+            return glm::vec3(value.X, value.Y, value.Z);
+        }
     };
 }
 

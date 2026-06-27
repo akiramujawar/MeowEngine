@@ -23,48 +23,48 @@ namespace MeowEngine {
         std::vector<glm::mat4> boxColliders;
         std::vector<glm::mat4> sphereColliders;
 
-        for(auto &&[entity, transform, collider]: registry.view<Runtime::Transform3DComponent, Runtime::ColliderComponent>().each()) {
-            Matrix4x4 rotationMatrix = transform.Rotation.GetRotationMatrix4x4();
-
-            glm::mat4 rotation4Matrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(rotationMatrix);
-
-            // cannot any more use transform matrix
-            // we will take the position, rotation & pick size collider data & create our own transform matrix
-            // this we can decouple and keep different sizes/positions
-            // when building transform matrix,
-            // position =transform position + collider offset
-            // rotation = transform rotation
-            // scale = transform scale * collider scale
-            glm::mat4 transformMatrix =
-                    cameraMatrix
-                    * glm::translate(transform.IdentityMatrix, glm::vec3(transform.Position.X, transform.Position.Y, transform.Position.Z))
-                    * rotation4Matrix;
-
-            // get the colliders, cast as per the types and calculate their transform matrix
-            // & segregate them into for instance rendering
-            Runtime::ColliderShapeBase& data = collider.GetColliderData();
-
-            switch (data.GetType()) {
-                case Runtime::ColliderType::BOX: {
-                    auto& shape = data.Cast<Runtime::BoxColliderShape>();
-
-                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Size.X, transform.Scale.Y * shape.Size.Y,transform.Scale.Z * shape.Size.Z));
-                    boxColliders.push_back(transformMatrix);
-
-                    break;
-                }
-                case Runtime::ColliderType::SPHERE: {
-                    auto &shape = data.Cast<Runtime::SphereColliderShape>();
-                    transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Radius, transform.Scale.Y * shape.Radius, transform.Scale.Z * shape.Radius));
-                    sphereColliders.push_back(transformMatrix);
-                    break;
-                }
-                default:
-                    break;
-            }
-
-
-        }
+        // for(auto &&[entity, transform, collider]: registry.view<Runtime::Transform3DComponent, Runtime::ColliderComponent>().each()) {
+        //     Matrix4x4 rotationMatrix = transform.Rotation.GetRotationMatrix4x4();
+        //
+        //     glm::mat4 rotation4Matrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(rotationMatrix);
+        //
+        //     // cannot any more use transform matrix
+        //     // we will take the position, rotation & pick size collider data & create our own transform matrix
+        //     // this we can decouple and keep different sizes/positions
+        //     // when building transform matrix,
+        //     // position =transform position + collider offset
+        //     // rotation = transform rotation
+        //     // scale = transform scale * collider scale
+        //     glm::mat4 transformMatrix =
+        //             cameraMatrix
+        //             * glm::translate(transform.IdentityMatrix, glm::vec3(transform.Position.X, transform.Position.Y, transform.Position.Z))
+        //             * rotation4Matrix;
+        //
+        //     // get the colliders, cast as per the types and calculate their transform matrix
+        //     // & segregate them into for instance rendering
+        //     Runtime::ColliderShapeBase& data = collider.GetColliderData();
+        //
+        //     switch (data.GetType()) {
+        //         case Runtime::ColliderType::BOX: {
+        //             auto& shape = data.Cast<Runtime::BoxColliderShape>();
+        //
+        //             transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Size.X, transform.Scale.Y * shape.Size.Y,transform.Scale.Z * shape.Size.Z));
+        //             boxColliders.push_back(transformMatrix);
+        //
+        //             break;
+        //         }
+        //         case Runtime::ColliderType::SPHERE: {
+        //             auto &shape = data.Cast<Runtime::SphereColliderShape>();
+        //             transformMatrix *= glm::scale(transform.IdentityMatrix, glm::vec3(transform.Scale.X * shape.Radius, transform.Scale.Y * shape.Radius, transform.Scale.Z * shape.Radius));
+        //             sphereColliders.push_back(transformMatrix);
+        //             break;
+        //         }
+        //         default:
+        //             break;
+        //     }
+        //
+        //
+        // }
 
         glUseProgram(ShaderProgramID);
         glDisable(GL_CULL_FACE);

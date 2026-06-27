@@ -11,6 +11,7 @@
 #include "EntityRegistry.hpp"
 #include "EntityHandle.hpp"
 
+
 namespace MeowEngine::Asset {
     /**
      * Represents ECS & actions which can be performed on world entities
@@ -51,6 +52,7 @@ namespace MeowEngine::Asset {
         [[nodiscard]] Runtime::EntityRegistry& GetRegistry() { return Registry; }
         [[nodiscard]] const Runtime::EntityRegistry& GetRegistry() const { return Registry; }
 
+    public:
         Runtime::EntityHandle ActiveCamera;
         Runtime::EntityHandle SkyBox;
 

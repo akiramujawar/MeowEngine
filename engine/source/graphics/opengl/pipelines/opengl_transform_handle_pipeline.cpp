@@ -67,34 +67,34 @@ namespace MeowEngine::pipeline {
     ) const {
         glUseProgram(ShaderProgramID);
 
-        Quaternion rotationQuat = transform3DComponent->Rotation;
-        glm::mat4 rotationMatrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(
-                rotationQuat.GetRotationMatrix4x4());
-
-        glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_view"), 1, GL_FALSE,
-                           &camera->GetViewMatrix()[0][0]);
-        glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_projection"), 1, GL_FALSE,
-                           &camera->GetProjectionMatrix()[0][0]);
-        glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_cameraPosition"), 1, &camera->GetPosition()[0]);
-        glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_handlePosition"), 1, &transform3DComponent->Position[0]);
-        glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_handleRotation"), 1, GL_FALSE,
-                           &rotationMatrix[0][0]);
-
-        glUniform1f(glGetUniformLocation(ShaderProgramID, "u_handleScale"), 0.11f);
-        glUniform1i(glGetUniformLocation(ShaderProgramID, "u_selectedAxis"), -1);
-
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        glBindVertexArray(VertexArrayObject);
-        glDrawElements(GL_TRIANGLES, IndexCount, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);
+        // Quaternion rotationQuat = transform3DComponent->Local.Quat;
+        // glm::mat4 rotationMatrix = MeowEngine::GLMExtension::GetMat4FromMatrix4x4(
+        //         rotationQuat.GetRotationMatrix4x4());
+        //
+        // glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_view"), 1, GL_FALSE,
+        //                    &camera->GetViewMatrix()[0][0]);
+        // glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_projection"), 1, GL_FALSE,
+        //                    &camera->GetProjectionMatrix()[0][0]);
+        // glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_cameraPosition"), 1, &camera->GetPosition()[0]);
+        // glUniform3fv(glGetUniformLocation(ShaderProgramID, "u_handlePosition"), 1, &transform3DComponent->Position[0]);
+        // glUniformMatrix4fv(glGetUniformLocation(ShaderProgramID, "u_handleRotation"), 1, GL_FALSE,
+        //                    &rotationMatrix[0][0]);
+        //
+        // glUniform1f(glGetUniformLocation(ShaderProgramID, "u_handleScale"), 0.11f);
+        // glUniform1i(glGetUniformLocation(ShaderProgramID, "u_selectedAxis"), -1);
+        //
+        // glDisable(GL_CULL_FACE);
+        // glDisable(GL_DEPTH_TEST);
+        // glEnable(GL_BLEND);
+        //
+        // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //
+        // glBindVertexArray(VertexArrayObject);
+        // glDrawElements(GL_TRIANGLES, IndexCount, GL_UNSIGNED_INT, 0);
+        // glBindVertexArray(0);
+        //
+        // glEnable(GL_CULL_FACE);
+        // glEnable(GL_DEPTH_TEST);
     }
 
     void OpenGLTransformHandlePipeline::CreateHandle(

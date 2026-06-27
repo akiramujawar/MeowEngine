@@ -67,36 +67,36 @@ void MeowEngine::simulator::PhysXPhysicsSystem::Update(float inFixedDeltaTime) {
 }
 
 void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity ) {
-    // From all transform rigidbody, collider, get the new entity and add rigidbody to it.
-    // quiet complex in runtime as we do a query check
-    // also we currently only add rigidbody when we have all 3
-    // that prevents us from adding extra colliders essentially leading to create a duplicate rigidbody with following logic
-    if(pPhysicsRegistry.all_of<Runtime::Transform3DComponent, Runtime::ColliderComponent, Runtime::RigidbodyComponent>(pEntity)) {
-        auto [transform, collider, rigidbody] =  pPhysicsRegistry.get<Runtime::Transform3DComponent, Runtime::ColliderComponent, Runtime::RigidbodyComponent>(pEntity);
-
-        physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
-
-        Runtime::ColliderShapeBase& colliderData = collider.GetColliderData();
-        colliderData.CreateGeometry();
-        colliderData.CreateMaterial(gPhysics);
-        colliderData.CreateShape(gPhysics);
-
-
-//        physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
-//        physx::PxShape* shape = gPhysics->createShape(geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f));
-
-        // transform has rotation and position data
-//        physx::PxRigidDynamic* actor = physx::PxCreateDynamic(*gPhysics, physicsTransform, geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f), density);
-        physx::PxRigidDynamic* actor = gPhysics->createRigidDynamic(physicsTransform);
-        actor->attachShape(colliderData.GetShape());
-
-        rigidbody.SetPhysicsBody(actor);
-        collider.SetPhysicsBody(actor);
-
-        physx::PxRigidBodyExt::updateMassAndInertia(*actor,1.0f);
-
-        gScene->addActor(*actor);
-    }
+//     // From all transform rigidbody, collider, get the new entity and add rigidbody to it.
+//     // quiet complex in runtime as we do a query check
+//     // also we currently only add rigidbody when we have all 3
+//     // that prevents us from adding extra colliders essentially leading to create a duplicate rigidbody with following logic
+//     if(pPhysicsRegistry.all_of<Runtime::Transform3DComponent, Runtime::ColliderComponent, Runtime::RigidbodyComponent>(pEntity)) {
+//         auto [transform, collider, rigidbody] =  pPhysicsRegistry.get<Runtime::Transform3DComponent, Runtime::ColliderComponent, Runtime::RigidbodyComponent>(pEntity);
+//
+//         physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
+//
+//         Runtime::ColliderShapeBase& colliderData = collider.GetColliderData();
+//         colliderData.CreateGeometry();
+//         colliderData.CreateMaterial(gPhysics);
+//         colliderData.CreateShape(gPhysics);
+//
+//
+// //        physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
+// //        physx::PxShape* shape = gPhysics->createShape(geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f));
+//
+//         // transform has rotation and position data
+// //        physx::PxRigidDynamic* actor = physx::PxCreateDynamic(*gPhysics, physicsTransform, geometry, *gPhysics->createMaterial(0.5f, 0.5f, 0.6f), density);
+//         physx::PxRigidDynamic* actor = gPhysics->createRigidDynamic(physicsTransform);
+//         actor->attachShape(colliderData.GetShape());
+//
+//         rigidbody.SetPhysicsBody(actor);
+//         collider.SetPhysicsBody(actor);
+//
+//         physx::PxRigidBodyExt::updateMassAndInertia(*actor,1.0f);
+//
+//         gScene->addActor(*actor);
+//     }
 }
 
 void MeowEngine::simulator::PhysXPhysicsSystem::RemoveRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {

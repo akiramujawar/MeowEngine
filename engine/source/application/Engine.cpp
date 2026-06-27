@@ -243,9 +243,9 @@ namespace MeowEngine {
                         case UserDeviceInputType::VIEW_PORT_RESIZE: {
                             // MeowEngine::Log("Main Thread", "Rescaled Window");
 
-                            // const Vector2Int size = *(Vector2Int *) event.user.data1;
+                            const Vector2Int size = *(Vector2Int *) event.user.data1;
                             // Scene->OnWindowResized(size);
-
+                            Runtime.GetGameplay().SetViewport(size.Width, size.Height);
                             break;
                         }
                         case UserDeviceInputType::SAVE_PROJECT: {

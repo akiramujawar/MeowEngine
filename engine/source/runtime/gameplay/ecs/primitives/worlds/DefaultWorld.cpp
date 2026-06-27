@@ -42,14 +42,14 @@ namespace MeowEngine::Runtime {
         const auto entity = AddEntity();
         auto& identity = GetComponent<IdentityComponent>(entity);
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
-        auto& transform = AddComponent<Runtime::Transform3DComponent>(entity);
+        // auto& transform = AddComponent<Runtime::Transform3DComponent>(entity);
         auto& camera = AddComponent<Runtime::PerspectiveCameraComponent>(entity);
 
         info.SetName(String("[EDITOR] Camera"));
-        transform.Position = Vector3(10,20,300);
-        transform.Scale = Vector3(1,1,1);
-        transform.Euler = Vector3(1,10,2);
-        transform.Rotation = Quaternion(transform.Euler);
+        // transform.Position = Vector3(10,20,300);
+        // transform.Scale = Vector3(1,1,1);
+        // transform.Euler = Vector3(1,10,2);
+        // transform.Rotation = Quaternion(transform.Euler);
 
         ActiveCamera = identity.GetEntityHandle();
     }
