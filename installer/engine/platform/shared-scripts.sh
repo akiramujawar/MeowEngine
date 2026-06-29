@@ -150,16 +150,16 @@ fetch_third_party_lib_sdl() {
       echo "Fetching SDL..."
 
       # Download the SDL2 source zip file
-      wget https://www.libsdl.org/release/SDL2-2.0.9.zip
+      wget https://github.com/libsdl-org/SDL/archive/refs/tags/release-2.30.11.zip
 
       # Unzip the file into the current folder
-      unzip -q SDL2-2.0.9.zip
+      unzip -q release-2.30.11.zip
 
       # Rename the SDL2-2.0.9 folder to SDL
-      mv SDL2-2.0.9 SDL
+      mv SDL-release-2.30.11 SDL
 
       # Clean up by deleting the zip file that we downloaded.
-      rm SDL2-2.0.9.zip
+      rm release-2.30.11.zip
     else
       echo "SDL library already exists in third party folder."
     fi
@@ -405,10 +405,10 @@ fetch_framework_sdl2() {
   pushd libs/Frameworks
     if [ ! -d "SDL2.framework" ]; then
       # Download the .dmg file from the SDL2 download site.
-      wget https://www.libsdl.org/release/SDL2-2.0.9.dmg
+      wget https://github.com/libsdl-org/SDL/releases/download/release-2.30.11/SDL2-2.30.11.dmg
 
       echo "Mounting DMG file ..."
-      hdiutil attach SDL2-2.0.9.dmg
+      hdiutil attach SDL2-2.30.11.dmg
 
       echo "Copying SDL2.framework from DMG file into the current folder ..."
       cp -R /Volumes/SDL2/SDL2.framework .
@@ -417,7 +417,7 @@ fetch_framework_sdl2() {
       hdiutil detach /Volumes/SDL2
 
       echo "Deleting DMG file ..."
-      rm SDL2-2.0.9.dmg
+      rm SDL2-2.30.11.dmg
 
       # Navigate into the SDL2.framework folder.
       # shellcheck disable=SC2164
