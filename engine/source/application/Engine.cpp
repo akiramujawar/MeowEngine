@@ -122,6 +122,7 @@ namespace MeowEngine {
 
         // -- messaging
         Messaging::MessageInitData messageInit {};
+        messageInit.Device = &GraphicsDevice;
         messageInit.Selector = &Editor.GetSelector();
         messageInit.FileDialog = &Editor.GetFileDialog();
         messageInit.AssetManager = &AssetManager;

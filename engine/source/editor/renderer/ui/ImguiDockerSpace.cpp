@@ -6,6 +6,10 @@
 
 #include <ImguiAPI.hpp>
 
+#include "CommandQueue.hpp"
+#include "OpenURLCommand.hpp"
+#include "RenderContext.hpp"
+
 namespace MeowEngine::Editor {
     ImGuiDockerSpace::ImGuiDockerSpace() {
         // DockSpaceFlags = ImGuiDockNodeFlags_None;
@@ -32,9 +36,9 @@ namespace MeowEngine::Editor {
 
     ImGuiDockerSpace::~ImGuiDockerSpace() {}
 
-    void ImGuiDockerSpace::SetupDockingSpace() {
+    void ImGuiDockerSpace::SetupDockingSpace(Rendering::RenderContext& renderContext) {
         ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
 
         // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
         // because it would be confusing to have two docking targets within each others.
@@ -76,31 +80,60 @@ namespace MeowEngine::Editor {
 //        if (opt_fullscreen)
             ImGui::PopStyleVar(2);
 
+            ImGui::BeginChild("Toolbar", ImVec2(0, 20)); {
+                if (ImGui::Button("< Go Back")) {
+                    renderContext.CommandQueue->Push(
+                        Messaging::ThreadType::MAIN,
+                        std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://akiramujawar.com"))
+                    );
+                }
+
+                ImGui::SameLine();
+                if (ImGui::Button("Github")) {
+                    renderContext.CommandQueue->Push(
+                        Messaging::ThreadType::MAIN,
+                        std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://github.com/akiramujawar"))
+                    );
+                }
+
+                ImGui::SameLine();
+                if (ImGui::Button("Resume")) {
+                    renderContext.CommandQueue->Push(
+                        Messaging::ThreadType::MAIN,
+                        std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://akiramujawar.com/akira_mujawar_engine_programmer_resume.pdf"))
+                    );
+                }
+
+                ImGui::EndChild();
+            }
+
             ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
-            if (ImGui::BeginMenuBar()) {
-                if (ImGui::BeginMenu("File")) {
-                    // Disabling fullscreen would allow the window to be moved to the front of other windows,
-                    // which we can't undo at the moment without finer window depth/z control.
-//                ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
-//                ImGui::MenuItem("Padding", NULL, &opt_padding);
-//                ImGui::Separator();
-//
-//                if (ImGui::MenuItem("Flag: NoDockingOverCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingOverCentralNode) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingOverCentralNode; }
-//                if (ImGui::MenuItem("Flag: NoDockingSplit",         "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingSplit) != 0))             { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingSplit; }
-//                if (ImGui::MenuItem("Flag: NoUndocking",            "", (dockspace_flags & ImGuiDockNodeFlags_NoUndocking) != 0))                { dockspace_flags ^= ImGuiDockNodeFlags_NoUndocking; }
-//                if (ImGui::MenuItem("Flag: NoResize",               "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0))                   { dockspace_flags ^= ImGuiDockNodeFlags_NoResize; }
-//                if (ImGui::MenuItem("Flag: AutoHideTabBar",         "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))             { dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
-//                if (ImGui::MenuItem("Flag: PassthruCentralNode",    "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen)) { dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
-//                ImGui::Separator();
-//
-//                if (ImGui::MenuItem("Close", NULL, false, p_open != NULL))
-//                    *p_open = false;
-                    ImGui::EndMenu();
-                }
-                ImGui::EndMenuBar();
-            }
+
+
+//             if (ImGui::BeginMenuBar()) {
+//                 if (ImGui::BeginMenu("File")) {
+//                     // Disabling fullscreen would allow the window to be moved to the front of other windows,
+//                     // which we can't undo at the moment without finer window depth/z control.
+// //                ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+// //                ImGui::MenuItem("Padding", NULL, &opt_padding);
+// //                ImGui::Separator();
+// //
+// //                if (ImGui::MenuItem("Flag: NoDockingOverCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingOverCentralNode) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingOverCentralNode; }
+// //                if (ImGui::MenuItem("Flag: NoDockingSplit",         "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingSplit) != 0))             { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingSplit; }
+// //                if (ImGui::MenuItem("Flag: NoUndocking",            "", (dockspace_flags & ImGuiDockNodeFlags_NoUndocking) != 0))                { dockspace_flags ^= ImGuiDockNodeFlags_NoUndocking; }
+// //                if (ImGui::MenuItem("Flag: NoResize",               "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0))                   { dockspace_flags ^= ImGuiDockNodeFlags_NoResize; }
+// //                if (ImGui::MenuItem("Flag: AutoHideTabBar",         "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))             { dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
+// //                if (ImGui::MenuItem("Flag: PassthruCentralNode",    "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen)) { dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
+// //                ImGui::Separator();
+// //
+// //                if (ImGui::MenuItem("Close", NULL, false, p_open != NULL))
+// //                    *p_open = false;
+//                     ImGui::EndMenu();
+//                 }
+//                 ImGui::EndMenuBar();
+//             }
 
             ImGui::End();
         }

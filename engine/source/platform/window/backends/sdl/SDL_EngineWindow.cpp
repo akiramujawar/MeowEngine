@@ -6,6 +6,7 @@
 #include "GL_API.hpp"
 #include <EmscriptenAPI.hpp>
 
+#include "Public/Core/Include.hpp"
 #include "SDL_NativeFileDialog.hpp"
 #include "PlatformType.hpp"
 
@@ -160,6 +161,10 @@ namespace MeowEngine::Platform {
         MeowEngine::Log("MeowEngine::graphics::OpenGLFrameBuffer: WEBGL Version", version);
 
         return context;
+    }
+
+    void SDL_EngineWindow::OpenURL(const WebAddress& address) {
+        SDL_OpenURL(address.CStr());
     }
 
     bool SDL_EngineWindow::ShouldDisplayFullScreen() {

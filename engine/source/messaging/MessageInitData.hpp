@@ -6,6 +6,10 @@
 #define MEOWENGINE_MESSAGEINITDATA_HPP
 
 namespace MeowEngine {
+    namespace Graphics {
+        class GraphicsDevice;
+    }
+
     namespace Editor {
         class Selector;
         class FileDialog;
@@ -23,6 +27,8 @@ namespace MeowEngine {
 
 namespace MeowEngine::Messaging {
     struct MessageInitData {
+        Graphics::GraphicsDevice* Device;
+
         Editor::Selector* Selector;
         Editor::FileDialog* FileDialog;
 

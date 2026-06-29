@@ -7,6 +7,7 @@
 
 #include <SDL_API.hpp>
 
+#include "Public/Core/Forward.hpp"
 #include <Public/Math.hpp>
 #include <log.hpp>
 
@@ -25,6 +26,8 @@ namespace MeowEngine::Platform {
 
         [[nodiscard]] SDL_Window* GetHandle() const;
         [[nodiscard]] SDL_GLContext GetContext() const;
+
+        void OpenURL(const WebAddress& address);
 
     private:
         SDL_Window* CreateHandle(const uint32_t& windowFlags);

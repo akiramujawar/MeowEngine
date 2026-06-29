@@ -5,6 +5,10 @@
 #ifndef MEOWENGINE_IMGUIDOCKERSPACE_HPP
 #define MEOWENGINE_IMGUIDOCKERSPACE_HPP
 
+namespace MeowEngine::Rendering {
+    struct RenderContext;
+}
+
 namespace MeowEngine::Editor {
     class ImGuiDockerSpace {
     public:
@@ -12,7 +16,7 @@ namespace MeowEngine::Editor {
 
         ~ImGuiDockerSpace();
 
-        void SetupDockingSpace();
+        void SetupDockingSpace(Rendering::RenderContext& renderContext);
 
     private:
         bool IsFullScreen;

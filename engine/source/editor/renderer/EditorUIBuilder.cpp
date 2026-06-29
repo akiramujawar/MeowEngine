@@ -55,7 +55,7 @@ namespace MeowEngine::Editor {
     }
 
     void EditorUIBuilder::BuildDrawData(Rendering::RenderContext& renderContext, unsigned int frameBufferId, const double fps) {
-        DockerSpace.SetupDockingSpace();
+        DockerSpace.SetupDockingSpace(renderContext);
 
         WorldInspectorPanel.Draw(renderContext);
         WorldTreePanel.Draw(renderContext);
