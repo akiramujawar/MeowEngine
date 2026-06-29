@@ -309,15 +309,15 @@ struct SceneMultiThread::Internal {
     }
 
     void Input(const float& delta, const MeowEngine::Input::InputManager& inputManager) {
-        if(!inputManager.isActive) {
+        if(!inputManager.IsActive) {
             return;
         }
 
-        if(inputManager.mouseState & SDL_BUTTON_LMASK) {
-            CameraController.LookAround(inputManager.mouseDeltaX, inputManager.mouseDeltaY);
+        if(inputManager.MouseState & SDL_BUTTON_LMASK) {
+            CameraController.LookAround(inputManager.MouseDeltaX, inputManager.MouseDeltaY);
         }
 
-        if(inputManager.isMouseDown && (inputManager.mouseState & SDL_BUTTON_RMASK)) {
+        if(inputManager.isMouseDown && (inputManager.MouseState & SDL_BUTTON_RMASK)) {
             const auto cubeEntity = World.GetBuffer().AddEntity();
             World.GetBuffer().AddComponent<entity::InfoComponent>(cubeEntity, "Cube");
             World.GetBuffer().AddComponent<component::HierarchyComponent>(cubeEntity, cubeEntity, entt::null, entt::null, entt::null, entt::null);

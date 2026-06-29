@@ -8,9 +8,10 @@
 
 namespace MeowEngine::Input {
 
-    InputDevice::InputDevice() {}
-
-    InputDevice::~InputDevice() {}
+    InputDevice::InputDevice()
+        : KeyState(SDL_GetKeyboardState(nullptr))
+        , InputManager(KeyState)
+    {}
 
     void InputDevice::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(

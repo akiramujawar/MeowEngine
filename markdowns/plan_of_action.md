@@ -19,7 +19,7 @@
 - [x] Creating support for multi-scene compilation
 - [x] Improving current shader pipeline to handle shaders dynamically
 - [ ] Render loading pipeline (shaders, textures, meshes)
-- [ ] Reworking camera system and merging rotations with other objects in game using new custom math library
+- [x] Reworking camera system to use quaternion
 - [ ] Messaging systems (command, request & event)
 - [x] Config load & bootstrap for editor load
 - [x] Refactor cmake to have engine & standalone lib

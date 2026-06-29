@@ -7,6 +7,10 @@
 
 // -- forwards -------------
 namespace MeowEngine {
+    namespace Input {
+        class InputManager;
+    }
+
     namespace Asset {
         class AssetManager;
     }
@@ -29,6 +33,7 @@ namespace MeowEngine {
 
 namespace MeowEngine {
     struct MeowServiceInitData {
+        Input::InputManager& InputManager;
         Asset::AssetManager& AssetManager;
         Runtime::ConfigManager& ConfigManager;
         Runtime::WorldManager& WorldManager;

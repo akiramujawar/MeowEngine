@@ -142,7 +142,7 @@ namespace MeowEngine {
                             break;
                         }
                         case UserDeviceInputType::WORLD_VIEW_FOCUS: {
-                            InputManager->isActive = *(bool *) event.user.data1;
+                            InputManager->IsActive = *(bool *) event.user.data1;
                             break;
                         }
                     }

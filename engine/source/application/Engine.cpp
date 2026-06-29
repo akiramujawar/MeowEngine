@@ -132,6 +132,7 @@ namespace MeowEngine {
         RequestQueue.Init(messageInit);
 
         MeowServiceInitData meowServiceInit {
+            InputDevice.GetInputManager(),
             AssetManager,
             ConfigManager,
             Runtime.GetWorldManager(),

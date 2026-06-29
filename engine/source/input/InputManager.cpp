@@ -6,13 +6,21 @@
 #include <UserDeviceInputType.hpp>
 
 namespace MeowEngine::Input {
+    InputManager::InputManager(KeyboardState state)
+        : IsActive(false)
+        , MouseState(0)
+        , MouseDeltaX(0)
+        , MouseDeltaY(0)
+        , isMouseDown(false)
+        , KeyState(state)
+    {}
 
     void InputManager::ProcessDeviceInput(const InputEvents& events) {
         // Reset
         isMouseDown = false;
 
         // Update Mouse State
-        mouseState = SDL_GetRelativeMouseState(&mouseDeltaX, &mouseDeltaY);
+        MouseState = SDL_GetRelativeMouseState(&MouseDeltaX, &MouseDeltaY);
 
         // process events
         for (const auto& event : events) {
@@ -26,7 +34,7 @@ namespace MeowEngine::Input {
                     auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
                     switch (userEvent) {
                         case UserDeviceInputType::WORLD_VIEW_FOCUS: {
-                            isActive = *static_cast<bool*>(event.user.data1);
+                            IsActive = *static_cast<bool*>(event.user.data1);
                             break;
                         }
 

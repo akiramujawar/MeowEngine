@@ -11,6 +11,8 @@
 
 namespace MeowEngine::Input {
     typedef std::vector<SDL_Event> InputEvents;
+    typedef const uint8_t* KeyboardState;
+    typedef uint32_t MouseState;
 }
 
 #endif //MEOWENGINE_INPUTEVENTS_HPP

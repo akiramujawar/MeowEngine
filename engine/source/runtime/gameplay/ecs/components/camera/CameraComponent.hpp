@@ -31,6 +31,10 @@ namespace MeowEngine::Runtime {
 
         void SetViewport(float width, float height);
 
+    public:
+        float MoveSpeed = 0.2f;
+        float LookAroundSpeed = 0.15f;
+
     private:
         Matrix4x4 View {};
         Matrix4x4 Projection {};

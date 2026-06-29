@@ -27,6 +27,7 @@ namespace MeowEngine {
     private:
         static void Init(MeowServiceInitData& me) {
             auto service = new MeowService {
+                me.InputManager,
                 me.AssetManager,
                 me.ConfigManager,
                 me.WorldManager,
@@ -41,6 +42,7 @@ namespace MeowEngine {
         inline static MeowService* Instance = nullptr;
 
     public:
+        Input::InputManager& InputManager;
         Asset::AssetManager& AssetManager;
         Runtime::ConfigManager& ConfigManager;
         Runtime::WorldManager& WorldManager;

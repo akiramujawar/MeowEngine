@@ -14,10 +14,12 @@ namespace  MeowEngine::Runtime {
 
         REGISTER_PROPERTY(CameraComponent, Near, float, true, false);
         REGISTER_PROPERTY(CameraComponent, Far, float, true, false);
+        REGISTER_PROPERTY(CameraComponent, MoveSpeed, float, true, false);
+        REGISTER_PROPERTY(CameraComponent, LookAroundSpeed, float, true, false);
     }
 
     void CameraComponent::UpdateMatrix() {
-        View = Transform::LookAtRH(Local.GetPosition(), Local.GetPosition() + Local.GetForward(), Local.GetUp());
+        View = Transform::LookAt(Local.GetPosition(), Local.GetPosition() + Local.GetForward(), Local.GetUp());
 
         ViewProjection = Projection * View;
     }

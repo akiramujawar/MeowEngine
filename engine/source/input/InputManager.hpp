@@ -10,6 +10,8 @@
 namespace MeowEngine::Input {
     class InputManager {
     public:
+        InputManager(KeyboardState state);
+
         void ProcessDeviceInput(const InputEvents& events);
 
         /**
@@ -17,12 +19,14 @@ namespace MeowEngine::Input {
          * Yes, only if world view is focused on editor builds
          * otherwise true for sandbox release builds
          */
-        bool isActive;
+        bool IsActive;
 
-        uint32_t mouseState;
-        int mouseDeltaX;
-        int mouseDeltaY;
+        int MouseDeltaX;
+        int MouseDeltaY;
         bool isMouseDown;
+
+        MouseState MouseState;
+        KeyboardState KeyState;
     };
 }
 

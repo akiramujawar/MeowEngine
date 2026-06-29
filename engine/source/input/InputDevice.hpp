@@ -6,9 +6,6 @@
 #define MEOWENGINE_INPUTMODULE_HPP
 
 #include <vector>
-#include <SDL_API.hpp>
-#include <double_buffer.hpp>
-
 #include <Public/Threading/Forward.hpp>
 
 #include <InputEvents.hpp>
@@ -20,22 +17,22 @@ namespace MeowEngine::Input {
     class InputDevice {
     public:
         InputDevice();
-        ~InputDevice();
+        ~InputDevice() = default;
 
         void Schedule(Threading::Scheduler& scheduler);
 
-        // DoubleBuffer<InputEvents> GetEvents() const {
-        //     return Buffer;
-        // }
+        InputManager& GetInputManager() { return InputManager; };
         InputEvents& GetEvents() { return InputEvents; };
+        KeyboardState& GetKeyboardState() { return KeyState; };
 
     private:
-        InputManager InputManager;
-
         /**
          * TODO: remove the dependency on SDL_Event (replace with messaging system)
          */
         InputEvents InputEvents;
+        KeyboardState KeyState;
+
+        InputManager InputManager;
     };
 }
 
