@@ -6,22 +6,26 @@
 #define MEOWENGINE_SANDBOXCONFIG_HPP
 
 #include <string>
+#include <cstdlib>
 
+#include "YamlCppAPI.hpp"
 #include "Public/Core/Forward.hpp"
-#include "AssetHandle.hpp"
-
 
 namespace MeowEngine::Runtime {
     struct SandboxConfig {
         /**
          * Initial world to load with
          */
-        Asset::AssetHandle LaunchWorldHandle;
-
-        void LoadConfig(const Path& path);
+        uint64_t LaunchWorldGuid;
 
         int WindowWidth;
         int WindowHeight;
+
+        void LoadConfig(const Path& path);
+        void SaveConfig();
+
+        YAML::Node Config;
+        std::string ConfigPath;
     };
 }
 

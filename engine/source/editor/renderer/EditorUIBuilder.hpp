@@ -14,7 +14,7 @@
 #include "ImguiConsolePanel.hpp"
 #include "ImguiAssetPanel.hpp"
 #include "ImguiWorldSettingPanel.hpp"
-#include "ImguiProjectSettingPanel.hpp"
+#include "ImguiSandboxConfigPanel.hpp"
 #include "ImguiEditorSettingPanel.hpp"
 
 namespace MeowEngine::Rendering {
@@ -57,7 +57,7 @@ namespace MeowEngine::Editor {
         ImGuiConsolePanel ConsolePanel;
         ImguiAssetPanel AssetPanel;
         ImguiWorldSettingPanel WorldSettingPanel;
-        ImguiProjectSettingPanel ProjectSettingPanel;
+        ImguiSandboxConfigPanel ProjectSettingPanel;
         ImguiEditorSettingPanel EditorSettingPanel;
     };
 }

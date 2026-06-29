@@ -31,13 +31,12 @@ namespace MeowEngine::Runtime {
         Gameplay = gameplay;
     }
 
-    void WorldManager::Load(const Asset::AssetHandle& handle) {
+    void WorldManager::Load(const Asset::AssetHandle& handle, bool isResetCamera) {
         auto& assetManager = MeowService().AssetManager;
 
         if (auto* world = assetManager.GetAssetOrLoad<Asset::World>(handle)) {
             // tempWorld
             Gameplay->SetWorld(world);
-            Gameplay->ResetCamera();
             ActiveWorldHandle = handle;
         }
         else {
@@ -45,6 +44,10 @@ namespace MeowEngine::Runtime {
             auto* tempWorld = assetManager.GetAsset<DefaultWorld>(tempHandle);
             Gameplay->SetWorld(tempWorld);
             ActiveWorldHandle = tempHandle;
+        }
+
+        if (isResetCamera) {
+            Gameplay->ResetCamera();
         }
     }
 

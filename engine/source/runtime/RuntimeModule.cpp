@@ -24,7 +24,11 @@ namespace MeowEngine::Runtime {
     }
 
     void RuntimeModule::Load() {
-        WorldManager.Load(MeowService().ConfigManager.SandboxConfig.LaunchWorldHandle);
+        auto guid = MeowService().ConfigManager.SandboxConfig.LaunchWorldGuid;
+        auto worldHandle = Asset::AssetHandle::Create(guid);
+
+        WorldManager.Load(worldHandle, false);
+        Gameplay.SetViewport(100, 100);
     }
 
     void RuntimeModule::Schedule(Threading::Scheduler& scheduler) {

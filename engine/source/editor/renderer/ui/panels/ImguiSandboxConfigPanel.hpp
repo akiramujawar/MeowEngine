@@ -9,9 +9,9 @@
 #include "ImguiAPI.hpp"
 
 namespace MeowEngine::Editor {
-    struct ImguiProjectSettingPanel {
-        ImguiProjectSettingPanel();
-        ~ImguiProjectSettingPanel();
+    struct ImguiSandboxConfigPanel {
+        ImguiSandboxConfigPanel();
+        ~ImguiSandboxConfigPanel();
 
         void Draw();
 

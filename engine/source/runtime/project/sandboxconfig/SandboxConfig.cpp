@@ -4,14 +4,28 @@
 
 #include "SandboxConfig.hpp"
 
-#include "YamlCppAPI.hpp"
+#include <fstream>
+
 #include "Public/Core/Include.hpp"
 
 namespace MeowEngine::Runtime {
     void SandboxConfig::LoadConfig(const Path& path) {
         const auto sandboxConfigPath = path + "Sandbox.yml";
-        YAML::Node config = YAML::LoadFile(sandboxConfigPath.GetRawString());
+        ConfigPath = sandboxConfigPath.GetRawString();
+        Config = YAML::LoadFile(sandboxConfigPath.GetRawString());
 
-        // EngineRootPath = config["ENGINE_PATH"].as<std::string>();
+        LaunchWorldGuid = Config["LaunchWorldGuid"].as<uint64_t>();
+    }
+
+    void SandboxConfig::SaveConfig() {
+        // Modify
+        // Config["WorldLaunchGUID"] = LaunchWorldGuid;
+
+        // Write back
+        YAML::Emitter out;
+        out << Config;
+
+        std::ofstream file(ConfigPath);
+        file << out.c_str();
     }
 }

@@ -33,7 +33,7 @@ namespace MeowEngine::Runtime {
          * Loads the world from disk into memory
          * @return
          */
-        void Load(const MeowEngine::Asset::AssetHandle& handle);
+        void Load(const MeowEngine::Asset::AssetHandle& handle, bool isResetCamera = true);
         void LoadAsync(const MeowEngine::Asset::AssetHandle& handle, std::function<void()> callback);
 
         /**
