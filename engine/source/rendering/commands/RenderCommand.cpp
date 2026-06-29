@@ -23,6 +23,10 @@ namespace MeowEngine::Rendering {
         Command->Clear();
     }
 
+    void RenderCommand::SetViewportSize(int width, int height) {
+        Command->SetViewportSize(width, height);
+    }
+
     ISceneFrameBuffer& RenderCommand::GetSceneFrameBuffer() {
         return *Command->GetSceneFrameBuffer();
     }

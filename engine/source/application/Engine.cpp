@@ -246,6 +246,7 @@ namespace MeowEngine {
                             const Vector2Int size = *(Vector2Int *) event.user.data1;
                             // Scene->OnWindowResized(size);
                             Runtime.GetGameplay().SetViewport(size.Width, size.Height);
+                            Rendering::RenderCommand::SetViewportSize(size.Width, size.Height);
                             break;
                         }
                         case UserDeviceInputType::SAVE_PROJECT: {

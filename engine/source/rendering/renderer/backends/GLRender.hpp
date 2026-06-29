@@ -14,6 +14,7 @@ namespace MeowEngine::Rendering {
         ~GLRender() override;
 
         void Clear() override;
+        void SetViewportSize(int width, int height) override;
 
         std::shared_ptr<ISceneFrameBuffer> GetSceneFrameBuffer() override;
 

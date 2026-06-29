@@ -20,6 +20,7 @@ namespace MeowEngine::Rendering {
 
         // frame buffer stuff
         static void Clear();
+        static void SetViewportSize(int width, int height);
         static ISceneFrameBuffer& GetSceneFrameBuffer();
 
     private:

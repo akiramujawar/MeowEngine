@@ -26,6 +26,7 @@ namespace MeowEngine::Rendering {
          * Clears screen space
          */
         virtual void Clear() = 0;
+        virtual void SetViewportSize(int width, int height) = 0;
 
         virtual std::shared_ptr<ISceneFrameBuffer> GetSceneFrameBuffer() = 0;
     };

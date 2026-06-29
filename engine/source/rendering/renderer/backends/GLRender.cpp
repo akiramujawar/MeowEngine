@@ -20,6 +20,11 @@ namespace MeowEngine::Rendering {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
+    void GLRender::SetViewportSize(int width, int height) {
+        glViewport(0,0, width,height);
+        SceneViewFrameBuffer->RescaleFrameBuffer(width, height);
+    }
+
     std::shared_ptr<ISceneFrameBuffer> GLRender::GetSceneFrameBuffer() {
         return SceneViewFrameBuffer;
     }
