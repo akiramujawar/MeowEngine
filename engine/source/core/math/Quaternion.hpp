@@ -6,8 +6,7 @@
 #define MEOWENGINE_QUATERNION_HPP
 
 #include "vector3.hpp"
-#include "matrix4x4.hpp"
-#include "matrix3x3.hpp"
+#include "Matrix.hpp"
 #include "a_math.hpp"
 
 namespace MeowEngine::Core::Math {
@@ -214,7 +213,15 @@ namespace MeowEngine::Core::Math {
          * - quat * euler to quat * quat inverse - as per formula - homomorphism
          * - vec = v + st + q x t ; t = 2q x v; vector to vector rotation by applying pair of relations
          */
-        void Rotate(float pX, float pY, float pZ);
+        [[nodiscard]] Quaternion RotateByEuler(float pX, float pY, float pZ) const;
+        [[nodiscard]] Quaternion RotateByEuler(const Vector3& euler) const;
+
+        /**
+         * = q * (0,v) * q inverse
+         * @param axis
+         * @return
+         */
+        [[nodiscard]] Vector3 RotateAroundAxis(const Vector3& value) const;
 
         Matrix3x3 GetRotationMatrix3x3();
         Matrix4x4 GetRotationMatrix4x4();

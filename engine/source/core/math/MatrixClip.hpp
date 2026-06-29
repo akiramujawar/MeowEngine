@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_MATRIXCLIP_HPP
 #define MEOWENGINE_MATRIXCLIP_HPP
 
-#include "matrix4x4.hpp"
+#include "Matrix.hpp"
 
 namespace MeowEngine::Core::Math {
     struct MatrixClip {

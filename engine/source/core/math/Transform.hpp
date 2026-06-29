@@ -5,13 +5,12 @@
 #ifndef MEOWENGINE_TRANSFORM_HPP
 #define MEOWENGINE_TRANSFORM_HPP
 
-#include "Public/Core/Include.hpp"
 #include "Object.hpp"
 #include "vector3.hpp"
-#include "quaternion.hpp"
+#include "Quaternion.hpp"
 
 namespace MeowEngine::Core::Math {
-    class Transform : Object {
+    class Transform : Types::Object {
         REFLECT_VALUE(Transform)
         static void Reflect();
 
@@ -19,11 +18,19 @@ namespace MeowEngine::Core::Math {
         Transform();
         std::string GetClassName() override { return "Transform"; };
 
-        [[nodiscard]] Vector3 GetEuler() const { return Euler; };
-        Vector3 GetForward();
+        [[nodiscard]] Vector3 GetForward() const;
+        [[nodiscard]] Vector3 GetRight() const;
+        [[nodiscard]] Vector3 GetUp() const;
 
-        void SetEuler(const Vector3& euler);
-        void SetQuaternion(const Quaternion& quat);
+        [[nodiscard]] Vector3 GetPosition() const { return Position; };
+        [[nodiscard]] Vector3 GetScale() const { return Scale; };
+        [[nodiscard]] Vector3 GetEuler() const { return Euler; };
+        [[nodiscard]] Quaternion GetQuaternion() const { return Quat; };
+
+        void SetPosition(const Vector3& position);
+        void SetScale(const Vector3& scale);
+        void SetRotation(const Vector3& euler);
+        void SetRotation(const Quaternion& quat);
 
         void CalculateTransformMatrix(const glm::mat4 &inProjectionMatrix);
 
@@ -31,26 +38,17 @@ namespace MeowEngine::Core::Math {
         void OnEulerReflect();
 
     public:
-        static Matrix4x4 CreateViewMatrix() {
-            // 3x3 rotation matrix
-            // 4x4 matrix with added rotation and position
-        }
+        static Matrix4x4 ToMatrix();
+        static Matrix4x4 LookAtRH(Vector3 position, Vector3 target, Vector3 up);
 
-        static Vector3 GetFront() {}
-        static Vector3 GetRight() {}
-        static Vector3 GetUp() {}
-
-    public:
+    private:
         Vector3 Position;
         Vector3 Scale;
         Quaternion Quat;
         Vector3 Euler;
 
-        Vector3 Up;
-        Vector3 Forward;
-
-        Matrix4x4 IdentityMatrix{};
-        Matrix4x4 TransformMatrix{};
+        Matrix4x4 IdentityMatrix {};
+        Matrix4x4 TransformMatrix {};
     };
 }
 

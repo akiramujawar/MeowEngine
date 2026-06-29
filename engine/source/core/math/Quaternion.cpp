@@ -22,14 +22,23 @@ namespace MeowEngine::Core::Math {
         return X * X + Y * Y + Z * Z + W * W;
     }
 
-    void Quaternion::Rotate(float pX, float pY, float pZ) {
+    Quaternion Quaternion::RotateByEuler(float pX, float pY, float pZ) const {
         Quaternion deltaQuat = Quaternion(pX, pY, pZ);
-        Quaternion finalQuat = Quaternion::Multiply(deltaQuat, *this);
+        Quaternion finalQuat = Multiply(deltaQuat, *this);
 
-        W = finalQuat.W;
-        X = finalQuat.X;
-        Y = finalQuat.Y;
-        Z = finalQuat.Z;
+        return finalQuat;
+    }
+
+    Quaternion Quaternion::RotateByEuler(const Vector3& euler) const {
+        return RotateByEuler(euler.X, euler.Y, euler.Z);
+    }
+
+    Vector3 Quaternion::RotateAroundAxis(const Vector3& value) const {
+        Quaternion axisQuat = Quaternion(0, value.X, value.Y, value.Z);
+        Quaternion a = Multiply(*this, axisQuat);
+        Quaternion b = Multiply(a, Inverse(*this));
+
+        return Vector3(b.X, b.Y, b.Z);
     }
 
     Matrix3x3 Quaternion::GetRotationMatrix3x3() {
@@ -46,18 +55,18 @@ namespace MeowEngine::Core::Math {
         float WZ = W * Z;
 
         Matrix3x3 matrix {};
-        // col 1
-        matrix.X1 = 1 - 2 * ySquare - 2 * zSquare;
-        matrix.X2 = 2 * XY + 2 * WZ;
-        matrix.X3 = 2 * XZ - 2 * WY;
 
-        matrix.Y1 = 2 * XY - 2 * WZ;
-        matrix.Y2 = 1 - 2 * xSquare - 2 * zSquare;
-        matrix.Y3 = 2 * YZ + 2 * WX;
+        matrix[0][0] = 1 - 2 * ySquare - 2 * zSquare;
+        matrix[1][0] = 2 * XY + 2 * WZ;
+        matrix[2][0] = 2 * XZ - 2 * WY;
 
-        matrix.Z1 = 2 * XZ + 2 * WY;
-        matrix.Z2 = 2 * YZ - 2 * WX;
-        matrix.Z3 = 1 - 2 * xSquare - 2 * ySquare;
+        matrix[0][1] = 2 * XY - 2 * WZ;
+        matrix[1][1] = 1 - 2 * xSquare - 2 * zSquare;
+        matrix[2][1] = 2 * YZ + 2 * WX;
+
+        matrix[0][2] = 2 * XZ + 2 * WY;
+        matrix[1][2] = 2 * YZ - 2 * WX;
+        matrix[2][2] = 1 - 2 * xSquare - 2 * ySquare;
 
         return matrix;
     }
@@ -76,26 +85,26 @@ namespace MeowEngine::Core::Math {
         float WZ = W * Z;
 
         Matrix4x4 matrix {};
-        // col 1
-        matrix.X1 = 1 - 2 * ySquare - 2 * zSquare;
-        matrix.X2 = 2 * XY + 2 * WZ;
-        matrix.X3 = 2 * XZ - 2 * WY;
-        matrix.X4 = 0;
 
-        matrix.Y1 = 2 * XY - 2 * WZ;
-        matrix.Y2 = 1 - 2 * xSquare - 2 * zSquare;
-        matrix.Y3 = 2 * YZ + 2 * WX;
-        matrix.Y4 = 0;
+        matrix[0][0] = 1 - 2 * ySquare - 2 * zSquare;
+        matrix[1][0] = 2 * XY + 2 * WZ;
+        matrix[2][0] = 2 * XZ - 2 * WY;
+        matrix[3][0] = 0;
 
-        matrix.Z1 = 2 * XZ + 2 * WY;
-        matrix.Z2 = 2 * YZ - 2 * WX;
-        matrix.Z3 = 1 - 2 * xSquare - 2 * ySquare;
-        matrix.Z4 = 0;
+        matrix[0][1] = 2 * XY - 2 * WZ;
+        matrix[1][1] = 1 - 2 * xSquare - 2 * zSquare;
+        matrix[2][1] = 2 * YZ + 2 * WX;
+        matrix[3][1] = 0;
 
-        matrix.D1 = 0;
-        matrix.D2 = 0;
-        matrix.D3 = 0;
-        matrix.D4 = 1;
+        matrix[0][2] = 2 * XZ + 2 * WY;
+        matrix[1][2] = 2 * YZ - 2 * WX;
+        matrix[2][2] = 1 - 2 * xSquare - 2 * ySquare;
+        matrix[3][2] = 0;
+
+        matrix[0][3] = 0;
+        matrix[1][3] = 0;
+        matrix[2][3] = 0;
+        matrix[3][3] = 1;
 
         return matrix;
     }

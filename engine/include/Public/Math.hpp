@@ -9,10 +9,8 @@
 #include "a_math.hpp"
 #include "Vector2Int.hpp"
 #include "vector3.hpp"
-#include "quaternion.hpp"
-#include "matrix3x3.hpp"
-#include "matrix4x4.hpp"
-#include "MatrixTransform.hpp"
+#include "Quaternion.hpp"
+#include "Matrix.hpp"
 #include "MatrixClip.hpp"
 #include "Transform.hpp"
 
@@ -22,11 +20,12 @@ namespace MeowEngine {
     using Math::Vector2Int;
     using Math::Vector3;
     using Math::Quaternion;
-    using Math::Matrix3x3;
-    using Math::Matrix4x4;
-    using Math::MatrixTransform;
+    using Math::Matrix;
     using Math::MatrixClip;
     using Math::Transform;
+
+    using Math::Matrix3x3;
+    using Math::Matrix4x4;
 
 }
 

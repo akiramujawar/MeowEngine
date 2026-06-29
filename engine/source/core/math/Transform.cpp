@@ -12,17 +12,34 @@ namespace MeowEngine::Core::Math {
         REGISTER_PROPERTY_CALLBACK(Transform, Euler, Vector3, true, true, OnEulerReflect);
     }
 
-    Transform::Transform() {
-        Up = Vector3(0.0f, 1.0f, 0.0f);
-        Forward = Vector3(0.0f, 0.0f, 1.0f);
+    Transform::Transform() {}
+
+    Vector3 Transform::GetForward() const {
+        return Quat.RotateAroundAxis(Vector3::Forward());
     }
 
-    void Transform::SetEuler(const Vector3& euler) {
+    Vector3 Transform::GetRight() const {
+        return Quat.RotateAroundAxis(Vector3::Right());
+    }
+
+    Vector3 Transform::GetUp() const {
+        return Quat.RotateAroundAxis(Vector3::Up());
+    }
+
+    void Transform::SetPosition(const Vector3& position) {
+        Position = position;
+    }
+
+    void Transform::SetScale(const Vector3& scale) {
+        Scale = scale;
+    }
+
+    void Transform::SetRotation(const Vector3& euler) {
         Euler = euler;
         Quat = Quaternion(euler);
     }
 
-    void Transform::SetQuaternion(const Quaternion& quat) {
+    void Transform::SetRotation(const Quaternion& quat) {
         Quat = quat;
         Euler = Quaternion::Euler(quat);
     }
@@ -30,7 +47,9 @@ namespace MeowEngine::Core::Math {
     void Transform::CalculateTransformMatrix(const glm::mat4& inProjectionMatrix) {
         Matrix4x4 rotationMatrix = Quat.GetRotationMatrix4x4();
 
-        glm::mat4x4 identityMatrix =  Matrix4x4::GlmFromMatrix4x4(Matrix4x4::Identity());
+        auto test = Matrix4x4::Identity();
+
+        glm::mat4 identityMatrix =  Matrix4x4::GlmFromMatrix4x4(Matrix4x4::Identity());
         glm::mat4 rotation4Matrix = Matrix4x4::GlmFromMatrix4x4(rotationMatrix);
 
         auto transformMatrix = inProjectionMatrix
@@ -48,5 +67,13 @@ namespace MeowEngine::Core::Math {
     void Transform::OnEulerReflect() {
         // TODO: Use Quaternion.Rotate or we would create gimble lock issues
         Quat = Quaternion(Euler);
+    }
+
+    Matrix4x4 Transform::LookAtRH(Vector3 position, Vector3 target, Vector3 up) {
+        const auto positionGLM = Vector3::GlmFromVector3(position);
+        const auto targetGLM = Vector3::GlmFromVector3(target);
+        const auto upGLM = Vector3::GlmFromVector3(up);
+
+        return Matrix4x4::Matrix4X4FromGlm(glm::lookAtLH(positionGLM, targetGLM, upGLM));
     }
 }
