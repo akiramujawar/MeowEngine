@@ -4,12 +4,12 @@
 
 #include "CameraSystem.hpp"
 
-#include "PerspectiveCameraComponent.hpp"
+#include "CameraComponent.hpp"
 #include "World.hpp"
 
 namespace MeowEngine::Runtime {
     void CameraSystem::Update(Asset::World& world) {
-        auto& camera = world.GetComponent<PerspectiveCameraComponent>(world.ActiveCamera);
+        auto& camera = world.GetComponent<CameraComponent>(world.ActiveCamera);
 
         // make movements
         // camera.Configure();

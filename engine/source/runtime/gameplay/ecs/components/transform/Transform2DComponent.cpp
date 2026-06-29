@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 03/07/24.
 //
 
-#include "transform2d_component.hpp"
+#include "Transform2DComponent.hpp"
 #include <log.hpp>
 
 void MeowEngine::Runtime::Transform2DComponent::Reflect() {

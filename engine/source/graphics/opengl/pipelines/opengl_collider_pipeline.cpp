@@ -3,7 +3,7 @@
 //
 
 #include "opengl_collider_pipeline.hpp"
-#include "transform3d_component.hpp"
+#include "Transform3DComponent.hpp"
 #include "collider_component.hpp"
 #include "glm_extension.hpp"
 

@@ -11,7 +11,7 @@
 #include "IRenderPipeline.hpp"
 #include "transform_handle_component.hpp"
 
-#include "transform3d_component.hpp"
+#include "Transform3DComponent.hpp"
 #include "perspective_camera.hpp"
 
 using namespace glm;

@@ -12,8 +12,8 @@
 #include <HierarchyComponent.hpp>
 
 #include <transform_handle_component.hpp>
-#include <transform3d_component.hpp>
-#include <PerspectiveCameraComponent.hpp>
+#include <Transform3DComponent.hpp>
+#include <CameraComponent.hpp>
 #include <GridComponent.hpp>
 #include <SkyBoxComponent.hpp>
 #include <reflection_test_component.hpp>
@@ -42,14 +42,11 @@ namespace MeowEngine::Runtime {
         const auto entity = AddEntity();
         auto& identity = GetComponent<IdentityComponent>(entity);
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
-        // auto& transform = AddComponent<Runtime::Transform3DComponent>(entity);
-        auto& camera = AddComponent<Runtime::PerspectiveCameraComponent>(entity);
+        auto& camera = AddComponent<Runtime::CameraComponent>(entity);
 
         info.SetName(String("[EDITOR] Camera"));
-        // transform.Position = Vector3(10,20,300);
-        // transform.Scale = Vector3(1,1,1);
-        // transform.Euler = Vector3(1,10,2);
-        // transform.Rotation = Quaternion(transform.Euler);
+        camera.Local.SetPosition(Vector3(0,10,-30));
+        camera.Local.SetRotation(Vector3(10,0,0));
 
         ActiveCamera = identity.GetEntityHandle();
     }

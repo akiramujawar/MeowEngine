@@ -13,7 +13,7 @@
 
 // components
 #include <mesh_render_component.hpp>
-#include <transform3d_component.hpp>
+#include <Transform3DComponent.hpp>
 
 #include "AssetManager.hpp"
 #include "ShaderAsset.hpp"

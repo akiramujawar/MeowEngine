@@ -10,7 +10,7 @@
 
 #include "IRenderPipeline.hpp"
 #include "line_render_component.hpp"
-#include "transform3d_component.hpp"
+#include "Transform3DComponent.hpp"
 #include "perspective_camera.hpp"
 
 using namespace std;

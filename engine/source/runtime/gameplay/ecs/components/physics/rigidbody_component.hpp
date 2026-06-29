@@ -6,7 +6,7 @@
 #define MEOWENGINE_RIGIDBODY_COMPONENT_HPP
 
 #include <IComponent.hpp>
-#include <transform3d_component.hpp>
+#include <Transform3DComponent.hpp>
 #include "PxPhysicsAPI.h"
 
 using namespace MeowEngine::Runtime;

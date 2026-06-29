@@ -5,17 +5,13 @@
 #ifndef MEOWENGINE_TRANSFORM2D_COMPONENT_HPP
 #define MEOWENGINE_TRANSFORM2D_COMPONENT_HPP
 
-#include "reflection_macro_wrapper.hpp"
-#include "transform_component_base.hpp"
+#include "IComponent.hpp"
 
 namespace MeowEngine::Runtime {
-    class Transform2DComponent : public MeowEngine::Runtime::TransformComponentBase{
+    class Transform2DComponent : public IComponent {
     public:
         REFLECT_COMPONENT(Transform2DComponent)
         static void Reflect();
-
-        Transform2DComponent() {};
-        void Update(const float& deltaTime) override {}
     };
 }
 

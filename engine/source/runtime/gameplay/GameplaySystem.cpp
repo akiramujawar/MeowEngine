@@ -6,7 +6,7 @@
 #include <log.hpp>
 
 #include "CameraSystem.hpp"
-#include "PerspectiveCameraComponent.hpp"
+#include "CameraComponent.hpp"
 
 namespace MeowEngine::Runtime {
     GameplaySystem::GameplaySystem() {
@@ -36,10 +36,10 @@ namespace MeowEngine::Runtime {
     }
 
     void GameplaySystem::SetViewport(const float& width, const float& height) {
-        World->GetComponent<PerspectiveCameraComponent>(World->ActiveCamera).SetViewport(width, height);
+        World->GetComponent<CameraComponent>(World->ActiveCamera).SetViewport(width, height);
     }
 
-    PerspectiveCameraComponent& GameplaySystem::GetCamera() const {
-        return World->GetComponent<PerspectiveCameraComponent>(World->ActiveCamera);
+    CameraComponent& GameplaySystem::GetCamera() const {
+        return World->GetComponent<CameraComponent>(World->ActiveCamera);
     }
 }

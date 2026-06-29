@@ -19,7 +19,7 @@
 #include <IdentityComponent.hpp>
 #include <InfoComponent.hpp>
 #include <HierarchyComponent.hpp>
-#include <transform3d_component.hpp>
+#include <Transform3DComponent.hpp>
 #include <collider_component.hpp>
 
 namespace MeowEngine::Rendering {

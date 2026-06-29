@@ -10,7 +10,7 @@
 
 #include "IRenderPipeline.hpp"
 #include "mesh_render_component.hpp"
-#include "transform3d_component.hpp"
+#include "Transform3DComponent.hpp"
 
 namespace MeowEngine {
     class OpenGLAssetManager;

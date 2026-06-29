@@ -14,7 +14,7 @@
 #include "Math.hpp"
 
 namespace MeowEngine::Runtime {
-    class PerspectiveCameraComponent;
+    class CameraComponent;
 
     /**
      * Reads physics snapshot from physics system & applies to World
@@ -36,7 +36,7 @@ namespace MeowEngine::Runtime {
         void Sync();
 
         void SetViewport(const float& width, const float& height);
-        PerspectiveCameraComponent& GetCamera() const;
+        CameraComponent& GetCamera() const;
 
     private:
         Asset::World* World;

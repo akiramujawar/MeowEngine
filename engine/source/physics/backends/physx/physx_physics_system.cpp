@@ -5,7 +5,7 @@
 #include <log.hpp>
 #include "physx_physics_system.hpp"
 
-#include <transform3d_component.hpp>
+#include <Transform3DComponent.hpp>
 #include <rigidbody_component.hpp>
 #include <collider_component.hpp>
 
