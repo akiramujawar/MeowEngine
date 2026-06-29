@@ -38,6 +38,7 @@
 - [ ] Documenting done items and different approaches and used libraries
 
 ## Meow Engine v0.7
+- [ ] Runtime handles -> to store different viewports / frame buffers
 - [ ] Reworking engine to utilise new mathematical library
 - [ ] Decoupling SDL events with the help of messaging system
 - [ ] Selecting objects in scene renderer (world)

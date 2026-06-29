@@ -37,15 +37,6 @@ namespace MeowEngine::Asset {
 
         RuntimeEntityMap.try_emplace(guid, hierarchy.Self);
 
-        // for (auto& data : RuntimeEntityMap)
-        // {
-        //     // std::cout << id << '\n';
-        //     auto entityID = static_cast<int>(data.second.GetEntity());
-        //     std::cout << entityID << " : " << data.second.GetGUIDInt() << '\n';
-        //     // std::cout << handle.GetEntity() << '\n';
-        // }
-        // std::cout<<"\n";
-
         return identity.GetEntityHandle();
     }
 
@@ -54,19 +45,6 @@ namespace MeowEngine::Asset {
         if (iterator != RuntimeEntityMap.end()) {
             return iterator->second;
         }
-
-        // if (guid != Runtime::EntityID::INVALID) {
-        //     MeowEngine::Log("Not found", static_cast<int>(guid));
-        //     std::cout << "Not found" << " : " << static_cast<std::uint64_t>(guid) << '\n';
-        //     for (auto& data : RuntimeEntityMap)
-        //     {
-        //         // std::cout << id << '\n';
-        //         auto entityID = static_cast<int>(data.second.GetEntity());
-        //         std::cout << entityID << " : " << data.second.GetGUIDInt() << '\n';
-        //         // std::cout << handle.GetEntity() << '\n';
-        //     }
-        //     std::cout<<"\n";
-        // }
 
         return Runtime::EntityHandle::Invalid();
     }

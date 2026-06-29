@@ -52,6 +52,9 @@ namespace MeowEngine::Asset {
             writeSerializer.WriteUInt64(identity.GetGUIDInt());
         });
 
+        writeSerializer.WriteUInt64(world.ActiveCamera.GetGUIDInt());
+        writeSerializer.WriteUInt64(world.SkyBox.GetGUIDInt());
+
         // guid, component count, component name & its serialized data (using reflection system)
         registry.view<Runtime::Entity, Runtime::IdentityComponent>().each([&registry, &writeSerializer](const Runtime::Entity entity, const Runtime::IdentityComponent& identity) {
             // cache and save entity guid
@@ -133,6 +136,26 @@ namespace MeowEngine::Asset {
             handles.try_emplace(guid, handle);
         }
 
+        // set camera
+        auto cameraGuidInt = serializer.ReadUInt64();
+        const auto cameraGuid = Runtime::EntityID {cameraGuidInt};
+        if (cameraGuid != Runtime::EntityID::INVALID) {
+            auto iterator = handles.find(cameraGuid);
+            if (iterator != handles.end()) {
+                world.ActiveCamera = iterator->second;
+            }
+        }
+
+        // set skybox
+        auto skyboxGuidInt = serializer.ReadUInt64();
+        const auto skyboxGuid = Runtime::EntityID {skyboxGuidInt};
+        if (skyboxGuid != Runtime::EntityID::INVALID) {
+            auto iterator = handles.find(skyboxGuid);
+            if (iterator != handles.end()) {
+                world.SkyBox = iterator->second;
+            }
+        }
+
         // for each serialized item
         // get handle -> get entity -> serialize
         for (auto i = 0 ; i < entityCount; i++) {
@@ -151,6 +174,8 @@ namespace MeowEngine::Asset {
                 ComponentSerializer::Deserialize(serializer, world, componentObject, componentName);
             }
         }
+
+
 
         AssetSerializer::CloseSerializer(serializer);
 

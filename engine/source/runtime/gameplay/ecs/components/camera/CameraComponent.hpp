@@ -33,7 +33,7 @@ namespace MeowEngine::Runtime {
 
     public:
         float MoveSpeed = 0.2f;
-        float LookAroundSpeed = 0.15f;
+        float LookAroundSpeed = 0.1f;
 
     private:
         Matrix4x4 View {};
@@ -44,8 +44,6 @@ namespace MeowEngine::Runtime {
          */
         Matrix4x4 ViewProjection {};
 
-        float Width = 100;
-        float Height = 100;
         float Near = 0.1f;
         float Far = 3000;
     };

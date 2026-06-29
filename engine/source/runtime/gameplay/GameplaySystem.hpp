@@ -36,11 +36,15 @@ namespace MeowEngine::Runtime {
         void Sync();
 
         void SetViewport(const float& width, const float& height);
-        CameraComponent& GetCamera() const;
+        void ResetCamera();
+
+        CameraComponent& GetCamera();
 
     private:
         Asset::World* World;
         std::vector<std::unique_ptr<Runtime::IComponentSystem>> ComponentSystems;
+        float Width;
+        float Height;
     };
 
 }

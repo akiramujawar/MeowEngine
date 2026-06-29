@@ -36,10 +36,17 @@ namespace MeowEngine::Runtime {
     }
 
     void GameplaySystem::SetViewport(const float& width, const float& height) {
-        World->GetComponent<CameraComponent>(World->ActiveCamera).SetViewport(width, height);
+        Width = width;
+        Height = height;
+
+        ResetCamera();
     }
 
-    CameraComponent& GameplaySystem::GetCamera() const {
+    void GameplaySystem::ResetCamera() {
+        GetCamera().SetViewport(Width, Height);
+    }
+
+    CameraComponent& GameplaySystem::GetCamera() {
         return World->GetComponent<CameraComponent>(World->ActiveCamera);
     }
 }

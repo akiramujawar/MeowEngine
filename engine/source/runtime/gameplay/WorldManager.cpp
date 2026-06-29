@@ -35,13 +35,14 @@ namespace MeowEngine::Runtime {
         auto& assetManager = MeowService().AssetManager;
 
         if (auto* world = assetManager.GetAssetOrLoad<Asset::World>(handle)) {
+            // tempWorld
             Gameplay->SetWorld(world);
+            Gameplay->ResetCamera();
             ActiveWorldHandle = handle;
         }
         else {
             const auto tempHandle = assetManager.CreateTempAsset<DefaultWorld>();
             auto* tempWorld = assetManager.GetAsset<DefaultWorld>(tempHandle);
-
             Gameplay->SetWorld(tempWorld);
             ActiveWorldHandle = tempHandle;
         }
