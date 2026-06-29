@@ -26,6 +26,9 @@ namespace MeowEngine::Editor {
         void Draw(Rendering::RenderContext& renderContext);
 
     private:
+        void ShowAddComponentPopup(const Rendering::RenderContext& renderContext);
+        void ShowComponents(const Rendering::RenderContext& renderContext);
+    private:
         bool CanDrawPanel;
     };
 }

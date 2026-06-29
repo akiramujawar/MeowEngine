@@ -44,6 +44,7 @@ namespace MeowEngine {
         bool HasEnum(std::string inPropertyName);
 
         std::string GetComponentName(Runtime::ComponentID inId);
+        std::vector<std::string> GetComponentNames();
         std::vector<ReflectionProperty> GetProperties(std::string inClassName);
         std::vector<std::string> GetEnumValues(std:: string pEnumName);
         ReflectionProperty* GetProperty(const std::string& className, const std::string& propertyName);
@@ -57,6 +58,7 @@ namespace MeowEngine {
 
             if(!HasComponent(componentId)) {
                 RuntimeComponentMap[componentId] = inComponent;
+                RuntimeComponentNames.push_back(inComponent.ClassName);
             }
 
             AddComponentCallbackMap.try_emplace(inComponent.ClassName, &Asset::World::AddComponentToWorld<Type>);
@@ -121,6 +123,8 @@ namespace MeowEngine {
          * component and methods to perform actions on component (like fresh construction)
          */
         std::unordered_map<Runtime::ComponentID, ReflectionComponent> RuntimeComponentMap;
+
+        std::vector<std::string> RuntimeComponentNames;
 
         /**
          *

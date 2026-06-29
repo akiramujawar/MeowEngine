@@ -91,6 +91,9 @@ namespace MeowEngine::Asset {
             auto propertyName = serializer.ReadString();
             auto typeName = serializer.ReadString();
 
+            // we read properties even if they doesn't exists in reflection
+            // this allows us to deserialize without issues
+            // when component properties are removed / added
             ReflectionProperty* property = GetReflection().GetProperty(className, propertyName);
 
             // deserialize need to happen even if property doesn't exist

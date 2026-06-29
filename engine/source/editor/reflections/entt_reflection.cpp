@@ -27,6 +27,10 @@ namespace MeowEngine {
         return RuntimeComponentMap[inId].ClassName;
     }
 
+    std::vector<std::string> EnttReflection::GetComponentNames() {
+        return RuntimeComponentNames;
+    }
+
     std::vector<ReflectionProperty> EnttReflection::GetProperties(std::string inClassName) {
         return Properties[inClassName];
     }
