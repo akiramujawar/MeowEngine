@@ -26,6 +26,10 @@ namespace MeowEngine::Core::Math {
         return Quat.RotateAroundAxis(Vector3::Up());
     }
 
+    Matrix4x4 Transform::ToMatrix() const {
+        return Matrix4x4::Identity();
+    }
+
     void Transform::SetPosition(const Vector3& position) {
         Position = position;
     }
@@ -69,7 +73,7 @@ namespace MeowEngine::Core::Math {
         Quat = Quaternion(Euler);
     }
 
-    Matrix4x4 Transform::LookAtRH(Vector3 position, Vector3 target, Vector3 up) {
+    Matrix4x4 Transform::LookAt(Vector3 position, Vector3 target, Vector3 up) {
         const auto positionGLM = Vector3::GlmFromVector3(position);
         const auto targetGLM = Vector3::GlmFromVector3(target);
         const auto upGLM = Vector3::GlmFromVector3(up);

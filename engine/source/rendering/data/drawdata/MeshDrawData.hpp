@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_MESHDRAWDATA_HPP
 #define MEOWENGINE_MESHDRAWDATA_HPP
 
-#include <GLM_API.hpp>
+#include "Math.hpp"
 #include <ShaderRenderHandle.hpp>
 #include <MeshRenderHandle.hpp>
 #include <TextureRenderHandle.hpp>
@@ -16,7 +16,7 @@ namespace MeowEngine::Rendering {
         MeshRenderHandle Mesh;
         TextureRenderHandle Texture;
 
-        glm::mat4 TransformMatrix;
+        Matrix4x4 TransformMatrix;
     };
 }
 

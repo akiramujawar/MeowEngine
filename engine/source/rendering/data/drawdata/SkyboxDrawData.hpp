@@ -6,15 +6,15 @@
 #define MEOWENGINE_SKYBOXDRAWDATA_HPP
 
 #include <ShaderRenderHandle.hpp>
-#include <GLM_API.hpp>
+#include "Math.hpp"
 
 
 namespace MeowEngine::Rendering {
     struct SkyboxDrawData {
         ShaderRenderHandle Shader;
 
-        glm::mat4 CameraViewMatrix;
-        glm::mat4 CameraProjectionMatrix;
+        Matrix4x4 CameraViewMatrix;
+        Matrix4x4 CameraProjectionMatrix;
     };
 }
 

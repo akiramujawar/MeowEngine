@@ -46,6 +46,10 @@ namespace MeowEngine::Core::Math {
             return &Elements[col * Rows];
         }
 
+        constexpr const T* operator[](int col) const {
+            return &Elements[col * Rows];
+        }
+
         /**
          * Row Major
          * @param row
@@ -56,13 +60,17 @@ namespace MeowEngine::Core::Math {
             return Elements[col * Rows + row];
         }
 
+        constexpr const T& operator()(int row, int col) const{
+            return Elements[col * Rows + row];
+        }
+
         /**
          * Only for square matrices like 2x2, 3x3, 4x4 etc...
          * NOTE: also please reimplement this :)
          * @param value
          * @return
          */
-        constexpr Matrix operator*(Matrix& value) {
+        constexpr Matrix operator*(const Matrix& value) {
             Matrix matrix = Zero();
 
             for (int row = 0; row < Rows; ++row) {
@@ -76,9 +84,25 @@ namespace MeowEngine::Core::Math {
             return matrix;
         }
 
-        // constexpr Matrix operator*(const Matrix& value) {
-        //     return Identity();
-        // }
+        /**
+         * Only for square matrices like 2x2, 3x3, 4x4 etc...
+         * NOTE: also please reimplement this :)
+         * @param value
+         * @return
+         */
+        constexpr Matrix operator*(const Matrix& value) const {
+            Matrix matrix = Zero();
+
+            for (int row = 0; row < Rows; ++row) {
+                for (int col = 0; col < Columns; ++col) {
+                    for (int k = 0; k < Columns; ++k) {
+                        matrix(row, col) +=(*this)(row, k) * value(k, col);
+                    }
+                }
+            }
+
+            return matrix;
+        }
 
         /**
          * Continuous memoery (col major)
@@ -166,7 +190,7 @@ namespace MeowEngine::Core::Math {
     };
 
     using Matrix3x3 = Matrix<float, 3, 3>;
-    using Matrix4x4 = Math::Matrix<float, 4, 4>;
+    using Matrix4x4 = Matrix<float, 4, 4>;
 
 }
 

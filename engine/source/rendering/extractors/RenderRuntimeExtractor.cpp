@@ -6,18 +6,21 @@
 
 #include <RenderSceneData.hpp>
 #include <RenderUIData.hpp>
+#include "ShaderAsset.hpp"
+
+// core
+#include "Math.hpp"
 
 // runtime
+#include "AssetManager.hpp"
 #include <GameplaySystem.hpp>
 #include <World.hpp>
 
 // components
 #include <mesh_render_component.hpp>
 #include <Transform3DComponent.hpp>
-
-#include "AssetManager.hpp"
-#include "ShaderAsset.hpp"
 #include "SkyBoxComponent.hpp"
+#include "CameraComponent.hpp"
 
 namespace MeowEngine::Rendering {
     void RenderRuntimeExtractor::Init(const RenderExtractorInitData& frame) {
@@ -39,7 +42,7 @@ namespace MeowEngine::Rendering {
             data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
             data.Mesh = MeshRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
             data.Texture = TextureRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
-            data.TransformMatrix = transform.TransformMatrix; // this doesnt exist
+            data.TransformMatrix = camera.GetViewProjection() * transform.Local.ToMatrix(); // this doesnt exist
 
             frame.Meshes.push_back(data);
         }
@@ -59,8 +62,8 @@ namespace MeowEngine::Rendering {
 
                 SkyboxDrawData data;
                 data.Shader = ShaderRenderHandle(skyBox->GetShaderAssetHandle());
-                data.CameraViewMatrix = Matrix4x4::GlmFromMatrix4x4(camera.GetViewMatrix()); // camera
-                data.CameraProjectionMatrix = Matrix4x4::GlmFromMatrix4x4(camera.GetProjectionMatrix()); // camera
+                data.CameraViewMatrix = camera.GetView(); // camera
+                data.CameraProjectionMatrix = camera.GetProjection(); // camera
 
                 frame.Skybox = data;
             }

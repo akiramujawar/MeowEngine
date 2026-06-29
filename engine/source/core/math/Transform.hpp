@@ -26,6 +26,7 @@ namespace MeowEngine::Core::Math {
         [[nodiscard]] Vector3 GetScale() const { return Scale; };
         [[nodiscard]] Vector3 GetEuler() const { return Euler; };
         [[nodiscard]] Quaternion GetQuaternion() const { return Quat; };
+        [[nodiscard]] Matrix4x4 ToMatrix() const;
 
         void SetPosition(const Vector3& position);
         void SetScale(const Vector3& scale);
@@ -38,8 +39,7 @@ namespace MeowEngine::Core::Math {
         void OnEulerReflect();
 
     public:
-        static Matrix4x4 ToMatrix();
-        static Matrix4x4 LookAtRH(Vector3 position, Vector3 target, Vector3 up);
+        static Matrix4x4 LookAt(Vector3 position, Vector3 target, Vector3 up);
 
     private:
         Vector3 Position;
