@@ -8,6 +8,9 @@
 #include "GLM_API.hpp"
 
 namespace MeowEngine {
+    /**
+     * TODO: migrate to custom math library
+     */
     struct Vertex {
         glm::vec3 Position;
         glm::vec2 TextureCoord;

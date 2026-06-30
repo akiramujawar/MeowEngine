@@ -53,6 +53,8 @@ namespace MeowEngine::Editor {
          * @param path
          */
         void ShowThumbnail(const Asset::DirectoryAsset& assetFile);
+
+        void ShowImportAssetPopupMenu();
         void ShowCreateAssetPopupMenu();
         
     private:

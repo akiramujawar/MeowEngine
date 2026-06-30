@@ -144,10 +144,7 @@ namespace MeowEngine::Editor {
             const ImVec2 importButtonSize(ImGui::CalcTextSize(importButtonText.c_str()).x, headerHeight);
             if (ImGui::Button(importButtonText.c_str(), importButtonSize)) {
                 // display window for importing files.
-                CommandQueue->Push(
-                    Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::ImportFileCommand>(SelectedFolderPath.GetRawString())
-                );
+                ImGui::OpenPopup("ShowImportAssetPopupMenu");
             }
     
             ImGui::SameLine();
@@ -158,7 +155,8 @@ namespace MeowEngine::Editor {
             if (ImGui::Button(createButtonText.c_str(), createButtonSize)) {
                 ImGui::OpenPopup("ShowCreateAssetPopupMenu");
             }
-    
+
+            ShowImportAssetPopupMenu();
             ShowCreateAssetPopupMenu();
             ImGui::PopID();
         }
@@ -408,6 +406,34 @@ namespace MeowEngine::Editor {
         }
 
         ImGui::PopID();
+    }
+
+    void ImguiAssetPanel::ShowImportAssetPopupMenu() {
+        if (ImGui::BeginPopup("ShowImportAssetPopupMenu")) {
+            if(ImGui::MenuItem("Mesh")) {
+                CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::ImportFileCommand>(SelectedFolderPath.GetRawString(), Asset::AssetImportType::MESH)
+                );
+            }
+
+            else if(ImGui::MenuItem("Texture")) {
+                CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::ImportFileCommand>(SelectedFolderPath.GetRawString(), Asset::AssetImportType::TEXTURE)
+                );
+            }
+            else if(ImGui::MenuItem("Reimport World")) {
+                CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::ImportFileCommand>(SelectedFolderPath.GetRawString(), Asset::AssetImportType::WORLD)
+                );
+            }
+
+            ImGui::EndPopup();
+        }
+
+
     }
 
     void ImguiAssetPanel::ShowCreateAssetPopupMenu() {

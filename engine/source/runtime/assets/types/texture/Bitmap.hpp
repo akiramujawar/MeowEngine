@@ -12,10 +12,11 @@
 
 namespace MeowEngine {
     struct Bitmap {
-        Bitmap(SDL_Surface* surface);
+        Bitmap();
+
+        void SetData(SDL_Surface* surface) const;
 
         uint16_t GetWidth() const;
-
         uint16_t GetHeight() const;
 
         // Gives memory pointer to the data of bitmap. Required for OpenGL/Vulkan

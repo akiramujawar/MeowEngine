@@ -60,6 +60,8 @@ namespace MeowEngine::Asset {
     }
 
     bool ShaderSerialization::Deserialize(const Path& path, ShaderAsset& asset) {
+        MeowEngine::Log("ShaderSerialization", "Deserialize");
+
         auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
 
         AssetHeader header;

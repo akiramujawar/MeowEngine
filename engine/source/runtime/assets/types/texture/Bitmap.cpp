@@ -2,21 +2,25 @@
 // Created by Akira Mujawar on 19/06/24.
 //
 
-#include "bitmap.hpp"
+#include "Bitmap.hpp"
 
 using MeowEngine::Bitmap;
 
 struct Bitmap::Internal {
-    SDL_Surface* surface;
+    SDL_Surface* surface = nullptr;
 
-    Internal(SDL_Surface* surface) : surface(surface) {}
+    Internal() {}
 
     ~Internal() {
         SDL_FreeSurface(surface);
     }
 };
 
-Bitmap::Bitmap(SDL_Surface *surface) : InternalPointer(MeowEngine::make_internal_ptr<Internal>(surface)) {}
+Bitmap::Bitmap() : InternalPointer(MeowEngine::make_internal_ptr<Internal>()) {}
+
+void Bitmap::SetData(SDL_Surface* surface) const {
+    InternalPointer->surface = surface;
+}
 
 uint16_t Bitmap::GetWidth() const {
     return static_cast<uint16_t>(InternalPointer->surface->w);

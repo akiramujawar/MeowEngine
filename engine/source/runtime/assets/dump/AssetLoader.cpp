@@ -6,7 +6,7 @@
 
 #include "AssetLoader.hpp"
 #include "SDL_API.hpp"
-#include "vertex.hpp"
+#include "Vertex.hpp"
 //#include "sstream"
 #include "tiny_obj_loader.h"
 #include "unordered_map"
@@ -101,7 +101,7 @@ MeowEngine::Mesh MeowEngine::assets::LoadObjFile(const std::string &path) {
         }
     }
 
-    return { vertices, indices };
+    return {  };
 }
 
 MeowEngine::Bitmap MeowEngine::assets::LoadBitmap(const std::string &path) {
@@ -141,5 +141,5 @@ MeowEngine::Bitmap MeowEngine::assets::LoadBitmap(const std::string &path) {
     SDL_BlitSurface(source, &imageFrame, target, &imageFrame);
     SDL_FreeSurface(source);
 
-    return MeowEngine::Bitmap(target);
+    return MeowEngine::Bitmap();
 }

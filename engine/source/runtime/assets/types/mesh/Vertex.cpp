@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 08/09/22.
 //
 
-#include "vertex.hpp"
+#include "Vertex.hpp"
 
 using MeowEngine::Vertex;
 

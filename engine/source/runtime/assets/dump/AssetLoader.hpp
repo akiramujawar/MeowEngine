@@ -5,9 +5,9 @@
 #ifndef MEOWENGINE_ASSETLOADER_HPP
 #define MEOWENGINE_ASSETLOADER_HPP
 
-#include "mesh.hpp"
+#include "Mesh.hpp"
 #include <string>
-#include "bitmap.hpp"
+#include "Bitmap.hpp"
 
 namespace MeowEngine::assets {
     std::string LoadTextFile(const std::string& path);

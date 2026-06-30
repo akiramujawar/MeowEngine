@@ -15,6 +15,9 @@ namespace MeowEngine::Platform {
 namespace MeowEngine::Editor {
     struct EditorInitData;
 
+    /**
+     * TODO: return bool on cancel / success
+     */
     class FileDialog {
     public:
         FileDialog();
