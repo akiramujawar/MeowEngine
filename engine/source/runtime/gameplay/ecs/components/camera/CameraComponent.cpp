@@ -19,7 +19,7 @@ namespace  MeowEngine::Runtime {
     }
 
     void CameraComponent::UpdateMatrix() {
-        View = Transform::LookAt(Local.GetPosition(), Local.GetPosition() + Local.GetForward(), Local.GetUp());
+        View = Transform::LookAt(GetPosition(), GetPosition() + GetForward(), GetUp());
 
         ViewProjection = Projection * View;
     }

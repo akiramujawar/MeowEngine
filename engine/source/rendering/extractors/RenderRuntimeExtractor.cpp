@@ -42,7 +42,7 @@ namespace MeowEngine::Rendering {
             data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
             data.Mesh = MeshRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
             data.Texture = TextureRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
-            data.TransformMatrix = camera.GetViewProjection() * transform.Local.ToMatrix(); // this doesnt exist
+            data.TransformMatrix = camera.GetViewProjection() * transform.ToMatrix(); // this doesnt exist
 
             frame.Meshes.push_back(data);
         }

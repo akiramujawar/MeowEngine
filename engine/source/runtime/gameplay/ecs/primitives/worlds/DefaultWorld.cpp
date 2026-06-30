@@ -45,8 +45,8 @@ namespace MeowEngine::Runtime {
         auto& camera = AddComponent<Runtime::CameraComponent>(entity);
 
         info.SetName(String("[EDITOR] Camera"));
-        camera.Local.SetPosition(Vector3(0,10,-30));
-        camera.Local.SetRotation(Vector3(10,0,0));
+        camera.SetPosition(Vector3(0,10,-30));
+        camera.SetRotation(Vector3(10,0,0));
 
         ActiveCamera = identity.GetEntityHandle();
     }

@@ -21,27 +21,27 @@ namespace MeowEngine::Runtime {
         if (inputManager.IsActive) {
             // mouse move
             if (inputManager.MouseState) {
-                auto eulerAngles = camera.Local.GetEuler();
+                auto eulerAngles = camera.GetEuler();
                 eulerAngles.X += static_cast<float>(inputManager.MouseDeltaY) * camera.LookAroundSpeed; // vertical
                 eulerAngles.Y += static_cast<float>(inputManager.MouseDeltaX) * camera.LookAroundSpeed; // horizontal
 
-                camera.Local.SetRotation(eulerAngles);
+                camera.SetRotation(eulerAngles);
             }
 
             // key move
             auto keyState = inputManager.KeyState;
             if (keyState[SDL_SCANCODE_UP] || keyState[SDL_SCANCODE_W]) {
-                auto forward = camera.Local.GetForward();
-                auto position = camera.Local.GetPosition();
+                auto forward = camera.GetForward();
+                auto position = camera.GetPosition();
 
-                camera.Local.SetPosition(position + forward * camera.MoveSpeed);
+                camera.SetPosition(position + forward * camera.MoveSpeed);
             }
 
             if (keyState[SDL_SCANCODE_DOWN] || keyState[SDL_SCANCODE_S]) {
-                auto forward = camera.Local.GetForward();
-                auto position = camera.Local.GetPosition();
+                auto forward = camera.GetForward();
+                auto position = camera.GetPosition();
 
-                camera.Local.SetPosition(position - forward * camera.MoveSpeed);
+                camera.SetPosition(position - forward * camera.MoveSpeed);
             }
         }
     }

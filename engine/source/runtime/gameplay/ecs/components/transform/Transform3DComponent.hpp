@@ -7,6 +7,7 @@
 
 #include "IComponent.hpp"
 #include "Public/Math.hpp"
+#include "TransformAuthorityState.hpp"
 
 namespace MeowEngine::Runtime {
     class Transform3DComponent : public IComponent {
@@ -14,8 +15,24 @@ namespace MeowEngine::Runtime {
         REFLECT_COMPONENT(Transform3DComponent)
         static void Reflect();
 
-    public:
+        [[nodiscard]] Vector3 GetForward() const { return Local.GetForward(); }
+        [[nodiscard]] Vector3 GetRight() const { return Local.GetRight(); }
+        [[nodiscard]] Vector3 GetUp() const { return Local.GetUp(); }
+
+        [[nodiscard]] Vector3 GetPosition() const { return Local.GetPosition(); };
+        [[nodiscard]] Vector3 GetScale() const { return Local.GetScale(); };
+        [[nodiscard]] Vector3 GetEuler() const { return Local.GetEuler(); };
+        [[nodiscard]] Quaternion GetQuaternion() const { return Local.GetQuaternion(); };
+        [[nodiscard]] Matrix4x4 ToMatrix() const { return Local.ToMatrix(); };
+
+        void SetPosition(const Vector3& position);
+        void SetScale(const Vector3& scale);
+        void SetRotation(const Vector3& euler);
+        void SetRotation(const Quaternion& quat);
+
+    protected:
         Transform Local;
+        TransformAuthorityState State = TransformAuthorityState::LOCAL;
     };
 }
 
