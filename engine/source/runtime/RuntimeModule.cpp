@@ -34,12 +34,14 @@ namespace MeowEngine::Runtime {
     void RuntimeModule::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(
             [this]() {
+                PT_PROFILE_SCOPE_N("Gameplay Input");
                 Gameplay.Input();
             }
         );
 
         scheduler.AddTask(
             [this]() {
+                PT_PROFILE_SCOPE_N("Gameplay Update");
                 Gameplay.Update();
             }
         );

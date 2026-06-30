@@ -15,9 +15,10 @@ namespace MeowEngine::Application {
     }
 
     void SingleThreadExecutor::Execute(Threading::Scheduler& scheduler) {
+        PT_PROFILE_SCOPE;
         auto mainJobs = scheduler.GetMainJobs();
-        auto renderJobs = scheduler.GetMainJobs();
-        auto physicsJobs = scheduler.GetMainJobs();
+        auto renderJobs = scheduler.GetRenderJobs();
+        auto physicsJobs = scheduler.GetPhysicsJobs();
 
         for (auto it = mainJobs.begin(); it != mainJobs.end(); ++it) {
             it->Execute();

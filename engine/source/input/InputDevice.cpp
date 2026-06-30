@@ -16,6 +16,8 @@ namespace MeowEngine::Input {
     void InputDevice::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(
             [&]() {
+                PT_PROFILE_SCOPE_N("SDL Events");
+
                 // Buffer.GetCurrent().clear();
                 InputEvents.clear();
 
@@ -28,6 +30,8 @@ namespace MeowEngine::Input {
 
         scheduler.AddTask(
             [&]() {
+                PT_PROFILE_SCOPE_N("Input Manager");
+
                 InputManager.ProcessDeviceInput(InputEvents);
             }
         );

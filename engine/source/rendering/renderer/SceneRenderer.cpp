@@ -48,6 +48,7 @@ namespace MeowEngine::Rendering {
 
         scheduler.AddTask(
             [this, &renderContext]() {
+                PT_PROFILE_SCOPE_N("Scene Render");
                 renderContext.SceneData = &renderContext.Extractor->GetRenderSceneData().GetRead();
 
                 WorldFrameBufferScope scope(RenderCommand::GetSceneFrameBuffer());

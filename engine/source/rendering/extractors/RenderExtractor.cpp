@@ -25,6 +25,8 @@ namespace MeowEngine::Rendering {
     void RenderExtractor::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(
             [this]() {
+                PT_PROFILE_SCOPE_N("Render Extraction");
+
                 auto& sceneFrame = GetRenderSceneData().GetWrite();
                 auto& uiFrame = GetRenderUIData().GetWrite();
 
@@ -41,6 +43,7 @@ namespace MeowEngine::Rendering {
         // swap buffers (internally only swaps if buffers are not locked)
         scheduler.AddTask(
             [this]() {
+                PT_PROFILE_SCOPE_N("Render Extract Swap");
                 RenderSceneData.Swap();
                 RenderUIData.Swap();
             }

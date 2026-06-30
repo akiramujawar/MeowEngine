@@ -84,6 +84,8 @@ namespace MeowEngine {
     }
 
     void Engine::Init() {
+        PT_PROFILE_SCOPE;
+
         Rendering::RenderCommand::Init(Rendering::GraphicsType::OPENGL);
 
         Asset::AssetManagerInitData assetManagerInit{};
@@ -182,6 +184,7 @@ namespace MeowEngine {
 
         // -- runs on main thread
         Scheduler.AddTask([this](){
+            PT_PROFILE_SCOPE_N("Process Device Inputs");
             if (!ProcessDeviceInput(InputDevice.GetEvents())) {
                 Close();
             }

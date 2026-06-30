@@ -37,6 +37,7 @@ namespace MeowEngine::Rendering {
 
         scheduler.AddTask(
             [&window = GraphicsDevice->GetWindow()]() {
+                PT_PROFILE_SCOPE_N("Render Window Swap");
                 window.SwapWindow();
             }
         );
