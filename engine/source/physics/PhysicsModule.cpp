@@ -4,9 +4,38 @@
 
 #include <PhysicsModule.hpp>
 
+#include "Scheduler.hpp"
+#include "Timing.hpp"
+
 namespace MeowEngine::Physics {
     PhysicsModule::PhysicsModule() {}
+
     PhysicsModule::~PhysicsModule() {}
-    void PhysicsModule::Init() {}
-    void PhysicsModule::Schedule(Threading::Scheduler& scheduler) {}
+
+    void PhysicsModule::Init(const PhysicsInitData& context) {
+        PhysicsSystem.Create();
+    }
+
+    void PhysicsModule::Schedule(Threading::Scheduler& scheduler) {
+        // loop physics
+        // extract into result
+        // swap result
+
+        // start simulation
+        // create physics world
+        // runtime create entity
+        // create command after entity is created?
+
+        // physics run's fixed timestep so extraction can be delayed?
+        // or when result is consumed we extract
+        scheduler.AddTask(
+            [&]() {
+                PT_PROFILE_SCOPE_N("Physics");
+                PhysicsSystem.Step(Timing.GetFixedDeltaTime());
+
+                Timing.Wait();
+            }
+        );
+    }
+
 }

@@ -5,8 +5,9 @@
 #ifndef MEOWENGINE_PHYSICS_SYSTEM_HPP
 #define MEOWENGINE_PHYSICS_SYSTEM_HPP
 
-#include "entt.hpp"
 #include <PhysicsWorld.hpp>
+#include "PxPhysicsAPI.h"
+#include "Math.hpp"
 
 namespace MeowEngine::Physics {
     /**
@@ -14,20 +15,44 @@ namespace MeowEngine::Physics {
      * Prepares physics results (to be utilised by main system)
      * Emits events like collisions
      */
-    struct PhysicsSystem {
+    class PhysicsSystem {
+    public:
+        PhysicsSystem();
+        ~PhysicsSystem();
         PhysicsWorld World;
 
-        void Step();
+        void Create();
+        void Destroy() const;
 
+        void Step(float inFixedDeltaTime) const;
 
-        virtual void Create() {};
-        virtual void Update(float inFixedDeltaTime) {};
+        void AddPlaneCollider(const Transform& worldTransform) const;
+        void AddCubeCollider();
+        void AddSphereCollider();
 
-        virtual void AddRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {};
-        virtual void RemoveRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {};
-        virtual void SyncTransform(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {};
+        void RemovePlaneCollider();
 
-        virtual bool IsRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {};
+        void CreateCubeGeometry();
+        void CreateSphereGeometry();
+
+        void RemoveCollider();
+        void AddRigidbody();
+        void RemoveRigidbody();
+
+        bool IsRigidbody();
+
+    private:
+        void AddRigidStatic(const physx::PxGeometry* geometry, const physx::PxTransform& transform) const;
+
+    private:
+        // PhysX Foundation
+        physx::PxDefaultAllocator gAllocator;
+        physx::PxDefaultErrorCallback gErrorCallback;
+        physx::PxFoundation* gFoundation = nullptr;
+        physx::PxPhysics* gPhysics = nullptr;
+
+        // PhysX Scene Items
+        physx::PxScene* gScene = nullptr;
     };
 }
 

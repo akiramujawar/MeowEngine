@@ -7,8 +7,10 @@
 
 #include <Public/Threading/Forward.hpp>
 
+#include "PhysicsInitData.hpp"
 #include <PhysicsSystem.hpp>
 #include <PhysicsResult.hpp>
+#include "FixedTiming.hpp"
 
 namespace MeowEngine::Physics {
     class PhysicsModule {
@@ -16,13 +18,15 @@ namespace MeowEngine::Physics {
         PhysicsModule();
         ~PhysicsModule();
 
-        void Init();
+        void Init(const PhysicsInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
 
     private:
         PhysicsSystem PhysicsSystem;
 
         DoubleBuffer<PhysicsResult> Result;
+
+        Core::FixedTiming Timing;
     };
 }
 

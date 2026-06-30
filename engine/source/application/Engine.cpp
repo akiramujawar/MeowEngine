@@ -93,6 +93,9 @@ namespace MeowEngine {
         Runtime::RuntimeInitData runtimeInit{};
         Runtime.Init(runtimeInit);
 
+        Physics::PhysicsInitData physicsInit{};
+        Physics.Init(physicsInit);
+
         // -- editor
         Editor::EditorInitData editorInit {};
         editorInit.GraphicsDevice = &GraphicsDevice;
