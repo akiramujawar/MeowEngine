@@ -4,11 +4,7 @@
 
 #include <ImguiDockerSpace.hpp>
 
-#include <ImguiAPI.hpp>
-
-#include "CommandQueue.hpp"
-#include "OpenURLCommand.hpp"
-#include "RenderContext.hpp"
+#include "ImguiAPI.hpp"
 
 namespace MeowEngine::Editor {
     ImGuiDockerSpace::ImGuiDockerSpace() {
@@ -80,32 +76,7 @@ namespace MeowEngine::Editor {
 //        if (opt_fullscreen)
             ImGui::PopStyleVar(2);
 
-            ImGui::BeginChild("Toolbar", ImVec2(0, 20)); {
-                if (ImGui::Button("< Go Back")) {
-                    renderContext.CommandQueue->Push(
-                        Messaging::ThreadType::MAIN,
-                        std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://akiramujawar.com"))
-                    );
-                }
-
-                ImGui::SameLine();
-                if (ImGui::Button("Github")) {
-                    renderContext.CommandQueue->Push(
-                        Messaging::ThreadType::MAIN,
-                        std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://github.com/akiramujawar"))
-                    );
-                }
-
-                ImGui::SameLine();
-                if (ImGui::Button("Resume")) {
-                    renderContext.CommandQueue->Push(
-                        Messaging::ThreadType::MAIN,
-                        std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://akiramujawar.com/akira_mujawar_engine_programmer_resume.pdf"))
-                    );
-                }
-
-                ImGui::EndChild();
-            }
+            MainMenu.Draw(renderContext);
 
             ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);

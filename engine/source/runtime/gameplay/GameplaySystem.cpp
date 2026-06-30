@@ -28,7 +28,8 @@ namespace MeowEngine::Runtime {
     }
 
     void GameplaySystem::StartSimulation() {
-        IsActive = true;
+        IsSimulating = true;
+        IsPaused = false;
 
         // clear all dirty entities before starting, as we rebuild manually
         World->ClearDirtyEntities();
@@ -40,8 +41,17 @@ namespace MeowEngine::Runtime {
         }
     }
 
+    void GameplaySystem::PauseSimulation() {
+        IsPaused = true;
+    }
+
+    void GameplaySystem::UnpauseSimulation() {
+        IsPaused = false;
+    }
+
     void GameplaySystem::StopSimulation() {
-        IsActive = false;
+        IsSimulating = false;
+        IsPaused = true;
 
         for (auto& system : SimulationSystems) {
             system->Stop(*World);
@@ -56,7 +66,7 @@ namespace MeowEngine::Runtime {
             system->Update(*World);
         }
 
-        if (IsActive) {
+        if (IsSimulating && !IsPaused) {
             // process all the dirty entities
             // for e.g. when rigidbody component is added, physics sync system processes that entity
             // to create a physics command

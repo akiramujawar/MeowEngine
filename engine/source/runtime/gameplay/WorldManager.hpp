@@ -50,6 +50,11 @@ namespace MeowEngine::Runtime {
         void ReloadAsync(const MeowEngine::Asset::AssetHandle& handle, std::function<void()> callback);
 
         /**
+         * Reload the world which is already active
+         */
+        void ReloadActiveWorld();
+
+        /**
          * Switches the active scene
          */
         void Switch(const MeowEngine::Asset::AssetHandle& handle);

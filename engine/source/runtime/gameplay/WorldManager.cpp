@@ -16,6 +16,7 @@
 #include "AssetHandleWorld.hpp"
 #include "HierarchyWorld.hpp"
 #include "ReflectionWorld.hpp"
+#include "LoadWorldCommand.hpp"
 
 #include "SaveTempWorldRequest.hpp"
 
@@ -58,6 +59,14 @@ namespace MeowEngine::Runtime {
     // void WorldManager::ReloadAsync(const Asset::AssetHandle& world, std::function<void()> callback) {}
     // void WorldManager::Switch(const Asset::AssetHandle& world) {}
     // void WorldManager::Add(const Asset::AssetHandle& world) {}
+
+    void WorldManager::ReloadActiveWorld() {
+        // remember we command queue we don't want abrupt stop of simulation inbetween frame
+        MeowService().CommandQueue.Push(
+            Messaging::ThreadType::MAIN,
+            std::make_unique<Messaging::LoadWorldCommand>(ActiveWorldHandle)
+        );
+    }
 
     void WorldManager::Save() {
         if (ActiveWorldHandle.GetIsTemp()) {

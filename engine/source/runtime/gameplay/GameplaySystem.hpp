@@ -31,6 +31,8 @@ namespace MeowEngine::Runtime {
         Asset::World& GetWorld();
 
         void StartSimulation();
+        void PauseSimulation();
+        void UnpauseSimulation();
         void StopSimulation();
 
         void Input();
@@ -40,6 +42,8 @@ namespace MeowEngine::Runtime {
         void ResetCamera() const;
 
         [[nodiscard]] CameraComponent& GetCamera() const;
+        [[nodiscard]] bool GetIsSimulating() const { return IsSimulating; };
+        [[nodiscard]] bool GetIsPaused() const { return IsPaused; };
 
     private:
         Asset::World* World;
@@ -58,7 +62,8 @@ namespace MeowEngine::Runtime {
 
         float Width;
         float Height;
-        bool IsActive;
+        bool IsSimulating;
+        bool IsPaused;
     };
 
 }

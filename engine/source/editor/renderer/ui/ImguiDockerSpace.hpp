@@ -5,6 +5,8 @@
 #ifndef MEOWENGINE_IMGUIDOCKERSPACE_HPP
 #define MEOWENGINE_IMGUIDOCKERSPACE_HPP
 
+#include "ImguiMainMenu.hpp"
+
 namespace MeowEngine::Rendering {
     struct RenderContext;
 }
@@ -22,6 +24,8 @@ namespace MeowEngine::Editor {
         bool IsFullScreen;
         int DockSpaceFlags;
         int WindowFlags;
+
+        ImguiMainMenu MainMenu;
     };
 }
 
