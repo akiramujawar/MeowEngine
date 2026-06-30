@@ -11,7 +11,7 @@
 namespace MeowEngine::Messaging {
 
     void AddComponentCommand::Execute(MessageInitData& context) {
-        auto compCallback = GetReflection().GetAddComponentCallback(ComponentToAddName);
+        auto compCallback = GetReflection().GetGetOrAddComponentCallback(ComponentToAddName);
         auto& world = context.Gameplay->GetWorld();
 
         compCallback(world, Handle);

@@ -10,6 +10,7 @@
 #include "IAsset.hpp"
 #include "EntityRegistry.hpp"
 #include "EntityHandle.hpp"
+#include "EntityComponentChangeData.hpp"
 
 
 namespace MeowEngine::Asset {
@@ -17,12 +18,18 @@ namespace MeowEngine::Asset {
      * Represents ECS & actions which can be performed on world entities
      */
     class World : public IAsset {
+        typedef std::unordered_map<Runtime::EntityID, Runtime::EntityHandle> EntityHandleMap;
+        typedef std::vector<EntityComponentChangeData> EntityHandleVector;
+
         friend class WorldSerializer;
         friend class ComponentSerializer;
 
-    public:
+    public: // non-static methods
         World();
         ~World() override = default;
+
+        [[nodiscard]] Runtime::EntityRegistry& GetRegistry() { return Registry; }
+        [[nodiscard]] const Runtime::EntityRegistry& GetRegistry() const { return Registry; }
 
         /**
          * Empty entity (no components)
@@ -34,6 +41,7 @@ namespace MeowEngine::Asset {
 
         void RemoveEntity(Runtime::EntityID guid);
         bool HasEntity(const Runtime::EntityHandle& handle);
+
         template <typename Type>
         [[nodiscard]] bool HasComponent(const Runtime::EntityHandle& handle) const;
 
@@ -41,16 +49,17 @@ namespace MeowEngine::Asset {
         Type& AddComponent(const Runtime::EntityHandle& handle);
 
         template<typename Type>
-        static void* AddComponentToWorld(World& world, const Runtime::EntityHandle& handle);
-
-        template<typename Type>
-        void RemoveComponent(Runtime::EntityHandle handle);
+        void RemoveComponent(const Runtime::EntityHandle& handle);
 
         template<typename Type>
         Type& GetComponent(Runtime::EntityHandle handle);
 
-        [[nodiscard]] Runtime::EntityRegistry& GetRegistry() { return Registry; }
-        [[nodiscard]] const Runtime::EntityRegistry& GetRegistry() const { return Registry; }
+        void ClearDirtyEntities();
+        [[nodiscard]] const EntityHandleVector& GetDirtyEntities() const { return DirtyEntities; }
+
+    public: // static methods
+        template<typename Type>
+        static void* GetOrAddComponentToWorld(World& world, const Runtime::EntityHandle& handle);
 
     public:
         Runtime::EntityHandle ActiveCamera;
@@ -58,7 +67,8 @@ namespace MeowEngine::Asset {
 
     private:
         Runtime::EntityRegistry Registry;
-        std::unordered_map<Runtime::EntityID, Runtime::EntityHandle> RuntimeEntityMap;
+        EntityHandleMap RuntimeEntityMap;
+        EntityHandleVector DirtyEntities;
     };
 
     template <typename Type>
@@ -68,21 +78,43 @@ namespace MeowEngine::Asset {
 
     template <typename Type>
     Type& World::AddComponent(const Runtime::EntityHandle& handle) {
+        // track as dirty so systems can specifically process modified entitites
+        DirtyEntities.push_back({
+            handle,
+            EntityComponentChangeType::ADDED,
+            Runtime::EntityComponentHash<Type>()
+        });
+
+        // add and return
         return Registry.emplace<Type>(handle.GetEntity());
     }
 
     template <typename Type>
-    void* World::AddComponentToWorld(World& world, const Runtime::EntityHandle& handle) {
-        if (world.HasComponent<Type>(handle)) {
-            return &world.GetComponent<Type>(handle);
-        }
+    void World::RemoveComponent(const Runtime::EntityHandle& handle) {
 
-        return &world.AddComponent<Type>(handle);
+        // track as dirty so systems can specifically process modified entitites
+        DirtyEntities.push_back({
+            handle,
+            EntityComponentChangeType::REMOVED,
+            Runtime::EntityComponentHash<Type>()
+        });
+
+        // remove
+        Registry.erase<Type>(handle.GetEntity());
     }
 
     template <typename Type>
     Type& World::GetComponent(Runtime::EntityHandle handle) {
         return Registry.get<Type>(handle.GetEntity());
+    }
+
+    template <typename Type>
+    void* World::GetOrAddComponentToWorld(World& world, const Runtime::EntityHandle& handle) {
+        if (world.HasComponent<Type>(handle)) {
+            return &world.GetComponent<Type>(handle);
+        }
+
+        return &world.AddComponent<Type>(handle);
     }
 }
 

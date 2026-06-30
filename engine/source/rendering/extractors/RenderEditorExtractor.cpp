@@ -171,7 +171,7 @@ namespace MeowEngine::Rendering {
                 for (pair<unsigned int, entt::basic_sparse_set<Runtime::Entity>&> component: ecs.storage()) {
                     // find the component type, name and object data from ecs registry
                     if (component.second.contains(lastSelectedEntity.GetEntity())) {
-                        const Runtime::ComponentID componentType = component.first;
+                        const Runtime::EntityComponent componentType = component.first;
                         const std::string componentName = MeowEngine::GetReflection().GetComponentName(componentType);
                         void* componentObject = component.second.value(lastSelectedEntity.GetEntity());
 

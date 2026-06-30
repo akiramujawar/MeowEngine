@@ -8,9 +8,12 @@
 #include "IComponentSystem.hpp"
 
 namespace MeowEngine::Runtime {
-    class CameraSystem : public IComponentSystem{
+    class CameraSystem : public IComponentSystem {
     public:
+        void ProcessDirtyEntities(Asset::World& world) override {}
+        void Start(Asset::World& world) override {}
         void Update(Asset::World& world) override;
+        void Stop(Asset::World& world) override {}
     };
 }
 

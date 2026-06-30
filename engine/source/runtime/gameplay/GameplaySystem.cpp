@@ -12,7 +12,7 @@ namespace MeowEngine::Runtime {
     GameplaySystem::GameplaySystem() {
         MeowEngine::Log("GameplaySystem", "Constructed");
 
-        ComponentSystems.push_back(std::make_unique<CameraSystem>());
+        CommonSystems.push_back(std::make_unique<CameraSystem>());
     }
 
     GameplaySystem::~GameplaySystem() {
@@ -27,11 +27,51 @@ namespace MeowEngine::Runtime {
         return *World;
     }
 
+    void GameplaySystem::StartSimulation() {
+        IsActive = true;
+
+        // clear all dirty entities before starting, as we rebuild manually
+        World->ClearDirtyEntities();
+
+        // call to start, some systems build some systems simply start
+        // for e.g. physics sync will filter through all rigidbody and create commands
+        for (auto& system : SimulationSystems) {
+            system->Start(*World);
+        }
+    }
+
+    void GameplaySystem::StopSimulation() {
+        IsActive = false;
+
+        for (auto& system : SimulationSystems) {
+            system->Stop(*World);
+        }
+    }
+
     void GameplaySystem::Input() {}
 
-    void GameplaySystem::Update() {
-        for (auto& system : ComponentSystems) {
+    void GameplaySystem::Update() const {
+        // constantly update systems which are required even when simulation is inactive
+        for (auto& system : CommonSystems) {
             system->Update(*World);
+        }
+
+        if (IsActive) {
+            // process all the dirty entities
+            // for e.g. when rigidbody component is added, physics sync system processes that entity
+            // to create a physics command
+            for (auto& system : SimulationSystems) {
+                system->ProcessDirtyEntities(*World);
+            }
+
+            // once processes clear dirty entities them
+            World->ClearDirtyEntities();
+
+            // update all the systems for live simulation
+            // these include user added systems as well and is dynamic
+            for (auto& system : SimulationSystems) {
+                system->Update(*World);
+            }
         }
     }
 
@@ -42,11 +82,11 @@ namespace MeowEngine::Runtime {
         ResetCamera();
     }
 
-    void GameplaySystem::ResetCamera() {
+    void GameplaySystem::ResetCamera() const {
         GetCamera().SetViewport(Width, Height);
     }
 
-    CameraComponent& GameplaySystem::GetCamera() {
+    CameraComponent& GameplaySystem::GetCamera() const {
         return World->GetComponent<CameraComponent>(World->ActiveCamera);
     }
 }

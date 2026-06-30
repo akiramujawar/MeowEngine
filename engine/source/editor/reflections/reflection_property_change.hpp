@@ -8,7 +8,7 @@
 #include "entt.hpp"
 #include "reflection_property.hpp"
 #include "EntityHandle.hpp"
-#include "ComponentID.hpp"
+#include "EntityComponent.hpp"
 
 namespace MeowEngine {
     class ReflectionPropertyChange {
@@ -32,7 +32,7 @@ namespace MeowEngine {
 
         // int EntityId;
         Runtime::EntityHandle Handle;
-        Runtime::ComponentID ComponentType;
+        Runtime::EntityComponent ComponentType;
         std::string PropertyName;
         std::vector <ReflectionProperty> ClassProperties;
         void* Data;

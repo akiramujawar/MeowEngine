@@ -11,7 +11,7 @@
 #include "InfoComponent.hpp"
 #include "reflection_test_component.hpp"
 #include "IdentityComponent.hpp"
-#include "ComponentID.hpp"
+#include "EntityComponent.hpp"
 
 
 namespace MeowEngine::Asset {
@@ -77,7 +77,7 @@ namespace MeowEngine::Asset {
             // serialize & save component data
             for (auto&& [id, component]: registry.storage()) {
                 if (component.contains(entity)) {
-                    const Runtime::ComponentID type = id;
+                    const Runtime::EntityComponent type = id;
                     const std::string componentName = MeowEngine::GetReflection().GetComponentName(type);
 
                     writeSerializer.WriteString(componentName);
@@ -166,7 +166,7 @@ namespace MeowEngine::Asset {
             // add components
             for (auto j = 0; j < componentCount; j++) {
                 std::string componentName = serializer.ReadString();
-                auto addComponentMethod = GetReflection().GetAddComponentCallback(componentName);
+                auto addComponentMethod = GetReflection().GetGetOrAddComponentCallback(componentName);
                 auto handle = handles.find(guid);
 
                 // set properties

@@ -14,7 +14,10 @@ namespace MeowEngine::Runtime {
     public:
         virtual ~IComponentSystem() = default;
 
+        virtual void ProcessDirtyEntities(Asset::World& world) = 0;
+        virtual void Start(Asset::World& world) = 0;
         virtual void Update(Asset::World& world) = 0;
+        virtual void Stop(Asset::World& world) = 0;
     };
 }
 

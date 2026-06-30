@@ -11,7 +11,7 @@
 
 namespace MeowEngine {
 
-    bool EnttReflection::HasComponent(Runtime::ComponentID inId) {
+    bool EnttReflection::HasComponent(Runtime::EntityComponent inId) {
         return RuntimeComponentMap.find(inId) != RuntimeComponentMap.end();
     }
 
@@ -23,7 +23,7 @@ namespace MeowEngine {
         return Enums.find(inPropertyName) != Enums.end();
     }
 
-    std::string EnttReflection::GetComponentName(Runtime::ComponentID inId) {
+    std::string EnttReflection::GetComponentName(Runtime::EntityComponent inId) {
         return RuntimeComponentMap[inId].ClassName;
     }
 
@@ -150,7 +150,7 @@ namespace MeowEngine {
         // end --
     }
 
-    void* EnttReflection::CopyComponentData(Runtime::ComponentID type, const std::string& name, void* from) {
+    void* EnttReflection::CopyComponentData(Runtime::EntityComponent type, const std::string& name, void* from) {
         void* to = RuntimeComponentMap[type].Construct();
 
         CopyPropertyData(name, to, from);
@@ -158,7 +158,7 @@ namespace MeowEngine {
         return to;
     }
 
-    void EnttReflection::DeleteComponentData(Runtime::ComponentID type, void* from) {
+    void EnttReflection::DeleteComponentData(Runtime::EntityComponent type, void* from) {
         RuntimeComponentMap[type].Destruct(from);
     }
 

@@ -49,6 +49,15 @@ namespace MeowEngine::Asset {
         return Runtime::EntityHandle::Invalid();
     }
 
+    void World::RemoveEntity(const Runtime::EntityID guid) {
+        // if exisits remove from registry and map
+        auto iterator = RuntimeEntityMap.find(guid);
+        if (iterator != RuntimeEntityMap.end()) {
+            Registry.destroy(iterator->second.GetEntity());
+            RuntimeEntityMap.erase(guid);
+        }
+    }
+
     bool World::HasEntity(const Runtime::EntityHandle& handle) {
         const auto view = Registry.view<Runtime::IdentityComponent>();
         for (const auto entity : view) {
@@ -61,4 +70,7 @@ namespace MeowEngine::Asset {
         return false;
     }
 
+    void World::ClearDirtyEntities() {
+        DirtyEntities.clear();
+    }
 }

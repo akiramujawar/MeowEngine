@@ -30,21 +30,35 @@ namespace MeowEngine::Runtime {
 
         Asset::World& GetWorld();
 
+        void StartSimulation();
+        void StopSimulation();
 
         void Input();
-        void Update();
-        void Sync();
+        void Update() const;
 
         void SetViewport(const float& width, const float& height);
-        void ResetCamera();
+        void ResetCamera() const;
 
-        CameraComponent& GetCamera();
+        [[nodiscard]] CameraComponent& GetCamera() const;
 
     private:
         Asset::World* World;
-        std::vector<std::unique_ptr<Runtime::IComponentSystem>> ComponentSystems;
+
+        /**
+         * Systems which are persistent and never stop
+         * e.g. CameraSystem, TransformSystem
+         */
+        std::vector<std::unique_ptr<IComponentSystem>> CommonSystems;
+
+        /**
+         * Systems which only run when engine is simulating the world
+         * e.g. PlayerSystem & user added systems
+         */
+        std::vector<std::unique_ptr<IComponentSystem>> SimulationSystems;
+
         float Width;
         float Height;
+        bool IsActive;
     };
 
 }

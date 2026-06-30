@@ -7,7 +7,7 @@
 
 #include "entt.hpp"
 #include "Entity.hpp"
-#include "ComponentID.hpp"
+#include "EntityComponent.hpp"
 #include "EntityHandle.hpp"
 
 namespace MeowEngine::Runtime {

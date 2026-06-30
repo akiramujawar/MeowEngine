@@ -27,7 +27,7 @@ namespace MeowEngine {
     /**
      *
      */
-    using AddComponentCallback = std::function<void*(Asset::World&, const Runtime::EntityHandle&)>;
+    using GetOrAddComponentCallback = std::function<void*(Asset::World&, const Runtime::EntityHandle&)>;
 
     class EnttReflection {
 
@@ -39,11 +39,11 @@ namespace MeowEngine {
             MeowEngine::Log("EnttReflection", "Destructed");
         }
 
-        bool HasComponent(Runtime::ComponentID inId);
+        bool HasComponent(Runtime::EntityComponent inId);
         bool HasProperty(std::string inPropertyName);
         bool HasEnum(std::string inPropertyName);
 
-        std::string GetComponentName(Runtime::ComponentID inId);
+        std::string GetComponentName(Runtime::EntityComponent inId);
         std::vector<std::string> GetComponentNames();
         std::vector<ReflectionProperty> GetProperties(std::string inClassName);
         std::vector<std::string> GetEnumValues(std:: string pEnumName);
@@ -54,14 +54,14 @@ namespace MeowEngine {
         void RegisterComponent(ReflectionComponent inComponent) {
             MeowEngine::Log("RegisterComponent", inComponent.ClassName);
 
-            Runtime::ComponentID componentId = entt::type_hash<Type>().value();
+            Runtime::EntityComponent componentId = entt::type_hash<Type>().value();
 
             if(!HasComponent(componentId)) {
                 RuntimeComponentMap[componentId] = inComponent;
                 RuntimeComponentNames.push_back(inComponent.ClassName);
             }
 
-            AddComponentCallbackMap.try_emplace(inComponent.ClassName, &Asset::World::AddComponentToWorld<Type>);
+            GetOrAddComponentCallbackMap.try_emplace(inComponent.ClassName, &Asset::World::GetOrAddComponentToWorld<Type>);
         }
 
         /**
@@ -104,14 +104,14 @@ namespace MeowEngine {
             void* inChangedData
         );
 
-        void* CopyComponentData(Runtime::ComponentID type, const std::string& name, void* from);
-        void DeleteComponentData(Runtime::ComponentID type, void* from);
+        void* CopyComponentData(Runtime::EntityComponent type, const std::string& name, void* from);
+        void DeleteComponentData(Runtime::EntityComponent type, void* from);
 
         void CopyPropertyData(const std::string& className, void* to, void* from);
 
-        AddComponentCallback GetAddComponentCallback(const std::string& componentName) {
-            auto iterator = AddComponentCallbackMap.find(componentName);
-            if (iterator != AddComponentCallbackMap.end()) {
+        GetOrAddComponentCallback GetGetOrAddComponentCallback(const std::string& componentName) {
+            auto iterator = GetOrAddComponentCallbackMap.find(componentName);
+            if (iterator != GetOrAddComponentCallbackMap.end()) {
                 return iterator->second;
             }
 
@@ -122,15 +122,14 @@ namespace MeowEngine {
         /**
          * component and methods to perform actions on component (like fresh construction)
          */
-        std::unordered_map<Runtime::ComponentID, ReflectionComponent> RuntimeComponentMap;
+        std::unordered_map<Runtime::EntityComponent, ReflectionComponent> RuntimeComponentMap;
 
         std::vector<std::string> RuntimeComponentNames;
 
         /**
          *
          */
-        std::unordered_map<std::string, AddComponentCallback> AddComponentCallbackMap;
-        std::unordered_map<std::string, std::function<void(Runtime::EntityHandle)>&> commmmm;
+        std::unordered_map<std::string, GetOrAddComponentCallback> GetOrAddComponentCallbackMap;
 
         /**
          * class name, reflected property list
