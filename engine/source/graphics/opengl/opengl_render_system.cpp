@@ -7,7 +7,7 @@
 
 #include "opengl_mesh_pipeline.hpp"
 #include "opengl_line_pipeline.hpp"
-#include "opengl_grid_pipeline.hpp"
+#include "GLGridPipeline.hpp"
 // #include "opengl_sky_box_pipeline.hpp"
 #include "opengl_collider_pipeline.hpp"
 #include "opengl_transform_handle_pipeline.hpp"

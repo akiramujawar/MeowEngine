@@ -6,7 +6,7 @@
 #define MEOWENGINE_GRIDDRAWDATA_HPP
 
 #include <ShaderRenderHandle.hpp>
-#include <GLM_API.hpp>
+#include "Math.hpp"
 
 namespace MeowEngine::Rendering {
     // NOTE: this goes to renderer pass config hence
@@ -14,7 +14,8 @@ namespace MeowEngine::Rendering {
     struct GridDrawData {
         ShaderRenderHandle Shader;
 
-        glm::mat4 TransformMatrix;
+        Matrix4x4 CameraViewMatrix;
+        Matrix4x4 CameraProjectionMatrix;
     };
 }
 

@@ -5,12 +5,17 @@
 #include <EditorOverlayPass.hpp>
 #include <RenderSceneData.hpp>
 
+#include "GLGridPipeline.hpp"
+#include "RenderContext.hpp"
+#include "RenderPipelineManager.hpp"
+
 namespace MeowEngine::Rendering {
     EditorOverlayPass::EditorOverlayPass() {}
 
     EditorOverlayPass::~EditorOverlayPass() {}
 
     void EditorOverlayPass::Draw(RenderContext& context) {
-
+        const auto& pipeline = context.PipelineManager->GetPipeline<OpenGLGridPipeline>();
+        pipeline.Draw(context, context.SceneData->Grid);
     }
 }

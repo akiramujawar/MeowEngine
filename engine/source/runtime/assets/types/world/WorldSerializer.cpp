@@ -53,6 +53,7 @@ namespace MeowEngine::Asset {
         });
 
         writeSerializer.WriteUInt64(world.ActiveCamera.GetGUIDInt());
+        writeSerializer.WriteUInt64(world.Grid.GetGUIDInt());
         writeSerializer.WriteUInt64(world.SkyBox.GetGUIDInt());
 
         // guid, component count, component name & its serialized data (using reflection system)
@@ -143,6 +144,16 @@ namespace MeowEngine::Asset {
             auto iterator = handles.find(cameraGuid);
             if (iterator != handles.end()) {
                 world.ActiveCamera = iterator->second;
+            }
+        }
+
+        // set grid
+        auto gridGuidInt = serializer.ReadUInt64();
+        const auto gridGuid = Runtime::EntityID {gridGuidInt};
+        if (gridGuid != Runtime::EntityID::INVALID) {
+            auto iterator = handles.find(gridGuid);
+            if (iterator != handles.end()) {
+                world.Grid = iterator->second;
             }
         }
 

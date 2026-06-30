@@ -53,10 +53,13 @@ namespace MeowEngine::Runtime {
 
     void DefaultWorld::CreateGrid() {
         const auto entity = AddEntity();
+        auto& identity = GetComponent<IdentityComponent>(entity);
         auto& info = GetComponent<Runtime::InfoComponent>(entity);
         AddComponent<Runtime::GridComponent>(entity);
 
         info.SetName(String("[Editor] Grid"));
+
+        Grid = identity.GetEntityHandle();
     }
 
     void DefaultWorld::CreateSky() {
@@ -66,6 +69,7 @@ namespace MeowEngine::Runtime {
         AddComponent<Runtime::SkyBoxComponent>(entity);
 
         info.SetName(String("Sky Box"));
+
         SkyBox = identity.GetEntityHandle();
     }
 

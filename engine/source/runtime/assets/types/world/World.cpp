@@ -14,7 +14,8 @@
 namespace MeowEngine::Asset {
     World::World()
         : ActiveCamera()
-        , SkyBox() {
+        , SkyBox()
+        , Grid() {
         // NOTE: create a invalid entity (default: Entity::INVALID
         // as Registry creates auto creates entity with id = 0
         auto entity = Registry.create();

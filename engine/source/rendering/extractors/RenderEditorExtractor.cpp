@@ -22,6 +22,9 @@
 #include <Transform3DComponent.hpp>
 #include <collider_component.hpp>
 
+#include "CameraComponent.hpp"
+#include "GridComponent.hpp"
+
 namespace MeowEngine::Rendering {
     RenderEditorExtractor::RenderEditorExtractor() {}
 
@@ -32,7 +35,9 @@ namespace MeowEngine::Rendering {
     }
 
     void RenderEditorExtractor::ExtractScene(RenderSceneData& frame) {
-        auto& ecs = Gameplay->GetWorld().GetRegistry();
+        auto& world = Gameplay->GetWorld();
+        auto& ecs = world.GetRegistry();
+        const auto& camera = Gameplay->GetCamera();
 
         // selected transform handles
         for (auto &&handle : Selector->SelectedEntities) {
@@ -48,8 +53,25 @@ namespace MeowEngine::Rendering {
         }
 
         // grid
-        frame.Grid.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
-        frame.Grid.TransformMatrix = glm::mat4(1.0f); // camera mvp
+        auto grid = ecs.try_get<Runtime::GridComponent>(world.Grid.GetEntity());
+        if (grid != nullptr) {
+            if (AssetManager->HasAssetInDatabase(grid->GetShaderAssetHandle())) {
+                AssetManager->GetAssetOrLoad<Asset::ShaderAsset>(grid->GetShaderAssetHandle());
+
+                GridDrawData data;
+                data.Shader = ShaderRenderHandle(grid->GetShaderAssetHandle());
+                data.CameraViewMatrix = camera.GetView(); // camera
+                data.CameraProjectionMatrix = camera.GetProjection(); // camera
+
+                frame.Grid = data;
+            }
+            else {
+                GridDrawData data;
+                data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
+
+                frame.Grid = data;
+            }
+        }
 
         // physics colliders (box, sphere)
         auto&& collidersView = ecs.view<Runtime::Transform3DComponent, Runtime::ColliderComponent>();

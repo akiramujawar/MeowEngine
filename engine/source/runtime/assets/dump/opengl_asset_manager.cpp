@@ -7,7 +7,7 @@
 #include "IRenderPipeline.hpp"
 #include "opengl_mesh_pipeline.hpp"
 #include "opengl_line_pipeline.hpp"
-#include "opengl_grid_pipeline.hpp"
+#include "GLGridPipeline.hpp"
 #include <GLSkyboxPipeline.hpp>
 #include "opengl_collider_pipeline.hpp"
 #include "opengl_transform_handle_pipeline.hpp"
@@ -115,8 +115,8 @@ namespace {
                 return new OpenGLMeshPipeline(shaderProgramID);
             case ShaderPipelineType::Line:
                 return new OpenGLLinePipeline(shaderProgramID);
-            case ShaderPipelineType::Grid:
-                return new OpenGLGridPipeline(shaderProgramID);
+            // case ShaderPipelineType::Grid:
+            //     return new OpenGLGridPipeline(shaderProgramID);
             case ShaderPipelineType::Sky:
                 return new MeowEngine::Rendering::GLSkyboxPipeline();
             case ShaderPipelineType::PHYSICS_COLLIDER:
@@ -212,7 +212,7 @@ T* OpenGLAssetManager::GetShaderPipeline(const MeowEngine::assets::ShaderPipelin
 
 template OpenGLMeshPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLMeshPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLLinePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLLinePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
-template OpenGLGridPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLGridPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
+// template OpenGLGridPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLGridPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template MeowEngine::Rendering::GLSkyboxPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::Rendering::GLSkyboxPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLTransformHandlePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLTransformHandlePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template MeowEngine::OpenGLColliderPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::OpenGLColliderPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);

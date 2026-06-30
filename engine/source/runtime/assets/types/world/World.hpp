@@ -64,6 +64,7 @@ namespace MeowEngine::Asset {
     public:
         Runtime::EntityHandle ActiveCamera;
         Runtime::EntityHandle SkyBox;
+        Runtime::EntityHandle Grid;
 
     private:
         Runtime::EntityRegistry Registry;
