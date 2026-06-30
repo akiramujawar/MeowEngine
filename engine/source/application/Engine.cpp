@@ -175,6 +175,9 @@ namespace MeowEngine {
         Scheduler.Clear();
 
         // -- runs on main thread
+        Timing.Schedule(Scheduler);
+
+        // -- runs on main thread
         InputDevice.Schedule(Scheduler);
 
         // -- runs on main thread
@@ -183,9 +186,6 @@ namespace MeowEngine {
                 Close();
             }
         });
-
-        // -- runs on main thread
-        Timing.Schedule(Scheduler);
 
         // -- runs on main thread
         // apply physics result => runtime
@@ -208,6 +208,10 @@ namespace MeowEngine {
         // NOTE: internally any swaps schedule should wait until messaging is processed
         CommandQueue.Schedule(Scheduler);
         RequestQueue.Schedule(Scheduler);
+
+        Scheduler.AddTask([&]() {
+            Timing.Wait();
+        });
 
         // -- come back on this later (for job system flow)
         Executor->Execute(Scheduler);

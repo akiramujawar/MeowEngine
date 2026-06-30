@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_TIMING_HPP
 #define MEOWENGINE_TIMING_HPP
 
-#include <cstdint>
+#include <Public/Threading/Forward.hpp>
 
 namespace MeowEngine::Core {
     class Timing {
@@ -14,21 +14,30 @@ namespace MeowEngine::Core {
 
         void SetMaxFrameRate(float maxFrameRate);
         void SetFrameRateUpdateInterval(float updateInterval);
-        void SetFixedDeltaTime(float fixedDeltaTime);
+        // void SetFixedDeltaTime(float fixedDeltaTime);
 
-        void Update();
+        void Schedule(Threading::Scheduler& scheduler);
+        void Wait() const;
 
         [[nodiscard]] float GetDeltaTime() const;
-        [[nodiscard]] float GetFixedDeltaTime() const;
+        // [[nodiscard]] float GetFixedDeltaTime() const;
         [[nodiscard]] int GetFrameRate() const;
 
-        int GetPhysicsSteps();
+        // int GetPhysicsSteps();
+
+    private:
+        void Update();
 
     private:
         /**
          * Cap the maximum frame rate per second
          */
         float MaxFrameRate;
+
+        /**
+         * Count per second
+         */
+        float Frequency;
 
         /**
          * update frame rate every 'x' seconds
@@ -56,8 +65,8 @@ namespace MeowEngine::Core {
         float FrameTimeAccumulator;
 
         int FrameRate;
-        uint64_t DeltaTime;
-        float FixedDeltaTime;
+        float DeltaTime;
+        // float FixedDeltaTime;
     };
 }
 
