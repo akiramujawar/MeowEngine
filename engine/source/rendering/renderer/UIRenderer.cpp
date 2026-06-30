@@ -59,7 +59,7 @@ namespace MeowEngine::Rendering {
 
         scheduler.AddTask(
             [&]() {
-                renderContext.UIData = &renderContext.Extractor->GetRenderUIData().GetFinal();
+                renderContext.UIData = &renderContext.Extractor->GetRenderUIData().GetRead();
 
                 EditorBuilder.BuildDrawData(
                     renderContext

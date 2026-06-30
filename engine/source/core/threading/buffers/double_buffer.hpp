@@ -15,25 +15,25 @@ namespace MeowEngine {
     class DoubleBuffer {
 
     public:
-        DoubleBuffer() : Current{}, Final{} {}
+        DoubleBuffer() : Write{}, Read{} {}
 
-        T& GetCurrent() {
-            return Current;
+        T& GetWrite() {
+            return Write;
         }
 
-        T& GetFinal() {
-            return Final;
+        T& GetRead() {
+            return Read;
         }
 
         // TODO: rename this to try swap and lock the buffer
         void Swap() {
             PT_PROFILE_SCOPE;
-            std::swap(Current, Final);
+            std::swap(Write, Read);
         }
 
     protected:
-        T Current;
-        T Final;
+        T Write;
+        T Read;
     };
 }
 

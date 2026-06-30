@@ -14,31 +14,31 @@ namespace MeowEngine {
     struct TripleBuffer {
 
     public:
-        TripleBuffer() : Current{}, Staging{}, Final{} {}
+        TripleBuffer() : Write{}, Free{}, Read{} {}
 
-        T& GetCurrent() {
-            return  Current;
+        T& GetWrite() {
+            return  Write;
         }
 
-        T& GetStaging() {
-            return  Staging;
+        T& GetFree() {
+            return  Free;
         }
 
-        T& GetFinal() {
-            return  Final;
+        T& GetRead() {
+            return  Read;
         }
 
         // TODO: rename this to try swap and lock the buffer
         // and put it as read / write & free buffers for clear understanding
         void Swap() {
-            std::swap(Current, Staging);
-            std::swap(Current, Final);
+            std::swap(Write, Free);
+            std::swap(Write, Read);
         }
 
     protected:
-        T Current;
-        T Staging;
-        T Final;
+        T Write;
+        T Free;
+        T Read;
     };
 }
 

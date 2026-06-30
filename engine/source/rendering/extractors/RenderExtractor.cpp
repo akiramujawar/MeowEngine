@@ -25,8 +25,8 @@ namespace MeowEngine::Rendering {
     void RenderExtractor::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(
             [this]() {
-                auto& sceneFrame = GetRenderSceneData().GetCurrent();
-                auto& uiFrame = GetRenderUIData().GetCurrent();
+                auto& sceneFrame = GetRenderSceneData().GetWrite();
+                auto& uiFrame = GetRenderUIData().GetWrite();
 
                 Runtime->Clear(sceneFrame, uiFrame);
                 Runtime->ExtractScene(sceneFrame);

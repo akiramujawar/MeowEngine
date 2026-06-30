@@ -6,7 +6,7 @@
 - [x] Populating enums, pointers classes in edit panel
 - [x] Automated component registration in triple buffer
 - [x] Adding Rotations & Scaling to transform & physics bodies
-- [ ] Adding navigation to github / go back for web builds
+- [x] Adding navigation to github / go back for web builds
 - [x] Build a new architecture for multithreading (using Scheduler)
 - [x] Position, Scale, Rotation handles for selected objects
 - [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
