@@ -28,6 +28,7 @@ namespace MeowEngine::Asset {
         [[nodiscard]] Path GetAssetPath(const AssetHandle& handle) const;
         [[nodiscard]] AssetMetadata GetAssetMetadata(const AssetHandle& handle) const;
         [[nodiscard]] AssetMetadata GetAssetMetadata(const Path& path) const;
+        std::vector<AssetMetadata> GetEditorAssetHandles();
 
         AssetHandle Add(const Path& path);
         void Remove(const AssetHandle& handle);

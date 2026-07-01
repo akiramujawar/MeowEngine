@@ -32,6 +32,7 @@
 #include "RebuildAndSaveAssetRegistry.hpp"
 
 #include "AssetManager.hpp"
+#include "RenderResourceManager.hpp"
 
 namespace MeowEngine::Editor {
     ImguiAssetPanel::ImguiAssetPanel()
@@ -43,8 +44,6 @@ namespace MeowEngine::Editor {
           DefaultSelectableFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen
         )
         , IsActive(false)
-        , folderImage(OpenGLThumbnail(assets::LoadBitmap("engine/assets/icons/thumbnails/folder.png")))
-        , unknownImage(OpenGLThumbnail(assets::LoadBitmap("engine/assets/icons/thumbnails/unknown.png")))
         , EngineFolderCache()
         , SandboxFolderCache() {
         PT_PROFILE_ALLOC("ImguiAssetPanel", sizeof(ImguiAssetPanel))
@@ -61,6 +60,7 @@ namespace MeowEngine::Editor {
         EngineFolderCache = renderContext.UIData->EngineDirectoryMap;
         SandboxFolderCache = renderContext.UIData->SandboxDirectoryMap;
         CommandQueue = renderContext.CommandQueue;
+        ResourceManager = renderContext.ResourceManager;
         
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -289,13 +289,86 @@ namespace MeowEngine::Editor {
     }
 
     void ImguiAssetPanel::ShowThumbnail(const Asset::DirectoryAsset& assetFile) {
-        // FileSystem::Path name = path.GetName();
-        
-        // TODO: Once we have our full system ready to load/unload assets we update this properly
-        // TODO: remember we have check if its directory or not first. files without extensions will pretend to be folder with below logic
-        // render resource -> try to get if not -> get asset -> load asset -> create resource using bitmap -> cache texture in asset cache
-        // texture asset will be simplified format of bitmap
-        void* imagePtr = assetFile.IsFolder? folderImage.GetTextureID() : unknownImage.GetTextureID();
+        // grab assets and create / get resource gpu thumbnails
+        void* imagePtr = nullptr;
+        switch (assetFile.Type) {
+            case Asset::AssetType::PROJECT: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.ProjectIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            case Asset::AssetType::FOLDER: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.FolderIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            case Asset::AssetType::HPP: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.HppIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            case Asset::AssetType::CPP: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.CppIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            case Asset::AssetType::SHADER: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.ShaderIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            case Asset::AssetType::TEXTURE: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.TextureIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            case Asset::AssetType::MESH: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.MeshIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            case Asset::AssetType::WORLD: {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.WorldIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+            // case Asset::AssetType::MATERIAL:
+            //     break;
+            default:
+            {
+                auto assetHandle = Asset::AssetHandle::Create(MeowService().ConfigManager.EditorConfig.UnknownIconGuid);
+                if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                    Rendering::TextureRenderHandle textureHandle(assetHandle);
+                    imagePtr = ResourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+                }
+                break;
+            }
+        }
+
         
         ImGui::PushID(assetFile.AbsolutePath.CStr());
         
@@ -342,7 +415,7 @@ namespace MeowEngine::Editor {
     
         // calculate asset name text
         ImVec2 textSize = ImGui::CalcTextSize(assetFile.Name.CStr());
-        ImVec2 textPosition = ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 10);
+        ImVec2 textPosition = ImVec2(center.x - textSize.x * 0.5f, max.y - textSize.y - 3);
         
         // hover effect
         bool hovered = ImGui::IsItemHovered();

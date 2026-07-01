@@ -37,4 +37,10 @@ namespace MeowEngine::Rendering {
 
         return iterator->second;
     }
+
+    OpenGLThumbnail& RenderResourceManager::GetThumbnailResource(TextureRenderHandle asset) {
+        auto [iterator, inserted] = ThumbnailResources.try_emplace(asset, asset.BitmapAsset);
+
+        return iterator->second;
+    }
 }

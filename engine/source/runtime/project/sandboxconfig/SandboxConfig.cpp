@@ -17,7 +17,7 @@ namespace MeowEngine::Runtime {
         LaunchWorldGuid = Config["LaunchWorldGuid"].as<uint64_t>();
     }
 
-    void SandboxConfig::SaveConfig() {
+    void SandboxConfig::SaveConfig() const {
         // Modify
         // Config["WorldLaunchGUID"] = LaunchWorldGuid;
 

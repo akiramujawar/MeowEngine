@@ -8,10 +8,12 @@
 #include "Public/Core/Include.hpp"
 #include "log.hpp"
 #include "AssetManagerInitData.hpp"
-#include "AssetSerializer.hpp"
 
+#include "AssetSerializer.hpp"
 #include "WorldSerializer.hpp"
 #include "ShaderSerialization.hpp"
+#include "TextureSerializer.hpp"
+#include "MeshSerializer.hpp"
 
 namespace MeowEngine::Asset {
     AssetManager::AssetManager() {
@@ -28,9 +30,29 @@ namespace MeowEngine::Asset {
         Directory.Init();
     }
 
-    void AssetManager::LoadDatabase() {
+    void AssetManager::LoadAndBuild() {
         Registry.Load();
-        Directory.Load();
+        Directory.LoadAndBuild();
+
+        // load editor assets here
+        const auto editorMetadatas = Registry.GetEditorAssetHandles();
+        for (auto& metadata : editorMetadatas) {
+            switch (metadata.Type) {
+                case AssetType::SHADER:
+                    break;
+                case AssetType::TEXTURE:
+                    LoadAsset<BitmapAsset>(metadata.Handle);
+                    break;
+                case AssetType::MESH:
+                    break;
+                case AssetType::WORLD:
+                    break;
+                case AssetType::MATERIAL:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     void AssetManager::SaveDatabase() {}
@@ -62,6 +84,10 @@ namespace MeowEngine::Asset {
         Cache.Clear();
     }
 
+    bool AssetManager::IsLoaded(const AssetHandle& handle) const {
+        return Cache.Has(handle);
+    }
+
     template<>
     std::unique_ptr<World> AssetManager::LoadAssetInternal<World>(const AssetHandle& handle) {
         // actual code
@@ -84,6 +110,36 @@ namespace MeowEngine::Asset {
         auto asset = std::make_unique<ShaderAsset>();
 
         if (!ShaderSerialization::Deserialize(path, *asset)) {
+            MeowEngine::Log("Shader Asset", "Failed loading", LogType::ERROR);
+            return nullptr;
+        }
+
+        // auto performs move as it's passed by value
+        return asset;
+    }
+
+    template<>
+    std::unique_ptr<BitmapAsset> AssetManager::LoadAssetInternal<BitmapAsset>(const AssetHandle& handle) {
+        // actual code
+        const auto& path = Registry.GetAssetPath(handle);
+        auto asset = std::make_unique<BitmapAsset>();
+
+        if (!TextureSerializer::Deserialize(path, *asset)) {
+            MeowEngine::Log("Shader Asset", "Failed loading", LogType::ERROR);
+            return nullptr;
+        }
+
+        // auto performs move as it's passed by value
+        return asset;
+    }
+
+    template<>
+    std::unique_ptr<MeshAsset> AssetManager::LoadAssetInternal<MeshAsset>(const AssetHandle& handle) {
+        // actual code
+        const auto& path = Registry.GetAssetPath(handle);
+        auto asset = std::make_unique<MeshAsset>();
+
+        if (!MeshSerializer::Deserialize(path, *asset)) {
             MeowEngine::Log("Shader Asset", "Failed loading", LogType::ERROR);
             return nullptr;
         }

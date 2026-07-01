@@ -21,7 +21,7 @@ namespace MeowEngine::Asset {
         ~AssetDirectory() = default;
 
         void Init();
-        void Load();
+        void LoadAndBuild();
         void Rebuild();
 
         std::vector<DirectoryAsset> GetAssets(const Path& folderPath);

@@ -10,7 +10,7 @@
 #include "IAsset.hpp"
 #include "ShaderType.hpp"
 
-namespace MeowEngine::Asset{
+namespace MeowEngine::Asset {
     struct ShaderAsset : IAsset {
         std::string VertexSource;
         std::string FragmentSource;

@@ -22,8 +22,10 @@ namespace MeowEngine::Runtime {
         int WindowHeight;
 
         void LoadConfig(const Path& path);
-        void SaveConfig();
+        void SaveConfig() const;
+        YAML::Node& GetConfig() { return Config;}
 
+    private:
         YAML::Node Config;
         std::string ConfigPath;
     };

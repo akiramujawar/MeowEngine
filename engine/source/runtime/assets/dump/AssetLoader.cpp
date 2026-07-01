@@ -43,7 +43,7 @@ std::string MeowEngine::assets::LoadTextFile(const std::string &path) {
     return result;
 }
 
-MeowEngine::Mesh MeowEngine::assets::LoadObjFile(const std::string &path) {
+MeowEngine::Asset::MeshAsset MeowEngine::assets::LoadObjFile(const std::string &path) {
     std::istringstream sourceStream(MeowEngine::assets::LoadTextFile(path));
 
     tinyobj::attrib_t attributes;
@@ -104,7 +104,7 @@ MeowEngine::Mesh MeowEngine::assets::LoadObjFile(const std::string &path) {
     return {  };
 }
 
-MeowEngine::Bitmap MeowEngine::assets::LoadBitmap(const std::string &path) {
+MeowEngine::Asset::BitmapAsset MeowEngine::assets::LoadBitmap(const std::string &path) {
     SDL_RWops* file {SDL_RWFromFile(path.c_str(), "rb")}; // rb denotes to load binary data
     SDL_Surface* source {IMG_Load_RW(file, 1)};
     SDL_Rect imageFrame {0, 0, source->w, source->h};
@@ -141,5 +141,5 @@ MeowEngine::Bitmap MeowEngine::assets::LoadBitmap(const std::string &path) {
     SDL_BlitSurface(source, &imageFrame, target, &imageFrame);
     SDL_FreeSurface(source);
 
-    return MeowEngine::Bitmap();
+    return MeowEngine::Asset::BitmapAsset();
 }

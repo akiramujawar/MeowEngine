@@ -6,13 +6,13 @@
 #define MEOWENGINE_MESHSERIALIZER_HPP
 
 #include "Public/Core/Forward.hpp"
-#include "mesh.hpp"
+#include "MeshAsset.hpp"
 
 namespace MeowEngine::Asset {
     class MeshSerializer {
     public:
         static bool Serialize(const Path& path, const std::string& data);
-        static bool Deserialize(const Path& path, Mesh& asset);
+        static bool Deserialize(const Path& path, MeshAsset& asset);
     };
 }
 

@@ -88,6 +88,16 @@ namespace MeowEngine::Asset {
         return {AssetType::UNKNOWN, "", AssetHandle::Invalid};
     }
 
+    std::vector<AssetMetadata> AssetDatabase::GetEditorAssetHandles() {
+        auto map = EngineRegistry.GetMap();
+        std::vector<AssetMetadata> assetMetadatas;
+        for (auto iter = map.begin(); iter != map.end(); ++iter) {
+            assetMetadatas.push_back(iter->second);
+        }
+
+        return assetMetadatas;
+    }
+
     AssetHandle AssetDatabase::Add(const Path& path) {
         AssetHeader header;
         bool isValidEngineAsset = false;

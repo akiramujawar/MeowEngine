@@ -2,18 +2,18 @@
 // Created by Akira Mujawar on 15/06/26.
 //
 
-#ifndef MEOWENGINE_MESHASSETIMPORTER_HPP
-#define MEOWENGINE_MESHASSETIMPORTER_HPP
+#ifndef MEOWENGINE_TEXTUREASSETIMPORTER_HPP
+#define MEOWENGINE_TEXTUREASSETIMPORTER_HPP
 
 #include <string>
 #include "Public/Core/Forward.hpp"
 
 namespace MeowEngine::Asset {
-    class MeshAssetImporter {
+    class TextureImporter {
     public:
         static void Import(const Path& filePath, const Path& importToFolderPath);
     };
 }
 
 
-#endif //MEOWENGINE_MESHASSETIMPORTER_HPP
+#endif //MEOWENGINE_TEXTUREASSETIMPORTER_HPP

@@ -11,6 +11,8 @@
 #include "AssetCache.hpp"
 #include "AssetDatabase.hpp"
 #include "AssetDirectory.hpp"
+#include "BitmapAsset.hpp"
+#include "MeshAsset.hpp"
 
 #include "Path.hpp"
 #include "ShaderAsset.hpp"
@@ -26,7 +28,7 @@ namespace MeowEngine::Asset {
 
         void Init(const AssetManagerInitData& context);
 
-        void LoadDatabase();
+        void LoadAndBuild();
         void SaveDatabase();
         void RebuildDatabase();
 
@@ -59,6 +61,8 @@ namespace MeowEngine::Asset {
 
         void UnloadAsset(const AssetHandle& handle);
         void ClearCache();
+
+        bool IsLoaded(const AssetHandle& handle) const;
 
     private:
         template<typename AssetType>
@@ -154,6 +158,8 @@ namespace MeowEngine::Asset {
 
     template<> std::unique_ptr<World> AssetManager::LoadAssetInternal<World>(const AssetHandle& handle);
     template<> std::unique_ptr<ShaderAsset> AssetManager::LoadAssetInternal<ShaderAsset>(const AssetHandle& handle);
+    template<> std::unique_ptr<BitmapAsset> AssetManager::LoadAssetInternal<BitmapAsset>(const AssetHandle& handle);
+    template<> std::unique_ptr<MeshAsset> AssetManager::LoadAssetInternal<MeshAsset>(const AssetHandle& handle);
 
     template<> void AssetManager::SaveAssetInternal<World>(const AssetHandle& handle, const Path& path);
 

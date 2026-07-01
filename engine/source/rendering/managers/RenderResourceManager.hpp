@@ -14,6 +14,7 @@
 #include <GLShaderResource.hpp>
 #include <GLMeshResource.hpp>
 #include <GLTextureResource.hpp>
+#include "GLThumbnail.hpp"
 
 namespace MeowEngine::Rendering {
     /**
@@ -33,11 +34,13 @@ namespace MeowEngine::Rendering {
         GLShaderResource& GetShaderResource(ShaderRenderHandle asset);
         GLMeshResource& GetMeshResource(MeshRenderHandle asset);
         GLTextureResource& GetTextureResource(TextureRenderHandle asset);
+        OpenGLThumbnail& GetThumbnailResource(TextureRenderHandle asset);
 
     private:
         std::unordered_map<ShaderRenderHandle, GLShaderResource> ShaderResources;
         std::unordered_map<MeshRenderHandle, GLMeshResource> MeshResources;
         std::unordered_map<TextureRenderHandle, GLTextureResource> TextureResources;
+        std::unordered_map<TextureRenderHandle, OpenGLThumbnail> ThumbnailResources;
     };
 }
 

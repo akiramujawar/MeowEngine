@@ -12,7 +12,7 @@ namespace MeowEngine::Asset {
     void AssetDirectory::Init() {}
 
     // ReSharper disable once CppMemberFunctionMayBeStatic
-    void AssetDirectory::Load() {
+    void AssetDirectory::LoadAndBuild() {
         const auto engineRootPath = MeowService().ConfigManager.Paths.GetEngineRootPath();
         const auto sandboxRootPath = MeowService().ConfigManager.Paths.GetSandboxRootPath();
 

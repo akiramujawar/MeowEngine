@@ -5,14 +5,14 @@
 #ifndef MEOWENGINE_ASSETLOADER_HPP
 #define MEOWENGINE_ASSETLOADER_HPP
 
-#include "Mesh.hpp"
+#include "MeshAsset.hpp"
 #include <string>
-#include "Bitmap.hpp"
+#include "BitmapAsset.hpp"
 
 namespace MeowEngine::assets {
     std::string LoadTextFile(const std::string& path);
-    MeowEngine::Mesh LoadObjFile(const std::string& path);
-    MeowEngine::Bitmap LoadBitmap(const std::string& path);
+    Asset::MeshAsset LoadObjFile(const std::string& path);
+    Asset::BitmapAsset LoadBitmap(const std::string& path);
 } // namespace MeowEngine::assets;
 
 #endif //MEOWENGINE_ASSETLOADER_HPP

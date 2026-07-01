@@ -2,17 +2,18 @@
 // Created by Akira Mujawar on 15/06/26.
 //
 
-#include "MeshAssetImporter.hpp"
+#include "TextureImporter.hpp"
 
 #include "log.hpp"
-
 #include "Public/IO/Include.hpp"
 #include "AssetSerializer.hpp"
 #include "AssetManager.hpp"
-#include "MeshSerializer.hpp"
+#include "TextureSerializer.hpp"
+
 
 namespace MeowEngine::Asset {
-    void MeshAssetImporter::Import(const Path& filePath, const Path& importToFolderPath) {
+
+    void TextureImporter::Import(const Path& filePath, const Path& importToFolderPath) {
         MeowEngine::Log("Shader Import", {filePath.GetRawString(), importToFolderPath.GetRawString()});
 
         auto exportPath = importToFolderPath + filePath.GetName();
@@ -27,11 +28,12 @@ namespace MeowEngine::Asset {
             const auto serializer = AssetSerializer::OpenSerializer(exportPath, FileSystem::FileMode::READ);
             AssetHeader header;
             if (!AssetSerializer::ReadHeader(serializer, header)) {
-                AssetManager::CreateAndSaveEmptyAsset(AssetHandle::CreateTemp(), AssetType::MESH, exportPath);
+                AssetManager::CreateAndSaveEmptyAsset(AssetHandle::CreateTemp(), AssetType::TEXTURE, exportPath);
             }
         }
 
-        const auto assetData = FileSystem::File::ReadText(filePath.GetRawString());
-        MeshSerializer::Serialize(exportPath, assetData);
+        const std::vector<uint8_t> assetData = FileSystem::File::ReadAll(filePath.GetRawString());
+        TextureSerializer::Serialize(exportPath, assetData);
     }
+
 }

@@ -63,9 +63,9 @@ namespace MeowEngine::Asset {
         }
 
     private:
-        uint64_t UUID;
+        uint64_t UUID = -1;
         bool IsTemp;
-        bool IsValid{};
+        bool IsValid {};
     };
 }
 

@@ -41,7 +41,7 @@ namespace MeowEngine::Asset {
         return true;
     }
 
-    bool MeshSerializer::Deserialize(const Path& path, Mesh& asset) {
+    bool MeshSerializer::Deserialize(const Path& path, MeshAsset& asset) {
         MeowEngine::Log("MeshSerializer", "Deserialize");
 
         auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);

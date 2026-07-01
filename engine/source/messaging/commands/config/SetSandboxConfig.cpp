@@ -12,7 +12,7 @@
 namespace MeowEngine::Messaging {
 
     void SetSandboxConfig::Execute(MessageInitData& context) {
-        MeowService().ConfigManager.SandboxConfig.Config["LaunchWorldGuid"] = WorldLaunchHandle.GetUUID();
+        MeowService().ConfigManager.SandboxConfig.GetConfig()["LaunchWorldGuid"] = WorldLaunchHandle.GetUUID();
         MeowService().ConfigManager.SandboxConfig.SaveConfig();
     }
 

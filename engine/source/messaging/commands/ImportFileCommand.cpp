@@ -9,8 +9,8 @@
 #include <MessageInitData.hpp>
 #include <FileDialog.hpp>
 
-#include "MeshAssetImporter.hpp"
-#include "TextureAssetImporter.hpp"
+#include "MeshImporter.hpp"
+#include "TextureImporter.hpp"
 
 namespace MeowEngine::Messaging {
 
@@ -24,10 +24,10 @@ namespace MeowEngine::Messaging {
                 case Asset::AssetImportType::NONE:
                     break;
                 case Asset::AssetImportType::MESH:
-                    Asset::MeshAssetImporter::Import(Path(importFilePath), Path(ImportToFolderPath));
+                    Asset::MeshImporter::Import(Path(importFilePath), Path(ImportToFolderPath));
                     break;
                 case Asset::AssetImportType::TEXTURE:
-                    Asset::TextureAssetImporter::Import(Path(importFilePath), Path(ImportToFolderPath));
+                    Asset::TextureImporter::Import(Path(importFilePath), Path(ImportToFolderPath));
                     break;
                 case Asset::AssetImportType::WORLD:
                     break;

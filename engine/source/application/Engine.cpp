@@ -161,7 +161,7 @@ namespace MeowEngine {
         // asset registry load
         // load default scene if set
         // otherwise create new scene
-        AssetManager.LoadDatabase();
+        AssetManager.LoadAndBuild();
         Runtime.Load();
     }
 

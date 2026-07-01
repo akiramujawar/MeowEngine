@@ -8,6 +8,7 @@
 #include "string"
 #include "reflection_property.hpp"
 #include "reflection_property_change.hpp"
+#include "AssetHandle.hpp"
 
 using namespace std;
 
@@ -28,6 +29,8 @@ namespace MeowEngine::Editor {
         static void TextInputWithLimitedText(const char* label, float textPercentage, char* inputBuffer, size_t bufferSize);
         static void TextInputWithLimitedTextWrap(const char* label, float textPercentage, char* inputBuffer, size_t bufferSize);
         static void SeparatorTest();
+
+        static Asset::AssetHandle DragAndDropAssetInput(const std::string& title, Asset::AssetHandle& handle);
     };
 }
 

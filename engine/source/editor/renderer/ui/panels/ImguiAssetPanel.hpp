@@ -14,12 +14,13 @@
 #include <Public/Core/Include.hpp>
 #include <Public/IO/Forward.hpp>
 
-#include "opengl_thumbnail.hpp"
+#include "GLThumbnail.hpp"
 #include "FolderCache.hpp"
 #include "DirectoryAsset.hpp"
 
 namespace MeowEngine::Rendering {
     struct RenderContext;
+    class RenderResourceManager;
 }
 
 namespace MeowEngine::Messaging {
@@ -67,10 +68,6 @@ namespace MeowEngine::Editor {
         std::unique_ptr<ImguiDeleteAssetPopupModal> ShowDeletePopupModal;
         std::unique_ptr<ImguiAssetRenamePopupModal> IsRenamingAsset;
 
-        // TODO: Temp until we have loader system
-        OpenGLThumbnail folderImage;
-        OpenGLThumbnail unknownImage;
-
         // From render context
         String SelectedFolderPath;
         String SelectedFilePath;
@@ -80,6 +77,7 @@ namespace MeowEngine::Editor {
         std::vector<Asset::DirectoryAsset> FilesInSelectedFolder;
 
         Messaging::CommandQueue* CommandQueue;
+        Rendering::RenderResourceManager* ResourceManager;
     };
 }
 

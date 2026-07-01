@@ -568,4 +568,19 @@ namespace MeowEngine::Editor {
         ImGui::Separator();
         ImGui::Spacing();
     }
+
+    Asset::AssetHandle ImGuiInputExtension::DragAndDropAssetInput(const std::string& title, Asset::AssetHandle& handle) {
+        ImGui::AlignTextToFramePadding();
+        ImGui::Text("%s", title.c_str());
+        ImGui::SameLine();
+        ImGui::SetCursorPosX(200);
+        float availableSpace = ImGui::GetContentRegionAvail().x;
+        ImGui::SetNextItemWidth(availableSpace);
+
+        ImGui::Button("Drag n Drop", ImVec2(ImGui::GetContentRegionAvail().x, 0));
+
+        ImguiAssetDragDrop::DropAssetOnAssetHandleInput(handle);
+
+        return handle;
+    }
 }

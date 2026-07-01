@@ -3,7 +3,12 @@
 //
 
 #include "ImguiEditorSettingPanel.hpp"
+
 #include "log.hpp"
+#include "MeowService.hpp"
+#include "CommandQueue.hpp"
+#include "ImguiInputExtension.hpp"
+#include "SetEditorAssetConfigCommand.hpp"
 
 namespace MeowEngine::Editor {
     ImguiEditorSettingPanel::ImguiEditorSettingPanel()
@@ -18,8 +23,114 @@ namespace MeowEngine::Editor {
     void ImguiEditorSettingPanel::Draw() {
         ImGui::Begin("Editor Settings", &IsActive, WindowFlags);
         {
-            ImGui::Text("Demo Log 1");
-            ImGui::Text("Demo Log 2");
+            Asset::AssetHandle projectIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Project Icon", projectIconHandle);
+            if (projectIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        projectIconHandle,
+                        Messaging::EditorAssetConfigType::PROJECT_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle folderIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Folder Icon", folderIconHandle);
+            if (folderIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        folderIconHandle,
+                        Messaging::EditorAssetConfigType::FOLDER_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle hppIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Hpp Icon", hppIconHandle);
+            if (hppIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        hppIconHandle,
+                        Messaging::EditorAssetConfigType::HPP_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle cppIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Cpp Icon", cppIconHandle);
+            if (cppIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        cppIconHandle,
+                        Messaging::EditorAssetConfigType::CPP_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle shaderIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Shader Icon", shaderIconHandle);
+            if (shaderIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        shaderIconHandle,
+                        Messaging::EditorAssetConfigType::SHADER_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle worldIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("World Icon", worldIconHandle);
+            if (worldIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        worldIconHandle,
+                        Messaging::EditorAssetConfigType::WORLD_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle meshIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Mesh Icon", meshIconHandle);
+            if (meshIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        meshIconHandle,
+                        Messaging::EditorAssetConfigType::MESH_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle textureIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Texture Icon", textureIconHandle);
+            if (textureIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        textureIconHandle,
+                        Messaging::EditorAssetConfigType::TEXTURE_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle unknownIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Unknown Icon", unknownIconHandle);
+            if (unknownIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                        unknownIconHandle,
+                        Messaging::EditorAssetConfigType::UNKNOWN_ICON
+                    )
+                );
+            }
+
 
             ImGui::End();
         }
