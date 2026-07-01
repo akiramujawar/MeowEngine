@@ -5,24 +5,26 @@
 #ifndef MEOWENGINE_GLMESHRESOURCE_HPP
 #define MEOWENGINE_GLMESHRESOURCE_HPP
 
-// #include "GL_API.hpp"
-// #include "mesh.hpp"
-// #include "internal_ptr.hpp"
 
 #include <AssetHandle.hpp>
 
 namespace MeowEngine::Rendering {
     struct GLMeshResource {
         // GLMeshResource(const MeowEngine::Mesh& mesh);
-        GLMeshResource(Asset::AssetHandle asset) {}
+        GLMeshResource(Asset::AssetHandle handle);
+        ~GLMeshResource();
 
-        // const GLuint & GetVertexArrayId() const;
-        // const GLuint& GetVertexBufferId() const;
-        // const GLuint& GetIndexBufferId() const;
-        //
-        // const uint32_t& GetNumIndices() const;
+        [[nodiscard]] const uint32_t& GetVertexBufferId() const { return BufferIdVertices; };
+        [[nodiscard]] const uint32_t& GetIndexBufferId() const { return BufferIdIndices;};
+        [[nodiscard]] const uint32_t& GetNumIndices() const { return IndicesCount; };
+        [[nodiscard]] const uint32_t & GetVertexArrayId() const { return VertexArrayID; };
 
-    // private:
+    private:
+        uint32_t BufferIdVertices;
+        uint32_t BufferIdIndices;
+        uint32_t IndicesCount;
+        uint32_t VertexArrayID;
+
         // struct Internal;
         // MeowEngine::internal_ptr<Internal> InternalPointer;
     };

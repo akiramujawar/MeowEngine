@@ -26,7 +26,7 @@ namespace MeowEngine::Rendering {
             return !(*this == handle);
         }
 
-        bool IsValid() override { return AssetHandle.GetIsValid(); };
+        bool IsValid() const override { return AssetHandle.GetIsValid(); };
 
         Asset::AssetHandle AssetHandle;
     };

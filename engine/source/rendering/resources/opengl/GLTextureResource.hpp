@@ -15,15 +15,14 @@
 namespace MeowEngine::Rendering {
     struct GLTextureResource {
         // GLTextureResource(const MeowEngine::Bitmap& bitmap);
-        GLTextureResource(Asset::AssetHandle bitmap) {
-
-        }
+        GLTextureResource(Asset::AssetHandle handle);
+        ~GLTextureResource();
 
         // need to call whenever we want the texture to be applied to the object being rendered
-        // void Bind() const;
+        void Bind() const;
 
     private:
-        // struct Internal;
+        uint32_t TextureID;
         // MeowEngine::internal_ptr<Internal> InternalPointer;
     };
 }

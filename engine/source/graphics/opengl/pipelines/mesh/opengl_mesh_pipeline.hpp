@@ -5,42 +5,30 @@
 #ifndef MEOWENGINE_OPENGL_MESH_PIPELINE_HPP
 #define MEOWENGINE_OPENGL_MESH_PIPELINE_HPP
 
-#include "GLM_API.hpp"
+
 #include "GL_API.hpp"
 
 #include "IRenderPipeline.hpp"
-#include "mesh_render_component.hpp"
-#include "Transform3DComponent.hpp"
 
-namespace MeowEngine {
-    class OpenGLAssetManager;
-}
+namespace MeowEngine::Rendering {
+    struct MeshDrawData;
 
-namespace MeowEngine::pipeline {
-    struct OpenGLMeshPipeline : public Rendering::IRenderPipeline {
-        OpenGLMeshPipeline(const GLuint& shaderProgramID);
-        ~OpenGLMeshPipeline() override;
-
+    class OpenGLMeshPipeline : public IRenderPipeline {
     public:
-        void Render(
-            const MeowEngine::OpenGLAssetManager& assetManager,
-            const MeowEngine::Runtime::MeshRenderComponent* meshRenderComponent,
-            const MeowEngine::Runtime::Transform3DComponent* transform3DComponent
-        ) const;
-//        void Render(
-//                const MeowEngine::OpenGLAssetManager& assetManager,
-//                const MeowEngine::entity::StaticMeshRenderComponent* meshRenderComponent,
-//                const MeowEngine::entity::Transform3dComponent* transform3DComponent
-//        ) const;
+        OpenGLMeshPipeline();
+        ~OpenGLMeshPipeline() override = default;
+
+        void Draw(const RenderContext& context, const MeshDrawData& data);
 
     private:
-        const GLuint ShaderProgramID;
-        const GLuint UniformLocationMVP;
-        const GLuint AttributeLocationVertexPosition;
-        const GLuint AttributeLocationTextureCoord;
-        const GLsizei Stride;
-        const GLsizei OffsetPosition;
-        const GLsizei OffsetTextureCoord;
+        bool IsInitialized = false;
+
+        uint32_t UniformLocationMVP = - 1;
+        uint32_t AttributeLocationVertexPosition = -1;
+        uint32_t AttributeLocationTextureCoord = -1;
+        int32_t Stride;
+        int32_t OffsetPosition;
+        int32_t OffsetTextureCoord;
     };
 }
 

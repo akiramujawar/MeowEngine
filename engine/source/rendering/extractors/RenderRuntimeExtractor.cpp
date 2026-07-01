@@ -38,13 +38,23 @@ namespace MeowEngine::Rendering {
         auto meshesView = ecs.view<Runtime::MeshRenderComponent, Runtime::Transform3DComponent>();
         for (auto &&entity : meshesView) {
             auto&& [mesh, transform] = meshesView.get(entity);
-            Rendering::MeshDrawData data;
-            data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
-            data.Mesh = MeshRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
-            data.Texture = TextureRenderHandle(Asset::AssetHandle::Invalid); // this doesn't exist
-            data.TransformMatrix = camera.GetViewProjection() * transform.ToMatrix(); // this doesnt exist
+            const auto& shaderHandle = mesh.GetShaderAssetHandle();
+            const auto& meshHandle = mesh.GetMeshAssetHandle();
+            const auto& textureHandle = mesh.GetTextureAssetHandle();
 
-            frame.Meshes.push_back(data);
+            auto* shaderAsset = AssetManager->GetAssetOrLoad<Asset::ShaderAsset>(shaderHandle);
+            auto* meshAsset = AssetManager->GetAssetOrLoad<Asset::MeshAsset>(meshHandle);
+            auto* bitmapAsset = AssetManager->GetAssetOrLoad<Asset::BitmapAsset>(textureHandle);
+
+            if (shaderAsset && meshAsset && bitmapAsset) {
+                Rendering::MeshDrawData data;
+                data.Shader = shaderHandle;
+                data.Mesh = meshHandle; // this doesn't exist
+                data.Texture = textureHandle; // this doesn't exist
+                data.TransformMatrix = camera.GetViewProjection() * transform.ToMatrix(); // this doesnt exist
+
+                frame.Meshes.push_back(data);
+            }
         }
 
         // access grid component

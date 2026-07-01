@@ -29,7 +29,7 @@ namespace MeowEngine::Rendering {
             return;
         }
 
-        const auto shader = context.ResourceManager->GetShaderResource(data.Shader);
+        const auto& shader = context.ResourceManager->GetShaderResource(data.Shader);
 
         glUseProgram(shader.GetID());
 

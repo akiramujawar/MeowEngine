@@ -112,7 +112,7 @@ namespace {
 
         switch (shaderPipelineType) {
             case ShaderPipelineType::Default:
-                return new OpenGLMeshPipeline(shaderProgramID);
+                // return new OpenGLMeshPipeline(shaderProgramID);
             case ShaderPipelineType::Line:
                 return new OpenGLLinePipeline(shaderProgramID);
             // case ShaderPipelineType::Grid:
@@ -193,7 +193,7 @@ void OpenGLAssetManager::LoadTextures(const std::vector<MeowEngine::assets::Text
     InternalPointer->LoadTextures(textures);
 }
 
-using MeowEngine::pipeline::OpenGLMeshPipeline;
+// using MeowEngine::pipeline::OpenGLMeshPipeline;
 
 // using template for having dynamic return of pipelines
 template<typename T>
@@ -210,7 +210,7 @@ T* OpenGLAssetManager::GetShaderPipeline(const MeowEngine::assets::ShaderPipelin
     }
 }
 
-template OpenGLMeshPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLMeshPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
+// template OpenGLMeshPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLMeshPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template OpenGLLinePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLLinePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 // template OpenGLGridPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLGridPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template MeowEngine::Rendering::GLSkyboxPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::Rendering::GLSkyboxPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);

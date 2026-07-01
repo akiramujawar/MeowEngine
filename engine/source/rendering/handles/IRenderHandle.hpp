@@ -16,7 +16,7 @@ namespace MeowEngine::Rendering {
     struct IRenderHandle {
         virtual ~IRenderHandle() = default;
 
-        virtual bool IsValid() = 0;
+        virtual bool IsValid() const = 0;
     };
 }
 

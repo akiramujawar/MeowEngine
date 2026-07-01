@@ -7,11 +7,12 @@
 
 using MeowEngine::Runtime::MeshRenderComponent;
 
-void MeowEngine::Runtime::MeshRenderComponent::Reflect() {
-    REGISTER_POINTER(MeshRenderComponent, MeshInstance, MeowEngine::StaticMeshInstance*, false, false)
-}
+namespace MeowEngine::Runtime {
+    using Asset::AssetHandle;
 
-MeshRenderComponent::MeshRenderComponent(MeowEngine::assets::ShaderPipelineType shader, MeowEngine::StaticMeshInstance *meshInstance)
-    : MeshInstance(meshInstance) {
-
+    void MeshRenderComponent::Reflect() {
+        REGISTER_PROPERTY(MeshRenderComponent, ShaderAssetHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(MeshRenderComponent, MeshAssetHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(MeshRenderComponent, TextureAssetHandle, AssetHandle, true, false);
+    }
 }
