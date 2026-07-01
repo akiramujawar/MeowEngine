@@ -2,8 +2,8 @@
 // Created by Akira Mujawar on 23/06/24.
 //
 
-#ifndef MEOWENGINE_OPENGL_MESH_PIPELINE_HPP
-#define MEOWENGINE_OPENGL_MESH_PIPELINE_HPP
+#ifndef MEOWENGINE_GL_MESH_PIPELINE_HPP
+#define MEOWENGINE_GL_MESH_PIPELINE_HPP
 
 
 #include "GL_API.hpp"
@@ -13,10 +13,10 @@
 namespace MeowEngine::Rendering {
     struct MeshDrawData;
 
-    class OpenGLMeshPipeline : public IRenderPipeline {
+    class GLMeshPipeline : public IRenderPipeline {
     public:
-        OpenGLMeshPipeline();
-        ~OpenGLMeshPipeline() override = default;
+        GLMeshPipeline();
+        ~GLMeshPipeline() override = default;
 
         void Draw(const RenderContext& context, const MeshDrawData& data);
 
@@ -33,4 +33,4 @@ namespace MeowEngine::Rendering {
 }
 
 
-#endif //MEOWENGINE_OPENGL_MESH_PIPELINE_HPP
+#endif //MEOWENGINE_GL_MESH_PIPELINE_HPP

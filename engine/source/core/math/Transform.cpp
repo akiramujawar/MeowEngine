@@ -27,7 +27,12 @@ namespace MeowEngine::Core::Math {
     }
 
     Matrix4x4 Transform::ToMatrix() const {
-        return Matrix4x4::Identity();
+
+        Matrix4x4 translation = Matrix4x4::Translate(Position);
+        Matrix4x4 rotation = Matrix4x4::Rotation4x4(Quat);
+        Matrix4x4 scaling = Matrix4x4::Scale(Scale);
+
+        return translation * rotation * scaling;
     }
 
     void Transform::SetPosition(const Vector3& position) {
@@ -48,25 +53,25 @@ namespace MeowEngine::Core::Math {
         Euler = Quaternion::Euler(quat);
     }
 
-    void Transform::CalculateTransformMatrix(const glm::mat4& inProjectionMatrix) {
-        Matrix4x4 rotationMatrix = Quat.GetRotationMatrix4x4();
-
-        auto test = Matrix4x4::Identity();
-
-        glm::mat4 identityMatrix =  Matrix4x4::GlmFromMatrix4x4(Matrix4x4::Identity());
-        glm::mat4 rotation4Matrix = Matrix4x4::GlmFromMatrix4x4(rotationMatrix);
-
-        auto transformMatrix = inProjectionMatrix
-                      * glm::translate(identityMatrix, glm::vec3(Position.X, Position.Y, Position.Z))
-                      * rotation4Matrix
-                      * glm::scale(identityMatrix, glm::vec3(Scale.X, Scale.Y, Scale.Z));
-        //    TransformMatrix = inProjectionMatrix
-        //                      * glm::translate(IdentityMatrix, glm::vec3(Position.X, Position.Y, Position.Z))
-        //                      * glm::rotate(IdentityMatrix, glm::radians(RotationDegrees), RotationAxis)
-        //                      * glm::scale(IdentityMatrix, glm::vec3(Scale.X, Scale.Y, Scale.Z));
-
-        TransformMatrix = Matrix4x4::Matrix4X4FromGlm(transformMatrix);
-    }
+    // void Transform::CalculateTransformMatrix(const glm::mat4& inProjectionMatrix) {
+        // Matrix4x4 rotationMatrix = Quat.GetRotationMatrix4x4();
+        //
+        // auto test = Matrix4x4::Identity();
+        //
+        // glm::mat4 identityMatrix =  Matrix4x4::GlmFromMatrix4x4(Matrix4x4::Identity());
+        // glm::mat4 rotation4Matrix = Matrix4x4::GlmFromMatrix4x4(rotationMatrix);
+        //
+        // auto transformMatrix = inProjectionMatrix
+        //               * glm::translate(identityMatrix, glm::vec3(Position.X, Position.Y, Position.Z))
+        //               * rotation4Matrix
+        //               * glm::scale(identityMatrix, glm::vec3(Scale.X, Scale.Y, Scale.Z));
+        // //    TransformMatrix = inProjectionMatrix
+        // //                      * glm::translate(IdentityMatrix, glm::vec3(Position.X, Position.Y, Position.Z))
+        // //                      * glm::rotate(IdentityMatrix, glm::radians(RotationDegrees), RotationAxis)
+        // //                      * glm::scale(IdentityMatrix, glm::vec3(Scale.X, Scale.Y, Scale.Z));
+        //
+        // TransformMatrix = Matrix4x4::Matrix4X4FromGlm(transformMatrix);
+    // }
 
     void Transform::OnEulerReflect() {
         // TODO: Use Quaternion.Rotate or we would create gimble lock issues
@@ -78,6 +83,6 @@ namespace MeowEngine::Core::Math {
         const auto targetGLM = Vector3::GlmFromVector3(target);
         const auto upGLM = Vector3::GlmFromVector3(up);
 
-        return Matrix4x4::Matrix4X4FromGlm(glm::lookAtLH(positionGLM, targetGLM, upGLM));
+        return Matrix4x4::Matrix4X4FromGlm(glm::lookAtRH(positionGLM, targetGLM, upGLM));
     }
 }

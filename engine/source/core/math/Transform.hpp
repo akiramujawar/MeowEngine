@@ -8,6 +8,7 @@
 #include "Object.hpp"
 #include "vector3.hpp"
 #include "Quaternion.hpp"
+#include "Matrix.hpp"
 
 namespace MeowEngine::Core::Math {
     class Transform : Types::Object {
@@ -33,7 +34,7 @@ namespace MeowEngine::Core::Math {
         void SetRotation(const Vector3& euler);
         void SetRotation(const Quaternion& quat);
 
-        void CalculateTransformMatrix(const glm::mat4 &inProjectionMatrix);
+        // void CalculateTransformMatrix(const glm::mat4 &inProjectionMatrix);
 
     private:
         void OnEulerReflect();

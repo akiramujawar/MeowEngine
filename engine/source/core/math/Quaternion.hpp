@@ -6,7 +6,7 @@
 #define MEOWENGINE_QUATERNION_HPP
 
 #include "vector3.hpp"
-#include "Matrix.hpp"
+// #include "Matrix.hpp"
 #include "a_math.hpp"
 
 namespace MeowEngine::Core::Math {
@@ -223,8 +223,8 @@ namespace MeowEngine::Core::Math {
          */
         [[nodiscard]] Vector3 RotateAroundAxis(const Vector3& value) const;
 
-        Matrix3x3 GetRotationMatrix3x3();
-        Matrix4x4 GetRotationMatrix4x4();
+        // Matrix3x3 GetRotationMatrix3x3();
+        // Matrix4x4 GetRotationMatrix4x4();
 
         void Lerp();
         void Slerp();

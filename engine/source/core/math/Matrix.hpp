@@ -7,6 +7,9 @@
 
 #include "GLM_API.hpp"
 
+#include "vector3.hpp"
+#include "Quaternion.hpp"
+
 namespace MeowEngine::Core::Math {
     /**
      * TODO: implement const methods
@@ -131,6 +134,96 @@ namespace MeowEngine::Core::Math {
         // void Determinant();
         // void Orthogonal();
         // void Transpose();
+
+        // translation , scaling & rotating
+        static Matrix Translate(const Vector3& translation) {
+            Matrix matrix = Identity();
+
+            matrix[3][0] = translation.X;
+            matrix[3][1] = translation.Y;
+            matrix[3][2] = translation.Z;
+
+            return matrix;
+        }
+
+        static Matrix Scale(const Vector3& scale) {
+            Matrix matrix = Identity();
+
+            matrix[0][0] = scale.X;
+            matrix[1][1] = scale.Y;
+            matrix[2][2] = scale.Z;
+
+            return matrix;
+        }
+
+
+        static Matrix Rotation3x3(const Quaternion& quat) {
+            float xSquare = quat.X * quat.X;
+            float ySquare = quat.Y * quat.Y;
+            float zSquare = quat.Z * quat.Z;
+
+            float XY = quat.X * quat.Y;
+            float XZ = quat.X * quat.Z;
+            float YZ = quat.Y * quat.Z;
+
+            float WX = quat.W * quat.X;
+            float WY = quat.W * quat.Y;
+            float WZ = quat.W * quat.Z;
+
+            Matrix matrix {};
+
+            matrix[0][0] = 1 - 2 * ySquare - 2 * zSquare;
+            matrix[1][0] = 2 * XY + 2 * WZ;
+            matrix[2][0] = 2 * XZ - 2 * WY;
+
+            matrix[0][1] = 2 * XY - 2 * WZ;
+            matrix[1][1] = 1 - 2 * xSquare - 2 * zSquare;
+            matrix[2][1] = 2 * YZ + 2 * WX;
+
+            matrix[0][2] = 2 * XZ + 2 * WY;
+            matrix[1][2] = 2 * YZ - 2 * WX;
+            matrix[2][2] = 1 - 2 * xSquare - 2 * ySquare;
+
+            return matrix;
+        }
+
+        static Matrix Rotation4x4(const Quaternion quat) {
+            float xSquare = quat.X * quat.X;
+            float ySquare = quat.Y * quat.Y;
+            float zSquare = quat.Z * quat.Z;
+
+            float XY = quat.X * quat.Y;
+            float XZ = quat.X * quat.Z;
+            float YZ = quat.Y * quat.Z;
+
+            float WX = quat.W * quat.X;
+            float WY = quat.W * quat.Y;
+            float WZ = quat.W * quat.Z;
+
+            Matrix matrix {};
+
+            matrix[0][0] = 1 - 2 * ySquare - 2 * zSquare;
+            matrix[1][0] = 2 * XY + 2 * WZ;
+            matrix[2][0] = 2 * XZ - 2 * WY;
+            matrix[3][0] = 0;
+
+            matrix[0][1] = 2 * XY - 2 * WZ;
+            matrix[1][1] = 1 - 2 * xSquare - 2 * zSquare;
+            matrix[2][1] = 2 * YZ + 2 * WX;
+            matrix[3][1] = 0;
+
+            matrix[0][2] = 2 * XZ + 2 * WY;
+            matrix[1][2] = 2 * YZ - 2 * WX;
+            matrix[2][2] = 1 - 2 * xSquare - 2 * ySquare;
+            matrix[3][2] = 0;
+
+            matrix[0][3] = 0;
+            matrix[1][3] = 0;
+            matrix[2][3] = 0;
+            matrix[3][3] = 1;
+
+            return matrix;
+        }
 
 
         // -- GLM ------------------------

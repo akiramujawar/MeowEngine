@@ -5,7 +5,7 @@
 #include "opengl_asset_manager.hpp"
 
 #include "IRenderPipeline.hpp"
-#include "opengl_mesh_pipeline.hpp"
+#include "GLMeshPipeline.hpp"
 #include "opengl_line_pipeline.hpp"
 #include "GLGridPipeline.hpp"
 #include <GLSkyboxPipeline.hpp>

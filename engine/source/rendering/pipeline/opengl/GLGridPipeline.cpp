@@ -11,6 +11,13 @@
 #include <GLShaderResource.hpp>
 #include "GridDrawData.hpp"
 
+// serialization x2
+// deserialization x2
+// importing x2
+// component migration x1
+// gpu resource migration x2
+// pipeline migration x1
+
 namespace MeowEngine::Rendering {
     OpenGLGridPipeline::OpenGLGridPipeline() {
         glGenVertexArrays(1, &VertexArrayID);

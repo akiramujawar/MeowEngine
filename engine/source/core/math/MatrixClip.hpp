@@ -10,8 +10,8 @@
 namespace MeowEngine::Core::Math {
     struct MatrixClip {
     public:
-        static Matrix4x4 PerspectiveLH_NO(float fov, float aspect, float near, float far) {
-            auto matrix = glm::perspectiveLH_NO(fov, aspect, near, far);
+        static Matrix4x4 Perspective(float fov, float aspect, float near, float far) {
+            auto matrix = glm::perspectiveRH_NO(fov, aspect, near, far);
 
             return Matrix4x4::Matrix4X4FromGlm(matrix);
         }

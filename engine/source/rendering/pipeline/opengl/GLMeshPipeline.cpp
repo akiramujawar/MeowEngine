@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 23/06/24.
 //
 
-#include "opengl_mesh_pipeline.hpp"
+#include "GLMeshPipeline.hpp"
 
 //#include "opengl_pipeline_base.hpp"
 // #include "AssetLoader.hpp"
@@ -19,13 +19,13 @@
 
 
 namespace MeowEngine::Rendering {
-    OpenGLMeshPipeline::OpenGLMeshPipeline() {
+    GLMeshPipeline::GLMeshPipeline() {
         Stride = 5 * sizeof (float);
         OffsetPosition = 0 ;
         OffsetTextureCoord = 3 * sizeof(float);
     }
 
-    void OpenGLMeshPipeline::Draw(const RenderContext& context, const MeshDrawData& data) {
+    void GLMeshPipeline::Draw(const RenderContext& context, const MeshDrawData& data) {
         if (!data.Shader.IsValid()) {
             return;
         }
