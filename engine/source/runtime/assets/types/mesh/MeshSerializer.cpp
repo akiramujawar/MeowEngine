@@ -118,6 +118,12 @@ namespace MeowEngine::Asset {
             }
         }
 
+        // NOTE: quick hack to fix coordinate system
+        // as we use perspectiveRH_NO & lookAtRH
+        for (size_t i = 0; i < indices.size(); i += 3) {
+            std::swap(indices[i + 1], indices[i + 2]);
+        }
+
         // set asset data
         asset.SetData(vertices, indices);
 
