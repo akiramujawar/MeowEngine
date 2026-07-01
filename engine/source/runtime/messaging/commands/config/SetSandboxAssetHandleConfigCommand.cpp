@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 29/06/26.
 //
 
-#include "SetSandboxConfig.hpp"
+#include "SetSandboxAssetHandleConfigCommand.hpp"
 
 #include "ConfigManager.hpp"
 #include "MeowService.hpp"
@@ -11,7 +11,7 @@
 
 namespace MeowEngine::Messaging {
 
-    void SetSandboxConfig::Execute(MessageInitData& context) {
+    void SetSandboxAssetHandleConfigCommand::Execute(MessageInitData& context) {
         MeowService().ConfigManager.SandboxConfig.GetConfig()["LaunchWorldGuid"] = WorldLaunchHandle.GetUUID();
         MeowService().ConfigManager.SandboxConfig.SaveConfig();
     }

@@ -8,7 +8,7 @@
 #include "MeowService.hpp"
 #include "CommandQueue.hpp"
 #include "ImguiInputExtension.hpp"
-#include "SetEditorAssetConfigCommand.hpp"
+#include "SetEditorAssetHandleConfigCommand.hpp"
 
 namespace MeowEngine::Editor {
     ImguiEditorSettingPanel::ImguiEditorSettingPanel()
@@ -28,9 +28,9 @@ namespace MeowEngine::Editor {
             if (projectIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         projectIconHandle,
-                        Messaging::EditorAssetConfigType::PROJECT_ICON
+                        Messaging::EditorAssetHandleType::PROJECT_ICON
                     )
                 );
             }
@@ -40,9 +40,9 @@ namespace MeowEngine::Editor {
             if (folderIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         folderIconHandle,
-                        Messaging::EditorAssetConfigType::FOLDER_ICON
+                        Messaging::EditorAssetHandleType::FOLDER_ICON
                     )
                 );
             }
@@ -52,9 +52,9 @@ namespace MeowEngine::Editor {
             if (hppIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         hppIconHandle,
-                        Messaging::EditorAssetConfigType::HPP_ICON
+                        Messaging::EditorAssetHandleType::HPP_ICON
                     )
                 );
             }
@@ -64,9 +64,9 @@ namespace MeowEngine::Editor {
             if (cppIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         cppIconHandle,
-                        Messaging::EditorAssetConfigType::CPP_ICON
+                        Messaging::EditorAssetHandleType::CPP_ICON
                     )
                 );
             }
@@ -76,9 +76,9 @@ namespace MeowEngine::Editor {
             if (shaderIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         shaderIconHandle,
-                        Messaging::EditorAssetConfigType::SHADER_ICON
+                        Messaging::EditorAssetHandleType::SHADER_ICON
                     )
                 );
             }
@@ -88,9 +88,9 @@ namespace MeowEngine::Editor {
             if (worldIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         worldIconHandle,
-                        Messaging::EditorAssetConfigType::WORLD_ICON
+                        Messaging::EditorAssetHandleType::WORLD_ICON
                     )
                 );
             }
@@ -100,9 +100,9 @@ namespace MeowEngine::Editor {
             if (meshIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         meshIconHandle,
-                        Messaging::EditorAssetConfigType::MESH_ICON
+                        Messaging::EditorAssetHandleType::MESH_ICON
                     )
                 );
             }
@@ -112,9 +112,9 @@ namespace MeowEngine::Editor {
             if (textureIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         textureIconHandle,
-                        Messaging::EditorAssetConfigType::TEXTURE_ICON
+                        Messaging::EditorAssetHandleType::TEXTURE_ICON
                     )
                 );
             }
@@ -124,9 +124,9 @@ namespace MeowEngine::Editor {
             if (unknownIconHandle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetEditorAssetConfigCommand>(
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
                         unknownIconHandle,
-                        Messaging::EditorAssetConfigType::UNKNOWN_ICON
+                        Messaging::EditorAssetHandleType::UNKNOWN_ICON
                     )
                 );
             }

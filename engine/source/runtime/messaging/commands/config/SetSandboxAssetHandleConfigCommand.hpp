@@ -10,9 +10,9 @@
 #include "AssetHandle.hpp"
 
 namespace MeowEngine::Messaging {
-    class SetSandboxConfig : public ICommand {
+    class SetSandboxAssetHandleConfigCommand : public ICommand {
     public:
-        SetSandboxConfig(const Asset::AssetHandle& worldLaunchHandle) {
+        SetSandboxAssetHandleConfigCommand(const Asset::AssetHandle& worldLaunchHandle) {
             WorldLaunchHandle = worldLaunchHandle;
         }
 

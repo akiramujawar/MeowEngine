@@ -9,7 +9,7 @@
 #include "MeowService.hpp"
 #include "CommandQueue.hpp"
 #include "ImguiAssetDragDrop.hpp"
-#include "config/SetSandboxConfig.hpp"
+#include "SetSandboxAssetHandleConfigCommand.hpp"
 
 namespace MeowEngine::Editor {
     ImguiSandboxConfigPanel::ImguiSandboxConfigPanel()
@@ -43,7 +43,7 @@ namespace MeowEngine::Editor {
             if (handle.GetIsValid()) {
                 MeowService().CommandQueue.Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetSandboxConfig>(handle)
+                    std::make_unique<Messaging::SetSandboxAssetHandleConfigCommand>(handle)
                 );
             }
 

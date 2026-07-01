@@ -7,7 +7,7 @@
 #include <cstdint>
 
 namespace MeowEngine::Messaging {
-    enum class EditorAssetConfigType {
+    enum class EditorAssetHandleType {
         UNKNOWN_ICON,
         PROJECT_ICON,
         FOLDER_ICON,

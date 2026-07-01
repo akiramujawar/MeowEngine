@@ -8,12 +8,12 @@
 
 #include <Public/Messaging/Include.hpp>
 #include "AssetHandle.hpp"
-#include "EditorAssetConfigType.hpp"
+#include "EditorAssetHandleType.hpp"
 
 namespace MeowEngine::Messaging {
-    class SetEditorAssetConfigCommand : public ICommand {
+    class SetEditorAssetHandleConfigCommand : public ICommand {
     public:
-        SetEditorAssetConfigCommand(const Asset::AssetHandle& assetHandle, EditorAssetConfigType type) {
+        SetEditorAssetHandleConfigCommand(const Asset::AssetHandle& assetHandle, EditorAssetHandleType type) {
             AssetHandle = assetHandle;
             Type = type;
         }
@@ -22,7 +22,7 @@ namespace MeowEngine::Messaging {
 
     private:
         Asset::AssetHandle AssetHandle;
-        EditorAssetConfigType Type;
+        EditorAssetHandleType Type;
     };
 }
 
