@@ -32,6 +32,12 @@ namespace MeowEngine::Rendering {
         return iterator->second;
     }
 
+    GLGizmoResource& RenderResourceManager::GetGizmoResource(GizmoRenderHandle asset) {
+        auto [iterator, inserted] = GizmoResources.try_emplace(asset, asset.Asset);
+
+        return iterator->second;
+    }
+
     GLTextureResource& RenderResourceManager::GetTextureResource(TextureRenderHandle asset) {
         auto [iterator, inserted] = TextureResources.try_emplace(asset, asset.BitmapAsset);
 

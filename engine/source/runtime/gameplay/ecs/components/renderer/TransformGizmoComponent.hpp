@@ -8,13 +8,13 @@
 #include "RenderComponent.hpp"
 
 namespace MeowEngine::Runtime {
-    class TransformHandleComponent : public MeowEngine::Runtime::RenderComponent {
+    class TransformGizmoComponent : public RenderComponent {
     public:
-        REFLECT_COMPONENT(TransformHandleComponent)
+        REFLECT_COMPONENT(TransformGizmoComponent)
         static void Reflect();
 
-        explicit TransformHandleComponent();
-        ~TransformHandleComponent() override = default;
+        explicit TransformGizmoComponent();
+        ~TransformGizmoComponent() override = default;
     };
 }
 

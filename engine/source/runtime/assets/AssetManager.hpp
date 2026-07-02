@@ -7,16 +7,19 @@
 
 #include "log.hpp"
 
+// #include "Path.hpp"
 #include "AssetHandle.hpp"
+
 #include "AssetCache.hpp"
 #include "AssetDatabase.hpp"
 #include "AssetDirectory.hpp"
+#include "SessionAssetDatabase.hpp"
+
 #include "BitmapAsset.hpp"
 #include "MeshAsset.hpp"
-
-#include "Path.hpp"
 #include "ShaderAsset.hpp"
 #include "World.hpp"
+
 
 namespace MeowEngine::Asset {
     struct AssetManagerInitData;
@@ -33,6 +36,7 @@ namespace MeowEngine::Asset {
         void RebuildDatabase();
 
         AssetDirectory& GetDirectory() { return Directory; };
+        SessionAssetDatabase& GetSession() { return Session; };
 
         static bool CreateAndSaveEmptyAsset(const AssetHandle& handle, AssetType type,  const Path& path);
 
@@ -74,6 +78,7 @@ namespace MeowEngine::Asset {
         AssetCache Cache;
         AssetDatabase Registry;
         AssetDirectory Directory;
+        SessionAssetDatabase Session;
     };
 
     template <typename AssetType>

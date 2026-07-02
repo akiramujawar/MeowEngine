@@ -20,7 +20,7 @@ namespace MeowEngine::Asset  {
         [[nodiscard]] const std::vector<Vertex>& GetVertices() const { return Vertices; }
         [[nodiscard]] const std::vector<uint32_t>& GetIndices() const  { return Indices;}
 
-    private:
+    protected:
         std::vector<Vertex> Vertices;
         std::vector<uint32_t> Indices;
     //     struct Internal;

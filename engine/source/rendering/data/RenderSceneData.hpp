@@ -12,7 +12,7 @@
 #include <BoxColliderDrawData.hpp>
 #include <SphereColliderDrawData.hpp>
 #include <LineDrawData.hpp>
-#include <TransformHandleDrawData.hpp>
+#include <TransformGizmoDrawData.hpp>
 
 namespace MeowEngine::Rendering {
     struct RenderSceneData {
@@ -25,7 +25,7 @@ namespace MeowEngine::Rendering {
         std::vector<BoxColliderDrawData> BoxColliders;
         std::vector<SphereColliderDrawData> SphereColliders;
         std::vector<LineDrawData> Lines;
-        std::vector<TransformHandleDrawData> TransformHandles; // this will allow multi selection
+        std::vector<TransformGizmoDrawData> TransformGizmos; // this will allow multi selection
     };
 }
 

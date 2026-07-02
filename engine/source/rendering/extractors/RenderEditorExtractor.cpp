@@ -24,6 +24,7 @@
 
 #include "CameraComponent.hpp"
 #include "GridComponent.hpp"
+#include "TransformGizmoComponent.hpp"
 
 namespace MeowEngine::Rendering {
     RenderEditorExtractor::RenderEditorExtractor() {}
@@ -40,15 +41,30 @@ namespace MeowEngine::Rendering {
         const auto& camera = Gameplay->GetCamera();
 
         // selected transform handles
-        for (auto &&handle : Selector->SelectedEntities) {
-            auto transform = ecs.try_get<Runtime::Transform3DComponent>(handle.GetEntity());
+        auto transformGizmo = ecs.try_get<Runtime::TransformGizmoComponent>(world.Grid.GetEntity());
+        if (transformGizmo != nullptr) {
+            auto hasGizmoShader = AssetManager->HasAssetInDatabase(transformGizmo->GetShaderAssetHandle());
+            if (hasGizmoShader) {
+                AssetManager->GetAssetOrLoad<Asset::ShaderAsset>(transformGizmo->GetShaderAssetHandle());
 
-            if (transform != nullptr) {
-                Rendering::TransformHandleDrawData data {};
-                data.Shader = ShaderRenderHandle(Asset::AssetHandle::Invalid);
-                // data.TransformMatrix = transform->TransformMatrix;
+                for (auto &&handle : Selector->SelectedEntities) {
+                    auto transform = ecs.try_get<Runtime::Transform3DComponent>(handle.GetEntity());
 
-                frame.TransformHandles.push_back(data);
+                    if (transform != nullptr) {
+                        Rendering::TransformGizmoDrawData data {};
+                        data.Shader = ShaderRenderHandle(transformGizmo->GetShaderAssetHandle());
+                        data.Gizmo = GizmoRenderHandle(AssetManager->GetSession().TransformGizmoHandle);
+
+                        data.ViewMatrix = camera.GetView();
+                        data.ProjectionMatrix = camera.GetProjection();
+                        data.CameraPosition = camera.GetPosition();
+                        data.SelfPosition = transform->GetPosition();
+                        data.RotationMatrix = Matrix4x4::Rotation4x4(transform->GetQuaternion());
+                        // data.TransformMatrix = transform->TransformMatrix;
+
+                        frame.TransformGizmos.push_back(data);
+                    }
+                }
             }
         }
 
@@ -229,7 +245,7 @@ namespace MeowEngine::Rendering {
         sceneData.BoxColliders.clear();
         sceneData.SphereColliders.clear();
         sceneData.Lines.clear();
-        sceneData.TransformHandles.clear();
+        sceneData.TransformGizmos.clear();
 
         // clear ui data
         uiData.RootEntities.clear();

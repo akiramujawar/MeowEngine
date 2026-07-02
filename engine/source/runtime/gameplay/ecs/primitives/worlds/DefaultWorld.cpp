@@ -11,7 +11,7 @@
 #include <InfoComponent.hpp>
 #include <HierarchyComponent.hpp>
 
-#include <transform_handle_component.hpp>
+#include <TransformGizmoComponent.hpp>
 #include <Transform3DComponent.hpp>
 #include <CameraComponent.hpp>
 #include <GridComponent.hpp>

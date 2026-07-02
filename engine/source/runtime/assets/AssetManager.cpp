@@ -14,6 +14,7 @@
 #include "ShaderSerialization.hpp"
 #include "TextureSerializer.hpp"
 #include "MeshSerializer.hpp"
+#include "TransformGizmoAsset.hpp"
 
 namespace MeowEngine::Asset {
     AssetManager::AssetManager() {
@@ -53,6 +54,9 @@ namespace MeowEngine::Asset {
                     break;
             }
         }
+
+        // create session assets
+        Session.TransformGizmoHandle = CreateTempAsset<TransformGizmoAsset>();
     }
 
     void AssetManager::SaveDatabase() {}

@@ -9,10 +9,12 @@
 
 #include <ShaderRenderHandle.hpp>
 #include <MeshRenderHandle.hpp>
+#include "GizmoRenderHandle.hpp"
 #include <TextureRenderHandle.hpp>
 
 #include <GLShaderResource.hpp>
 #include <GLMeshResource.hpp>
+#include "GLGizmoResource.hpp"
 #include <GLTextureResource.hpp>
 #include "GLThumbnail.hpp"
 
@@ -33,12 +35,14 @@ namespace MeowEngine::Rendering {
 
         GLShaderResource& GetShaderResource(ShaderRenderHandle asset);
         GLMeshResource& GetMeshResource(MeshRenderHandle asset);
+        GLGizmoResource& GetGizmoResource(GizmoRenderHandle asset);
         GLTextureResource& GetTextureResource(TextureRenderHandle asset);
         OpenGLThumbnail& GetThumbnailResource(TextureRenderHandle asset);
 
     private:
         std::unordered_map<ShaderRenderHandle, GLShaderResource> ShaderResources;
         std::unordered_map<MeshRenderHandle, GLMeshResource> MeshResources;
+        std::unordered_map<GizmoRenderHandle, GLGizmoResource> GizmoResources;
         std::unordered_map<TextureRenderHandle, GLTextureResource> TextureResources;
         std::unordered_map<TextureRenderHandle, OpenGLThumbnail> ThumbnailResources;
     };

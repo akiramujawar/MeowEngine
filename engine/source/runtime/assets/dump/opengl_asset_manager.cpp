@@ -10,7 +10,7 @@
 #include "GLGridPipeline.hpp"
 #include <GLSkyboxPipeline.hpp>
 #include "opengl_collider_pipeline.hpp"
-#include "opengl_transform_handle_pipeline.hpp"
+#include "GLTransformGizmoPipeline.hpp"
 
 #include "magic_enum.hpp"
 
@@ -121,8 +121,8 @@ namespace {
                 return new MeowEngine::Rendering::GLSkyboxPipeline();
             case ShaderPipelineType::PHYSICS_COLLIDER:
                 return new MeowEngine::OpenGLColliderPipeline(shaderProgramID);
-            case ShaderPipelineType::TRANSFORM_HANDLE:
-                return new OpenGLTransformHandlePipeline(shaderProgramID);
+            // case ShaderPipelineType::TRANSFORM_HANDLE:
+            //     return new GLTransformGizmoPipeline(shaderProgramID);
             default:
                 return {};
         }
@@ -214,7 +214,7 @@ T* OpenGLAssetManager::GetShaderPipeline(const MeowEngine::assets::ShaderPipelin
 template OpenGLLinePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLLinePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 // template OpenGLGridPipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLGridPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template MeowEngine::Rendering::GLSkyboxPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::Rendering::GLSkyboxPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
-template OpenGLTransformHandlePipeline* OpenGLAssetManager::GetShaderPipeline<OpenGLTransformHandlePipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
+// template GLTransformGizmoPipeline* OpenGLAssetManager::GetShaderPipeline<GLTransformGizmoPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 template MeowEngine::OpenGLColliderPipeline* OpenGLAssetManager::GetShaderPipeline<MeowEngine::OpenGLColliderPipeline>(const MeowEngine::assets::ShaderPipelineType& shaderPipeline);
 
 
