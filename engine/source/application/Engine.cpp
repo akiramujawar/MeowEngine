@@ -142,6 +142,7 @@ namespace MeowEngine {
             AssetManager,
             ConfigManager,
             Runtime.GetWorldManager(),
+            EventBus,
             CommandQueue,
             RequestQueue,
             Editor
@@ -209,6 +210,7 @@ namespace MeowEngine {
 
         // -- messaging executes at last on main thread but before swap
         // NOTE: internally any swaps schedule should wait until messaging is processed
+        EventBus.Schedule(Scheduler);
         CommandQueue.Schedule(Scheduler);
         RequestQueue.Schedule(Scheduler);
 

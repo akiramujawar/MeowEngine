@@ -21,6 +21,7 @@ namespace MeowEngine {
     }
 
     namespace Messaging {
+        class EventBus;
         class CommandQueue;
         class RequestQueue;
     }
@@ -38,6 +39,7 @@ namespace MeowEngine {
         Runtime::ConfigManager& ConfigManager;
         Runtime::WorldManager& WorldManager;
 
+        Messaging::EventBus& EventBus;
         Messaging::CommandQueue& CommandQueue;
         Messaging::RequestQueue& RequestQueue;
 

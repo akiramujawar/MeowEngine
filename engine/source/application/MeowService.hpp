@@ -31,6 +31,7 @@ namespace MeowEngine {
                 me.AssetManager,
                 me.ConfigManager,
                 me.WorldManager,
+                me.EventBus,
                 me.CommandQueue,
                 me.RequestQueue,
                 me.Editor
@@ -47,6 +48,7 @@ namespace MeowEngine {
         Runtime::ConfigManager& ConfigManager;
         Runtime::WorldManager& WorldManager;
 
+        Messaging::EventBus& EventBus;
         Messaging::CommandQueue& CommandQueue;
         Messaging::RequestQueue& RequestQueue;
 
