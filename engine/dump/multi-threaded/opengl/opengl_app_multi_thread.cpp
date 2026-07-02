@@ -155,32 +155,32 @@ namespace MeowEngine {
                 case SDL_USEREVENT: {
                     auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
                     switch (userEvent) {
-                        case UserDeviceInputType::VIEW_PORT_RESIZE: {
-                            MeowEngine::Log("Main Thread", "Rescaled Window");
-
-                            const Vector2Int size = *(Vector2Int *) event.user.data1;
-                            Scene->OnWindowResized(size);
-
-                            break;
-                        }
-                        case UserDeviceInputType::WORLD_VIEW_FOCUS: {
-                            InputManager->IsActive = *(bool *) event.user.data1;
-                            break;
-                        }
-                            // case UserDeviceInputType::IMPORT_FILE: {
-                            //     std::vector<std::string> selectedFiles;
-                            //     RenderThread->ShowImportPopup(selectedFiles);
-                            //
-                            //     for (auto& importFilePath : selectedFiles) {
-                            //         std::string saveToDirectoryPath = *static_cast<std::string*>(event.user.data1);
-                            //         Editor::AssetImporter::Import(importFilePath, saveToDirectoryPath);
-                            //     }
-                            //
-                            //     break;
-                            // }
-                        case UserDeviceInputType::SAVE_PROJECT: {
-                            Scene->Save();
-                        }
+                        // case UserDeviceInputType::VIEW_PORT_RESIZE: {
+                        //     MeowEngine::Log("Main Thread", "Rescaled Window");
+                        //
+                        //     const Vector2Int size = *(Vector2Int *) event.user.data1;
+                        //     Scene->OnWindowResized(size);
+                        //
+                        //     break;
+                        // }
+                        // case UserDeviceInputType::WORLD_VIEW_FOCUS: {
+                        //     InputManager->IsActive = *(bool *) event.user.data1;
+                        //     break;
+                        // }
+                        //     // case UserDeviceInputType::IMPORT_FILE: {
+                        //     //     std::vector<std::string> selectedFiles;
+                        //     //     RenderThread->ShowImportPopup(selectedFiles);
+                        //     //
+                        //     //     for (auto& importFilePath : selectedFiles) {
+                        //     //         std::string saveToDirectoryPath = *static_cast<std::string*>(event.user.data1);
+                        //     //         Editor::AssetImporter::Import(importFilePath, saveToDirectoryPath);
+                        //     //     }
+                        //     //
+                        //     //     break;
+                        //     // }
+                        // case UserDeviceInputType::SAVE_PROJECT: {
+                        //     Scene->Save();
+                        // }
 
                         default: ;
                     }

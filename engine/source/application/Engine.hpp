@@ -62,6 +62,11 @@ namespace MeowEngine {
         void Init();
 
         /**
+         * Set all systems to subscribe
+         */
+        void SubscribeToEvents();
+
+        /**
          * Convert all shaders into assets
          */
         void Build();

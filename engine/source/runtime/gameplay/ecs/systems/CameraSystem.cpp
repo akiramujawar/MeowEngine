@@ -18,7 +18,7 @@ namespace MeowEngine::Runtime {
         camera.UpdateMatrix();
 
         auto& inputManager =  MeowService().InputManager;
-        if (inputManager.IsActive) {
+        if (inputManager.GetIsEnabled()) {
             // mouse move
             if (inputManager.MouseState) {
                 auto eulerAngles = camera.GetEuler();

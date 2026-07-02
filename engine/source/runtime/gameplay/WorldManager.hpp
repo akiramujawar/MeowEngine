@@ -27,6 +27,7 @@ namespace MeowEngine::Runtime {
         ~WorldManager();
 
         void Init(GameplaySystem* gameplay);
+        void SubscribeToEvents();
 
     public:
         /**

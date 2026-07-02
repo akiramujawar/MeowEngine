@@ -14,7 +14,10 @@
 #include <RendererInitData.hpp>
 #include <UserDeviceInputType.hpp>
 
+#include "MeowService.hpp"
+#include "EventBus.hpp"
 #include "RenderContext.hpp"
+#include "EventContainer.hpp"
 
 namespace MeowEngine::Rendering {
     UIRenderer::UIRenderer() {
@@ -31,6 +34,20 @@ namespace MeowEngine::Rendering {
 
         RuntimeBuilder.Init();
         EditorBuilder.Init(*context.Gameplay);
+    }
+
+    void UIRenderer::SubscribeToEvents() {
+        MeowService().EventBus.Subscribe<Messaging::SaveProjectEvent>(
+           [&](const Messaging::SaveProjectEvent& event) {
+               Backend->SaveLayout();
+           }
+       );
+
+        MeowService().EventBus.Subscribe<Messaging::OpenFrameProfiler>(
+          [&](const Messaging::OpenFrameProfiler& event) {
+              EditorBuilder.OpenProfiler();
+          }
+      );
     }
 
     void UIRenderer::Schedule(Threading::Scheduler& scheduler, RenderContext& renderContext) {
@@ -92,34 +109,6 @@ namespace MeowEngine::Rendering {
 
         for (const auto& event : events) {
             Backend->ProcessInputEvent(event);
-
-            // custom user platform
-#ifdef _WIN32
-            if (event.type == SDL_SYSWMEVENT) {
-                if (event.syswm.msg->msg.win.msg == WM_COMMAND) {
-                    switch (LOWORD(event.syswm.msg->msg.win.wParam)) {
-                        case 1:
-                            std::cout << "Option 1 selected" << std::endl;
-                            break;
-                    }
-                }
-            }
-#endif
-
-#ifdef __APPLE__
-            if (event.type == SDL_USEREVENT) {
-                auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
-                switch (userEvent) {
-                    case UserDeviceInputType::OPEN_TRACY:
-                        EditorBuilder.OpenProfiler();
-                        break;
-                    case UserDeviceInputType::SAVE_PROJECT: {
-                        // Scene->Save();
-                        Backend->SaveLayout();
-                    }
-                }
-            }
-#endif
         }
     }
 }

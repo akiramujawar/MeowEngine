@@ -118,16 +118,16 @@ namespace MeowEngine {
             switch (event.type) {
                 case SDL_USEREVENT:
                     auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
-                    switch (userEvent) {
-                        case UserDeviceInputType::VIEW_PORT_RESIZE: {
-                            const Vector2Int size = *(Vector2Int *) event.user.data1;
-
-                            glViewport(0, 0, size.Width, size.Height);
-                            FrameBuffer->RescaleFrameBuffer(size.Width, size.Height);
-                            MeowEngine::Log("Render Thread", "Rescaled");
-                            break;
-                        }
-                    }
+                    // switch (userEvent) {
+                    //     case UserDeviceInputType::VIEW_PORT_RESIZE: {
+                    //         const Vector2Int size = *(Vector2Int *) event.user.data1;
+                    //
+                    //         glViewport(0, 0, size.Width, size.Height);
+                    //         FrameBuffer->RescaleFrameBuffer(size.Width, size.Height);
+                    //         MeowEngine::Log("Render Thread", "Rescaled");
+                    //         break;
+                    //     }
+                    // }
             }
         }
     }

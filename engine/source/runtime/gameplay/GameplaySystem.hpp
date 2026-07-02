@@ -26,6 +26,8 @@ namespace MeowEngine::Runtime {
         GameplaySystem();
         ~GameplaySystem();
 
+        void SubscribeToEvents();
+
         void SetWorld(Asset::World* world);
 
         Asset::World& GetWorld();

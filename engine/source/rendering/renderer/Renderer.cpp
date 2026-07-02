@@ -28,6 +28,10 @@ namespace MeowEngine::Rendering {
         Context.Extractor = context.RenderExtractor;
     }
 
+    void Renderer::SubscribeToEvents() {
+        UI.SubscribeToEvents();
+    }
+
     void Renderer::Schedule(Threading::Scheduler& scheduler) {
         // Context.SceneData = &extractor.GetRenderSceneData().GetFinal();
         // Context.UIData = &extractor.GetRenderUIData().GetFinal();

@@ -10,15 +10,16 @@
 
 #include <InputEvents.hpp>
 #include <InputManager.hpp>
+#include "InputDeviceInit.hpp"
 
 namespace MeowEngine::Input {
-
-
     class InputDevice {
     public:
         InputDevice();
         ~InputDevice() = default;
 
+        void Init(const InputDeviceInitData& context);
+        void SubscribeToEvents();
         void Schedule(Threading::Scheduler& scheduler);
 
         InputManager& GetInputManager() { return InputManager; };

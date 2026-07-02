@@ -7,13 +7,34 @@
 
 #include <InputEvents.hpp>
 
+namespace MeowEngine::Messaging {
+    class EventBus;
+}
+
 namespace MeowEngine::Input {
     class InputManager {
+        friend class InputDevice;
+
     public:
         InputManager(KeyboardState state);
 
+        void Init(KeyboardState state, Messaging::EventBus& eventBus);
         void ProcessDeviceInput(const InputEvents& events);
 
+        [[nodiscard]] bool GetIsEnabled() const { return IsActive; }
+
+    private:
+        void SetEnableInput(bool bIsEnable);
+
+    public:
+        int MouseDeltaX;
+        int MouseDeltaY;
+        bool isMouseDown;
+
+        MouseState MouseState;
+        KeyboardState KeyState;
+
+    private:
         /**
          * Should input manager be processed?
          * Yes, only if world view is focused on editor builds
@@ -21,12 +42,7 @@ namespace MeowEngine::Input {
          */
         bool IsActive;
 
-        int MouseDeltaX;
-        int MouseDeltaY;
-        bool isMouseDown;
-
-        MouseState MouseState;
-        KeyboardState KeyState;
+        Messaging::EventBus* EventBus;
     };
 }
 

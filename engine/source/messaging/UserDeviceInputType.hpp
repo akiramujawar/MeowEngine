@@ -10,8 +10,8 @@
 namespace MeowEngine {
     enum class UserDeviceInputType : int32_t {
         OPEN_TRACY = 1,
-        VIEW_PORT_RESIZE = 2,
-        WORLD_VIEW_FOCUS = 3,
+        // VIEW_PORT_RESIZE = 2,
+        // WORLD_VIEW_FOCUS = 3,
         SAVE_PROJECT = 5
     };
 }

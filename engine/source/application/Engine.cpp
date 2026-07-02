@@ -14,12 +14,14 @@
 #include <RenderCommand.hpp>
 
 #include <MeowServiceInitData.hpp>
+#include "InputDeviceInit.hpp"
 #include <RendererInitData.hpp>
 #include <RenderExtractorInitData.hpp>
 #include "AssetManagerInitData.hpp"
 #include "RuntimeInitData.hpp"
 #include <EditorInitData.hpp>
 #include <MessageInitData.hpp>
+#include "EventContainer.hpp"
 
 #include "SaveProjectCommand.hpp"
 
@@ -66,6 +68,7 @@ namespace MeowEngine {
         ConfigManager.Setup();
 
         Init();
+        SubscribeToEvents();
         Build();
         Load();
 
@@ -87,6 +90,12 @@ namespace MeowEngine {
         PT_PROFILE_SCOPE;
 
         Rendering::RenderCommand::Init(Rendering::GraphicsType::OPENGL);
+
+        Input::InputDeviceInitData inputDeviceInit{
+            EventBus
+        };
+
+        InputDevice.Init(inputDeviceInit);
 
         Asset::AssetManagerInitData assetManagerInit{};
         AssetManager.Init(assetManagerInit);
@@ -149,6 +158,19 @@ namespace MeowEngine {
         };
 
         MeowService::Init(meowServiceInit);
+    }
+
+    void Engine::SubscribeToEvents() {
+        MeowService().EventBus.Subscribe<Messaging::SceneViewportResizeEvent>(
+           [&](const Messaging::SceneViewportResizeEvent& event) {
+               // Runtime.GetGameplay().SetViewport(size.Width, size.Height);
+               Rendering::RenderCommand::SetViewportSize(event.Width, event.Height);
+           }
+       );
+
+        InputDevice.SubscribeToEvents();
+        Runtime.SubscribeToEvents();
+        Renderer.SubscribeToEvents();
     }
 
     void Engine::Build() {
@@ -250,29 +272,29 @@ namespace MeowEngine {
                     }
                     break;
 
-                case SDL_USEREVENT:
+                // case SDL_USEREVENT:
                     // TODO: use event system here
-                    auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
-                    switch (userEvent) {
-                        case UserDeviceInputType::VIEW_PORT_RESIZE: {
-                            // MeowEngine::Log("Main Thread", "Rescaled Window");
+                    // auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
+                    // switch (userEvent) {
+                        // case UserDeviceInputType::VIEW_PORT_RESIZE: {
+                        //     // MeowEngine::Log("Main Thread", "Rescaled Window");
+                        //
+                        //     const Vector2Int size = *(Vector2Int *) event.user.data1;
+                        //     // Scene->OnWindowResized(size);
+                        //     Runtime.GetGameplay().SetViewport(size.Width, size.Height);
+                        //     Rendering::RenderCommand::SetViewportSize(size.Width, size.Height);
+                        //     break;
+                        // }
+                        // case UserDeviceInputType::SAVE_PROJECT: {
+                        //     CommandQueue.Push(
+                        //         Messaging::ThreadType::MAIN,
+                        //         std::make_unique<Messaging::SaveProjectCommand>()
+                        //     );
+                        //     // Scene->Save();
+                        // }
 
-                            const Vector2Int size = *(Vector2Int *) event.user.data1;
-                            // Scene->OnWindowResized(size);
-                            Runtime.GetGameplay().SetViewport(size.Width, size.Height);
-                            Rendering::RenderCommand::SetViewportSize(size.Width, size.Height);
-                            break;
-                        }
-                        case UserDeviceInputType::SAVE_PROJECT: {
-                            CommandQueue.Push(
-                                Messaging::ThreadType::MAIN,
-                                std::make_unique<Messaging::SaveProjectCommand>()
-                            );
-                            // Scene->Save();
-                        }
-
-                        default: ;
-                    }
+                    //     default: ;
+                    // }
 
             }
         }

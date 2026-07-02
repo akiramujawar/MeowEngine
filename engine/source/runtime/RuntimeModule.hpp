@@ -21,6 +21,7 @@ namespace MeowEngine::Runtime {
         ~RuntimeModule();
 
         void Init(RuntimeInitData& context);
+        void SubscribeToEvents();
         void Load();
         void Schedule(Threading::Scheduler& scheduler);
 

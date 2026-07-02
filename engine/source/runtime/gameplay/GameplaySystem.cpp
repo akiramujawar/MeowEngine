@@ -5,8 +5,11 @@
 #include <GameplaySystem.hpp>
 #include <log.hpp>
 
+#include "MeowService.hpp"
+#include "EventBus.hpp"
 #include "CameraSystem.hpp"
 #include "CameraComponent.hpp"
+#include "EventContainer.hpp"
 
 namespace MeowEngine::Runtime {
     GameplaySystem::GameplaySystem() {
@@ -17,6 +20,16 @@ namespace MeowEngine::Runtime {
 
     GameplaySystem::~GameplaySystem() {
         MeowEngine::Log("GameplaySystem", "Destructed");
+    }
+
+    void GameplaySystem::SubscribeToEvents() {
+        MeowService().EventBus.Subscribe<Messaging::SceneViewportResizeEvent>(
+          [&](const Messaging::SceneViewportResizeEvent& event) {
+              SetViewport(event.Width, event.Height);
+              // Runtime.GetGameplay().SetViewport(size.Width, size.Height);
+              // Rendering::RenderCommand::SetViewportSize(event.Width, event.Height);
+          }
+      );
     }
 
     void GameplaySystem::SetWorld(Asset::World* world) {

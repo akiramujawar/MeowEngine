@@ -23,6 +23,11 @@ namespace MeowEngine::Runtime {
         WorldManager.Init(&Gameplay);
     }
 
+    void RuntimeModule::SubscribeToEvents() {
+        WorldManager.SubscribeToEvents();
+        Gameplay.SubscribeToEvents();
+    }
+
     void RuntimeModule::Load() {
         auto guid = MeowService().ConfigManager.SandboxConfig.LaunchWorldGuid;
         auto worldHandle = Asset::AssetHandle::Create(guid);

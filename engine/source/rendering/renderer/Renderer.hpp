@@ -28,6 +28,7 @@ namespace MeowEngine::Rendering {
         ~Renderer();
 
         void Init(RendererInitData& context);
+        void SubscribeToEvents();
         void Schedule(Threading::Scheduler& scheduler);
         void Shutdown();
 

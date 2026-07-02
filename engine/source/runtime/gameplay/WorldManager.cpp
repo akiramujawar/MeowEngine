@@ -14,10 +14,12 @@
 #include "World.hpp"
 #include "DefaultWorld.hpp"
 #include "AssetHandleWorld.hpp"
+#include "EventBus.hpp"
 #include "HierarchyWorld.hpp"
 #include "ReflectionWorld.hpp"
-#include "LoadWorldCommand.hpp"
 
+#include "EventContainer.hpp"
+#include "LoadWorldCommand.hpp"
 #include "SaveTempWorldRequest.hpp"
 
 namespace MeowEngine::Runtime {
@@ -30,6 +32,14 @@ namespace MeowEngine::Runtime {
 
     void WorldManager::Init(GameplaySystem* gameplay) {
         Gameplay = gameplay;
+    }
+
+    void WorldManager::SubscribeToEvents() {
+        MeowService().EventBus.Subscribe<Messaging::SaveProjectEvent>(
+            [&](const Messaging::SaveProjectEvent& event) {
+                Save();
+            }
+        );
     }
 
     void WorldManager::Load(const Asset::AssetHandle& handle, bool isResetCamera) {

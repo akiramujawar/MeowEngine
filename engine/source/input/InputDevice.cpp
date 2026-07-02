@@ -5,6 +5,9 @@
 #include <InputDevice.hpp>
 #include <log.hpp>
 #include <Public/Threading/Include.hpp>
+#include "MeowService.hpp"
+#include "EventBus.hpp"
+#include "EventContainer.hpp"
 
 namespace MeowEngine::Input {
 
@@ -12,6 +15,18 @@ namespace MeowEngine::Input {
         : KeyState(SDL_GetKeyboardState(nullptr))
         , InputManager(KeyState)
     {}
+
+    void InputDevice::Init(const InputDeviceInitData& context) {
+        InputManager.Init(KeyState, context.EventBus);
+    }
+
+    void InputDevice::SubscribeToEvents() {
+        MeowService().EventBus.Subscribe<Messaging::SceneFocusEvent>(
+           [&](const Messaging::SceneFocusEvent& event) {
+               InputManager.SetEnableInput(event.IsFocus);
+           }
+       );
+    }
 
     void InputDevice::Schedule(Threading::Scheduler& scheduler) {
         scheduler.AddTask(

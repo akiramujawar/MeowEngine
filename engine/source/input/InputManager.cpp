@@ -5,6 +5,9 @@
 #include <InputManager.hpp>
 #include <UserDeviceInputType.hpp>
 
+#include "EventBus.hpp"
+#include "EventContainer.hpp"
+
 namespace MeowEngine::Input {
     InputManager::InputManager(KeyboardState state)
         : IsActive(false)
@@ -12,8 +15,13 @@ namespace MeowEngine::Input {
         , MouseDeltaX(0)
         , MouseDeltaY(0)
         , isMouseDown(false)
-        , KeyState(state)
+        // , KeyState(state)
     {}
+
+    void InputManager::Init(KeyboardState state, Messaging::EventBus& eventBus) {
+        KeyState = state;
+        EventBus = &eventBus;
+    }
 
     void InputManager::ProcessDeviceInput(const InputEvents& events) {
         // Reset
@@ -33,11 +41,20 @@ namespace MeowEngine::Input {
                 case SDL_USEREVENT: {
                     auto userEvent = static_cast<UserDeviceInputType>(event.user.code);
                     switch (userEvent) {
-                        case UserDeviceInputType::WORLD_VIEW_FOCUS: {
-                            IsActive = *static_cast<bool*>(event.user.data1);
+                        // case UserDeviceInputType::WORLD_VIEW_FOCUS: {
+                        //     IsActive = *static_cast<bool*>(event.user.data1);
+                        //     break;
+                        // }
+
+                        case UserDeviceInputType::OPEN_TRACY: {
+                            EventBus->Enqueue(Messaging::OpenFrameProfiler{});
                             break;
                         }
 
+                        case UserDeviceInputType::SAVE_PROJECT: {
+                            EventBus->Enqueue(Messaging::SaveProjectEvent{});
+                            break;
+                        }
                         default:
                             break;
                     }
@@ -51,4 +68,7 @@ namespace MeowEngine::Input {
         }
     }
 
+    void InputManager::SetEnableInput(bool bIsEnable) {
+        IsActive = bIsEnable;
+    }
 }
