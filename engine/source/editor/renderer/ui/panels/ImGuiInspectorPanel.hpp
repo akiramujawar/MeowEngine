@@ -15,6 +15,7 @@
 
 namespace MeowEngine::Rendering {
     struct RenderContext;
+    class RenderEntityComponent;
 }
 
 namespace MeowEngine::Editor {
@@ -27,6 +28,7 @@ namespace MeowEngine::Editor {
 
     private:
         void ShowAddComponentPopup(const Rendering::RenderContext& renderContext);
+        void ShowComponentEditMenuPopup(const Rendering::RenderContext& renderContext, int pushID, const Rendering::RenderEntityComponent& component);
         void ShowComponents(const Rendering::RenderContext& renderContext);
     private:
         bool CanDrawPanel;

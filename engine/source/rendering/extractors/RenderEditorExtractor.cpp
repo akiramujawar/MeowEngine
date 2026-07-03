@@ -24,6 +24,8 @@
 
 #include "CameraComponent.hpp"
 #include "GridComponent.hpp"
+#include "MeowService.hpp"
+#include "Timing.hpp"
 #include "TransformGizmoComponent.hpp"
 
 namespace MeowEngine::Rendering {
@@ -41,18 +43,19 @@ namespace MeowEngine::Rendering {
         const auto& camera = Gameplay->GetCamera();
 
         // selected transform handles
-        auto transformGizmo = ecs.try_get<Runtime::TransformGizmoComponent>(world.Grid.GetEntity());
-        if (transformGizmo != nullptr) {
-            auto hasGizmoShader = AssetManager->HasAssetInDatabase(transformGizmo->GetShaderAssetHandle());
+        if (world.HasGlobalComponent<Runtime::TransformGizmoComponent>()) {
+            auto& gizmo = world.GetGlobalComponent<Runtime::TransformGizmoComponent>();
+            auto hasGizmoShader = AssetManager->HasAssetInDatabase(gizmo.GetShaderAssetHandle());
+
             if (hasGizmoShader) {
-                AssetManager->GetAssetOrLoad<Asset::ShaderAsset>(transformGizmo->GetShaderAssetHandle());
+                AssetManager->GetAssetOrLoad<Asset::ShaderAsset>(gizmo.GetShaderAssetHandle());
 
                 for (auto &&handle : Selector->SelectedEntities) {
                     auto transform = ecs.try_get<Runtime::Transform3DComponent>(handle.GetEntity());
 
                     if (transform != nullptr) {
                         Rendering::TransformGizmoDrawData data {};
-                        data.Shader = ShaderRenderHandle(transformGizmo->GetShaderAssetHandle());
+                        data.Shader = ShaderRenderHandle(gizmo.GetShaderAssetHandle());
                         data.Gizmo = GizmoRenderHandle(AssetManager->GetSession().TransformGizmoHandle);
 
                         data.ViewMatrix = camera.GetView();
@@ -60,7 +63,6 @@ namespace MeowEngine::Rendering {
                         data.CameraPosition = camera.GetPosition();
                         data.SelfPosition = transform->GetPosition();
                         data.RotationMatrix = Matrix4x4::Rotation4x4(transform->GetQuaternion());
-                        // data.TransformMatrix = transform->TransformMatrix;
 
                         frame.TransformGizmos.push_back(data);
                     }
@@ -140,6 +142,8 @@ namespace MeowEngine::Rendering {
     }
 
     void RenderEditorExtractor::ExtractUI(RenderUIData& frame) {
+        frame.CurrentFPS = MeowService().Timing.GetFrameRate();
+
         auto& world = Gameplay->GetWorld();
         auto& ecs = world.GetRegistry();
 

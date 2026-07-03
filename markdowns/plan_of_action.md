@@ -15,15 +15,17 @@
 - [x] Create Unique ID generator for items
 - [x] Hierarchy for entities
 - [x] Reworking asset loading pipeline
-- [ ] Ability to read/write on file for saving import references (instead of hard-coded enums)
+- [x] Ability to read/write on file for saving import references (instead of hard-coded enums)
 - [x] Creating support for multi-scene compilation
 - [x] Improving current shader pipeline to handle shaders dynamically
 - [ ] Render loading pipeline (shaders, textures, meshes)
 - [x] Reworking camera system to use quaternion
-- [ ] Messaging systems (command, request & event)
+- [x] Messaging systems (command, request & event)
 - [x] Config load & bootstrap for editor load
 - [x] Refactor cmake to have engine & standalone lib
 - [x] Find a way to isolate and build code while developing simulations
+- [x] Dynamic shader rebuild
+- [x] Play & Pause & Stop
 
 ## Meow Engine v0.6
 - [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
@@ -33,15 +35,14 @@
 - [ ] Add Unit Testing
 - [ ] Asset Directory needs to updated after actions (create/delete/move/rename)
 - [ ] Asset Database needs to be updated after actions (create/delete/move/rename)
-- [ ] Dynamic shader rebuild
-- [ ] Play & Pause & Stop
 - [ ] Documenting done items and different approaches and used libraries
 
 ## Meow Engine v0.7
+- [ ] Hierarchy and transforms + ui drag n drop for hierarchy
 - [ ] Runtime handles -> to store different viewports / frame buffers
 - [ ] Reworking engine to utilise new mathematical library
 - [ ] Decoupling SDL events with the help of messaging system
-- [ ] Selecting objects in scene renderer (world)
+- [ ] Selecting objects in scene renderer (world) using GPU & guid
 - [x] Compilation of physx for web
 - [x] Single thread app builds for web
 - [ ] Populating arrays / lists etc... in WorldInspectorPanel

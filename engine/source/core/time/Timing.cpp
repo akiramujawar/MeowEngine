@@ -65,6 +65,11 @@ namespace MeowEngine::Core {
             const auto frameRate = static_cast<float>(FrameCountPerUpdateInterval) / FrameTimeAccumulator;
             FrameRate = static_cast<int>(frameRate);
 
+            // limit the frame to avoid arbitrary number at start
+            if (FrameRate < 0 || FrameRate > 10000) {
+                FrameRate = 0;
+            }
+
             FrameTimeAccumulator -= FrameRateUpdateInterval;
             FrameCountPerUpdateInterval = 0;
         }

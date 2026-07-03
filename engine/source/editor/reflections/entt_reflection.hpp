@@ -28,6 +28,7 @@ namespace MeowEngine {
      *
      */
     using GetOrAddComponentCallback = std::function<void*(Asset::World&, const Runtime::EntityHandle&)>;
+    using AddComponentCallback = std::function<void(Asset::World&, const Runtime::EntityHandle&)>;
 
     class EnttReflection {
 
@@ -62,6 +63,7 @@ namespace MeowEngine {
             }
 
             GetOrAddComponentCallbackMap.try_emplace(inComponent.ClassName, &Asset::World::GetOrAddComponentToWorld<Type>);
+            RemoveComponentCallbackMap.try_emplace(inComponent.ClassName, &Asset::World::RemoveComponent<Type>);
         }
 
         /**
@@ -118,6 +120,15 @@ namespace MeowEngine {
             return nullptr;
         }
 
+        AddComponentCallback GetRemoveComponentCallback(const std::string& componentName) {
+            auto iterator = RemoveComponentCallbackMap.find(componentName);
+            if (iterator != RemoveComponentCallbackMap.end()) {
+                return iterator->second;
+            }
+
+            return nullptr;
+        }
+
     private:
         /**
          * component and methods to perform actions on component (like fresh construction)
@@ -127,9 +138,11 @@ namespace MeowEngine {
         std::vector<std::string> RuntimeComponentNames;
 
         /**
-         *
+         * Merge this RuntimeComponentMap
          */
         std::unordered_map<std::string, GetOrAddComponentCallback> GetOrAddComponentCallbackMap;
+        std::unordered_map<std::string, AddComponentCallback> RemoveComponentCallbackMap;
+
 
         /**
          * class name, reflected property list

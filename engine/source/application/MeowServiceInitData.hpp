@@ -30,10 +30,15 @@ namespace MeowEngine {
         class EditorModule;
     }
 
+    namespace Core {
+        class Timing;
+    }
+
 }
 
 namespace MeowEngine {
     struct MeowServiceInitData {
+        Core::Timing& Timing;
         Input::InputManager& InputManager;
         Asset::AssetManager& AssetManager;
         Runtime::ConfigManager& ConfigManager;

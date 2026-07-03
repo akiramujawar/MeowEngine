@@ -14,6 +14,8 @@
 #include <GameplaySystem.hpp>
 #include <CommandQueue.hpp>
 #include <SelectEntityCommand.hpp>
+#include "AddEntityCommand.hpp"
+#include "RemoveEntityCommand.hpp"
 
 
 namespace MeowEngine::Editor {
@@ -32,11 +34,29 @@ namespace MeowEngine::Editor {
         ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 
         ImGui::Begin("World Tree", &IsActive); {
+            AddEntityButton(renderContext);
+
+            ImGui::Spacing();
+
             for (auto it = renderContext.UIData->RootEntities.rbegin(); it != renderContext.UIData->RootEntities.rend(); ++it) {
                 DrawHierarchy(*it, renderContext);
             }
 
+            ShowEntityEditMenuPopup(renderContext);
+
             ImGui::End();
+        }
+    }
+
+    void ImGuiWorldTreePanel::AddEntityButton(Rendering::RenderContext& renderContext) {
+        float headerHeight = ImGui::GetTextLineHeightWithSpacing() * 1.2f;
+        const std::string& addEntityText = "Add Entity + ";
+        const ImVec2 createButtonSize(ImGui::CalcTextSize(addEntityText.c_str()).x, headerHeight);
+        if (ImGui::Button(addEntityText.c_str(), createButtonSize)) {
+            renderContext.CommandQueue->Push(
+                Messaging::ThreadType::MAIN,
+                std::make_unique<Messaging::AddEntityCommand>()
+            );
         }
     }
 
@@ -78,6 +98,10 @@ namespace MeowEngine::Editor {
             }
         }
 
+        if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+            ImGui::OpenPopup("ShowEntityEditMenuPopup");
+        }
+
         // we make sure the parent is expanded and actually has child
         if (isOpen && !hierarchy.Childs.empty()) {
             // expand the children
@@ -90,4 +114,20 @@ namespace MeowEngine::Editor {
         }
     }
 
+    void ImGuiWorldTreePanel::ShowEntityEditMenuPopup(Rendering::RenderContext& renderContext) {
+        if (ImGui::BeginPopup("ShowEntityEditMenuPopup")) {
+
+            // remove all selected entities
+            if(ImGui::MenuItem("Remove")) {
+                for (auto& handle : renderContext.UIData->SelectedEntities) {
+                    renderContext.CommandQueue->Push(
+                        Messaging::ThreadType::MAIN,
+                        std::make_unique<Messaging::RemoveEntityCommand>(handle)
+                    );
+                }
+            }
+
+            ImGui::EndPopup();
+        }
+    }
 }

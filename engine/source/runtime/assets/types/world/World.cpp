@@ -36,7 +36,7 @@ namespace MeowEngine::Asset {
         hierarchy.Self = identity.GetEntityHandle();
         info.SetName(String("New Entity"));
 
-        RuntimeEntityMap.try_emplace(guid, hierarchy.Self);
+        RuntimeEntityMap.try_emplace(guid, identity.GetEntityHandle());
 
         return identity.GetEntityHandle();
     }

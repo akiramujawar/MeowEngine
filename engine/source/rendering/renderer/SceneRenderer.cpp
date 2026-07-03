@@ -31,9 +31,6 @@ namespace MeowEngine::Rendering {
     }
 
     void SceneRenderer::Init(RendererInitData& context) {
-        RuntimeSceneBuilder.Init();
-        EditorSceneBuilder.Init();
-
         RenderGraph.Clear();
         RenderGraph.Add<SkyboxPass>();
         RenderGraph.Add<EditorOverlayPass>();

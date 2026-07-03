@@ -13,6 +13,8 @@
 #include "UserDeviceInputType.hpp"
 #include "RenderCommand.hpp"
 #include "EventContainer.hpp"
+#include "RenderContext.hpp"
+#include "RenderUIData.hpp"
 
 namespace MeowEngine::Editor {
 
@@ -28,75 +30,62 @@ namespace MeowEngine::Editor {
 
     void ImGuiWorldViewPanel::Init() {}
 
-    void ImGuiWorldViewPanel::Draw(const float& inFps) {
+    void ImGuiWorldViewPanel::Draw(Rendering::RenderContext& renderContext) {
 
         ImGui::Begin("World View", &IsActive, WindowFlags);
         {
+            // check for panel focus
             const bool isFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows) &&
                                    ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
             if (isFocused != IsFocused) {
                 IsFocused = isFocused;
 
                 MeowService().EventBus.Enqueue(Messaging::SceneFocusEvent{IsFocused});
-                // // TODO: use event system here
-                // SDL_Event event;
-                // SDL_zero(event);
-                // event.type = SDL_USEREVENT;
-                // event.user.code = static_cast<uint32_t>(UserDeviceInputType::WORLD_VIEW_FOCUS);
-                // event.user.data1 = &IsFocused;
-                //
-                // SDL_PushEvent(&event);
             }
+
+            ImVec2 viewportPos  = ImGui::GetCursorScreenPos();
+            ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
             ImGui::BeginChild("GameRender");
+            {
+                // TODO: use event system here
+                if ((uint32_t) viewportSize.x != SceneViewportSize.Width ||
+                    (uint32_t) viewportSize.y != SceneViewportSize.Height) {
 
-            const ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-            // TODO: use event system here
-            if ((uint32_t) viewportSize.x != SceneViewportSize.Width ||
-                (uint32_t) viewportSize.y != SceneViewportSize.Height) {
+                    MeowService().EventBus.Enqueue(Messaging::SceneViewportResizeEvent{
+                        viewportSize.x,
+                        viewportSize.y
+                    });
+                }
 
-                MeowService().EventBus.Enqueue(Messaging::SceneViewportResizeEvent{
-                    viewportSize.x,
-                    viewportSize.y
-                });
+                auto frameBufferID = Rendering::RenderCommand::GetSceneFrameBuffer().GetFrameTexture();
+                ImGui::Image(
+                    reinterpret_cast<ImTextureID>(frameBufferID) ,
+                    viewportSize,
+                    ImVec2(0, 1),
+                    ImVec2(1, 0)
+                );
 
-
-                // SceneViewportSize.Width = (uint32_t) viewportSize.x;
-                // SceneViewportSize.Height = (uint32_t) viewportSize.y;
-                //
-                // SDL_Event event;
-                // SDL_zero(event);
-                // event.type = SDL_USEREVENT;
-                // event.user.code = static_cast<uint32_t>(UserDeviceInputType::VIEW_PORT_RESIZE);
-                // event.user.data1 = &SceneViewportSize;
-                //
-                // SDL_PushEvent(&event);
+                ImGui::EndChild();
             }
 
-            auto frameBufferID = Rendering::RenderCommand::GetSceneFrameBuffer().GetFrameTexture();
-            ImGui::Image(
-                reinterpret_cast<ImTextureID>(frameBufferID) ,
-                ImGui::GetContentRegionAvail(),
-                ImVec2(0, 1),
-                ImVec2(1, 0)
-            );
+            ImGui::SetCursorScreenPos(viewportPos);
+            ImGui::BeginChild("SceneUI", viewportSize, false, ImGuiWindowFlags_NoBackground); {
+                float fontSize = 2;
+                float offset = 10;
+                auto fps = std::to_string(renderContext.UIData->CurrentFPS);
+                auto textSize =  ImGui::CalcTextSize(fps.c_str());
+                ImVec2 textPos = ImVec2(viewportSize.x - textSize.x * fontSize - offset , offset);
+                ImGui::SetCursorPos(textPos);
+                ImGui::SetWindowFontScale(fontSize);
+                ImGui::Text("%s", fps.c_str());
+                ImGui::SetWindowFontScale(1.0f);
 
-            int fontSize = 2;
-//        float smoothing = 0.99f; // larger=more smoothing
-            //float smoothing = std::pow(0.9, (int)(1 / inTime) * 60 / 1000);
-//        LastFPS = (LastFPS * smoothing) + ((int)(1 / inTime) * (1.0-smoothing));
+                ImGui::EndChild();
+            }
 
-            const char* fpsText = std::to_string((int) inFps).c_str();
-            float textWidth = ImGui::CalcTextSize(fpsText).x * fontSize; // Get the text width
-            ImVec2 textPos = ImVec2(SceneViewportSize.Width - textWidth - ImGui::GetStyle().WindowPadding.x,
-                                    ImGui::GetStyle().WindowPadding.y);
-            ImGui::SetCursorPos(textPos);
-            ImGui::SetWindowFontScale(fontSize);
-            ImGui::Text("%s", fpsText);
-            ImGui::SetWindowFontScale(1.0f);
+            ImGui::End();
         }
 
-        ImGui::EndChild();
-        ImGui::End();
     }
 }

@@ -16,6 +16,7 @@
 #include <CommandQueue.hpp>
 #include <ReflectionPropertyChangeCommand.hpp>
 #include "AddComponentCommand.hpp"
+#include "RemoveComponentCommand.hpp"
 
 namespace MeowEngine::Editor {
     ImGuiInspectorPanel::ImGuiInspectorPanel() {
@@ -52,6 +53,8 @@ namespace MeowEngine::Editor {
             if (ImGui::Button(addComponentText.c_str(), createButtonSize)) {
                 ImGui::OpenPopup("ShowCreateAssetPopupMenu");
             }
+
+            ImGui::Spacing();
         }
 
         // show popup menu for different types of items which can be created
@@ -71,9 +74,38 @@ namespace MeowEngine::Editor {
         }
     }
 
+    void ImGuiInspectorPanel::ShowComponentEditMenuPopup(const Rendering::RenderContext& renderContext, int pushID, const Rendering::RenderEntityComponent& component) {
+
+        auto popupNameId = "ShowComponentEditMenuPopup" + to_string(pushID);
+        if (ImGui::Button("=")) {
+            ImGui::OpenPopup(popupNameId.c_str());
+            MeowEngine::Log(popupNameId, "");
+        }
+
+
+        if (ImGui::BeginPopup(popupNameId.c_str())) {
+            if(ImGui::MenuItem("Remove")) {
+                renderContext.CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::RemoveComponentCommand>(renderContext.UIData->LastSelectedEntity, component.Name)
+                );
+            }
+
+            ImGui::EndPopup();
+        }
+    }
+
     void ImGuiInspectorPanel::ShowComponents(const Rendering::RenderContext& renderContext) {
         // if selected entity
+        int pushID = 0;
         for (const auto& data : renderContext.UIData->LastSelectedEntityComponents) {
+            auto previousPosition = ImGui::GetCursorScreenPos();
+            pushID++;
+            ImGui::PushID(pushID);
+
+            ShowComponentEditMenuPopup(renderContext, pushID, data);
+
+            ImGui::SameLine();
             if (ImGui::CollapsingHeader(data.Name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
                 ReflectionPropertyChange* change = ImGuiInputExtension::ShowProperty(
                     data.Name,
@@ -93,6 +125,8 @@ namespace MeowEngine::Editor {
 
                 ImGui::Spacing();
             }
+
+            ImGui::PopID();
         }
 
         // TODO: for this we need to track last selected item or type

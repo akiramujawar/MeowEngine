@@ -32,6 +32,8 @@ namespace MeowEngine::Rendering {
             LastSelectedEntity = Runtime::EntityHandle::Invalid();
         }
 
+        int CurrentFPS;
+
         /**
          * We track only the roots for tree panel and
          * then recursively expand the childs using @EntityHierarchyMap

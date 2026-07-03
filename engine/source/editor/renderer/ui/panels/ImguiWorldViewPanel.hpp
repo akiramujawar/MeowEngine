@@ -8,8 +8,9 @@
 #include "ImguiAPI.hpp"
 #include "Public/Math.hpp"
 
-namespace MeowEngine::Runtime {
-    class GameplaySystem;
+
+namespace MeowEngine::Rendering {
+    struct RenderContext;
 }
 
 namespace MeowEngine::Editor {
@@ -19,7 +20,7 @@ namespace MeowEngine::Editor {
         ~ImGuiWorldViewPanel();
 
         void Init();
-        void Draw(const float& inFps);
+        void Draw(Rendering::RenderContext& renderContext);
 
     private:
         bool IsActive;

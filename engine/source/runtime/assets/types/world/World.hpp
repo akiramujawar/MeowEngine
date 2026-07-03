@@ -46,6 +46,9 @@ namespace MeowEngine::Asset {
         [[nodiscard]] bool HasComponent(const Runtime::EntityHandle& handle) const;
 
         template<typename Type>
+        [[nodiscard]] bool HasGlobalComponent() const;
+
+        template<typename Type>
         Type& AddComponent(const Runtime::EntityHandle& handle);
 
         template<typename Type>
@@ -53,6 +56,9 @@ namespace MeowEngine::Asset {
 
         template<typename Type>
         Type& GetComponent(Runtime::EntityHandle handle);
+
+        template <typename Type>
+        Type& GetGlobalComponent();
 
         void ClearDirtyEntities();
         [[nodiscard]] const EntityHandleVector& GetDirtyEntities() const { return DirtyEntities; }
@@ -64,6 +70,7 @@ namespace MeowEngine::Asset {
     public:
         Runtime::EntityHandle ActiveCamera;
         Runtime::EntityHandle SkyBox;
+        // TODO: remove this handle
         Runtime::EntityHandle Grid;
 
     private:
@@ -75,6 +82,12 @@ namespace MeowEngine::Asset {
     template <typename Type>
     bool World::HasComponent(const Runtime::EntityHandle& handle) const {
         return Registry.any_of<Type>(handle.GetEntity());
+    }
+
+    template <typename Type>
+    bool World::HasGlobalComponent() const {
+        auto view = Registry.view<Type>();
+        return !view.empty();
     }
 
     template <typename Type>
@@ -107,6 +120,14 @@ namespace MeowEngine::Asset {
     template <typename Type>
     Type& World::GetComponent(Runtime::EntityHandle handle) {
         return Registry.get<Type>(handle.GetEntity());
+    }
+
+    template <typename Type>
+    Type& World::GetGlobalComponent() {
+        auto view = Registry.view<Type>();
+        auto entity = *view.begin();
+
+        return *Registry.try_get<Type>(entity);
     }
 
     template <typename Type>

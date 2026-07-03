@@ -7,9 +7,6 @@
 
 #include <RenderSceneGraph.hpp>
 
-#include <RuntimeSceneBuilder.hpp>
-#include <EditorSceneBuilder.hpp>
-
 #include <Public/Threading/Forward.hpp>
 
 namespace MeowEngine::Rendering {
@@ -30,9 +27,6 @@ namespace MeowEngine::Rendering {
 
     private:
         RenderSceneGraph RenderGraph;
-
-        Runtime::RuntimeSceneBuilder RuntimeSceneBuilder;
-        Editor::EditorSceneBuilder EditorSceneBuilder;
     };
 }
 
