@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 23/06/24.
 //
 
-#include "mesh_render_component.hpp"
+#include "MeshRenderComponent.hpp"
 #include <log.hpp>
 
 using MeowEngine::Runtime::MeshRenderComponent;

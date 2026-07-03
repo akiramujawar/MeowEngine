@@ -38,7 +38,8 @@
 - [ ] Documenting done items and different approaches and used libraries
 
 ## Meow Engine v0.7
-- [ ] Hierarchy and transforms + ui drag n drop for hierarchy
+- [ ] Run through all engine handles like EntityID, ComponentID, ComponentHash etc...
+- [ ] Hierarchy and transforms + ui drag n drop for hierarchy & reordering
 - [ ] Runtime handles -> to store different viewports / frame buffers
 - [ ] Reworking engine to utilise new mathematical library
 - [ ] Decoupling SDL events with the help of messaging system

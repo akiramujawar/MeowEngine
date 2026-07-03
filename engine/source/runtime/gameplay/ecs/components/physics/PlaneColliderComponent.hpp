@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 03/07/26.
+//
+
+#ifndef MEOWENGINE_PLANECOLLIDERCOMPONENT_HPP
+#define MEOWENGINE_PLANECOLLIDERCOMPONENT_HPP
+
+
+class PlaneColliderComponent {};
+
+
+#endif //MEOWENGINE_PLANECOLLIDERCOMPONENT_HPP

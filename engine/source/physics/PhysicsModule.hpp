@@ -8,8 +8,8 @@
 #include <Public/Threading/Forward.hpp>
 
 #include "PhysicsInitData.hpp"
-#include <PhysicsSystem.hpp>
-#include <PhysicsResult.hpp>
+#include "PhysicsSystem.hpp"
+#include "PhysicsResult.hpp"
 #include "FixedTiming.hpp"
 
 namespace MeowEngine::Physics {
@@ -22,10 +22,8 @@ namespace MeowEngine::Physics {
         void Schedule(Threading::Scheduler& scheduler);
 
     private:
-        PhysicsSystem PhysicsSystem;
-
+        PhysicsSystem Physics;
         DoubleBuffer<PhysicsResult> Result;
-
         Core::FixedTiming Timing;
     };
 }

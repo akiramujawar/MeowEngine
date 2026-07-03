@@ -17,7 +17,7 @@
 #include <World.hpp>
 
 // components
-#include <mesh_render_component.hpp>
+#include <MeshRenderComponent.hpp>
 #include <Transform3DComponent.hpp>
 #include "SkyBoxComponent.hpp"
 #include "CameraComponent.hpp"

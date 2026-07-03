@@ -10,10 +10,8 @@
   - Multi-platform builds
   - [Next plan of action...](markdowns/plan_of_action.md)
 
-The ultimate goal of Meow Engine is to delve deep into the 
-complexities of physics simulations and engine design,
-providing a unique opportunity to learn and experiment 
-with modern technologies and architectural concepts.
+The ultimate goal of MeowEngine is to delve deep into the
+complexities of physics simulations and engine design.
 
 ## Demo [(web v0.4 build)](https://wulcat.com/meow-engine/index.html)
 <img src="screenshots/engine_v0.4.gif" width="700">

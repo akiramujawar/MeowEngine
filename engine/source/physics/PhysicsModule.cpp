@@ -13,7 +13,7 @@ namespace MeowEngine::Physics {
     PhysicsModule::~PhysicsModule() {}
 
     void PhysicsModule::Init(const PhysicsInitData& context) {
-        PhysicsSystem.Create();
+        Physics.SetPhysics(PhysicsType::PHYSX);
     }
 
     void PhysicsModule::Schedule(Threading::Scheduler& scheduler) {
@@ -31,7 +31,7 @@ namespace MeowEngine::Physics {
         scheduler.AddTask(
             [&]() {
                 PT_PROFILE_SCOPE_N("Physics");
-                PhysicsSystem.Step(Timing.GetFixedDeltaTime());
+                Physics.Step(Timing.GetFixedDeltaTime());
 
                 Timing.Wait();
             }

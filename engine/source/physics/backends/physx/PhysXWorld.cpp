@@ -2,23 +2,15 @@
 // Created by Akira Mujawar on 12/08/24.
 //
 
-#include <PhysicsSystem.hpp>
+#include <PhysXWorld.hpp>
 
 #include "log.hpp"
 
 
 namespace MeowEngine::Physics {
-    PhysicsSystem::PhysicsSystem() {
+    PhysXWorld::PhysXWorld() {
         MeowEngine::Log("Physics", "Constructed");
-    }
 
-    PhysicsSystem::~PhysicsSystem() {
-        Destroy();
-
-        MeowEngine::Log("`", "Destructed");
-    }
-
-    void PhysicsSystem::Create() {
         // create physics
         gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
         gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, physx::PxTolerancesScale(), true, nullptr);
@@ -33,19 +25,25 @@ namespace MeowEngine::Physics {
         gScene = gPhysics->createScene(sceneDesc);
     }
 
-    void PhysicsSystem::Destroy() const {
+    PhysXWorld::~PhysXWorld() {
+        MeowEngine::Log("`", "Destructed");
+
         gScene->release();
         gPhysics->release();
         gFoundation->release();
     }
 
-    void PhysicsSystem::Step(float inFixedDeltaTime) const {
+    void PhysXWorld::Simulate(float inFixedDeltaTime) const {
         PT_PROFILE_SCOPE;
         gScene->simulate(inFixedDeltaTime);
+    }
+
+    void PhysXWorld::FetchResults() const {
+        PT_PROFILE_SCOPE;
         gScene->fetchResults(true);
     }
 
-    void PhysicsSystem::AddPlaneCollider(const Transform& worldTransform) const {
+    void PhysXWorld::AddPlaneCollider(const Transform& worldTransform) const {
         physx::PxPlaneGeometry geometry = physx::PxPlaneGeometry();
 
         // material =>
@@ -60,17 +58,18 @@ namespace MeowEngine::Physics {
         AddRigidStatic(&geometry, transform);
     }
 
-    void PhysicsSystem::AddRigidStatic(const physx::PxGeometry* geometry, const physx::PxTransform& transform) const {
+    void PhysXWorld::AddRigidStatic(const physx::PxGeometry* geometry, const physx::PxTransform& transform) const {
         // setup actor
         physx::PxMaterial* material = gPhysics->createMaterial(1, 1, 1);
         physx::PxRigidStatic* actor = physx::PxCreateStatic(*gPhysics, transform, *geometry, *material);
-
+        physx::PxActor* test = actor;
         // setup shape
         physx::PxShape* shape = gPhysics->createShape(*geometry, *material);
         actor->attachShape(*shape);
+
     }
 
-    void PhysicsSystem::AddRigidbody() {
+    void PhysXWorld::AddRigidbody() {
 
         // physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
         // physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
