@@ -24,6 +24,9 @@ namespace MeowEngine::Editor {
         static bool DropAssetOnAssetHandleInput(Asset::AssetHandle& asset);
         static bool DropAssetOnEntityHandleInput(Runtime::EntityHandle& handle);
         static void DropAssetOnFolder(const std::string& moveToPath);
+
+        static void DragEntity(const Runtime::EntityHandle& entity);
+        static bool DropEntity(Runtime::EntityHandle& entity);
     };
 }
 

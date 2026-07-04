@@ -2,14 +2,14 @@
 // Created by Akira Mujawar on 04/07/26.
 //
 
-#include "HierarchyManager.hpp"
+#include "Hierarchy.hpp"
 
 #include "HierarchyComponent.hpp"
 #include "World.hpp"
 
 namespace MeowEngine::Runtime {
 
-    void HierarchyManager::DetachParent(Asset::World& world, const EntityHandle& child) {
+    void Hierarchy::DetachParent(Asset::World& world, const EntityHandle& child) {
         auto& childHierarchy = world.GetComponent<HierarchyComponent>(child);
 
         // if has parent remove references first
@@ -48,7 +48,7 @@ namespace MeowEngine::Runtime {
         }
     }
 
-    void HierarchyManager::AttachParent(Asset::World& world, const EntityHandle& child , const EntityHandle& parent) {
+    void Hierarchy::AttachParent(Asset::World& world, const EntityHandle& child , const EntityHandle& parent) {
         auto& childHierarchy = world.GetComponent<HierarchyComponent>(child);
         auto& parentEntity = world.GetComponent<HierarchyComponent>(parent);
 
@@ -74,7 +74,7 @@ namespace MeowEngine::Runtime {
         }
     }
 
-    void HierarchyManager::Reset(Asset::World& world, const EntityHandle& handle) {
+    void Hierarchy::Reset(Asset::World& world, const EntityHandle& handle) {
         auto& hierarchy = world.GetComponent<HierarchyComponent>(handle);
 
         hierarchy.NextChildOfParent = EntityHandle::Invalid();

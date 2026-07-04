@@ -13,9 +13,12 @@
 
 #include <GameplaySystem.hpp>
 #include <CommandQueue.hpp>
+#include <imgui_internal.h>
 #include <SelectEntityCommand.hpp>
 #include "AddEntityCommand.hpp"
 #include "RemoveEntityCommand.hpp"
+#include "ImguiAssetDragDrop.hpp"
+#include "ChangeEntityHierarchy.hpp"
 
 
 namespace MeowEngine::Editor {
@@ -39,8 +42,11 @@ namespace MeowEngine::Editor {
             ImGui::Spacing();
 
             for (auto it = renderContext.UIData->RootEntities.rbegin(); it != renderContext.UIData->RootEntities.rend(); ++it) {
-                DrawHierarchy(*it, renderContext);
+                DragAndDropOutside(renderContext, *it);
+                DrawHierarchy(renderContext, *it);
             }
+
+            // DrawDragAndDropLine();
 
             ShowEntityEditMenuPopup(renderContext);
 
@@ -60,10 +66,10 @@ namespace MeowEngine::Editor {
         }
     }
 
-    void ImGuiWorldTreePanel::DrawHierarchy(Runtime::EntityHandle guid, Rendering::RenderContext& renderContext) {
+    void ImGuiWorldTreePanel::DrawHierarchy(Rendering::RenderContext& renderContext, Runtime::EntityHandle handle) {
         PT_PROFILE_SCOPE;
 
-        auto& hierarchy = renderContext.UIData->EntityHierarchyMap[guid];
+        auto& hierarchy = renderContext.UIData->EntityHierarchyMap[handle];
 
         // show drop arrow if child exists
         ImGuiTreeNodeFlags flags = hierarchy.Childs.empty() ? DefaultSelectableNoListFlags : DefaultSelectableFlags;
@@ -71,7 +77,7 @@ namespace MeowEngine::Editor {
 
 
         // if the item is selected we add selected flag?
-        if (renderContext.UIData->SelectedEntities.find(guid) != renderContext.UIData->SelectedEntities.end()) { // TODO:
+        if (renderContext.UIData->SelectedEntities.find(handle) != renderContext.UIData->SelectedEntities.end()) { // TODO:
             flags |= ImGuiTreeNodeFlags_Selected;
         }
 
@@ -87,13 +93,13 @@ namespace MeowEngine::Editor {
             if (ImGui::GetIO().KeyCtrl) {
                 renderContext.CommandQueue->Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SelectEntityCommand>(guid, true)
+                    std::make_unique<Messaging::SelectEntityCommand>(handle, true)
                 );
             }
             else {
                 renderContext.CommandQueue->Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SelectEntityCommand>(guid, false)
+                    std::make_unique<Messaging::SelectEntityCommand>(handle, false)
                 );
             }
         }
@@ -102,11 +108,24 @@ namespace MeowEngine::Editor {
             ImGui::OpenPopup("ShowEntityEditMenuPopup");
         }
 
+        // enable drag entity
+        ImguiAssetDragDrop::DragEntity(handle);
+        Runtime::EntityHandle droppedHandle;
+
+        // drag n drop entity to move into hierarchy
+        if (ImguiAssetDragDrop::DropEntity(droppedHandle)) {
+            renderContext.CommandQueue->Push(
+                Messaging::ThreadType::MAIN,
+                std::make_unique<Messaging::ChangeEntityHierarchy>(droppedHandle, handle)
+            );
+        }
+
         // we make sure the parent is expanded and actually has child
         if (isOpen && !hierarchy.Childs.empty()) {
             // expand the children
             for (auto& child : hierarchy.Childs) {
-                DrawHierarchy(child, renderContext);
+                // DrawDragAndDropLine();
+                DrawHierarchy(renderContext, child);
             }
 
             // all childs are tracked, we can step out of tree node
@@ -128,6 +147,34 @@ namespace MeowEngine::Editor {
             }
 
             ImGui::EndPopup();
+        }
+    }
+
+    void ImGuiWorldTreePanel::DragAndDropOutside(Rendering::RenderContext& renderContext, Runtime::EntityHandle handle) {
+        auto size = ImGui::GetContentRegionAvail();
+        size.y = 3;
+        auto position = ImGui::GetCursorScreenPos();
+        auto padding = 15;
+
+        ImGui::InvisibleButton("##", size);
+        if(ImGui::IsDragDropActive()) {
+            auto draw = ImGui::GetWindowDrawList();
+
+            draw->AddLine(
+                ImVec2(position.x + padding, position.y),
+                ImVec2(position.x + size.x - padding, position.y + size.y),
+                IM_COL32(80,150,255,255),
+                2.0f);
+        }
+
+        Runtime::EntityHandle droppedEntity;
+
+        // drag n drop entity to move into hierarchy
+        if (ImguiAssetDragDrop::DropEntity(droppedEntity)) {
+            renderContext.CommandQueue->Push(
+                Messaging::ThreadType::MAIN,
+                std::make_unique<Messaging::ChangeEntityHierarchy>(droppedEntity, Runtime::EntityHandle::Invalid())
+            );
         }
     }
 }

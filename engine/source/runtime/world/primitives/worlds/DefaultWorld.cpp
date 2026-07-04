@@ -94,35 +94,35 @@ namespace MeowEngine::Runtime {
         {
             auto& tree = GetComponent<Runtime::HierarchyComponent>(root1);
             tree.Self = root1;
-            tree.FirstChild = root11;
+            // tree.FirstChild = root11;
         }
 
         {
             auto& tree = GetComponent<Runtime::HierarchyComponent>(root11);
             tree.Self = root11;
-            tree.Parent = root1;
-            tree.FirstChild = root111;
-            tree.NextChildOfParent = root12;
+            // tree.Parent = root1;
+            // tree.FirstChild = root111;
+            // tree.NextChildOfParent = root12;
         }
 
         {
             auto& tree = GetComponent<Runtime::HierarchyComponent>(root111);
             tree.Self = root111;
-            tree.Parent = root11;
+            // tree.Parent = root11;
         }
 
         {
             auto& tree = GetComponent<Runtime::HierarchyComponent>(root12);
             tree.Self = root12;
-            tree.Parent = root1;
-            tree.FirstChild = root121;
-            tree.PreviousChildOfParent = root11;
+            // tree.Parent = root1;
+            // tree.FirstChild = root121;
+            // tree.PreviousChildOfParent = root11;
         }
 
         {
             auto& tree = GetComponent<Runtime::HierarchyComponent>(root121);
             tree.Self = root121;
-            tree.Parent = root12;
+            // tree.Parent = root12;
         }
     }
 

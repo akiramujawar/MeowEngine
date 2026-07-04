@@ -191,6 +191,8 @@
     - build for mac
     - build for windows
     - optimising build process
+    - root cmake (we load only this)
+    - installer/platforms/(mac/win/web)
 
 - multiscene
 only on engine load:

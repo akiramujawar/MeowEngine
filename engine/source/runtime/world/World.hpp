@@ -11,7 +11,6 @@
 #include "EntityRegistry.hpp"
 #include "EntityHandle.hpp"
 #include "EntityComponentChangeData.hpp"
-#include "HierarchyManager.hpp"
 
 namespace MeowEngine::Asset {
     /**
@@ -72,8 +71,6 @@ namespace MeowEngine::Asset {
         Runtime::EntityHandle SkyBox;
         // TODO: remove this handle
         Runtime::EntityHandle Grid;
-
-        Runtime::HierarchyManager Hierarchy;
 
     private:
         Runtime::EntityRegistry Registry;

@@ -33,8 +33,9 @@ namespace MeowEngine::Editor {
 
     private:
         void AddEntityButton(Rendering::RenderContext& renderContext);
-        void DrawHierarchy(Runtime::EntityHandle guid, Rendering::RenderContext& renderContext);
+        void DrawHierarchy(Rendering::RenderContext& renderContext, Runtime::EntityHandle handle);
         void ShowEntityEditMenuPopup(Rendering::RenderContext& renderContext);
+        void DragAndDropOutside(Rendering::RenderContext& renderContext, Runtime::EntityHandle handle);
 
     private:
         const ImGuiTreeNodeFlags DefaultSelectableFlags;
