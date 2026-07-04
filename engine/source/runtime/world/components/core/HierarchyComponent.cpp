@@ -20,5 +20,4 @@ namespace MeowEngine::Runtime {
         , NextChildOfParent()
         , PreviousChildOfParent()
     {}
-
 }

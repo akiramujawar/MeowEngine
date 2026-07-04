@@ -19,16 +19,17 @@ namespace MeowEngine::Runtime {
         ~HierarchyComponent() override = default;
 
     public:
-        Runtime::EntityHandle Self;
+        EntityHandle Self;
 
-        Runtime::EntityHandle Parent;
-        Runtime::EntityHandle FirstChild;
+        EntityHandle Parent;
 
-        // next entity in the same hierarchy
-        Runtime::EntityHandle NextChildOfParent;
+        // first and last entity inside
+        EntityHandle FirstChild;
+        // EntityHandle LastChild;
 
-        // previous entity in the same hierarchy
-        Runtime::EntityHandle PreviousChildOfParent;
+        // next & previous entity in the same hierarchy
+        EntityHandle NextChildOfParent;
+        EntityHandle PreviousChildOfParent;
     };
 }
 
