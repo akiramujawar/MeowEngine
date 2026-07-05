@@ -2,7 +2,7 @@
 // Created by Akira Mujawar on 04/07/26.
 //
 
-#include "ChangeEntityHierarchy.hpp"
+#include "ChangeEntityHierarchyCommand.hpp"
 
 #include "GameplaySystem.hpp"
 #include "HierarchyComponent.hpp"
@@ -11,7 +11,7 @@
 
 namespace MeowEngine::Messaging {
 
-    void ChangeEntityHierarchy::Execute(MessageInitData& context) {
+    void ChangeEntityHierarchyCommand::Execute(MessageInitData& context) {
         auto& world = context.Gameplay->GetWorld();
 
         // - Check if same

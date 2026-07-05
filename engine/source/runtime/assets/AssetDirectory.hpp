@@ -33,23 +33,6 @@ namespace MeowEngine::Asset {
         FolderCache SandboxFolderCache;
 
         FileCache FileCache;
-
-
-        // write letters
-        // directory setup
-        // directory extraction
-        // directory usage
-        // import all files
-        // serialization`
-        // camera migration
-        // navigation
-        // shader pipeline
-        // render resources
-        // render pipeline
-
-        // maths lib
-        // physx
-
     };
 }
 

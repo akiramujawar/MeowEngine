@@ -6,9 +6,10 @@
 #define MEOWENGINE_RENDERUIDATA_HPP
 
 #include <Public/Core/Include.hpp>
-#include "EntityHandle.hpp"
+// #include "EntityHandle.hpp"
 #include "FolderCache.hpp"
-#include "AssetDirectory.hpp"
+#include "DirectoryAsset.hpp"
+// #include "AssetDirectory.hpp"
 
 namespace MeowEngine::Rendering {
     /**

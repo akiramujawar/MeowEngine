@@ -4,16 +4,16 @@
 
 #include <Public/Messaging/Include.hpp>
 
-#ifndef MEOWENGINE_CHANGEENTITYHIERARCHY_HPP
-#define MEOWENGINE_CHANGEENTITYHIERARCHY_HPP
+#ifndef MEOWENGINE_CHANGEENTITYHIERARCHYCOMMAND_HPP
+#define MEOWENGINE_CHANGEENTITYHIERARCHYCOMMAND_HPP
 
 #include "EntityHandle.hpp"
 
 namespace MeowEngine::Messaging {
 
-    class ChangeEntityHierarchy : public ICommand {
+    class ChangeEntityHierarchyCommand : public ICommand {
     public:
-        ChangeEntityHierarchy(Runtime::EntityHandle move, Runtime::EntityHandle into) {
+        ChangeEntityHierarchyCommand(Runtime::EntityHandle move, Runtime::EntityHandle into) {
             MoveEntity = move;
             IntoEntity = into;
         }
@@ -28,4 +28,4 @@ namespace MeowEngine::Messaging {
 }
 
 
-#endif //MEOWENGINE_CHANGEENTITYHIERARCHY_HPP
+#endif //MEOWENGINE_CHANGEENTITYHIERARCHYCOMMAND_HPP

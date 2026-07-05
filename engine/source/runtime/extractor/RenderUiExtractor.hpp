@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 05/07/26.
+//
+
+#ifndef MEOWENGINE_RENDERUIEXTRACTOR_HPP
+#define MEOWENGINE_RENDERUIEXTRACTOR_HPP
+
+
+class RenderUIExtractor {};
+
+
+#endif //MEOWENGINE_RENDERUIEXTRACTOR_HPP

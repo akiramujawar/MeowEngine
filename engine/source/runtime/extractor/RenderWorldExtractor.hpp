@@ -1,0 +1,12 @@
+//
+// Created by Akira Mujawar on 05/07/26.
+//
+
+#ifndef MEOWENGINE_RENDERWORLDEXTRACTOR_HPP
+#define MEOWENGINE_RENDERWORLDEXTRACTOR_HPP
+
+
+class RenderWorldExtractor {};
+
+
+#endif //MEOWENGINE_RENDERWORLDEXTRACTOR_HPP

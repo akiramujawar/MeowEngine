@@ -14,7 +14,8 @@ namespace MeowEngine::Asset {
 namespace MeowEngine::Runtime {
     // hierarchy later can actually store the actual hierarchy
     // extractor can extract root entities from here instead of registry
-    //
+    // serializer can also store this
+    // rename that time to HierarchyManager
     class Hierarchy {
 
     public:

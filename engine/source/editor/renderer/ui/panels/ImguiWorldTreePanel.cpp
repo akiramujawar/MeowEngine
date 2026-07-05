@@ -18,7 +18,7 @@
 #include "AddEntityCommand.hpp"
 #include "RemoveEntityCommand.hpp"
 #include "ImguiAssetDragDrop.hpp"
-#include "ChangeEntityHierarchy.hpp"
+#include "ChangeEntityHierarchyCommand.hpp"
 
 
 namespace MeowEngine::Editor {
@@ -116,7 +116,7 @@ namespace MeowEngine::Editor {
         if (ImguiAssetDragDrop::DropEntity(droppedHandle)) {
             renderContext.CommandQueue->Push(
                 Messaging::ThreadType::MAIN,
-                std::make_unique<Messaging::ChangeEntityHierarchy>(droppedHandle, handle)
+                std::make_unique<Messaging::ChangeEntityHierarchyCommand>(droppedHandle, handle)
             );
         }
 
@@ -173,7 +173,7 @@ namespace MeowEngine::Editor {
         if (ImguiAssetDragDrop::DropEntity(droppedEntity)) {
             renderContext.CommandQueue->Push(
                 Messaging::ThreadType::MAIN,
-                std::make_unique<Messaging::ChangeEntityHierarchy>(droppedEntity, Runtime::EntityHandle::Invalid())
+                std::make_unique<Messaging::ChangeEntityHierarchyCommand>(droppedEntity, Runtime::EntityHandle::Invalid())
             );
         }
     }
