@@ -10,7 +10,7 @@
 
 namespace MeowEngine::Physics {
     struct PhysXRigidbody {
-        uint64_t GUID;
+        uint64_t ObjectID;
 
         physx::PxActor* Rigidbody;
     };

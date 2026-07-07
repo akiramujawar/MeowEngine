@@ -9,13 +9,17 @@
 
 #include "PxPhysicsAPI.h"
 #include "ColliderType.hpp"
+#include "PhysXMaterial.hpp"
 
 namespace MeowEngine::Physics {
     // phsx
     struct PhysXCollider {
-        uint64_t GUID;
+        uint64_t ObjectID;
+
         ColliderType Type;
         physx::PxShape* Collider;
+
+        PhysXMaterial Material;
     };
 
 }

@@ -13,6 +13,8 @@
 #include "OpenURLCommand.hpp"
 #include "SetGameplayStateCommand.hpp"
 
+#include "GameplayState.hpp"
+
 namespace MeowEngine::Editor {
     void ImguiMainMenu::Draw(Rendering::RenderContext& renderContext) {
         ImGui::BeginChild("Toolbar", ImVec2(0, 20)); {
@@ -47,7 +49,7 @@ namespace MeowEngine::Editor {
             if (ImGui::ArrowButton("StartSimulating", ImGuiDir_Right)) {
                 renderContext.CommandQueue->Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetGameplayStateCommand>(Messaging::GameplayStateType::SIMULATE)
+                    std::make_unique<Messaging::SetGameplayStateCommand>(Runtime::GameplayState::SIMULATE)
                 );
             }
 
@@ -56,7 +58,7 @@ namespace MeowEngine::Editor {
             if (ImGui::Button("Pause")) {
                 renderContext.CommandQueue->Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetGameplayStateCommand>(Messaging::GameplayStateType::PAUSE)
+                    std::make_unique<Messaging::SetGameplayStateCommand>(Runtime::GameplayState::PAUSE)
                 );
             }
 

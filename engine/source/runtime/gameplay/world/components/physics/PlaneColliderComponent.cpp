@@ -3,3 +3,7 @@
 //
 
 #include "PlaneColliderComponent.hpp"
+
+namespace MeowEngine::Runtime {
+    void PlaneColliderComponent::Reflect() {}
+}

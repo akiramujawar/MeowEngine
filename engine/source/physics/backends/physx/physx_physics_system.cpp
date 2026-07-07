@@ -6,7 +6,7 @@
 #include "physx_physics_system.hpp"
 
 #include <Transform3DComponent.hpp>
-#include <rigidbody_component.hpp>
+#include <RigidbodyComponent.hpp>
 #include <collider_component.hpp>
 
 using namespace MeowEngine::Runtime;
@@ -102,14 +102,14 @@ void MeowEngine::simulator::PhysXPhysicsSystem::AddRigidbody(entt::registry& pPh
 void MeowEngine::simulator::PhysXPhysicsSystem::RemoveRigidbody(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
     if(pPhysicsRegistry.all_of<Runtime::RigidbodyComponent>(pEntity)) {
         auto rigidbody = pPhysicsRegistry.get<Runtime::RigidbodyComponent>(pEntity);
-        gScene->removeActor(*rigidbody.GetPhysicsBody());
+        // gScene->removeActor(*rigidbody.GetPhysicsBody());
     }
 }
 
 void MeowEngine::simulator::PhysXPhysicsSystem::SyncTransform(entt::registry& pPhysicsRegistry, const entt::entity& pEntity) {
     if(pPhysicsRegistry.all_of<Runtime::Transform3DComponent, Runtime::RigidbodyComponent>(pEntity)) {
         auto [transform, rigidbody] = pPhysicsRegistry.get<Runtime::Transform3DComponent, Runtime::RigidbodyComponent>(pEntity);
-        rigidbody.OverrideTransform(transform);
+        // rigidbody.OverrideTransform(transform);
     }
 }
 

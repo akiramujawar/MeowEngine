@@ -10,7 +10,7 @@
 
 namespace MeowEngine::Physics {
     struct PhysXMaterial {
-        uint64_t GUID;
+        uint64_t ObjectID;
 
         physx::PxMaterial* Material;
     };

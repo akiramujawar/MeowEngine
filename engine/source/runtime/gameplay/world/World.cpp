@@ -7,9 +7,7 @@
 #include "UUID.hpp"
 // - essential components only -
 // don't couple all components in world (identity / hierarchy / info are exceptions)
-#include "IdentityComponent.hpp"
-#include "HierarchyComponent.hpp"
-#include "InfoComponent.hpp"
+#include "Components.hpp"
 
 namespace MeowEngine::Asset {
     World::World()

@@ -8,9 +8,11 @@
 namespace MeowEngine::Physics {
 
     enum class ColliderType {
+        PLANE,
         BOX,
         SPHERE,
-        CAPSULE
+        CAPSULE,
+        MESH
     };
 
 }

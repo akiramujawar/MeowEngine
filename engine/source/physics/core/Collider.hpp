@@ -8,11 +8,11 @@
 #include <cstdlib>
 
 #include "Geometry.hpp"
-#include "ColliderType.hpp"
 
 namespace MeowEngine::Physics {
     struct Collider {
-        uint64_t GUID;
+        uint64_t RootObjectID; // do we even need this?
+        uint64_t ObjectID;
         ColliderType Type;
         Geometry Geometry;
     };
