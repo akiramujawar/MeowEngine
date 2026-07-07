@@ -33,6 +33,30 @@ namespace MeowEngine::Physics {
         gFoundation->release();
     }
 
+    void PhysXWorld::Create(const PhysicsWorldData& context) {
+        for (auto& collider : context.Colliders) {
+
+        }
+    }
+
+    void PhysXWorld::Destroy() {
+        for (auto& [key, value] : RigidBodies) {
+            gScene->removeActor(*value.Rigidbody);
+            value.Rigidbody->release();
+        }
+
+        for (auto& [key, value]: Colliders) {
+            value.Collider->release();
+        }
+
+        for (auto& [key, value]: Materials) {
+            value.Material->release();
+        }
+
+        RigidBodies.clear();
+        Colliders.clear();
+    }
+
     void PhysXWorld::Simulate(float inFixedDeltaTime) const {
         PT_PROFILE_SCOPE;
         gScene->simulate(inFixedDeltaTime);
@@ -62,11 +86,10 @@ namespace MeowEngine::Physics {
         // setup actor
         physx::PxMaterial* material = gPhysics->createMaterial(1, 1, 1);
         physx::PxRigidStatic* actor = physx::PxCreateStatic(*gPhysics, transform, *geometry, *material);
-        physx::PxActor* test = actor;
+
         // setup shape
         physx::PxShape* shape = gPhysics->createShape(*geometry, *material);
         actor->attachShape(*shape);
-
     }
 
     void PhysXWorld::AddRigidbody() {

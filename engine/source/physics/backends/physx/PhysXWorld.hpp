@@ -8,8 +8,12 @@
 #include <unordered_map>
 
 #include "Math.hpp"
-#include "PhysXRigidbody.hpp"
 
+#include "PhysXRigidbody.hpp"
+#include "PhysXCollider.hpp"
+#include "PhysXMaterial.hpp"
+
+#include "PhysicsWorldData.hpp"
 
 namespace MeowEngine::Physics {
     /**
@@ -75,6 +79,14 @@ namespace MeowEngine::Physics {
 
         // PhysX Scene Items
         physx::PxScene* gScene = nullptr;
+
+    private:
+        // TODO: later create object id
+        // & rigidbody handle etc...
+        // TODO: later implement AOS inside physics
+        std::unordered_map<uint64_t, PhysXRigidbody> RigidBodies;
+        std::unordered_map<uint64_t, PhysXCollider> Colliders;
+        std::unordered_map<uint64_t, PhysXMaterial> Materials;
     };
 }
 
