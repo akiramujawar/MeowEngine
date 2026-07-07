@@ -9,12 +9,18 @@
 
 #include "PhysXWorld.hpp"
 #include "PhysicsType.hpp"
+#include "PhysicsWorldData.hpp"
 
 namespace MeowEngine::Physics {
     class PhysicsSystem {
     public:
         void SetPhysics(PhysicsType type);
         void Step(float inFixedDeltaTime) const;
+
+        void StartSimulation();
+        void StopSimulation();
+
+        void CreateWorld(std::unique_ptr<PhysicsWorldData> data);
 
     private:
         std::unique_ptr<PhysXWorld> World;

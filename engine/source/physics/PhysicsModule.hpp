@@ -21,6 +21,8 @@ namespace MeowEngine::Physics {
         void Init(const PhysicsInitData& context);
         void Schedule(Threading::Scheduler& scheduler);
 
+        PhysicsSystem& GetPhysics() { return Physics; }
+
     private:
         PhysicsSystem Physics;
         DoubleBuffer<PhysicsResult> Result;

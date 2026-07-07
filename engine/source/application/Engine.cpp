@@ -22,6 +22,7 @@
 #include <EditorInitData.hpp>
 #include <MessageInitData.hpp>
 #include "EventContainer.hpp"
+#include "GameplayStateContext.hpp"
 
 #include "SaveProjectCommand.hpp"
 
@@ -142,9 +143,19 @@ namespace MeowEngine {
         messageInit.AssetManager = &AssetManager;
         messageInit.WorldManager = &Runtime.GetWorldManager();
         messageInit.Gameplay = &Runtime.GetGameplay();
+        messageInit.GameplayStateManager = &GameplayStateManager;
+        messageInit.Physics = &Physics.GetPhysics();
 
         CommandQueue.Init(messageInit);
         RequestQueue.Init(messageInit);
+
+        Runtime::GameplayStateContext gameplayStateContext{
+            &Runtime.GetWorldManager(),
+            &Runtime.GetGameplay(),
+            &CommandQueue,
+        };
+
+        GameplayStateManager.Init(gameplayStateContext);
 
         MeowServiceInitData meowServiceInit {
             Timing,

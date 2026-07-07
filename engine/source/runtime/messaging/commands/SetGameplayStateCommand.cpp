@@ -4,43 +4,15 @@
 
 #include "SetGameplayStateCommand.hpp"
 
-#include "GameplaySystem.hpp"
+#include <memory>
+
 #include "MessageInitData.hpp"
-#include "WorldManager.hpp"
+#include "GameplayStateManager.hpp"
 
 namespace MeowEngine::Messaging {
 
     void SetGameplayStateCommand::Execute(MessageInitData& context) {
-        switch (Type) {
-            case GameplayStateType::SIMULATE: {
-                // stop and reset world
-                if (context.Gameplay->GetIsSimulating()) {
-                    context.Gameplay->StopSimulation();
-                    context.WorldManager->ReloadActiveWorld();
-                }
-                // start
-                else {
-                    context.Gameplay->StartSimulation();
-                }
-
-                break;
-            }
-            case GameplayStateType::PAUSE: {
-                if (context.Gameplay->GetIsSimulating()) {
-                    // pause when simulating
-                    if (context.Gameplay->GetIsPaused()) {
-                        context.Gameplay->PauseSimulation();
-                    }
-                    // unpause when simulating
-                    else {
-                        context.Gameplay->UnpauseSimulation();
-                    }
-                }
-                break;
-            }
-            default:
-                break;
-        }
+        context.GameplayStateManager->SwitchState(State);
     }
 
 }

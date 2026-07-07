@@ -18,10 +18,15 @@ namespace MeowEngine {
     namespace Runtime {
         class WorldManager;
         class GameplaySystem;
+        class GameplayStateManager;
     }
 
     namespace Asset {
         class AssetManager;
+    }
+
+    namespace Physics {
+        class PhysicsSystem;
     }
 }
 
@@ -35,6 +40,9 @@ namespace MeowEngine::Messaging {
         Asset::AssetManager* AssetManager;
         Runtime::WorldManager* WorldManager;
         Runtime::GameplaySystem* Gameplay;
+        Runtime::GameplayStateManager* GameplayStateManager;
+
+        Physics::PhysicsSystem* Physics;
     };
 }
 

@@ -16,4 +16,15 @@ namespace MeowEngine::Physics {
         World->Simulate(inFixedDeltaTime);
         World->FetchResults();
     }
+
+    void PhysicsSystem::StartSimulation() {}
+
+    void PhysicsSystem::StopSimulation() {}
+
+    void PhysicsSystem::CreateWorld(std::unique_ptr<PhysicsWorldData> data) {
+        World->Destroy();
+        World->Create(*data);
+    }
+
+
 }

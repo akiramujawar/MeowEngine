@@ -5,8 +5,19 @@
 #ifndef MEOWENGINE_PHYSICSWORLDEXTRACTOR_HPP
 #define MEOWENGINE_PHYSICSWORLDEXTRACTOR_HPP
 
+
+#include "PhysicsWorldData.hpp"
+
+namespace MeowEngine::Asset {
+    class World;
+}
+
 namespace MeowEngine::Runtime {
-    class PhysicsWorldExtractor {};
+    class PhysicsWorldExtractor {
+    public:
+        static void Extract(Asset::World& world, Physics::PhysicsWorldData& data);
+
+    };
 }
 
 

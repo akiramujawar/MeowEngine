@@ -29,6 +29,7 @@
 
 #include <AssetManager.hpp>
 #include "AssetBuilder.hpp"
+#include "GameplayStateManager.hpp"
 
 
 using namespace std;
@@ -126,6 +127,7 @@ namespace MeowEngine {
         Rendering::Renderer Renderer;
         Rendering::RenderExtractor RenderExtractor;
         Editor::EditorModule Editor;
+        Runtime::GameplayStateManager GameplayStateManager;
         Runtime::RuntimeModule Runtime;
         Physics::PhysicsModule Physics;
 

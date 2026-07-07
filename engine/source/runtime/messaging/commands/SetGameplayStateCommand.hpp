@@ -6,23 +6,19 @@
 #define MEOWENGINE_SETGAMEPLAYSTATECOMMAND_HPP
 
 #include <Public/Messaging/Include.hpp>
+#include "GameplayState.hpp"
 
 namespace MeowEngine::Messaging {
-    enum class GameplayStateType {
-        SIMULATE,
-        PAUSE,
-    };
-
     class SetGameplayStateCommand : public ICommand {
     public:
-        explicit SetGameplayStateCommand(GameplayStateType type) {
-            Type = type;
+        explicit SetGameplayStateCommand(Runtime::GameplayState state) {
+            State = state;
         }
 
         void Execute(MessageInitData& context) override;
 
     private:
-        GameplayStateType Type;
+        Runtime::GameplayState State;
     };
 }
 

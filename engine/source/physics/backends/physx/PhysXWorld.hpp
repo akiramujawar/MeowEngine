@@ -22,6 +22,9 @@ namespace MeowEngine::Physics {
         PhysXWorld();
         ~PhysXWorld();
 
+        void Create(const PhysicsWorldData& context);
+        void Destroy();
+
         void Simulate(float inFixedDeltaTime) const;
         void FetchResults() const;
 
