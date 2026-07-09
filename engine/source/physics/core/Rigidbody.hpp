@@ -9,7 +9,9 @@
 
 namespace MeowEngine::Physics {
     struct Rigidbody {
-        uint64_t GUID;
+        uint64_t ObjectID;
+
+        std::vector<uint64_t> ColliderIDs;
     };
 }
 

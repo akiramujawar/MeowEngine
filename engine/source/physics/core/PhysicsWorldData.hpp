@@ -9,11 +9,13 @@
 
 #include "Rigidbody.hpp"
 #include "Collider.hpp"
+#include "PhysicsMaterial.hpp"
 
 namespace MeowEngine::Physics {
     struct PhysicsWorldData {
         std::vector<Rigidbody> Rigidbodies;
         std::vector<Collider> Colliders;
+        std::vector<PhysicsMaterial> Materials;
     };
 }
 

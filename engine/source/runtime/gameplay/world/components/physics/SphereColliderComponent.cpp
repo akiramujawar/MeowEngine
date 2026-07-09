@@ -5,5 +5,9 @@
 #include "SphereColliderComponent.hpp"
 
 namespace MeowEngine::Runtime {
-    void SphereColliderComponent::Reflect() {}
+    using Asset::AssetHandle;
+
+    void SphereColliderComponent::Reflect() {
+        REGISTER_PROPERTY(SphereColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+    }
 }

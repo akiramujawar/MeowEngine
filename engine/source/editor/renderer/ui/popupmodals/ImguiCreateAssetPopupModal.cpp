@@ -6,7 +6,11 @@
 
 #include <ImguiAPI.hpp>
 #include <log.hpp>
-#include <Public/IO.hpp>
+// #include <Public/IO.hpp>
+
+#include "CommandQueue.hpp"
+#include "CreateAssetCommand.hpp"
+#include "MeowService.hpp"
 
 namespace {
     /**
@@ -31,7 +35,7 @@ namespace {
 
 namespace MeowEngine::Editor {
     
-    ImguiCreateAssetPopupModal::ImguiCreateAssetPopupModal(const std::string_view& title, const AssetCreateType& createType)
+    ImguiCreateAssetPopupModal::ImguiCreateAssetPopupModal(const std::string_view& title, const Asset::AssetType& createType)
             : TitleText(title)
             , AssetType(createType){
         
@@ -73,21 +77,16 @@ namespace MeowEngine::Editor {
             
             // create the asset with given asset name
             if(ImGui::Button("Create", ImVec2(120, 0))) {
-                switch (AssetType) {
-                    case AssetCreateType::FOLDER: {
-                        FileSystem::Path path {selectedDirectoryPath.GetRawString()};
-                        FileSystem::Path assetName {InputText};
-        
-                        FileSystem::FileSystem::CreateDirectory(path + assetName);
-                        
-                        break;
-                    }
-                    case AssetCreateType::WORLD:
-                        break;
-                    default:
-                        break;
-                }
-                
+                InputText.resize(std::strlen(InputText.c_str()));
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::CreateAssetCommand>(
+                        String(selectedDirectoryPath.GetRawString()),
+                        String(InputText),
+                        AssetType
+                    )
+                );
+
                 needToBeClosed = true;
             }
     

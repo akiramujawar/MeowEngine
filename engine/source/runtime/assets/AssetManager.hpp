@@ -19,7 +19,7 @@
 #include "MeshAsset.hpp"
 #include "ShaderAsset.hpp"
 #include "World.hpp"
-
+#include "PhysicsMaterialAsset.hpp"
 
 namespace MeowEngine::Asset {
     struct AssetManagerInitData;
@@ -38,6 +38,13 @@ namespace MeowEngine::Asset {
         AssetDirectory& GetDirectory() { return Directory; };
         SessionAssetDatabase& GetSession() { return Session; };
 
+        /**
+         * create temp -> save empty asset -> save temp asset
+         * @param handle
+         * @param type
+         * @param path
+         * @return
+         */
         static bool CreateAndSaveEmptyAsset(const AssetHandle& handle, AssetType type,  const Path& path);
 
         template<typename AssetType>
@@ -165,8 +172,10 @@ namespace MeowEngine::Asset {
     template<> std::unique_ptr<ShaderAsset> AssetManager::LoadAssetInternal<ShaderAsset>(const AssetHandle& handle);
     template<> std::unique_ptr<BitmapAsset> AssetManager::LoadAssetInternal<BitmapAsset>(const AssetHandle& handle);
     template<> std::unique_ptr<MeshAsset> AssetManager::LoadAssetInternal<MeshAsset>(const AssetHandle& handle);
+    template<> std::unique_ptr<PhysicsMaterialAsset> AssetManager::LoadAssetInternal<PhysicsMaterialAsset>(const AssetHandle& handle);
 
     template<> void AssetManager::SaveAssetInternal<World>(const AssetHandle& handle, const Path& path);
+    template<> void AssetManager::SaveAssetInternal<PhysicsMaterialAsset>(const AssetHandle& handle, const Path& path);
 
 }
 

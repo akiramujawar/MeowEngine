@@ -6,7 +6,7 @@
 #define MEOWENGINETEST2_ASSETTYPE_HPP
 
 namespace MeowEngine::Asset {
-    enum class AssetType : int{
+    enum class AssetType : int {
         // misc / core
         UNKNOWN = 0,
         PROJECT = 1,
@@ -15,13 +15,18 @@ namespace MeowEngine::Asset {
         CPP = 4,
         SHADER = 5,
 
-        // file types
+        // import types
         TEXTURE = 101,
         MESH = 102,
 
         // engine specific
         WORLD = 201,
-        MATERIAL = 202
+
+        // rendering
+        MATERIAL = 301,
+
+        // physics
+        PHYSICS_MATERIAL = 401
     };
 }
 

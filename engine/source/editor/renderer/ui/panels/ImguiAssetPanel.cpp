@@ -18,7 +18,7 @@
 #include "ImguiAssetRenamePopupModal.hpp"
 
 #include "ImguiAssetDragDrop.hpp"
-#include "CreateAssetType.hpp"
+#include "AssetType.hpp"
 
 #include <ImportFileCommand.hpp>
 #include <RenderContext.hpp>
@@ -511,7 +511,7 @@ namespace MeowEngine::Editor {
 
     void ImguiAssetPanel::ShowCreateAssetPopupMenu() {
         std::string titleText;
-        AssetCreateType createType = AssetCreateType::NONE;
+        Asset::AssetType createType = Asset::AssetType::UNKNOWN;
         
         // show popup menu for different types of items which can be created
         if (ImGui::BeginPopup("ShowCreateAssetPopupMenu")) {
@@ -519,7 +519,7 @@ namespace MeowEngine::Editor {
                 FileSystem::Path directory(SelectedFolderPath.GetRawString());
                 
                 titleText = "Create folder?";
-                createType = AssetCreateType::FOLDER;
+                createType = Asset::AssetType::FOLDER;
             }
             
             if (ImGui::BeginMenu("Misc", "")) {  // 2nd param is for shortcut
@@ -527,9 +527,17 @@ namespace MeowEngine::Editor {
                     FileSystem::Path directory(SelectedFolderPath.GetRawString());
                     
                     titleText = "Create world?";
-                    createType = AssetCreateType::WORLD;
+                    createType = Asset::AssetType::WORLD;
                 }
+
                 ImGui::EndMenu();
+            }
+
+            if (ImGui::MenuItem("Physics Material")) {
+                FileSystem::Path directory(SelectedFolderPath.GetRawString());
+
+                titleText = "Create physics material?";
+                createType = Asset::AssetType::PHYSICS_MATERIAL;
             }
         
             ImGui::EndPopup();
@@ -537,7 +545,7 @@ namespace MeowEngine::Editor {
         
         
         // creates an object for popup to render. gets destroyed when popup is closed.
-        if(createType != AssetCreateType::NONE) {
+        if(createType != Asset::AssetType::UNKNOWN) {
             ShowCreatePopupModal = make_unique<ImguiCreateAssetPopupModal>(titleText, createType);
         }
     }

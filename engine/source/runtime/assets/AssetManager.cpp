@@ -14,6 +14,9 @@
 #include "ShaderSerialization.hpp"
 #include "TextureSerializer.hpp"
 #include "MeshSerializer.hpp"
+#include "PhysicsMaterialSerializer.hpp"
+
+// runtime only assets
 #include "TransformGizmoAsset.hpp"
 
 namespace MeowEngine::Asset {
@@ -152,6 +155,21 @@ namespace MeowEngine::Asset {
         return asset;
     }
 
+    template <>
+    std::unique_ptr<PhysicsMaterialAsset> AssetManager::LoadAssetInternal<PhysicsMaterialAsset>(const AssetHandle& handle) {
+        // actual code
+        const auto& path = Registry.GetAssetPath(handle);
+        auto asset = std::make_unique<PhysicsMaterialAsset>();
+
+        if (!PhysicsMaterialSerializer::Deserialize(path, *asset)) {
+            MeowEngine::Log("Physics Material Asset", "Failed loading", LogType::ERROR);
+            return nullptr;
+        }
+
+        // auto performs move as it's passed by value
+        return asset;
+    }
+
     template<>
     void AssetManager::SaveAssetInternal<World>(const AssetHandle& handle, const Path& path) {
         auto world = GetAsset<World>(handle);
@@ -165,4 +183,16 @@ namespace MeowEngine::Asset {
         }
     }
 
+    template <>
+    void AssetManager::SaveAssetInternal<PhysicsMaterialAsset>(const AssetHandle& handle, const Path& path) {
+        auto asset = GetAsset<PhysicsMaterialAsset>(handle);
+        if (asset != nullptr) {
+            if (!PhysicsMaterialSerializer::Serialize(path, *asset)) {
+                MeowEngine::Log("Physics Material Asset", "Failed saving", LogType::ERROR);
+            }
+        }
+        else {
+            MeowEngine::Log("Asset", "Failed saving", LogType::ERROR);
+        }
+    }
 }

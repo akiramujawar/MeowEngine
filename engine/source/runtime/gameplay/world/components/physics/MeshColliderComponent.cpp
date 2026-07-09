@@ -5,5 +5,9 @@
 #include "MeshColliderComponent.hpp"
 
 namespace MeowEngine::Runtime {
-    void MeshColliderComponent::Reflect() {}
+    using Asset::AssetHandle;
+
+    void MeshColliderComponent::Reflect() {
+        REGISTER_PROPERTY(MeshColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+    }
 }

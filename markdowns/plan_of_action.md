@@ -38,6 +38,8 @@
 - [ ] Documenting done items and different approaches and used libraries
 
 ## Meow Engine v0.7
+- [ ] Reflection for engine assets
+- [ ] Creating separate libs in cmake for editor, runtime, rendering & physics
 - [ ] Run through all engine handles like EntityID, ComponentID, ComponentHash etc...
 - [ ] Hierarchy and transforms + ui drag n drop for hierarchy & reordering
 - [ ] Runtime handles -> to store different viewports / frame buffers

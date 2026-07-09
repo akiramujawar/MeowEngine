@@ -4,6 +4,11 @@
 
 #include "BoxColliderComponent.hpp"
 
+
 namespace MeowEngine::Runtime {
-    void BoxColliderComponent::Reflect() {}
+    using Asset::AssetHandle;
+
+    void BoxColliderComponent::Reflect() {
+        REGISTER_PROPERTY(BoxColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+    }
 }

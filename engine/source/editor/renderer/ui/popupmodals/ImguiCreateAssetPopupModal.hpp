@@ -6,14 +6,14 @@
 #define MEOWENGINE_IMGUICREATEASSETPOPUPMODAL_HPP
 
 #include <Public/Core/Include.hpp>
-#include <CreateAssetType.hpp>
+#include <AssetType.hpp>
 
 namespace MeowEngine::Editor {
     struct Selector;
 
     class ImguiCreateAssetPopupModal {
     public:
-        ImguiCreateAssetPopupModal(const std::string_view& title, const AssetCreateType& createType);
+        ImguiCreateAssetPopupModal(const std::string_view& title, const Asset::AssetType& createType);
         ~ImguiCreateAssetPopupModal();
         
         /**
@@ -27,7 +27,7 @@ namespace MeowEngine::Editor {
         std::string TitleText;
         std::string InputText;
     
-        AssetCreateType AssetType;
+        Asset::AssetType AssetType;
     };
 }
 

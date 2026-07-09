@@ -5,5 +5,9 @@
 #include "PlaneColliderComponent.hpp"
 
 namespace MeowEngine::Runtime {
-    void PlaneColliderComponent::Reflect() {}
+    using Asset::AssetHandle;
+
+    void PlaneColliderComponent::Reflect() {
+        REGISTER_PROPERTY(PlaneColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+    }
 }

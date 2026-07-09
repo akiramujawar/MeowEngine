@@ -9,6 +9,13 @@
 
 namespace MeowEngine::Physics {
     struct PhysicsMaterial {
+        PhysicsMaterial(const uint64_t objectID, float staticFriction, float dynamicFriction, float restitution) {
+            ObjectID = objectID;
+            StaticFriction = staticFriction;
+            DynamicFriction = dynamicFriction;
+            Restitution = restitution;
+        }
+
         uint64_t ObjectID;
 
         float StaticFriction;

@@ -5,5 +5,9 @@
 #include "CapsuleColliderComponent.hpp"
 
 namespace MeowEngine::Runtime {
-    void CapsuleColliderComponent::Reflect() {}
+    using Asset::AssetHandle;
+
+    void CapsuleColliderComponent::Reflect() {
+        REGISTER_PROPERTY(CapsuleColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+    }
 }
