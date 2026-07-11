@@ -14,6 +14,7 @@
 #include "PhysXMaterial.hpp"
 
 #include "PhysicsWorldData.hpp"
+#include "PhysicsResult.hpp"
 
 namespace MeowEngine::Physics {
     /**
@@ -30,7 +31,7 @@ namespace MeowEngine::Physics {
         void Destroy();
 
         void Simulate(float inFixedDeltaTime) const;
-        void FetchResults() const;
+        void FetchResults(PhysicsResult& result) const;
 
         void AddPhysicsMaterial(const PhysicsMaterial& data);
         void AddCollider(const Collider& data);

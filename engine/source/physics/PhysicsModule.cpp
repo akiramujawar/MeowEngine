@@ -33,6 +33,10 @@ namespace MeowEngine::Physics {
                 PT_PROFILE_SCOPE_N("Physics");
                 Physics.Step(Timing.GetFixedDeltaTime());
 
+                // TODO: later implement triple buffer
+                Physics.FetchResult(Result.GetWrite());
+                Result.Swap();
+
                 Timing.Wait();
             }
         );

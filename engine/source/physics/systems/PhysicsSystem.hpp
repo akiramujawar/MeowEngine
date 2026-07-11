@@ -7,6 +7,7 @@
 
 #include <memory>
 
+#include "PhysicsResult.hpp"
 #include "PhysXWorld.hpp"
 #include "PhysicsType.hpp"
 #include "PhysicsWorldData.hpp"
@@ -20,6 +21,7 @@ namespace MeowEngine::Physics {
         void StartSimulation();
         void StopSimulation();
 
+        void FetchResult(PhysicsResult& result);
         void CreateWorld(std::unique_ptr<PhysicsWorldData> data);
 
     private:

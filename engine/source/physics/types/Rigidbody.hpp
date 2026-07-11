@@ -8,12 +8,16 @@
 #include <cstdlib>
 #include <vector>
 
+#include "Public/Math.hpp"
 #include "RigidbodyType.hpp"
 
 namespace MeowEngine::Physics {
     struct Rigidbody {
         uint64_t ObjectID {};
         RigidbodyType Type = RigidbodyType::DYNAMIC;
+
+        Vector3 Position {};
+        Quaternion Quaternion {};
 
         std::vector<uint64_t> ColliderIDs {};
     };

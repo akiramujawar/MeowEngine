@@ -71,9 +71,23 @@ namespace MeowEngine::Physics {
         gScene->simulate(inFixedDeltaTime);
     }
 
-    void PhysXWorld::FetchResults() const {
+    void PhysXWorld::FetchResults(PhysicsResult& result) const {
         PT_PROFILE_SCOPE;
         gScene->fetchResults(true);
+
+        result.RigidBodies.clear();
+        result.RigidBodies.reserve(RigidBodies.size());
+
+        for (auto& [key, value] : RigidBodies) {
+            auto transform = value.Rigidbody->getGlobalPose();
+            RigidbodyState rigidbody {
+                key,
+                { transform.p.x, transform.p.y, transform.p.z },
+                { transform.q.w, transform.q.x, transform.q.y, transform.q.z }
+            };
+
+            result.RigidBodies.push_back(rigidbody);
+        }
     }
 
     void PhysXWorld::AddPhysicsMaterial(const PhysicsMaterial& data) {

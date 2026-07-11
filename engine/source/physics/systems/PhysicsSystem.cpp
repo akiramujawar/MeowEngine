@@ -14,12 +14,15 @@ namespace MeowEngine::Physics {
 
     void PhysicsSystem::Step(float inFixedDeltaTime) const {
         World->Simulate(inFixedDeltaTime);
-        World->FetchResults();
     }
 
     void PhysicsSystem::StartSimulation() {}
 
     void PhysicsSystem::StopSimulation() {}
+
+    void PhysicsSystem::FetchResult(PhysicsResult& result) {
+        World->FetchResults(result);
+    }
 
     void PhysicsSystem::CreateWorld(std::unique_ptr<PhysicsWorldData> data) {
         World->Destroy();
