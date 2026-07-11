@@ -9,5 +9,7 @@ namespace MeowEngine::Runtime {
 
     void CapsuleColliderComponent::Reflect() {
         REGISTER_PROPERTY(CapsuleColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(CapsuleColliderComponent, Radius, float, true, true);
+        REGISTER_PROPERTY(CapsuleColliderComponent, Height, float, true, true);
     }
 }

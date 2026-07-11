@@ -16,9 +16,13 @@ namespace MeowEngine::Physics {
         World->Simulate(inFixedDeltaTime);
     }
 
-    void PhysicsSystem::StartSimulation() {}
+    void PhysicsSystem::StartSimulation() {
 
-    void PhysicsSystem::StopSimulation() {}
+    }
+
+    void PhysicsSystem::StopSimulation() {
+        // World->Destroy();
+    }
 
     void PhysicsSystem::FetchResult(PhysicsResult& result) {
         World->FetchResults(result);
@@ -29,5 +33,7 @@ namespace MeowEngine::Physics {
         World->Create(*data);
     }
 
-
+    void PhysicsSystem::DestroyWorld() {
+        World->Destroy();
+    }
 }

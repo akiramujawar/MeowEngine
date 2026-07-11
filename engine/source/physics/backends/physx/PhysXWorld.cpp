@@ -88,6 +88,8 @@ namespace MeowEngine::Physics {
 
             result.RigidBodies.push_back(rigidbody);
         }
+
+        // gScene->getActiveActors()
     }
 
     void PhysXWorld::AddPhysicsMaterial(const PhysicsMaterial& data) {
@@ -113,18 +115,21 @@ namespace MeowEngine::Physics {
 
             switch (data.Type) {
                 case ColliderType::BOX: {
-                    auto geometry = physx::PxBoxGeometry();
+                    auto cube = data.Geometry.Cube.HalfExtents;
+                    auto geometry = physx::PxBoxGeometry(cube.X, cube.Y, cube.Z);
                     collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
                     break;
                 }
                 case ColliderType::SPHERE: {
-                    auto geometry = physx::PxSphereGeometry();
+                    auto sphere = data.Geometry.Sphere;
+                    auto geometry = physx::PxSphereGeometry(sphere.Radius);
                     collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
 
                     break;
                 }
                 case ColliderType::CAPSULE: {
-                    auto geometry = physx::PxCapsuleGeometry();
+                    auto capsule = data.Geometry.Capsule;
+                    auto geometry = physx::PxCapsuleGeometry(capsule.Radius, capsule.Height);
                     collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
 
                     break;
@@ -155,6 +160,7 @@ namespace MeowEngine::Physics {
                 break;
         }
 
+        gScene->addActor(*RigidBodies[data.ObjectID].Rigidbody);
 
         // physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
         // physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
@@ -168,7 +174,11 @@ namespace MeowEngine::Physics {
 
     void PhysXWorld::AddRigidStatic(const Rigidbody& data) {
         PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
-        rigidbody.Rigidbody = gPhysics->createRigidStatic(physx::PxTransform());
+        auto transform = physx::PxTransform(
+            {data.Position.X, data.Position.Y, data.Position.Z},
+            {data.Quaternion.X, data.Quaternion.Y, data.Quaternion.Z, data.Quaternion.W}
+        );
+        rigidbody.Rigidbody = gPhysics->createRigidStatic(transform);
 
         RigidBodies.emplace(data.ObjectID, rigidbody);
         AttachColliders(data.ObjectID, data.ColliderIDs);
@@ -176,7 +186,11 @@ namespace MeowEngine::Physics {
 
     void PhysXWorld::AddRigidDynamic(const Rigidbody& data) {
         PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
-        rigidbody.Rigidbody = gPhysics->createRigidDynamic(physx::PxTransform());
+        auto transform = physx::PxTransform(
+            {data.Position.X, data.Position.Y, data.Position.Z},
+            {data.Quaternion.X, data.Quaternion.Y, data.Quaternion.Z, data.Quaternion.W}
+        );
+        rigidbody.Rigidbody = gPhysics->createRigidDynamic(transform);
 
         RigidBodies.emplace(data.ObjectID, rigidbody);
         AttachColliders(data.ObjectID, data.ColliderIDs);

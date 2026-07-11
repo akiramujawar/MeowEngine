@@ -7,7 +7,7 @@
 
 namespace MeowEngine::Physics {
     struct SphereGeometry {
-
+        float Radius;
     };
 }
 

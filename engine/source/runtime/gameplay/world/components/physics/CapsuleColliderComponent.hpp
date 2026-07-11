@@ -15,6 +15,9 @@ namespace MeowEngine::Runtime {
 
         CapsuleColliderComponent() = default;
         ~CapsuleColliderComponent() override = default;
+
+        float Radius;
+        float Height;
     };
 }
 

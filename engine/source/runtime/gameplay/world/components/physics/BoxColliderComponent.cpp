@@ -10,5 +10,6 @@ namespace MeowEngine::Runtime {
 
     void BoxColliderComponent::Reflect() {
         REGISTER_PROPERTY(BoxColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(BoxColliderComponent, HalfExtents, Vector3, true, true);
     }
 }

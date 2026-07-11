@@ -23,6 +23,7 @@ namespace MeowEngine::Physics {
 
         void FetchResult(PhysicsResult& result);
         void CreateWorld(std::unique_ptr<PhysicsWorldData> data);
+        void DestroyWorld();
 
     private:
         std::unique_ptr<PhysXWorld> World;

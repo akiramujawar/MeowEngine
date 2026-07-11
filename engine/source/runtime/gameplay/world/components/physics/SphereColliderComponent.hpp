@@ -15,6 +15,8 @@ namespace MeowEngine::Runtime {
 
         SphereColliderComponent() = default;
         ~SphereColliderComponent() override = default;
+
+        float Radius;
     };
 }
 

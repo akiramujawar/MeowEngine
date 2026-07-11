@@ -55,10 +55,12 @@ namespace MeowEngine::Runtime {
         scheduler.AddTask(
             [this]() {
                 PT_PROFILE_SCOPE_N("Physics Apply Results");
-                PhysicsSynchronizer.ApplyResult(
-                    Gameplay.GetWorld(),
-                    Context.PhysicsResultBuffer->GetRead()
-                );
+                if (Gameplay.GetIsSimulating()) {
+                    PhysicsSynchronizer.ApplyResult(
+                        Gameplay.GetWorld(),
+                        Context.PhysicsResultBuffer->GetRead()
+                    );
+                }
             }
         );
     }

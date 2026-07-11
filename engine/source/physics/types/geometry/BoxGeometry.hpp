@@ -5,9 +5,11 @@
 #ifndef MEOWENGINE_BOXGEOMETRY_HPP
 #define MEOWENGINE_BOXGEOMETRY_HPP
 
+#include "Public/Math.hpp"
+
 namespace MeowEngine::Physics {
     struct BoxGeometry {
-
+        Vector3 HalfExtents;
     };
 }
 

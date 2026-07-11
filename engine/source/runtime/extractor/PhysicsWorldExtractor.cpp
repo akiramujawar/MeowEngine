@@ -40,12 +40,13 @@ namespace MeowEngine::Runtime {
 
         // easy to check in reverse
         auto& ecs = world.GetRegistry();
-        auto view = ecs.view<IdentityComponent, HierarchyComponent, RigidbodyComponent>();
+        auto view = ecs.view<IdentityComponent, HierarchyComponent, Transform3DComponent, RigidbodyComponent>();
 
         for (auto &&entity : view) {
-            auto&& [identity, hierarchy, rigidbody] = view.get(entity);
+            auto&& [identity, hierarchy, transform, rigidbody] = view.get(entity);
             Physics::Rigidbody body { identity.GetGUIDInt(), rigidbody.Type };
-
+            body.Position = transform.GetPosition();
+            body.Quaternion = transform.GetQuaternion();
             // TODO: check for parent if any rigidbody exists, if so we detatch
 
             FindColliders(world, data, hierarchy.FirstChild, body);
@@ -106,6 +107,7 @@ namespace MeowEngine::Runtime {
             auto& comp = world.GetComponent<BoxColliderComponent>(handle);
             collider.Type = Physics::ColliderType::BOX;
             colliderBase = &comp;
+            collider.Geometry.Cube.HalfExtents = comp.HalfExtents;
         }
 
         // sphere
@@ -113,6 +115,7 @@ namespace MeowEngine::Runtime {
             auto& comp = world.GetComponent<SphereColliderComponent>(handle);
             collider.Type = Physics::ColliderType::SPHERE;
             colliderBase = &comp;
+            collider.Geometry.Sphere.Radius = comp.Radius;
         }
 
         // capsule
@@ -120,6 +123,8 @@ namespace MeowEngine::Runtime {
             auto& comp = world.GetComponent<CapsuleColliderComponent>(handle);
             collider.Type = Physics::ColliderType::CAPSULE;
             colliderBase = &comp;
+            collider.Geometry.Capsule.Radius = comp.Radius;
+            collider.Geometry.Capsule.Height = comp.Height;
         }
 
         // mesh

@@ -6,6 +6,7 @@
 #define MEOWENGINE_BOXCOLLIDERCOMPONENT_HPP
 
 
+#include "Public/Math.hpp"
 #include <ColliderComponent.hpp>
 
 namespace MeowEngine::Runtime {
@@ -16,6 +17,8 @@ namespace MeowEngine::Runtime {
 
         BoxColliderComponent() = default;
         ~BoxColliderComponent() override = default;
+
+        Vector3 HalfExtents;
     };
 }
 

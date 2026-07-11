@@ -17,7 +17,7 @@
 namespace MeowEngine::Physics {
     struct Geometry {
         union {
-            BoxGeometry Box;
+            BoxGeometry Cube;
             SphereGeometry Sphere;
             CapsuleGeometry Capsule;
             MeshGeometry Mesh;

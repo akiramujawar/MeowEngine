@@ -9,5 +9,6 @@ namespace MeowEngine::Runtime {
 
     void SphereColliderComponent::Reflect() {
         REGISTER_PROPERTY(SphereColliderComponent, MaterialAssetHandle, AssetHandle, true, false);
+        REGISTER_PROPERTY(SphereColliderComponent, Radius, float, true, true);
     }
 }

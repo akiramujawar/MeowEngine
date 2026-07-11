@@ -10,6 +10,7 @@
 
 #include "CommandQueue.hpp"
 #include "CreatePhysicsWorldCommand.hpp"
+#include "DestroyPhysicsWorldCommand.hpp"
 #include "SetPhysicsStateCommand.hpp"
 
 namespace MeowEngine::Runtime {
@@ -30,6 +31,11 @@ namespace MeowEngine::Runtime {
                     Context.CommandQueue->Push(
                         Messaging::ThreadType::PHYSICS,
                         std::make_unique<Messaging::SetPhysicsStateCommand>(false)
+                    );
+
+                    Context.CommandQueue->Push(
+                        Messaging::ThreadType::PHYSICS,
+                        std::make_unique<Messaging::DestroyPhysicsWorldCommand>()
                     );
                 }
                 // start
