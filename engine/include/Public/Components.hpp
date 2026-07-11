@@ -13,7 +13,6 @@
 #include "Transform3DComponent.hpp"
 
 #include "RigidbodyComponent.hpp"
-#include "PlaneColliderComponent.hpp"
 #include "BoxColliderComponent.hpp"
 #include "SphereColliderComponent.hpp"
 #include "CapsuleColliderComponent.hpp"

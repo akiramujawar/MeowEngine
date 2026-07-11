@@ -19,7 +19,7 @@ namespace MeowEngine::Physics {
         ColliderType Type;
         physx::PxShape* Collider;
 
-        PhysXMaterial Material;
+        uint64_t MaterialID;
     };
 
 }

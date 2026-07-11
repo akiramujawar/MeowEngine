@@ -6,12 +6,16 @@
 #define MEOWENGINE_RIGIDBODY_HPP
 
 #include <cstdlib>
+#include <vector>
+
+#include "RigidbodyType.hpp"
 
 namespace MeowEngine::Physics {
     struct Rigidbody {
-        uint64_t ObjectID;
+        uint64_t ObjectID {};
+        RigidbodyType Type = RigidbodyType::DYNAMIC;
 
-        std::vector<uint64_t> ColliderIDs;
+        std::vector<uint64_t> ColliderIDs {};
     };
 }
 

@@ -13,7 +13,7 @@
 
 namespace MeowEngine::Physics {
     struct PhysicsWorldData {
-        std::vector<Rigidbody> Rigidbodies;
+        std::vector<Rigidbody> RigidBodies;
         std::vector<Collider> Colliders;
         std::vector<PhysicsMaterial> Materials;
     };

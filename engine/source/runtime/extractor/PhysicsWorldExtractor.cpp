@@ -4,11 +4,13 @@
 
 #include "PhysicsWorldExtractor.hpp"
 
+#include "AssetManager.hpp"
 #include "Hierarchy.hpp"
 #include "Components.hpp"
 #include "World.hpp"
 #include "Rigidbody.hpp"
 #include "Collider.hpp"
+#include "MeowService.hpp"
 
 namespace MeowEngine::Runtime {
 
@@ -42,60 +44,110 @@ namespace MeowEngine::Runtime {
 
         for (auto &&entity : view) {
             auto&& [identity, hierarchy, rigidbody] = view.get(entity);
-            Physics::Rigidbody body { identity.GetGUIDInt() };
-            data.Rigidbodies.push_back(body);
+            Physics::Rigidbody body { identity.GetGUIDInt(), rigidbody.Type };
 
             // TODO: check for parent if any rigidbody exists, if so we detatch
 
-            auto child = hierarchy.FirstChild;
-            while (child.GetIsValid()) {
-                auto& childIdentity = world.GetComponent<IdentityComponent>(child);
-                Physics::Collider collider = {};
-                collider.ObjectID = childIdentity.GetGUIDInt();
+            FindColliders(world, data, hierarchy.FirstChild, body);
 
-                // plane
-                if (world.HasComponent<PlaneColliderComponent>(child)) {
-                    auto& comp = world.GetComponent<PlaneColliderComponent>(child);
-                    collider.RootObjectID = identity.GetGUIDInt();
-                    collider.ObjectID = childIdentity.GetGUIDInt();
-                    collider.Type = Physics::ColliderType::PLANE;
-                }
-
-                // box
-                if (world.HasComponent<BoxColliderComponent>(child)) {
-                    auto& comp = world.GetComponent<BoxColliderComponent>(child);
-                    collider.RootObjectID = identity.GetGUIDInt();
-                    collider.ObjectID = childIdentity.GetGUIDInt();
-                    collider.Type = Physics::ColliderType::BOX;
-                }
-
-                // sphere
-                if (world.HasComponent<SphereColliderComponent>(child)) {
-                    auto& comp = world.GetComponent<SphereColliderComponent>(child);
-                    collider.RootObjectID = identity.GetGUIDInt();
-                    collider.ObjectID = childIdentity.GetGUIDInt();
-                    collider.Type = Physics::ColliderType::SPHERE;
-                }
-
-                // capsule
-                if (world.HasComponent<CapsuleColliderComponent>(child)) {
-                    auto& comp = world.GetComponent<CapsuleColliderComponent>(child);
-                    collider.RootObjectID = identity.GetGUIDInt();
-                    collider.ObjectID = childIdentity.GetGUIDInt();
-                    collider.Type = Physics::ColliderType::CAPSULE;
-                }
-
-                // child
-                if (world.HasComponent<MeshColliderComponent>(child)) {
-                    auto& comp = world.GetComponent<MeshColliderComponent>(child);
-                    collider.RootObjectID = identity.GetGUIDInt();
-                    collider.ObjectID = childIdentity.GetGUIDInt();
-                    collider.Type = Physics::ColliderType::MESH;
-                }
-
-                data.Colliders.push_back(collider);
-            }
+            // push rigidbody
+            data.RigidBodies.push_back(body);
         }
 
+    }
+
+    void PhysicsWorldExtractor::FindColliders(
+        Asset::World& world ,
+        Physics::PhysicsWorldData& data,
+        EntityHandle child,
+        Physics::Rigidbody& body
+    ) {
+        // first child
+        // next child
+        // next chil etc...
+        // send child first child
+
+        // for each rigidbody collect all child colliders
+        while (child.GetIsValid()) {
+            auto& hierarchy = world.GetComponent<HierarchyComponent>(child);
+            auto [isValid, collider, material] = GetColliderData(world, child);
+
+            if (isValid) {
+                collider.RootObjectID = body.ObjectID;
+
+                // track collider
+                data.Colliders.push_back(collider);
+                data.Materials.push_back(material);
+
+                // add colliders to rigidbody &
+                body.ColliderIDs.push_back(collider.ObjectID);
+            }
+
+            // inside
+            FindColliders(world, data, hierarchy.FirstChild, body);
+
+            // next child
+            child = hierarchy.NextChildOfParent;
+        }
+    }
+
+    std::tuple<bool, Physics::Collider, Physics::PhysicsMaterial> PhysicsWorldExtractor::GetColliderData(
+        Asset::World& world,
+        EntityHandle handle
+    ) {
+        auto& childIdentity = world.GetComponent<IdentityComponent>(handle);
+        ColliderComponent* colliderBase = nullptr;
+        Physics::Collider collider = {};
+
+        collider.ObjectID = childIdentity.GetGUIDInt();
+
+        // box
+        if (world.HasComponent<BoxColliderComponent>(handle)) {
+            auto& comp = world.GetComponent<BoxColliderComponent>(handle);
+            collider.Type = Physics::ColliderType::BOX;
+            colliderBase = &comp;
+        }
+
+        // sphere
+        if (world.HasComponent<SphereColliderComponent>(handle)) {
+            auto& comp = world.GetComponent<SphereColliderComponent>(handle);
+            collider.Type = Physics::ColliderType::SPHERE;
+            colliderBase = &comp;
+        }
+
+        // capsule
+        if (world.HasComponent<CapsuleColliderComponent>(handle)) {
+            auto& comp = world.GetComponent<CapsuleColliderComponent>(handle);
+            collider.Type = Physics::ColliderType::CAPSULE;
+            colliderBase = &comp;
+        }
+
+        // mesh
+        if (world.HasComponent<MeshColliderComponent>(handle)) {
+            auto& comp = world.GetComponent<MeshColliderComponent>(handle);
+            collider.Type = Physics::ColliderType::MESH;
+            colliderBase = &comp;
+        }
+
+        // grab material asset
+        Physics::PhysicsMaterial material;
+        if (colliderBase) {
+            auto& assetManager = MeowService().AssetManager;
+            auto materialHandle = colliderBase->GetMaterialAssetHandle();
+            auto* materialAsset = assetManager.GetAssetOrLoad<Asset::PhysicsMaterialAsset>(materialHandle);
+            material = {
+                materialHandle.GetUUID(),
+                materialAsset->DynamicFriction,
+                materialAsset->Restitution,
+                materialAsset->StaticFriction
+            };
+
+            // track materials
+            collider.MaterialID = materialHandle.GetUUID();
+
+            return std::make_tuple(true, collider, material);
+        }
+
+        return std::make_tuple(false, collider, material);
     }
 }

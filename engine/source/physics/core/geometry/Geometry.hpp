@@ -9,7 +9,6 @@
 
 #include "ColliderType.hpp"
 
-#include "PlaneGeometry.hpp"
 #include "BoxGeometry.hpp"
 #include "SphereGeometry.hpp"
 #include "CapsuleGeometry.hpp"
@@ -18,7 +17,6 @@
 namespace MeowEngine::Physics {
     struct Geometry {
         union {
-            PlaneGeometry Plane;
             BoxGeometry Box;
             SphereGeometry Sphere;
             CapsuleGeometry Capsule;

@@ -2,18 +2,24 @@
 // Created by Akira Mujawar on 04/07/26.
 //
 
-#ifndef MEOWENGINE_PHYSXACTOR_HPP
-#define MEOWENGINE_PHYSXACTOR_HPP
+#ifndef MEOWENGINE_PHYSXRIGIDDYNAMIC_HPP
+#define MEOWENGINE_PHYSXRIGIDDYNAMIC_HPP
 
 #include <cstdlib>
+#include <vector>
+
 #include "PxPhysicsAPI.h"
+#include "RigidbodyType.hpp"
 
 namespace MeowEngine::Physics {
     struct PhysXRigidbody {
         uint64_t ObjectID;
+        RigidbodyType Type = RigidbodyType::DYNAMIC;
 
-        physx::PxActor* Rigidbody;
+        physx::PxRigidActor* Rigidbody;
+
+        std::vector<uint64_t> ColliderIDs {};
     };
 }
 
-#endif //MEOWENGINE_PHYSXACTOR_HPP
+#endif //MEOWENGINE_PHYSXRIGIDDYNAMIC_HPP

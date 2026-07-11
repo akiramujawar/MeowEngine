@@ -32,8 +32,9 @@ namespace MeowEngine::Physics {
         void Simulate(float inFixedDeltaTime) const;
         void FetchResults() const;
 
-        void AddRigidbody();
-        void AddCollider();
+        void AddPhysicsMaterial(const PhysicsMaterial& data);
+        void AddCollider(const Collider& data);
+        void AddRigidbody(const Rigidbody& data);
 
         void RemoveRigidbody();
         void RemoveCollider();
@@ -54,9 +55,6 @@ namespace MeowEngine::Physics {
         // since we want physics to be separate module
         // runtime depends upon physics
 
-        std::unordered_map<uint32_t, PhysXRigidbody> Actors;
-
-
 
         void AddPlaneCollider(const Transform& worldTransform) const;
         void AddCubeCollider();
@@ -68,7 +66,9 @@ namespace MeowEngine::Physics {
         bool IsRigidbody();
 
     private:
-        void AddRigidStatic(const physx::PxGeometry* geometry, const physx::PxTransform& transform) const;
+        void AddRigidStatic(const Rigidbody& data);
+        void AddRigidDynamic(const Rigidbody& data);
+        void AttachColliders(uint64_t rigidbodyID, const std::vector<uint64_t>& colliderIDs);
 
     private:
         // PhysX Foundation

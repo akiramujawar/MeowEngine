@@ -34,8 +34,16 @@ namespace MeowEngine::Physics {
     }
 
     void PhysXWorld::Create(const PhysicsWorldData& context) {
-        for (auto& collider : context.Colliders) {
+        for (auto& material : context.Materials) {
+            AddPhysicsMaterial(material);
+        }
 
+        for (auto& collider : context.Colliders) {
+            AddCollider(collider);
+        }
+
+        for (auto& rigidbody : context.RigidBodies) {
+            AddRigidbody(rigidbody);
         }
     }
 
@@ -55,6 +63,7 @@ namespace MeowEngine::Physics {
 
         RigidBodies.clear();
         Colliders.clear();
+        Materials.clear();
     }
 
     void PhysXWorld::Simulate(float inFixedDeltaTime) const {
@@ -67,32 +76,71 @@ namespace MeowEngine::Physics {
         gScene->fetchResults(true);
     }
 
-    void PhysXWorld::AddPlaneCollider(const Transform& worldTransform) const {
-        physx::PxPlaneGeometry geometry = physx::PxPlaneGeometry();
+    void PhysXWorld::AddPhysicsMaterial(const PhysicsMaterial& data) {
+        if (Materials.find(data.ObjectID) != Materials.end()) {
+            return;
+        }
 
-        // material =>
+        PhysXMaterial material {};
+        material.ObjectID = data.ObjectID;
+        material.Material = gPhysics->createMaterial(data.StaticFriction, data.DynamicFriction, data.Restitution);
 
-        // setup transform
-        physx::PxTransform transform;
-        const auto position = worldTransform.GetPosition();
-        const auto rotation = worldTransform.GetQuaternion();
-        transform.p = physx::PxVec3(position.X, position.Y, position.Z);
-        transform.q = physx::PxQuat(rotation.X, rotation.Y, rotation.Z, rotation.W);
-
-        AddRigidStatic(&geometry, transform);
+        Materials.emplace(material.ObjectID, material);
     }
 
-    void PhysXWorld::AddRigidStatic(const physx::PxGeometry* geometry, const physx::PxTransform& transform) const {
-        // setup actor
-        physx::PxMaterial* material = gPhysics->createMaterial(1, 1, 1);
-        physx::PxRigidStatic* actor = physx::PxCreateStatic(*gPhysics, transform, *geometry, *material);
+    void PhysXWorld::AddCollider(const Collider& data) {
+        // if material exists we create collider
+        // TODO: later if material isn't there we create a dummy one
+        auto iterator = Materials.find(data.MaterialID);
+        if (iterator != Materials.end()) {
+            auto material = iterator->second;
 
-        // setup shape
-        physx::PxShape* shape = gPhysics->createShape(*geometry, *material);
-        actor->attachShape(*shape);
+            PhysXCollider collider {data.ObjectID, data.Type, nullptr, data.MaterialID};
+
+            switch (data.Type) {
+                case ColliderType::BOX: {
+                    auto geometry = physx::PxBoxGeometry();
+                    collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
+                    break;
+                }
+                case ColliderType::SPHERE: {
+                    auto geometry = physx::PxSphereGeometry();
+                    collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
+
+                    break;
+                }
+                case ColliderType::CAPSULE: {
+                    auto geometry = physx::PxCapsuleGeometry();
+                    collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
+
+                    break;
+                }
+                case ColliderType::MESH: {
+                    // auto geometry = physx::PxConvexMeshGeometry();
+                    // collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
+
+                    break;
+                }
+            }
+
+            Colliders.emplace(data.ObjectID, collider);
+        }
     }
 
-    void PhysXWorld::AddRigidbody() {
+    void PhysXWorld::AddRigidbody(const Rigidbody& data) {
+        switch (data.Type) {
+            case RigidbodyType::STATIC:
+                AddRigidStatic(data);
+
+                break;
+            case RigidbodyType::DYNAMIC:
+                AddRigidDynamic(data);
+
+                break;
+            case RigidbodyType::KINEMATIC:
+                break;
+        }
+
 
         // physx::PxTransform physicsTransform(physx::PxVec3(transform.Position.X,transform.Position.Y,transform.Position.Z));
         // physx::PxGeometry& geometry = collider.GetGeometry(); // has scale data as well
@@ -102,5 +150,29 @@ namespace MeowEngine::Physics {
         // actor->attachShape(colliderData.GetShape());
         //
         // gScene->addActor(*actor);
+    }
+
+    void PhysXWorld::AddRigidStatic(const Rigidbody& data) {
+        PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
+        rigidbody.Rigidbody = gPhysics->createRigidStatic(physx::PxTransform());
+
+        RigidBodies.emplace(data.ObjectID, rigidbody);
+        AttachColliders(data.ObjectID, data.ColliderIDs);
+    }
+
+    void PhysXWorld::AddRigidDynamic(const Rigidbody& data) {
+        PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
+        rigidbody.Rigidbody = gPhysics->createRigidDynamic(physx::PxTransform());
+
+        RigidBodies.emplace(data.ObjectID, rigidbody);
+        AttachColliders(data.ObjectID, data.ColliderIDs);
+    }
+
+    void PhysXWorld::AttachColliders(uint64_t rigidbodyID, const std::vector<uint64_t>& colliderIDs) {
+        for (auto id : colliderIDs) {
+            auto& rigidbody = RigidBodies[rigidbodyID];
+            rigidbody.ColliderIDs.push_back(id);
+            rigidbody.Rigidbody->attachShape(*Colliders[id].Collider);
+        }
     }
 }
