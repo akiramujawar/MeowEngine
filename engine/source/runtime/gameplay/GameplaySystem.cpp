@@ -7,9 +7,13 @@
 
 #include "MeowService.hpp"
 #include "EventBus.hpp"
-#include "CameraSystem.hpp"
-#include "CameraComponent.hpp"
 #include "EventContainer.hpp"
+
+// mandatory systems
+#include "CameraSystem.hpp"
+
+//
+#include "CameraComponent.hpp"
 
 namespace MeowEngine::Runtime {
     GameplaySystem::GameplaySystem() {

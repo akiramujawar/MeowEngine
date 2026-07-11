@@ -102,7 +102,10 @@ namespace MeowEngine {
         AssetManager.Init(assetManagerInit);
 
         // -- runtime
-        Runtime::RuntimeInitData runtimeInit{};
+        Runtime::RuntimeInitData runtimeInit{
+            &Physics.GetResultBuffer()
+        };
+
         Runtime.Init(runtimeInit);
 
         Physics::PhysicsInitData physicsInit{};

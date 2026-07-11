@@ -5,9 +5,11 @@
 #ifndef MEOWENGINE_RUNTIMEINITDATA_HPP
 #define MEOWENGINE_RUNTIMEINITDATA_HPP
 
+#include "PhysicsResultBuffer.hpp"
+
 namespace MeowEngine::Runtime {
     struct RuntimeInitData {
-
+        Physics::PhysicsResultBuffer* PhysicsResultBuffer;
     };
 }
 

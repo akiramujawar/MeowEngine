@@ -9,8 +9,9 @@
 
 #include <WorldManager.hpp>
 #include <GameplaySystem.hpp>
-
-#include <PhysicsCommand.hpp>
+#include "RuntimeInitData.hpp"
+#include "PhysicsSynchronizer.hpp"
+// #include <PhysicsCommand.hpp>
 
 namespace MeowEngine::Runtime {
     struct RuntimeInitData;
@@ -20,7 +21,7 @@ namespace MeowEngine::Runtime {
         RuntimeModule();
         ~RuntimeModule();
 
-        void Init(RuntimeInitData& context);
+        void Init(RuntimeInitData context);
         void SubscribeToEvents();
         void Load();
         void Schedule(Threading::Scheduler& scheduler);
@@ -31,8 +32,10 @@ namespace MeowEngine::Runtime {
     private:
         WorldManager WorldManager;
         GameplaySystem Gameplay;
+        PhysicsSynchronizer PhysicsSynchronizer;
 
-        DoubleBuffer<Physics::PhysicsCommand> PhysicsSnapshot;
+        RuntimeInitData Context;
+        // DoubleBuffer<Physics::PhysicsCommand> PhysicsSnapshot;
     };
 }
 

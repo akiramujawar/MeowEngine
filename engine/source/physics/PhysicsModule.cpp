@@ -34,8 +34,8 @@ namespace MeowEngine::Physics {
                 Physics.Step(Timing.GetFixedDeltaTime());
 
                 // TODO: later implement triple buffer
-                Physics.FetchResult(Result.GetWrite());
-                Result.Swap();
+                Physics.FetchResult(ResultBuffer.GetWrite());
+                ResultBuffer.Swap();
 
                 Timing.Wait();
             }

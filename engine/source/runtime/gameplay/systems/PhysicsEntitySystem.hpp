@@ -2,13 +2,13 @@
 // Created by Akira Mujawar on 30/06/26.
 //
 
-#ifndef MEOWENGINE_PHYSICSSYNCSYSTEM_HPP
-#define MEOWENGINE_PHYSICSSYNCSYSTEM_HPP
+#ifndef MEOWENGINE_PHYSICSLIFECYCLESYSTEM_HPP
+#define MEOWENGINE_PHYSICSLIFECYCLESYSTEM_HPP
 
 #include "IComponentSystem.hpp"
 
 namespace MeowEngine::Runtime {
-    class PhysicsSyncSystem : public IComponentSystem {
+    class PhysicsEntitySystem : public IComponentSystem {
     public:
         void ProcessDirtyEntities(Asset::World& world) override;
         void Start(Asset::World& world) override {}
@@ -18,4 +18,4 @@ namespace MeowEngine::Runtime {
 }
 
 
-#endif //MEOWENGINE_PHYSICSSYNCSYSTEM_HPP
+#endif //MEOWENGINE_PHYSICSLIFECYCLESYSTEM_HPP

@@ -5,14 +5,16 @@
 #ifndef MEOWENGINE_PHYSICSMODULE_HPP
 #define MEOWENGINE_PHYSICSMODULE_HPP
 
-#include <Public/Threading/Forward.hpp>
+
 
 #include "PhysicsInitData.hpp"
 #include "PhysicsSystem.hpp"
-#include "PhysicsResult.hpp"
+#include "PhysicsResultBuffer.hpp"
 #include "FixedTiming.hpp"
 
 namespace MeowEngine::Physics {
+
+
     class PhysicsModule {
     public:
         PhysicsModule();
@@ -22,10 +24,11 @@ namespace MeowEngine::Physics {
         void Schedule(Threading::Scheduler& scheduler);
 
         PhysicsSystem& GetPhysics() { return Physics; }
+        [[nodiscard]] PhysicsResultBuffer& GetResultBuffer() { return ResultBuffer; };
 
     private:
         PhysicsSystem Physics;
-        DoubleBuffer<PhysicsResult> Result;
+        PhysicsResultBuffer ResultBuffer;
         Core::FixedTiming Timing;
     };
 }

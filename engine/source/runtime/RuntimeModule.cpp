@@ -19,8 +19,9 @@ namespace MeowEngine::Runtime {
         MeowEngine::Log("RuntimeModule", "Destructed");
     }
 
-    void RuntimeModule::Init(RuntimeInitData& context) {
+    void RuntimeModule::Init(const RuntimeInitData context) {
         WorldManager.Init(&Gameplay);
+        Context = context;
     }
 
     void RuntimeModule::SubscribeToEvents() {
@@ -48,6 +49,16 @@ namespace MeowEngine::Runtime {
             [this]() {
                 PT_PROFILE_SCOPE_N("Gameplay Update");
                 Gameplay.Update();
+            }
+        );
+
+        scheduler.AddTask(
+            [this]() {
+                PT_PROFILE_SCOPE_N("Physics Apply Results");
+                PhysicsSynchronizer.ApplyResult(
+                    Gameplay.GetWorld(),
+                    Context.PhysicsResultBuffer->GetRead()
+                );
             }
         );
     }

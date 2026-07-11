@@ -30,6 +30,12 @@ namespace MeowEngine::Runtime {
         void SetRotation(const Vector3& euler);
         void SetRotation(const Quaternion& quat);
 
+        /**
+         * Do not access directly (internal api)
+         * @return
+         */
+        Transform& GetRootTransform() { return Local; };
+
     protected:
         Transform Local;
         TransformAuthorityState State = TransformAuthorityState::LOCAL;
