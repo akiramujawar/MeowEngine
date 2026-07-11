@@ -10,16 +10,16 @@
 namespace MeowEngine::Core {
     class FixedTiming {
     public:
-        explicit FixedTiming(float fixedDeltaTime = 1.0f / 250.0f);
+        explicit FixedTiming(float fixedDeltaTime = 1/60.0f);
 
         void Wait();
 
         [[nodiscard]] float GetFixedDeltaTime() const;
 
     private:
-        float m_FixedDeltaTime;
-        uint64_t m_Frequency;
-        uint64_t m_NextTick;
+        float FixedDeltaTime;
+        uint64_t Frequency;
+        uint64_t NextTick;
     };
 }
 
