@@ -2,7 +2,7 @@
 [...previous plan of actions](previous_plan_of_actions.md)
 
 ## Meow Engine v0.5
-- [ ] Reimplementing physics with new architecture for multithreaded synchronisation
+- [x] Reimplementing physics with new architecture for multithreaded synchronisation
 - [x] Populating enums, pointers classes in edit panel
 - [x] Automated component registration in triple buffer
 - [x] Adding Rotations & Scaling to transform & physics bodies
@@ -18,7 +18,7 @@
 - [x] Ability to read/write on file for saving import references (instead of hard-coded enums)
 - [x] Creating support for multi-scene compilation
 - [x] Improving current shader pipeline to handle shaders dynamically
-- [ ] Render loading pipeline (shaders, textures, meshes)
+- [x] Render loading pipeline (shaders, textures, meshes)
 - [x] Reworking camera system to use quaternion
 - [x] Messaging systems (command, request & event)
 - [x] Config load & bootstrap for editor load
@@ -36,6 +36,8 @@
 - [ ] Asset Directory needs to updated after actions (create/delete/move/rename)
 - [ ] Asset Database needs to be updated after actions (create/delete/move/rename)
 - [ ] Documenting done items and different approaches and used libraries
+- [ ] Transforms Hierarchy (local + global positions / rotations / scales)
+- [ ] Collider Rendering
 
 ## Meow Engine v0.7
 - [ ] Reflection for engine assets

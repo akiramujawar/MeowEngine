@@ -83,7 +83,7 @@ namespace MeowEngine::Physics {
             RigidbodyState rigidbody {
                 key,
                 { transform.p.x, transform.p.y, transform.p.z },
-                { transform.q.w, transform.q.x, transform.q.y, transform.q.z }
+                { transform.q.w, -transform.q.x, transform.q.y, -transform.q.z }
             };
 
             result.RigidBodies.push_back(rigidbody);
@@ -99,7 +99,8 @@ namespace MeowEngine::Physics {
 
         PhysXMaterial material {};
         material.ObjectID = data.ObjectID;
-        material.Material = gPhysics->createMaterial(data.StaticFriction, data.DynamicFriction, data.Restitution);
+        // material.Material = gPhysics->createMaterial(data.StaticFriction, data.DynamicFriction, data.Restitution);
+        material.Material = gPhysics->createMaterial(0.5, 0.5, 0);
 
         Materials.emplace(material.ObjectID, material);
     }
@@ -176,7 +177,7 @@ namespace MeowEngine::Physics {
         PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
         auto transform = physx::PxTransform(
             {data.Position.X, data.Position.Y, data.Position.Z},
-            {data.Quaternion.X, data.Quaternion.Y, data.Quaternion.Z, data.Quaternion.W}
+            {-data.Quaternion.X, data.Quaternion.Y, -data.Quaternion.Z, data.Quaternion.W}
         );
         rigidbody.Rigidbody = gPhysics->createRigidStatic(transform);
 
@@ -188,12 +189,17 @@ namespace MeowEngine::Physics {
         PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
         auto transform = physx::PxTransform(
             {data.Position.X, data.Position.Y, data.Position.Z},
-            {data.Quaternion.X, data.Quaternion.Y, data.Quaternion.Z, data.Quaternion.W}
+            {-data.Quaternion.X, data.Quaternion.Y, -data.Quaternion.Z, data.Quaternion.W}
         );
         rigidbody.Rigidbody = gPhysics->createRigidDynamic(transform);
 
         RigidBodies.emplace(data.ObjectID, rigidbody);
         AttachColliders(data.ObjectID, data.ColliderIDs);
+
+        physx::PxRigidBodyExt::updateMassAndInertia(
+            *static_cast<physx::PxRigidBody*>(rigidbody.Rigidbody),
+            1.0f
+        );
     }
 
     void PhysXWorld::AttachColliders(uint64_t rigidbodyID, const std::vector<uint64_t>& colliderIDs) {

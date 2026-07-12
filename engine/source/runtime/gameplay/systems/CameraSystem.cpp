@@ -22,10 +22,13 @@ namespace MeowEngine::Runtime {
             // mouse move
             if (inputManager.MouseState) {
                 auto eulerAngles = camera.GetEuler();
-                eulerAngles.X += static_cast<float>(inputManager.MouseDeltaY) * camera.LookAroundSpeed; // vertical
-                eulerAngles.Y += static_cast<float>(inputManager.MouseDeltaX) * camera.LookAroundSpeed; // horizontal
+                eulerAngles.X -= static_cast<float>(inputManager.MouseDeltaY) * camera.LookAroundSpeed; // vertical
+                eulerAngles.Y -= static_cast<float>(inputManager.MouseDeltaX) * camera.LookAroundSpeed; // horizontal
 
+                // Pitch -= static_cast<float>(inputManager.MouseDeltaY) * camera.LookAroundSpeed; // vertical
+                // Yaw -= static_cast<float>(inputManager.MouseDeltaX) * camera.LookAroundSpeed; // horizontal
                 camera.SetRotation(eulerAngles);
+                // camera.SetRotation(Quaternion(Pitch, Yaw, 0));
             }
 
             // key move

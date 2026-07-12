@@ -187,7 +187,7 @@ namespace MeowEngine::Core::Math {
             return matrix;
         }
 
-        static Matrix Rotation4x4(const Quaternion quat) {
+        static Matrix Rotation4x4(const Quaternion& quat) {
             float xSquare = quat.X * quat.X;
             float ySquare = quat.Y * quat.Y;
             float zSquare = quat.Z * quat.Z;

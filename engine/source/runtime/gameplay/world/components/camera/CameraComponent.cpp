@@ -22,11 +22,11 @@ namespace  MeowEngine::Runtime {
         View = Transform::LookAt(GetPosition(), GetPosition() + GetForward(), GetUp());
         // NOTE: quick hack to fix coordinate system
         // as we use perspectiveRH_NO & lookAtRH
-        Matrix4x4 flipZ = Matrix4x4::Identity();
-        flipZ[0][0] = -1.0f;
-        flipZ[1][1] = -1.0f;
-        flipZ[2][2] = -1.0f;
-        View = View * flipZ;
+        // Matrix4x4 flipZ = Matrix4x4::Identity();
+        // flipZ[0][0] = -1.0f;
+        // flipZ[1][1] = -1.0f;
+        // flipZ[2][2] = -1.0f;
+        // View = View * flipZ;
 
         ViewProjection = Projection * View;
     }

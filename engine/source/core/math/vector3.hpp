@@ -116,11 +116,11 @@ namespace MeowEngine::Core::Math {
         }
 
         static Vector3 Forward() {
-            return Vector3(0,0,1);
+            return Vector3(0,0,-1);
         }
 
         static Vector3 Backward() {
-            return Vector3(0,0,-1);
+            return Vector3(0,0,1);
         }
 
         /**
