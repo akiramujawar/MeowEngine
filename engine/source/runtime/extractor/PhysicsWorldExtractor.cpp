@@ -124,7 +124,7 @@ namespace MeowEngine::Runtime {
             collider.Type = Physics::ColliderType::CAPSULE;
             colliderBase = &comp;
             collider.Geometry.Capsule.Radius = comp.Radius;
-            collider.Geometry.Capsule.Height = comp.Height;
+            collider.Geometry.Capsule.HalfHeight = comp.Height;
         }
 
         // mesh

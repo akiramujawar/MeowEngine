@@ -8,7 +8,7 @@
 namespace MeowEngine::Physics {
     struct CapsuleGeometry {
         float Radius;
-        float Height;
+        float HalfHeight;
     };
 }
 

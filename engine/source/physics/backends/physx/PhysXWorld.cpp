@@ -83,7 +83,7 @@ namespace MeowEngine::Physics {
             RigidbodyState rigidbody {
                 key,
                 { transform.p.x, transform.p.y, transform.p.z },
-                { transform.q.w, -transform.q.x, transform.q.y, -transform.q.z }
+                { transform.q.w, -transform.q.x, -transform.q.y, -transform.q.z }
             };
 
             result.RigidBodies.push_back(rigidbody);
@@ -130,7 +130,7 @@ namespace MeowEngine::Physics {
                 }
                 case ColliderType::CAPSULE: {
                     auto capsule = data.Geometry.Capsule;
-                    auto geometry = physx::PxCapsuleGeometry(capsule.Radius, capsule.Height);
+                    auto geometry = physx::PxCapsuleGeometry(capsule.Radius, capsule.HalfHeight);
                     collider.Collider = gPhysics->createShape(geometry, *Materials[data.MaterialID].Material);
 
                     break;
@@ -177,7 +177,7 @@ namespace MeowEngine::Physics {
         PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
         auto transform = physx::PxTransform(
             {data.Position.X, data.Position.Y, data.Position.Z},
-            {-data.Quaternion.X, data.Quaternion.Y, -data.Quaternion.Z, data.Quaternion.W}
+            {-data.Quaternion.X, -data.Quaternion.Y, -data.Quaternion.Z, data.Quaternion.W}
         );
         rigidbody.Rigidbody = gPhysics->createRigidStatic(transform);
 
@@ -189,7 +189,7 @@ namespace MeowEngine::Physics {
         PhysXRigidbody rigidbody = {data.ObjectID, data.Type, nullptr};
         auto transform = physx::PxTransform(
             {data.Position.X, data.Position.Y, data.Position.Z},
-            {-data.Quaternion.X, data.Quaternion.Y, -data.Quaternion.Z, data.Quaternion.W}
+            {-data.Quaternion.X, -data.Quaternion.Y, -data.Quaternion.Z, data.Quaternion.W}
         );
         rigidbody.Rigidbody = gPhysics->createRigidDynamic(transform);
 
