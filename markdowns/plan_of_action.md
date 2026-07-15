@@ -1,4 +1,5 @@
 ## Plan of action
+
 [...previous plan of actions](previous_plan_of_actions.md)
 
 ## Meow Engine v0.5
@@ -38,6 +39,7 @@
 - [ ] Documenting done items and different approaches and used libraries
 - [ ] Transforms Hierarchy (local + global positions / rotations / scales)
 - [ ] Collider Rendering
+- [ ] Support for window
 
 ## Meow Engine v0.7
 - [ ] Reflection for engine assets
@@ -52,7 +54,6 @@
 - [x] Single thread app builds for web
 - [ ] Populating arrays / lists etc... in WorldInspectorPanel
 - [ ] Updating bash files for supporting physx on mac
-- [ ] Support for window
 - [ ] Research on making dev/debug builds for in-depth testing
 - [ ] Creating vehicle using PhysX
 - [ ] Creating wrapper for switching between different physics engine

@@ -1,9 +1,9 @@
 # MeowEngine
 
-C++ simulation engine for exploring engine architecture, multithreading, memory systems and computational physics.
+A research driven C++ simulation engine for exploring engine architecture, multithreading, 
+memory and computational physics.
 
 ---
-
 
 <img src="screenshots/engine_v0.5.gif" alt="MeowEngine Banner">
 
@@ -11,12 +11,8 @@ C++ simulation engine for exploring engine architecture, multithreading, memory 
 
 ## Overview
 
-MeowEngine is a long-term personal engineering project focused on 
-building a modern simulation engine in C++
-
-Rather than targeting game development, the project serves as a 
-platform for studying the engineering challenges behind 
-large-scale simulation software. Each subsystem is designed to 
+This project serves as a platform for studying the engineering challenges 
+behind 3D engine. Each subsystem is designed to 
 deepen my understanding of modern engine architecture while 
 progressively moving towards computational physics research.
 
@@ -27,86 +23,54 @@ The primary focus of the project is architecture, performance and physics.
 
 ## Long-Term Vision
 
-The project is intentionally developed in stages, with each stage focusing on a different area of systems programming.
+The project is intentionally developed in stages, with each stage 
+focusing on a different area of programming.
 
 ```
 Engine Architecture
         ↓
-Memory Systems & Profiling
+PhysX Integration
         ↓
 Multithreading
         ↓
-Mathematics Library
+Memory Systems & Profiling
         ↓
-PhysX Integration
+Custom Mathematics Library       
         ↓
-Custom Physics Engine
+Custom Physics
         ↓
 Physics Research Paper Simulations
 ```
 
-The final objective is to create a platform capable of reproducing and experimenting with techniques described in academic physics and simulation research papers.
+The final objective is to create a platform capable of 
+reproducing and experimenting with techniques described in academic physics and simulation research papers.
 
 ---
 
 ## Technology Stack
-
-<table>
-<tr>
-<td valign="top">
-
-| Category | Technology       | 
-|-----------|------------------|
-| Language | C++17            |
-| Graphics | OpenGL           |
-| Windowing | SDL              |
-| Physics | NVIDIA PhysX     |
-| Mathematics | GLM & Custom     |
-| Build System | CMake            |
-| Profiling | Tracy & Valgrind |
-
-</td>
-
-<td valign="top">
-
-| Platform          | Support            |
-|-------------------|--------------------|
-| macOS x86_64      | :white_check_mark: |
-| Mac (x84) Rosetta | :construction:     |
-| Web               | :white_check_mark: |
-| Window            | :soon:             |
-
-</td>
-</tr>
-</table>
+| Category      | Value             | - | Platform      | Status |
+|---------------|-------------------|---|----------------| ------ |
+| Language      | C++17             | - | macOS x86_64 | ✅      |
+| Graphics      | OpenGL            | - | macOS (Rosetta) | 🚧     |
+| Physics       | NVIDIA PhysX      | - | Web     | ✅      |
+| Mathematics   | GLM & Custom      | - | Windows | 🔜     |
+| Build         | CMake             | - |        |
+| Profiling     | Tracy & Valgrind  | - |        |
 
 ---
 
 ## Repository Structure
 
-```
-source/
-├── core/
-├── runtime/
-├── graphics/
-├── physics/
-├── platform/
-├── editor/
-└── tools/
-```
+- **Core** – Mathematics, memory management, utilities, threading, io
+- **Platform** – Windowing, platform abstraction.
+- **Graphics** – Graphics API abstraction, buffers, shaders and GPU resources.
+- **Rendering** – Renderer, pipeline, passes
+- **Runtime** – Asset management, project, gameplay, world, reflection
+- **Editor** – Tools, profilers, editor panels.
+- **Physics** – PhysX integration and plans to custom physics
 
 The architecture is intentionally modular to allow major
 subsystems to evolve independently.
-
----
-
-## Research
-
-The final stage of the project is dedicated to implementing techniques from published physics
-and simulation research papers.
-
-The goal is to reproduce existing work, understand the underlying mathematics and use
-MeowEngine as a platform for experimentation.
 
 ---
 
@@ -121,6 +85,7 @@ the lifetime of the project.
 - [Web demo](https://wulcat.com/meow-engine/index.html)
 - [Version logs](markdowns/versions.md)
 - [Screenshots](markdowns/Screenshots.md)
+- [Next plan of action...](markdowns/plan_of_action.md)
 
 ---
 
@@ -129,3 +94,25 @@ the lifetime of the project.
 - [Build documentation](markdowns/how_to_build.md)
 - [See versions](markdowns/versions.md)
 - [Learning resources](markdowns/references.md)
+
+---
+
+## Screenshots
+<table>
+    <tr>
+        <td align="center" width="50%">
+            <img width="320" src="screenshots/engine_v0.5.gif" alt="Engine">
+        </td>
+        <td align="center" width="50%">
+            <img width="320" src="screenshots/engine_profiling.png" alt="Profiler">
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="33%">
+            MeowEngine v0.5
+        </td>
+        <td align="center" width="33%">
+            Tracy Frame Profiling 
+        </td>
+    </tr>
+</table>
