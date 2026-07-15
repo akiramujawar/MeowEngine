@@ -1,25 +1,73 @@
-# Meow Engine
-<h3><b>A journey to physics simulations!</b></h3>
+# MeowEngine
 
-- Meow Engine is a personal exploration into the world of physics engine development
-- Focuses on:
-  - Multithreading for optimized performance.
-  - Profiling tools for debugging and performance tracking.
-  - Editor tools
-  - Physics simulations
-  - Multi-platform builds
-  - [Next plan of action...](markdowns/plan_of_action.md)
+C++ simulation engine for exploring engine architecture, multithreading, memory systems and computational physics.
 
-The ultimate goal of MeowEngine is to delve deep into the
-complexities of physics simulations and engine design.
+---
 
-## Demo [(web v0.4 build)](https://wulcat.com/meow-engine/index.html)
-<img src="screenshots/engine_v0.4.gif" width="700">
 
-## Profiling
-<img src="screenshots/engine_profiling.png" width="700">
+<img src="screenshots/engine_v0.5.gif" alt="MeowEngine Banner">
 
-## Compatibility 
+---
+
+## Overview
+
+MeowEngine is a long-term personal engineering project focused on 
+building a modern simulation engine in C++
+
+Rather than targeting game development, the project serves as a 
+platform for studying the engineering challenges behind 
+large-scale simulation software. Each subsystem is designed to 
+deepen my understanding of modern engine architecture while 
+progressively moving towards computational physics research.
+
+Rendering exists primarily as a tool for visualising and debugging simulations. 
+The primary focus of the project is architecture, performance and physics.
+
+---
+
+## Long-Term Vision
+
+The project is intentionally developed in stages, with each stage focusing on a different area of systems programming.
+
+```
+Engine Architecture
+        ↓
+Memory Systems & Profiling
+        ↓
+Multithreading
+        ↓
+Mathematics Library
+        ↓
+PhysX Integration
+        ↓
+Custom Physics Engine
+        ↓
+Physics Research Paper Simulations
+```
+
+The final objective is to create a platform capable of reproducing and experimenting with techniques described in academic physics and simulation research papers.
+
+---
+
+## Technology Stack
+
+<table>
+<tr>
+<td valign="top">
+
+| Category | Technology       | 
+|-----------|------------------|
+| Language | C++17            |
+| Graphics | OpenGL           |
+| Windowing | SDL              |
+| Physics | NVIDIA PhysX     |
+| Mathematics | GLM & Custom     |
+| Build System | CMake            |
+| Profiling | Tracy & Valgrind |
+
+</td>
+
+<td valign="top">
 
 | Platform          | Support            |
 |-------------------|--------------------|
@@ -28,35 +76,56 @@ complexities of physics simulations and engine design.
 | Web               | :white_check_mark: |
 | Window            | :soon:             |
 
+</td>
+</tr>
+</table>
 
-## Building & docs 
-- [Compile Meow Engine](markdowns/how_to_build.md)
+---
+
+## Repository Structure
+
+```
+source/
+├── core/
+├── runtime/
+├── graphics/
+├── physics/
+├── platform/
+├── editor/
+└── tools/
+```
+
+The architecture is intentionally modular to allow major
+subsystems to evolve independently.
+
+---
+
+## Research
+
+The final stage of the project is dedicated to implementing techniques from published physics
+and simulation research papers.
+
+The goal is to reproduce existing work, understand the underlying mathematics and use
+MeowEngine as a platform for experimentation.
+
+---
+
+## Development Status
+
+MeowEngine is an active long-term project.
+
+Subsystems are frequently redesigned as new concepts are explored. Architectural 
+refactoring is considered a normal part of development and is expected throughout 
+the lifetime of the project.
+
+- [Web demo](https://wulcat.com/meow-engine/index.html)
+- [Version logs](markdowns/versions.md)
+- [Screenshots](markdowns/Screenshots.md)
+
+---
+
+## Documentation
+- [Build engine](markdowns/how_to_build.md)
 - [Build documentation](markdowns/how_to_build.md)
-- [See Versions](markdowns/versions.md)
-- Downloads (not available)
-
-## Dependencies [(full list)](markdowns/dependencies.md)
-- [OpenGL ES3](https://www.opengl.org)
-- [SDL2](https://www.libsdl.org/release)
--  [SDL2 Image v2.0.4](https://www.libsdl.org/projects/SDL_image)
-- [Tiny obj loader v1.0.6](https://github.com/tinyobjloader/tinyobjloader)
-- [Imgui v1.90.9-docking](https://github.com/ocornut/imgui)
-- [Tracy Profiler v0.10](https://github.com/wolfpld/tracy)
-- [NVIDIA PhysX 5.0](https://github.com/NVIDIA-Omniverse/PhysX)
-- [Entt v3.13.2](https://github.com/skypjack/entt)
-- [ConcurrentQueue v1.0.4 by ](https://github.com/cameron314/concurrentqueue)
-- DOxygen
-- Homebrew
-- Ninja
-- CMake
-- Mac Specific
-  - SDL 2 Framework
-  - SDL 2 Image Framework
-  - OpenGLES/ES2/gl.h
-- Web Specific
-  - Emscripten
-  - GLES2/gl2.h
-
-## References [(learning resources)](markdowns/references.md)
-While it may not cover everything, this list highlights the most valuable 
-resources I've gathered during development.
+- [See versions](markdowns/versions.md)
+- [Learning resources](markdowns/references.md)
