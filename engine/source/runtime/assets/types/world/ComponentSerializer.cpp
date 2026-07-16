@@ -10,7 +10,7 @@
 namespace MeowEngine::Asset {
 
     void ComponentSerializer::Serialize(Serialization::Serializer& serializer, void* instance, const std::string& className) {
-        MeowEngine::Log("ComponentSerializer::Serialize", "Started");
+        MeowEngine::Log("ComponentSerializer::Serialize", className);
 
         auto properties = GetReflection().GetProperties(className);
         serializer.WriteSize(properties.size());

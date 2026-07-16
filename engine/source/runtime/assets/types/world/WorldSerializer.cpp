@@ -44,7 +44,7 @@ namespace MeowEngine::Asset {
         AssetSerializer::WriteHeader(writeSerializer, header);
 
         // save entity count
-        size_t entityCount = registry.storage<Runtime::Entity>().size() - 1;
+        size_t entityCount = world.GetTotalEntities();
         writeSerializer.WriteSize(entityCount);
 
         // save all guids

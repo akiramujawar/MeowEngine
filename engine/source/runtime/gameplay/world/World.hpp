@@ -29,6 +29,7 @@ namespace MeowEngine::Asset {
 
         [[nodiscard]] Runtime::EntityRegistry& GetRegistry() { return Registry; }
         [[nodiscard]] const Runtime::EntityRegistry& GetRegistry() const { return Registry; }
+        [[nodiscard]] size_t GetTotalEntities() const { return RuntimeEntityMap.size(); };
 
         /**
          * Empty entity (no components)

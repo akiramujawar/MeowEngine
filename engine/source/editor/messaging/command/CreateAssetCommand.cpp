@@ -7,6 +7,7 @@
 #include "MessageInitData.hpp"
 #include <Public/IO.hpp>
 #include "AssetManager.hpp"
+#include "DefaultWorld.hpp"
 #include "PhysicsMaterialAsset.hpp"
 
 namespace MeowEngine::Messaging {
@@ -29,8 +30,14 @@ namespace MeowEngine::Messaging {
 
                 break;
             }
-            case Asset::AssetType::WORLD:
+            case Asset::AssetType::WORLD: {
+                assetPath.ReplaceExtension(".meowdata");
+                auto handle = context.AssetManager->CreateTempAsset<Runtime::DefaultWorld>();
+                Asset::AssetManager::CreateAndSaveEmptyAsset(handle, Type, assetPath);
+                context.AssetManager->SaveTempAsset<Asset::World>(handle, assetPath);
+
                 break;
+            }
             case Asset::AssetType::PHYSICS_MATERIAL: {
                 assetPath.ReplaceExtension(".meowdata");
                 auto handle = context.AssetManager->CreateTempAsset<Asset::PhysicsMaterialAsset>();

@@ -65,7 +65,7 @@ namespace MeowEngine::Runtime {
         float Width;
         float Height;
         bool IsSimulating;
-        bool IsPaused;
+        bool IsPaused = false;
     };
 
 }

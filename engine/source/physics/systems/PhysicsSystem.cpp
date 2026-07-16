@@ -28,7 +28,9 @@ namespace MeowEngine::Physics {
     }
 
     void PhysicsSystem::FetchResult(PhysicsResult& result) {
-        World->FetchResults(result);
+        if (IsSimulating) {
+            World->FetchResults(result);
+        }
     }
 
     void PhysicsSystem::CreateWorld(std::unique_ptr<PhysicsWorldData> data) {
