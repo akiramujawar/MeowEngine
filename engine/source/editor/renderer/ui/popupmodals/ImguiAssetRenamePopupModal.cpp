@@ -3,9 +3,14 @@
 //
 
 #include "ImguiAssetRenamePopupModal.hpp"
+
 #include "ImguiAPI.hpp"
 #include "log.hpp"
+#include "MeowService.hpp"
 #include "Public/IO.hpp"
+
+#include "CommandQueue.hpp"
+#include "RenameFileCommand.hpp"
 
 namespace MeowEngine::Editor {
     ImguiAssetRenamePopupModal::ImguiAssetRenamePopupModal(float x, float y, float width, float height, const std::string_view& assetPath)
@@ -62,8 +67,13 @@ namespace MeowEngine::Editor {
             if (ImGui::InputText("##RenameAsset", RenameTextBuffer.data(), RenameTextBuffer.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
                 RenameTextBuffer.resize(strlen(RenameTextBuffer.c_str()));
                 
-                FileSystem::FileSystem::Rename(AssetPath.c_str(), RenameTextBuffer.c_str());
-                
+                // FileSystem::FileSystem::Rename(AssetPath.c_str(), RenameTextBuffer.c_str());
+
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::RenameFileCommand>(String(AssetPath), String(RenameTextBuffer))
+                );
+
                 needToBeClosed = true;
             }
             

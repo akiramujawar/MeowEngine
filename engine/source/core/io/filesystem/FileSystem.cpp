@@ -104,7 +104,9 @@ namespace MeowEngine::Core::IO::FileSystem {
         std::error_code errorCode;
         
         const Path& directoryPath = path.GetParent();
-        const Path& newPath = directoryPath + name;
+        const Path& extension = path.GetExtension();
+        Path newPath = directoryPath + name;
+        newPath.ReplaceExtension(extension.GetRawString());
         
         filesystem::rename(path.GetRawString(), newPath.GetRawString(), errorCode);
         

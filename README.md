@@ -48,14 +48,14 @@ reproducing and experimenting with techniques described in academic physics and 
 ---
 
 ## Technology Stack
-| Category      | Value             | - | Platform      | Status |
-|---------------|-------------------|---|----------------| ------ |
-| Language      | C++17             | - | macOS x86_64 | ✅      |
-| Graphics      | OpenGL            | - | macOS (Rosetta) | 🚧     |
-| Physics       | NVIDIA PhysX      | - | Web     | ✅      |
-| Mathematics   | GLM & Custom      | - | Windows | 🔜     |
-| Build         | CMake             | - |        |
-| Profiling     | Tracy & Valgrind  | - |        |
+| Category      | Value             | –– | Platform      | Status |
+|---------------|-------------------|----|----------------| ------ |
+| Language      | C++17             | –– | macOS x86_64 | ✅      |
+| Graphics      | OpenGL            | –– | macOS (Rosetta) | 🚧     |
+| Physics       | NVIDIA PhysX      | –– | Web     | ✅      |
+| Mathematics   | GLM & Custom      | –– | Windows | 🔜     |
+| Build         | CMake             | –– |        |
+| Profiling     | Tracy & Valgrind  | –– |        |
 
 ---
 
@@ -67,7 +67,7 @@ reproducing and experimenting with techniques described in academic physics and 
 - **Rendering** – Renderer, pipeline, passes
 - **Runtime** – Asset management, project, gameplay, world, reflection
 - **Editor** – Tools, profilers, editor panels.
-- **Physics** – PhysX integration and plans to custom physics
+- **Physics** – PhysX integration and plans for custom physics
 
 The architecture is intentionally modular to allow major
 subsystems to evolve independently.

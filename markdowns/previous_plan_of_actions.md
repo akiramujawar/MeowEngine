@@ -1,5 +1,31 @@
 # Previous Versions
 
+## Meow Engine v0.5
+- [x] Reimplementing physics with new architecture for multithreaded synchronisation
+- [x] Populating enums, pointers classes in edit panel
+- [x] Automated component registration in triple buffer
+- [x] Adding Rotations & Scaling to transform & physics bodies
+- [x] Adding navigation to github / go back for web builds
+- [x] Build a new architecture for multithreading (using Scheduler)
+- [x] Position, Scale, Rotation handles for selected objects
+- [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
+- [x] File Manager (show directories, files, rename, move & delete & import)
+- [x] Simple tool for importing files like textures/meshes
+- [x] Create Unique ID generator for items
+- [x] Hierarchy for entities
+- [x] Reworking asset loading pipeline
+- [x] Ability to read/write on file for saving import references (instead of hard-coded enums)
+- [x] Creating support for multi-scene compilation
+- [x] Improving current shader pipeline to handle shaders dynamically
+- [x] Render loading pipeline (shaders, textures, meshes)
+- [x] Reworking camera system to use quaternion
+- [x] Messaging systems (command, request & event)
+- [x] Config load & bootstrap for editor load
+- [x] Refactor cmake to have engine & standalone lib
+- [x] Find a way to isolate and build code while developing simulations
+- [x] Dynamic shader rebuild
+- [x] Play & Pause & Stop
+
 ## Meow Engine v0.4
 - [x] Add physics library (jolt / physx / box2d / bullet3) -> physx
 - [x] Add FPS Counter

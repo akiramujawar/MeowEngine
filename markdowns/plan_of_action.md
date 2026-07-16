@@ -3,30 +3,19 @@
 [...previous plan of actions](previous_plan_of_actions.md)
 
 ## Meow Engine v0.5
-- [x] Reimplementing physics with new architecture for multithreaded synchronisation
-- [x] Populating enums, pointers classes in edit panel
-- [x] Automated component registration in triple buffer
-- [x] Adding Rotations & Scaling to transform & physics bodies
-- [x] Adding navigation to github / go back for web builds
-- [x] Build a new architecture for multithreading (using Scheduler)
-- [x] Position, Scale, Rotation handles for selected objects
-- [x] Extending Property Reflections to support dynamic method calls - this will for euler to quat
-- [x] File Manager (show directories, files, rename, move & delete & import)
-- [x] Simple tool for importing files like textures/meshes
-- [x] Create Unique ID generator for items
-- [x] Hierarchy for entities
-- [x] Reworking asset loading pipeline
-- [x] Ability to read/write on file for saving import references (instead of hard-coded enums)
-- [x] Creating support for multi-scene compilation
-- [x] Improving current shader pipeline to handle shaders dynamically
-- [x] Render loading pipeline (shaders, textures, meshes)
-- [x] Reworking camera system to use quaternion
-- [x] Messaging systems (command, request & event)
-- [x] Config load & bootstrap for editor load
-- [x] Refactor cmake to have engine & standalone lib
-- [x] Find a way to isolate and build code while developing simulations
-- [x] Dynamic shader rebuild
-- [x] Play & Pause & Stop
+- [ ] Proper plane setup
+- [ ] Cannot deserialize after deleting component
+- [ ] Check if removing component is okay for deserialization
+- [ ] Transparency from grid
+- [ ] Play/Pause buttons
+- [ ] Renaming files and retaining extensions
+- [ ] Asset Directory extraction
+- [ ] Decoupling rendering from runtime & editor
+- [ ] Splitting & renaming existing systems for reflections
+- [ ] Adding menu item for asset directory rebuild & auto rebuild on actions
+- [ ] Mesh Collider?
+- [ ] Decoupling asset handles , entity handles etc...
+- [ ] Names on handle references
 
 ## Meow Engine v0.6
 - [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
@@ -34,8 +23,6 @@
 - [ ] For memory error detector: valgrind / address sanitizer
 - [ ] Implement job system for multithreading
 - [ ] Add Unit Testing
-- [ ] Asset Directory needs to updated after actions (create/delete/move/rename)
-- [ ] Asset Database needs to be updated after actions (create/delete/move/rename)
 - [ ] Documenting done items and different approaches and used libraries
 - [ ] Transforms Hierarchy (local + global positions / rotations / scales)
 - [ ] Collider Rendering
