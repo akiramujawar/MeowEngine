@@ -117,12 +117,10 @@ namespace MeowEngine::Editor {
         ImGui::PushID(0); {
             const std::string& sideMenu = "Side Menu + ";
             if (ImGui::ArrowButtonEx(sideMenu.c_str(), ImGuiDir_Down, ImVec2(headerHeight, headerHeight))) {
-                // TODO: implement modal poppup for this
-                CommandQueue->Push(
-                    Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::RebuildAndSaveAssetRegistry>()
-                );
+                ImGui::OpenPopup("ShowAssetPanelPopupMenu");
             }
+
+            ShowAssetPanelPopupMenu();
 
             float textHeight = ImGui::GetTextLineHeight();
             float textOffset = (headerHeight - textHeight) * 0.5f - 3; // little manual okay sometimes :)
@@ -547,6 +545,19 @@ namespace MeowEngine::Editor {
         // creates an object for popup to render. gets destroyed when popup is closed.
         if(createType != Asset::AssetType::UNKNOWN) {
             ShowCreatePopupModal = make_unique<ImguiCreateAssetPopupModal>(titleText, createType);
+        }
+    }
+
+    void ImguiAssetPanel::ShowAssetPanelPopupMenu() {
+        if (ImGui::BeginPopup("ShowAssetPanelPopupMenu")) {
+            if(ImGui::MenuItem("Rebuild directory")) {
+                CommandQueue->Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::RebuildAndSaveAssetRegistry>()
+                );
+            }
+
+            ImGui::EndPopup();
         }
     }
 }

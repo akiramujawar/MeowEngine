@@ -42,6 +42,8 @@ namespace MeowEngine::Messaging {
             default:
                 break;
         }
+
+        context.AssetManager->RebuildDatabase();
     }
 
 }

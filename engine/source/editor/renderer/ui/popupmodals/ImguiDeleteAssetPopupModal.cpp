@@ -7,6 +7,10 @@
 #include "log.hpp"
 #include <Public/IO.hpp>
 
+#include "CommandQueue.hpp"
+#include "MeowService.hpp"
+#include "DeleteFileCommand.hpp"
+
 namespace MeowEngine::Editor {
     ImguiDeleteAssetPopupModal::ImguiDeleteAssetPopupModal(const std::string_view& assetPath)
     : AssetPath(assetPath){
@@ -40,7 +44,11 @@ namespace MeowEngine::Editor {
             ImGui::Separator();
             
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                FileSystem::FileSystem::Remove(AssetPath.c_str());
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::DeleteFileCommand>(String(AssetPath))
+                );
+
                 needToBeClosed = true;
             }
             

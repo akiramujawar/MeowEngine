@@ -6,6 +6,10 @@
 #include "ImguiAPI.hpp"
 #include <Public/IO.hpp>
 
+#include "MeowService.hpp"
+#include "CommandQueue.hpp"
+#include "MoveFileCommand.hpp"
+
 namespace MeowEngine::Editor {
     void ImguiAssetDragDrop::DragAsset(const Asset::DirectoryAsset& asset, const std::string& name, void* imagePtr) {
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
@@ -77,12 +81,11 @@ namespace MeowEngine::Editor {
             // it moves the file/folder to new directory
             if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropAsset")) {
                 auto* payloadData = static_cast<Asset::DirectoryAsset*>(payloadVoidPtr->Data);
-                // const char* payloadData = (const char*)payloadVoidPtr->Data;
-                FileSystem::Path assetPath {payloadData->AbsolutePath};
-                
-                if(FileSystem::FileSystem::IsDirectory(moveToPath.c_str())) {
-                    FileSystem::FileSystem::Move(assetPath, moveToPath.c_str());
-                }
+
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::MoveFileCommand>(String(payloadData->AbsolutePath.GetRawString()), String(moveToPath))
+                );
             }
             
             ImGui::EndDragDropTarget();

@@ -57,6 +57,7 @@ namespace MeowEngine::Editor {
 
         void ShowImportAssetPopupMenu();
         void ShowCreateAssetPopupMenu();
+        void ShowAssetPanelPopupMenu();
         
     private:
         bool IsActive;

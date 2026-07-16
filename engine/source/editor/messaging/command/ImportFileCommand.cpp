@@ -9,6 +9,7 @@
 #include <MessageInitData.hpp>
 #include <FileDialog.hpp>
 
+#include "AssetManager.hpp"
 #include "MeshImporter.hpp"
 #include "TextureImporter.hpp"
 
@@ -34,6 +35,7 @@ namespace MeowEngine::Messaging {
             }
         }
 
+        context.AssetManager->RebuildDatabase();
     }
 
 }
