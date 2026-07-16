@@ -33,6 +33,8 @@ namespace MeowEngine::Rendering {
             LastSelectedEntity = Runtime::EntityHandle::Invalid();
         }
 
+        bool IsSimulating;
+        bool IsPaused;
         int CurrentFPS;
 
         /**

@@ -25,6 +25,11 @@ namespace MeowEngine::Runtime {
         uint64_t WorldIconGuid;
         uint64_t UnknownIconGuid;
 
+        uint64_t PlayButtonIconGuid;
+        uint64_t StopButtonIconGuid;
+        uint64_t PauseButtonIconGuid;
+        uint64_t UnPauseButtonIconGuid;
+
         // engine root path
         // handles for asset thumbnails
         void LoadConfig(const Path& path);

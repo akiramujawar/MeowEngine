@@ -142,6 +142,9 @@ namespace MeowEngine::Rendering {
     }
 
     void RenderEditorExtractor::ExtractUI(RenderUIData& frame) {
+        frame.IsSimulating = Gameplay->GetIsSimulating();
+        frame.IsPaused = Gameplay->GetIsPaused();
+
         frame.CurrentFPS = MeowService().Timing.GetFrameRate();
 
         auto& world = Gameplay->GetWorld();

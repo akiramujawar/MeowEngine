@@ -131,6 +131,54 @@ namespace MeowEngine::Editor {
                 );
             }
 
+            Asset::AssetHandle playButtonIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Play Button Icon", playButtonIconHandle);
+            if (playButtonIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
+                        playButtonIconHandle,
+                        Messaging::EditorAssetHandleType::PLAY_BUTTON_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle stopButtonIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Stop Button Icon", stopButtonIconHandle);
+            if (stopButtonIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
+                        stopButtonIconHandle,
+                        Messaging::EditorAssetHandleType::STOP_BUTTON_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle pauseButtonIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Pause Button Icon", pauseButtonIconHandle);
+            if (pauseButtonIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
+                        pauseButtonIconHandle,
+                        Messaging::EditorAssetHandleType::PAUSE_BUTTON_ICON
+                    )
+                );
+            }
+
+            Asset::AssetHandle unpauseButtonIconHandle = Asset::AssetHandle::CreateInvalid();
+            ImGuiInputExtension::DragAndDropAssetInput("Unpause Button Icon", unpauseButtonIconHandle);
+            if (unpauseButtonIconHandle.GetIsValid()) {
+                MeowService().CommandQueue.Push(
+                    Messaging::ThreadType::MAIN,
+                    std::make_unique<Messaging::SetEditorAssetHandleConfigCommand>(
+                        unpauseButtonIconHandle,
+                        Messaging::EditorAssetHandleType::UNPAUSE_BUTTON_ICON
+                    )
+                );
+            }
+
 
             ImGui::End();
         }

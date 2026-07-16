@@ -28,6 +28,10 @@ namespace MeowEngine::Runtime {
         WorldIconGuid = Config["WorldIconGuid"].as<uint64_t>();
         UnknownIconGuid = Config["UnknownIconGuid"].as<uint64_t>();
 
+        PlayButtonIconGuid = Config["PlayButtonIconGuid"].as<uint64_t>();
+        StopButtonIconGuid = Config["StopButtonIconGuid"].as<uint64_t>();
+        PauseButtonIconGuid = Config["PauseButtonIconGuid"].as<uint64_t>();
+        UnPauseButtonIconGuid = Config["UnPauseButtonIconGuid"].as<uint64_t>();
     }
 
     void EditorConfig::SaveConfig() const {

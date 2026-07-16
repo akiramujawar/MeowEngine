@@ -13,15 +13,18 @@ namespace MeowEngine::Physics {
     }
 
     void PhysicsSystem::Step(float inFixedDeltaTime) const {
-        World->Simulate(inFixedDeltaTime);
+        if (IsSimulating) {
+            World->Simulate(inFixedDeltaTime);
+        }
     }
 
     void PhysicsSystem::StartSimulation() {
-
+        IsSimulating = true;
     }
 
     void PhysicsSystem::StopSimulation() {
         // World->Destroy();
+        IsSimulating = false;
     }
 
     void PhysicsSystem::FetchResult(PhysicsResult& result) {

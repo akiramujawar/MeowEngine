@@ -26,10 +26,14 @@
 - [ ] Documenting done items and different approaches and used libraries
 - [ ] Transforms Hierarchy (local + global positions / rotations / scales)
 - [ ] Collider Rendering
+- [ ] Implement mesh Collider
 - [ ] Support for window
 
 ## Meow Engine v0.7
+- [ ] Decoupling rendering from runtime & editor
+- [ ] Asset Directory extraction
 - [ ] Reflection for engine assets
+- [ ] Splitting & renaming existing systems for reflections
 - [ ] Creating separate libs in cmake for editor, runtime, rendering & physics
 - [ ] Run through all engine handles like EntityID, ComponentID, ComponentHash etc...
 - [ ] Hierarchy and transforms + ui drag n drop for hierarchy & reordering

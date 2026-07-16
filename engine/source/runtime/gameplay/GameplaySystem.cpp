@@ -68,7 +68,7 @@ namespace MeowEngine::Runtime {
 
     void GameplaySystem::StopSimulation() {
         IsSimulating = false;
-        IsPaused = true;
+        IsPaused = false;
 
         for (auto& system : SimulationSystems) {
             system->Stop(*World);

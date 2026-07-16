@@ -17,6 +17,11 @@ namespace MeowEngine::Messaging {
         WORLD_ICON,
         MESH_ICON,
         TEXTURE_ICON,
+
+        PLAY_BUTTON_ICON,
+        STOP_BUTTON_ICON,
+        PAUSE_BUTTON_ICON,
+        UNPAUSE_BUTTON_ICON
     };
 }
 #endif //MEOWENGINE_EDITORASSETCONFIGTYPE_HPP

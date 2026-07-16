@@ -6,14 +6,19 @@
 
 #include <imgui_internal.h>
 
+#include "AssetManager.hpp"
 #include "ImguiAPI.hpp"
 #include "RenderContext.hpp"
 
 #include "CommandQueue.hpp"
+#include "ConfigManager.hpp"
 #include "OpenURLCommand.hpp"
 #include "SetGameplayStateCommand.hpp"
 
 #include "GameplayState.hpp"
+#include "MeowService.hpp"
+#include "RenderResourceManager.hpp"
+#include "RenderUIData.hpp"
 
 namespace MeowEngine::Editor {
     void ImguiMainMenu::Draw(Rendering::RenderContext& renderContext) {
@@ -42,24 +47,73 @@ namespace MeowEngine::Editor {
             }
 
             auto totalSpace = ImGui::GetContentRegionMax();
-            ImVec2 buttonSize(100, 50);
+            ImVec2 buttonSize(20, 20);
             auto centerX = ImGui::GetCursorPosX() + (totalSpace.x - buttonSize.x) * 0.5f;
+            auto& resourceManager = renderContext.ResourceManager;
+            auto& editorConfig = MeowService().ConfigManager.EditorConfig;
 
             ImGui::SameLine(centerX);
-            if (ImGui::ArrowButton("StartSimulating", ImGuiDir_Right)) {
-                renderContext.CommandQueue->Push(
-                    Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetGameplayStateCommand>(Runtime::GameplayState::SIMULATE)
-                );
+
+            auto assetHandle = Asset::AssetHandle::Invalid;
+
+            // select icon
+            if (renderContext.UIData->IsSimulating) {
+                assetHandle = Asset::AssetHandle::Create(editorConfig.StopButtonIconGuid);
+            }
+            else {
+                assetHandle = Asset::AssetHandle::Create(editorConfig.PlayButtonIconGuid);
             }
 
-            // ImGui::ImageButton()
+            // play / stop button
+            if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                Rendering::TextureRenderHandle textureHandle(assetHandle);
+                auto imagePtr = resourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+                ImGui::PushStyleColor(ImGuiCol_Button,        IM_COL32(0,0,0,0));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(0,0,0,0));
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive,  IM_COL32(0,0,0,0));
+
+                if (ImGui::ImageButton("##PlayButton", imagePtr, buttonSize)) {
+                    renderContext.CommandQueue->Push(
+                        Messaging::ThreadType::MAIN,
+                        std::make_unique<Messaging::SetGameplayStateCommand>(Runtime::GameplayState::SIMULATE)
+                    );
+                }
+
+                ImGui::PopStyleVar();
+                ImGui::PopStyleColor(3);
+            }
+
             ImGui::SameLine();
-            if (ImGui::Button("Pause")) {
-                renderContext.CommandQueue->Push(
-                    Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::SetGameplayStateCommand>(Runtime::GameplayState::PAUSE)
-                );
+
+            // select icon
+            if (renderContext.UIData->IsPaused) {
+                assetHandle = Asset::AssetHandle::Create(editorConfig.UnPauseButtonIconGuid);
+            }
+            else {
+                assetHandle = Asset::AssetHandle::Create(editorConfig.PauseButtonIconGuid);
+            }
+
+            // pause / unpause button
+            if (MeowService().AssetManager.IsLoaded(assetHandle)) {
+                Rendering::TextureRenderHandle textureHandle(assetHandle);
+                auto imagePtr = resourceManager->GetThumbnailResource(textureHandle).GetTextureID();
+
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+                ImGui::PushStyleColor(ImGuiCol_Button,        IM_COL32(0,0,0,0));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(0,0,0,0));
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive,  IM_COL32(0,0,0,0));
+
+                if (ImGui::ImageButton("##PauseButton", imagePtr, ImVec2(buttonSize.x, buttonSize.y))) {
+                    renderContext.CommandQueue->Push(
+                        Messaging::ThreadType::MAIN,
+                        std::make_unique<Messaging::SetGameplayStateCommand>(Runtime::GameplayState::PAUSE)
+                    );
+                }
+
+                ImGui::PopStyleVar();
+                ImGui::PopStyleColor(3);
             }
 
             ImGui::EndChild();

@@ -43,6 +43,19 @@ namespace MeowEngine::Messaging {
             case EditorAssetHandleType::UNKNOWN_ICON:
                 MeowService().ConfigManager.EditorConfig.GetConfig()["UnknownIconGuid"] = AssetHandle.GetUUID();
                 break;
+
+            case EditorAssetHandleType::PLAY_BUTTON_ICON:
+                MeowService().ConfigManager.EditorConfig.GetConfig()["PlayButtonIconGuid"] = AssetHandle.GetUUID();
+                break;
+            case EditorAssetHandleType::STOP_BUTTON_ICON:
+                MeowService().ConfigManager.EditorConfig.GetConfig()["StopButtonIconGuid"] = AssetHandle.GetUUID();
+                break;
+            case EditorAssetHandleType::PAUSE_BUTTON_ICON:
+                MeowService().ConfigManager.EditorConfig.GetConfig()["PauseButtonIconGuid"] = AssetHandle.GetUUID();
+                break;
+            case EditorAssetHandleType::UNPAUSE_BUTTON_ICON:
+                MeowService().ConfigManager.EditorConfig.GetConfig()["UnPauseButtonIconGuid"] = AssetHandle.GetUUID();
+                break;
         }
 
         MeowService().ConfigManager.EditorConfig.SaveConfig();

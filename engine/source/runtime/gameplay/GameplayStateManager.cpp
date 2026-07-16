@@ -64,7 +64,7 @@ namespace MeowEngine::Runtime {
             case GameplayState::PAUSE: {
                 if (Context.Gameplay->GetIsSimulating()) {
                     // pause when simulating
-                    if (Context.Gameplay->GetIsPaused()) {
+                    if (!Context.Gameplay->GetIsPaused()) {
                         Context.Gameplay->PauseSimulation();
 
                         // send command to physics to pause

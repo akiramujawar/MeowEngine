@@ -27,6 +27,7 @@ namespace MeowEngine::Physics {
 
     private:
         std::unique_ptr<PhysXWorld> World;
+        bool IsSimulating = false;
     };
 }
 
