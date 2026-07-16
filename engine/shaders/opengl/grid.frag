@@ -51,6 +51,11 @@ float computeLinearDepth(vec3 pos, float far) {
 void main() {
     float t = -v_nearPoint.y / (v_farPoint.y - v_nearPoint.y);
     vec3 fragPos3D = v_nearPoint + t * (v_farPoint - v_nearPoint);
+
+    if (t <= 0.0) {
+        discard;
+    }
+
     gl_FragDepth = computeDepth(fragPos3D);
 
     if(t > 0.0) {
@@ -60,13 +65,13 @@ void main() {
         v_fragColor = (grid(fragPos3D, 1.5, true) + grid(fragPos3D, 0.25, true)) ;//* float(t > 0);
         v_fragColor.a *= fading;
     }
-    else {
-        // just little blue for adding light to scene
-        float linearDepth = computeLinearDepth(fragPos3D, 60.0);
-        float fading = max(0.0, (0.0 - linearDepth));
-
-        //v_fragColor = vec4(147.0/255.0, 209.0/255.0, 255.0/255.0 , 1.0);
-        v_fragColor.a *= 1.0 - fading;
-    }
+//    else {
+//        // just little blue for adding light to scene
+//        float linearDepth = computeLinearDepth(fragPos3D, 60.0);
+//        float fading = max(0.0, (0.0 - linearDepth));
+//
+//        //v_fragColor = vec4(147.0/255.0, 209.0/255.0, 255.0/255.0 , 1.0);
+//        v_fragColor.a *= 1.0 - fading;
+//    }
 }
 

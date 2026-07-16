@@ -32,11 +32,11 @@ namespace MeowEngine::Rendering {
 
     void SceneRenderer::Init(RendererInitData& context) {
         RenderGraph.Clear();
-        RenderGraph.Add<SkyboxPass>();
-        RenderGraph.Add<EditorOverlayPass>();
         RenderGraph.Add<GeometryPass>();
         RenderGraph.Add<DebugPass>();
+        RenderGraph.Add<SkyboxPass>();
         RenderGraph.Add<PostProcessPass>();
+        RenderGraph.Add<EditorOverlayPass>();
         RenderGraph.Add<GizmoPass>();
     }
 
