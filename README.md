@@ -82,7 +82,7 @@ Subsystems are frequently redesigned as new concepts are explored. Architectural
 refactoring is considered a normal part of development and is expected throughout 
 the lifetime of the project.
 
-- [Web demo](https://wulcat.com/meow-engine/index.html)
+- [Web demo](https://akiramujawar.com/apps/MeowEngine3D/index.html)
 - [Version logs](markdowns/versions.md)
 - [Screenshots](markdowns/Screenshots.md)
 - [Next plan of action...](markdowns/plan_of_action.md)

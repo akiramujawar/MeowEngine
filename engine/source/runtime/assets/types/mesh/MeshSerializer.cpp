@@ -4,6 +4,8 @@
 
 #include "MeshSerializer.hpp"
 
+#include <sstream>
+
 #include "tiny_obj_loader.h"
 #include "Public/IO/Include.hpp"
 #include "AssetSerializer.hpp"

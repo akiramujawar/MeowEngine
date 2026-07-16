@@ -15,7 +15,7 @@ namespace MeowEngine::Rendering {
         auto* asset = MeowService().AssetManager.GetAsset<Asset::ShaderAsset>(handle);
 
 #ifdef USING_GLES
-        MeowEngine::Log(logTag, "#version 300 es") ;
+        MeowEngine::Log("GLShaderResource", "#version 300 es") ;
         std::string vertexShaderSource {"#version 300 es\nprecision mediump float;\n" + asset->VertexSource};
         std::string fragmentShaderSource{"#version 300 es\nprecision mediump float;\n" + asset->FragmentSource};
 #else

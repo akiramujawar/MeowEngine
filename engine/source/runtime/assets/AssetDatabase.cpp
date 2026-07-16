@@ -195,14 +195,14 @@ namespace MeowEngine::Asset {
 
             // read file get header & validity of asset (engine asset or not)
             {
-                std::string logMessage = "Start: " + filePath.GetRawString();
-                MeowEngine::Log("Asset Serializer", logMessage, LogType::WARNING);
+                // std::string logMessage = "Start: " + filePath.GetRawString();
+                // MeowEngine::Log("Asset Serializer", logMessage, LogType::WARNING);
 
                 auto serializer = AssetSerializer::OpenSerializer(filePath, FileSystem::FileMode::READ);
                 isValidEngineAsset = AssetSerializer::ReadHeader(serializer, header);
 
-                std::string logMessage2 = "End " + filePath.GetRawString();
-                MeowEngine::Log("Asset Serializer", logMessage2, LogType::WARNING);
+                // std::string logMessage2 = "End " + filePath.GetRawString();
+                // MeowEngine::Log("Asset Serializer", logMessage2, LogType::WARNING);
 
                 AssetSerializer::CloseSerializer(serializer);
             }

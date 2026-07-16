@@ -10,7 +10,7 @@
 namespace MeowEngine::Asset {
     void AssetRegistry::Add(const AssetHandle& handle, const AssetMetadata& entry) {
         if (Has(handle)) {
-            MeowEngine::Log("Asset", "Already Exists" + entry.Path, LogType::WARNING);
+            MeowEngine::Log("AssetRegistry::Add", "Already Exists: " + entry.Path, LogType::WARNING);
             return;
         }
 

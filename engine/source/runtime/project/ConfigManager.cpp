@@ -27,6 +27,7 @@ namespace MeowEngine::Runtime {
 
     void ConfigManager::Load() {
         // NOTE: ONLY in engine editor builds
+        MeowEngine::Log("ConfigManager", Paths.GetSandboxRootPath().GetRawString());
         EditorConfig.LoadConfig(Paths.GetSandboxRootPath());
         SandboxConfig.LoadConfig(Paths.GetSandboxRootPath());
 

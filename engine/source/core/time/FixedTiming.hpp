@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_FIXEDTIMING_HPP
 #define MEOWENGINE_FIXEDTIMING_HPP
 
-#include <cstdlib>
+#include <cstdint>
 
 namespace MeowEngine::Core {
     class FixedTiming {

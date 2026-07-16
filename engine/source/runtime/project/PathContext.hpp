@@ -66,7 +66,10 @@ namespace MeowEngine::Settings {
         }
 
         void SetEngineRootPath(const Path& path) {
+#if __WEB__
+#else
             EngineRootPath = path;
+#endif
         }
 
     private:

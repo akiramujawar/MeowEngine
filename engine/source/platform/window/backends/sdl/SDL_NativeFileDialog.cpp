@@ -33,7 +33,7 @@ namespace MeowEngine::Platform {
     void SDL_NativeFileDialog::OpenDialogMultiple(SDL_Window* window, std::vector<std::string>& paths) {}
     void SDL_NativeFileDialog::PickFolder(SDL_Window* window, std::string& path) {}
     void SDL_NativeFileDialog::PickFolderMultiple(SDL_Window* window, std::vector<std::string>& paths) {}
-    void SDL_NativeFileDialog::SaveDialog(SDL_Window* window) {}
+    void SDL_NativeFileDialog::SaveDialog(SDL_Window* window, std::string& path) {}
 
 }
 

@@ -64,6 +64,7 @@ namespace MeowEngine {
     }
 
     void Engine::Open() {
+        MeowEngine::Log("Engine", "Opening...");
         IsRunning = true;
 
         ConfigManager.Setup();
@@ -74,8 +75,10 @@ namespace MeowEngine {
         Load();
 
 #if __WEB__
+        MeowEngine::Log("Engine", "Starting web...");
         emscripten_set_main_loop_arg((em_arg_callback_func) ::EmscriptenLoop, this, 60, 1);
 #else
+        MeowEngine::Log("Engine", "Starting on device...");
         Loop();
 #endif
     }
@@ -89,6 +92,7 @@ namespace MeowEngine {
 
     void Engine::Init() {
         PT_PROFILE_SCOPE;
+        MeowEngine::Log("Engine", "Init...");
 
         Rendering::RenderCommand::Init(Rendering::GraphicsType::OPENGL);
 
@@ -176,6 +180,8 @@ namespace MeowEngine {
     }
 
     void Engine::SubscribeToEvents() {
+        MeowEngine::Log("Engine", "Events...");
+
         MeowService().EventBus.Subscribe<Messaging::SceneViewportResizeEvent>(
            [&](const Messaging::SceneViewportResizeEvent& event) {
                // Runtime.GetGameplay().SetViewport(size.Width, size.Height);
@@ -189,6 +195,7 @@ namespace MeowEngine {
     }
 
     void Engine::Build() {
+        MeowEngine::Log("Engine", "Build...");
         // any cache generation
         // in current case our shaders
         AssetBuilder.Build();
@@ -196,6 +203,7 @@ namespace MeowEngine {
     }
 
     void Engine::Load() {
+        MeowEngine::Log("Engine", "Load...");
         // asset registry load
         // load default scene if set
         // otherwise create new scene

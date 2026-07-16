@@ -27,9 +27,9 @@ void main() {
     float t = -v_nearPoint.y / (v_farPoint.y - v_nearPoint.y);
     vec3 fragPos3D = v_nearPoint + t * (v_farPoint - v_nearPoint);
 
-    if (t <= 0.0) {
-        discard;
-    }
+//    if (t <= 0.0) {
+//        discard;
+//    }
 
     gl_FragDepth = computeDepth(fragPos3D);
 
