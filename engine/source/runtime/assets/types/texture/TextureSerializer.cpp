@@ -42,7 +42,7 @@ namespace MeowEngine::Asset {
     }
 
     bool TextureSerializer::Deserialize(const Path& path, BitmapAsset& asset) {
-        MeowEngine::Log("TextureSerializer", "Deserialize");
+        MeowEngine::Log("TextureSerializer", "Deserialize: " + path.GetRawString());
 
         auto serializer = AssetSerializer::OpenSerializer(path, FileSystem::FileMode::READ);
 

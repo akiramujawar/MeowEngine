@@ -62,9 +62,9 @@ namespace MeowEngine::Runtime {
          */
         std::vector<std::unique_ptr<IComponentSystem>> SimulationSystems;
 
-        float Width;
-        float Height;
-        bool IsSimulating;
+        float Width = 100;
+        float Height = 100;
+        bool IsSimulating = false;
         bool IsPaused = false;
     };
 

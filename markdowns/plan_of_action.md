@@ -2,21 +2,6 @@
 
 [...previous plan of actions](previous_plan_of_actions.md)
 
-## Meow Engine v0.5
-- [ ] Proper plane setup
-- [ ] Cannot deserialize after deleting component
-- [ ] Check if removing component is okay for deserialization
-- [ ] Transparency from grid
-- [ ] Play/Pause buttons
-- [ ] Renaming files and retaining extensions
-- [ ] Asset Directory extraction
-- [ ] Decoupling rendering from runtime & editor
-- [ ] Splitting & renaming existing systems for reflections
-- [ ] Adding menu item for asset directory rebuild & auto rebuild on actions
-- [ ] Mesh Collider?
-- [ ] Decoupling asset handles , entity handles etc...
-- [ ] Names on handle references
-
 ## Meow Engine v0.6
 - [ ] Creating library for performing basic mathematical operations for vectors & quaternion & matrix
 - [ ] Implement Tracy throughout engine for performance profiling
@@ -32,6 +17,8 @@
 ## Meow Engine v0.7
 - [ ] Decoupling rendering from runtime & editor
 - [ ] Asset Directory extraction
+- [ ] Decoupling asset handles , entity handles etc...
+- [ ] Names on handle references
 - [ ] Reflection for engine assets
 - [ ] Splitting & renaming existing systems for reflections
 - [ ] Creating separate libs in cmake for editor, runtime, rendering & physics

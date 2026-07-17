@@ -26,7 +26,7 @@ namespace MeowEngine::Physics {
     }
 
     PhysXWorld::~PhysXWorld() {
-        MeowEngine::Log("`", "Destructed");
+        MeowEngine::Log("PhysX", "Destructed");
 
         gScene->release();
         gPhysics->release();

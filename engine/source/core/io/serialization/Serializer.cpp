@@ -22,7 +22,8 @@ namespace MeowEngine::Core::IO::Serialization {
     }
 
     void Serializer::WriteSize(const size_t size) const {
-        Stream->Write(&size, sizeof(size_t));
+        auto valueSize = static_cast<uint32_t>(size);
+        Stream->Write(&valueSize, sizeof(uint32_t));
     }
 
     void Serializer::WriteInt(int value) const {
@@ -50,23 +51,23 @@ namespace MeowEngine::Core::IO::Serialization {
     }
 
     void Serializer::WriteString(const std::string& value) const {
-        const size_t valueSize = value.size();
+        auto valueSize = static_cast<uint32_t>(value.size());
 
-        Stream->Write(&valueSize, sizeof(size_t));
+        Stream->Write(&valueSize, sizeof(uint32_t));
         Stream->Write(value.data(), valueSize);
     }
 
     void Serializer::WriteByteVector(const std::vector<uint8_t>& data) const {
-        auto size = data.size();
-        Stream->Write(&size, sizeof(size_t));
+        auto size = static_cast<uint32_t>(data.size());
+        Stream->Write(&size, sizeof(uint32_t));
         Stream->Write(data.data(), size);
     }
 
     size_t Serializer::ReadSize() const {
-        size_t value;
-        Stream->Read(&value, sizeof(size_t));
+        uint32_t value;
+        Stream->Read(&value, sizeof(uint32_t));
 
-        return value;
+        return static_cast<size_t>(value);
     }
 
     int Serializer::ReadInt() const {
@@ -112,9 +113,9 @@ namespace MeowEngine::Core::IO::Serialization {
     }
 
     std::string Serializer::ReadString() const {
-        size_t size;
+        uint32_t size;
         std::string value;
-        Stream->Read(&size, sizeof(size_t));
+        Stream->Read(&size, sizeof(size));
 
         value.resize(size);
         Stream->Read(value.data(), size);
@@ -123,8 +124,8 @@ namespace MeowEngine::Core::IO::Serialization {
     }
 
     std::vector<uint8_t> Serializer::ReadByteVector() const {
-        size_t size;
-        Stream->Read(&size, sizeof(size_t));
+        uint32_t size;
+        Stream->Read(&size, sizeof(uint32_t));
 
         std::vector<uint8_t> value(size);
         Stream->Read(value.data(), size);
