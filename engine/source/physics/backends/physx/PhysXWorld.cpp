@@ -34,6 +34,7 @@ namespace MeowEngine::Physics {
     }
 
     void PhysXWorld::Create(const PhysicsWorldData& context) {
+        MeowEngine::Log("Physics", "Creating");
         for (auto& material : context.Materials) {
             AddPhysicsMaterial(material);
         }
@@ -48,6 +49,7 @@ namespace MeowEngine::Physics {
     }
 
     void PhysXWorld::Destroy() {
+        MeowEngine::Log("Physics", "Destroying");
         for (auto& [key, value] : RigidBodies) {
             gScene->removeActor(*value.Rigidbody);
             value.Rigidbody->release();
@@ -75,7 +77,7 @@ namespace MeowEngine::Physics {
         PT_PROFILE_SCOPE;
         gScene->fetchResults(true);
 
-        result.RigidBodies.clear();
+        // result.RigidBodies.clear();
         result.RigidBodies.reserve(RigidBodies.size());
 
         for (auto& [key, value] : RigidBodies) {

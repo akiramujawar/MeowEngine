@@ -25,6 +25,8 @@ namespace MeowEngine::Physics {
         void CreateWorld(std::unique_ptr<PhysicsWorldData> data);
         void DestroyWorld();
 
+        bool GetIsSimulating() const { return IsSimulating; }
+
     private:
         std::unique_ptr<PhysXWorld> World;
         bool IsSimulating = false;

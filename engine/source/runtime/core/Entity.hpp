@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_ENTITY_HPP
 #define MEOWENGINE_ENTITY_HPP
 
-#include "cstdlib"
+#include "cstdint"
 
 namespace MeowEngine::Runtime {
     /**

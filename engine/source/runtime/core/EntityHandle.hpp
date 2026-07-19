@@ -5,7 +5,7 @@
 #ifndef MEOWENGINE_ENTITYHANDLE_HPP
 #define MEOWENGINE_ENTITYHANDLE_HPP
 
-#include <cstdlib>
+#include <cstdint>
 #include <functional>
 
 #include "Entity.hpp"

@@ -28,6 +28,10 @@ namespace MeowEngine::Physics {
     }
 
     void PhysicsSystem::FetchResult(PhysicsResult& result) {
+        // TODO: when physics stop we need to clean buffers without requiring fetch
+        // clean buffer data
+        result.RigidBodies.clear();
+
         if (IsSimulating) {
             World->FetchResults(result);
         }

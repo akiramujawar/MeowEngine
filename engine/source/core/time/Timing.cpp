@@ -9,7 +9,7 @@
 namespace MeowEngine::Core {
 
     Timing::Timing()
-        : MaxFrameRate(1.0f/30)
+        : MaxFrameRate(1.0f/60)
         , Frequency(SDL_GetPerformanceFrequency())
         , FrameRateUpdateInterval(1)
         , FrameStartTime(SDL_GetPerformanceCounter())

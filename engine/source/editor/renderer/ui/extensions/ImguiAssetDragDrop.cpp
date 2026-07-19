@@ -113,9 +113,13 @@ namespace MeowEngine::Editor {
             // gets the asset path which needs to be moved & then using "moveToPath"
             // it moves the file/folder to new directory
             if (const ImGuiPayload* payloadVoidPtr = ImGui::AcceptDragDropPayload("DragAndDropEntity")) {
-                auto* payloadData = static_cast<Runtime::EntityHandle*>(payloadVoidPtr->Data);
-                // MeowEngine::Log("AssetDragDrop::DropEntity", "Not Implemented");
-                entity = Runtime::EntityHandle::Create(payloadData->GetGUID(), payloadData->GetEntity());
+                Runtime::EntityHandle handle{};
+
+                // NOTE: due to misalignment we do memcpy (emscriptten catches the misalignment)
+                // come back on this
+                std::memcpy(&handle, payloadVoidPtr->Data, sizeof(handle));
+
+                entity = handle;
                 isDropped = true;
             }
 
