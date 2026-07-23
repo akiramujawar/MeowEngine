@@ -34,7 +34,7 @@ namespace MeowEngine::Editor {
             if (ImGui::Button("Github")) {
                 renderContext.CommandQueue->Push(
                     Messaging::ThreadType::MAIN,
-                    std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://github.com/akiramujawar"))
+                    std::make_unique<Messaging::OpenUrlCommand>(WebAddress("https://github.com/akiramujawar/MeowEngine"))
                 );
             }
 

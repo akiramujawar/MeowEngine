@@ -181,7 +181,7 @@ namespace MeowEngine::Editor {
 
             // MeowEngine::Log("Engine Path", assetPath.GetRawString());
             // ShowDirectory(assetPath.GetRawString(), "Project");
-            if (ImGui::TreeNode("Sandbox")) {
+            if (ImGui::TreeNodeEx("Sandbox", ImGuiTreeNodeFlags_DefaultOpen)) {
                 ShowDirectory("Assets", SandboxFolderCache.AssetPath, SandboxFolderCache.AssetsFolderMap);
                 ShowDirectory("Shaders", SandboxFolderCache.ShaderPath, SandboxFolderCache.ShaderFolderMap);
                 ShowDirectory("Source", SandboxFolderCache.SourcePath, SandboxFolderCache.SourceFolderMap);
@@ -197,7 +197,7 @@ namespace MeowEngine::Editor {
             //
             // MeowEngine::Log("Engine Path", enginePath.GetRawString());
             // ShowDirectory(assetPath.GetRawString(), "Engine");
-            if (ImGui::TreeNode("Engine")) {
+            if (ImGui::TreeNodeEx("Engine", ImGuiTreeNodeFlags_DefaultOpen)) {
                 ShowDirectory("Assets", EngineFolderCache.AssetPath, EngineFolderCache.AssetsFolderMap);
                 ShowDirectory("Shaders", EngineFolderCache.ShaderPath, EngineFolderCache.ShaderFolderMap);
                 ShowDirectory("Source", EngineFolderCache.SourcePath, EngineFolderCache.SourceFolderMap);

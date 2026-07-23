@@ -12,6 +12,7 @@ echo "${SANDBOX_PATH}"
 # Copy our 'template.html' into the output folder as 'index.html'.
 cp "${ENGINE_PATH}/installer/engine/platform/web/template.html" "${SANDBOX_PATH}/builds/web/index.html"
 cp "${ENGINE_PATH}/installer/engine/platform/web/StartLocalWebServer.sh" "${SANDBOX_PATH}/builds/StartLocalWebServer.sh"
+cp "${ENGINE_PATH}/installer/engine/platform/web/icon.png" "${SANDBOX_PATH}/builds/web/icon.png"
 # Navigate into the output folder then start a simple server and open it.
 #pushd builds/web
 #  http-server

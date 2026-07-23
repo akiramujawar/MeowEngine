@@ -10,8 +10,8 @@ namespace MeowEngine::Editor {
     Selector::Selector() : SelectedEntity() {}
 
     void Selector::Init(const FileSystem::Path& path) {
-        const auto assetPath = path + "source";
+        const auto directoryPath = path + "assets";
 
-        SelectedDirectoryPath = assetPath.GetRawString();
+        SelectedDirectoryPath = directoryPath.GetRawString();
     }
 }
