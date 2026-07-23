@@ -8,10 +8,10 @@
 layout(location = 0) in vec3 l_vertexPosition;
 
 // represents a given axis
-layout(location = 1) in int l_axis;
+layout(location = 1) in float l_axis;
 
 // represents axis lines, position arrow-heads, scale cubes, rotation rings
-layout(location = 2) in int l_handle_type;
+layout(location = 2) in float l_handle_type;
 
 // these are set at runtime at the time of rendering
 uniform mat4 u_view;
@@ -26,8 +26,8 @@ flat out int o_f_axis;
 flat out int o_f_handle_type;
 
 void main() {
-    o_f_axis = l_axis;
-    o_f_handle_type = l_handle_type;
+    o_f_axis = int(l_axis);
+    o_f_handle_type = int(l_handle_type);
 
     // constant screen size
     float dist = length(u_cameraPosition - u_handlePosition);

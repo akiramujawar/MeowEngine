@@ -206,12 +206,12 @@ namespace MeowEngine::Rendering {
         if (!Selector->SelectedEntities.empty()) {
             auto lastSelectedEntity = Selector->SelectedEntities[Selector->SelectedEntities.size() - 1];
 
-            // track last selected entity guid
-            auto identity = ecs.get<Runtime::IdentityComponent>(lastSelectedEntity.GetEntity());
-            frame.LastSelectedEntity = lastSelectedEntity;
-
-            // track component data for last selected entity
             if (ecs.valid(lastSelectedEntity.GetEntity())) {
+                // track last selected entity guid
+                auto identity = ecs.get<Runtime::IdentityComponent>(lastSelectedEntity.GetEntity());
+                frame.LastSelectedEntity = lastSelectedEntity;
+
+                // track component data for last selected entity
                 // for entity if a component exists capture it's type, name & data & create a relfected clone
                 for (pair<unsigned int, entt::basic_sparse_set<Runtime::Entity>&> component: ecs.storage()) {
                     // find the component type, name and object data from ecs registry

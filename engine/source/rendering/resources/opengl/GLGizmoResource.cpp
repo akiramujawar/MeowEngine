@@ -13,7 +13,7 @@ namespace MeowEngine::Rendering {
     GLGizmoResource::GLGizmoResource(Asset::AssetHandle handle) {
         auto* asset = MeowService().AssetManager.GetAsset<Asset::GizmoAsset>(handle);
 
-        IndexCount = asset->GetIndices().size();
+        IndicesCount = static_cast<uint32_t>(asset->GetIndices().size());
 
         glGenVertexArrays(1, &VertexArrayObject);
         glGenBuffers(1, &VertexBufferObject);
@@ -56,5 +56,6 @@ namespace MeowEngine::Rendering {
     GLGizmoResource::~GLGizmoResource() {
         glDeleteVertexArrays(1, &VertexArrayObject);
         glDeleteBuffers(1, &VertexArrayObject);
+        glDeleteBuffers(1, &ElementBufferObject);
     }
 }

@@ -13,14 +13,14 @@ namespace MeowEngine::Rendering {
         ~GLGizmoResource();
 
         uint32_t GetVertexArrayObject() const { return VertexArrayObject; }
-        int GetNumIndices() const { return IndexCount; }
+        uint32_t GetNumIndices() const { return IndicesCount; }
 
     private:
         uint32_t VertexArrayObject;
         uint32_t VertexBufferObject;
         uint32_t ElementBufferObject;
 
-        int IndexCount;
+        uint32_t IndicesCount;
     };
 }
 
