@@ -197,7 +197,7 @@ namespace MeowEngine::Editor {
             //
             // MeowEngine::Log("Engine Path", enginePath.GetRawString());
             // ShowDirectory(assetPath.GetRawString(), "Engine");
-            if (ImGui::TreeNodeEx("Engine", ImGuiTreeNodeFlags_DefaultOpen)) {
+            if (ImGui::TreeNodeEx("Engine")) {
                 ShowDirectory("Assets", EngineFolderCache.AssetPath, EngineFolderCache.AssetsFolderMap);
                 ShowDirectory("Shaders", EngineFolderCache.ShaderPath, EngineFolderCache.ShaderFolderMap);
                 ShowDirectory("Source", EngineFolderCache.SourcePath, EngineFolderCache.SourceFolderMap);

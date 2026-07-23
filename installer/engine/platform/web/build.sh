@@ -43,10 +43,13 @@ EMSCRIPTEN_CMAKE_PATH=${EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscri
 echo " "
 echo "------- Emscripten CMake path: ${EMSCRIPTEN_CMAKE_PATH}"
 
-cmake -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_PATH} -S .
+cmake -DCMAKE_TOOLCHAIN_FILE=${EMSCRIPTEN_CMAKE_PATH} -S . -B .cache/web
 
 # Start the actual build.
 echo " "
 echo "------- Building project ..."
 #make VERBOSE=1
+cd .cache/web || exit
 make -j$(sysctl -n hw.ncpu) VERBOSE=1
+
+

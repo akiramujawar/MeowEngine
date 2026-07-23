@@ -9,10 +9,10 @@ message(STATUS "Linking sandbox & engine assets to wasm")
 
 target_link_options(MeowStandalone PRIVATE
     "--preload-file=${CMAKE_SOURCE_DIR}/engine/assets@/engine/assets"
-    "--preload-file=${CMAKE_SOURCE_DIR}/.cache/shaders@/engine/shaders"
+    "--preload-file=${CMAKE_SOURCE_DIR}/engine/shaders/compiled@/engine/shaders"
 
     "--preload-file=${PROJECT_PATH}/assets@/assets"
-    "--preload-file=${PROJECT_PATH}/.cache/shaders@/shaders"
+    "--preload-file=${PROJECT_PATH}/shaders/compiled@/shaders"
 
     "--preload-file=${PROJECT_PATH}/Editor.yml@/Editor.yml"
     "--preload-file=${PROJECT_PATH}/Sandbox.yml@/Sandbox.yml"

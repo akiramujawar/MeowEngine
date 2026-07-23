@@ -45,7 +45,7 @@ pushd builds/console || exit
     if [ ! -d 'shaders' ]; then
         echo "Linking Shaders"
         # shellcheck disable=SC2226
-        ln -s "${ENGINE_PATH}/.cache/shaders"
+        ln -s "${ENGINE_PATH}/engine/shaders/compiled" "shaders"
     fi
 
   popd || exit
@@ -59,7 +59,7 @@ pushd builds/console || exit
   if [ ! -d 'shaders' ]; then
       echo "Linking Example Project"
       # shellcheck disable=SC2226
-      ln -s "${SANDBOX_PATH}"/.cache/shaders
+      ln -s "${SANDBOX_PATH}/shaders/compiled" "shaders"
   fi
 
 popd || exit
